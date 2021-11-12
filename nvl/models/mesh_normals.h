@@ -1,0 +1,52 @@
+#ifndef NVL_MODELS_MESH_NORMALS_H
+#define NVL_MODELS_MESH_NORMALS_H
+
+#include <nvl/nuvolib.h>
+
+#include <vector>
+
+namespace nvl {
+
+template<class Mesh>
+void meshComputeFaceNormalsPlanar(Mesh& mesh, const bool normalize = true);
+template<class Mesh>
+void meshComputeFaceNormalPlanar(Mesh& mesh, typename Mesh::FaceId& fId, const bool normalize = true);
+
+template<class Mesh>
+void meshComputeFaceNormalsSVDFitting(Mesh& mesh, const bool normalize = true);
+template<class Mesh>
+void meshComputeFaceNormalSVDFitting(Mesh& mesh, typename Mesh::FaceId& fId, const bool normalize = true);
+
+template<class Mesh>
+void meshComputeFaceNormalsCovarianceFitting(Mesh& mesh, const bool normalize = true);
+template<class Mesh>
+void meshComputeFaceNormalCovarianceFitting(Mesh& mesh, typename Mesh::FaceId& fId, const bool normalize = true);
+
+template<class Mesh>
+void meshComputeFaceNormalsFromVertexNormals(Mesh& mesh, const bool normalize = true);
+template<class Mesh>
+void meshComputeFaceNormalFromVertexNormals(Mesh& mesh, typename Mesh::FaceId& fId, const bool normalize = true);
+
+template<class Mesh>
+void meshComputeVertexNormalsFromFaceNormals(Mesh& mesh, const bool normalize = true);
+template<class Mesh>
+void meshComputeVertexNormalFromFaceNormals(Mesh& mesh, typename Mesh::FaceId& vId, const bool normalize = true);
+
+template<class Mesh>
+void meshComputeVertexNormalsFromFaceNormals(
+        Mesh& mesh,
+        const std::vector<std::vector<typename Mesh::VertexId>>& vfAdj,
+        bool normalize = true);
+template<class Mesh>
+void meshComputeVertexNormalFromFaceNormals(
+        Mesh& mesh,
+        typename Mesh::FaceId& vId,
+        const std::vector<std::vector<typename Mesh::VertexId>>& vfAdj,
+        bool normalize = true);
+
+
+}
+
+#include "mesh_normals.cpp"
+
+#endif // NVL_MODELS_MESH_NORMALS_H

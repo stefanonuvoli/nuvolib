@@ -1,0 +1,8 @@
+<RCC>
+    <qresource>
+        <file>shaders/contour.frag</file>
+        <file>shaders/contour.vert</file>
+        <file>shaders/ramp.frag</file>
+        <file>shaders/ramp.vert</file>
+    </qresource>
+</RCC>
