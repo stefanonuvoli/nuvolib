@@ -24,7 +24,8 @@ class VCGPolygonVertex : public vcg::Vertex<VCGPolygonTypes,
         vcg::vertex::BitFlags,
         vcg::vertex::VFAdj,
         vcg::vertex::CurvatureDird,
-        vcg::vertex::Mark>{};
+        vcg::vertex::Mark,
+        vcg::vertex::TexCoord2f>{};
 
 class VCGPolygonFace : public vcg::Face<
         VCGPolygonTypes,
