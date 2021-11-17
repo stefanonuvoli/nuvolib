@@ -22,7 +22,7 @@ std::vector<Index> vectorRemoveElements(
         std::vector<T>& vector,
         const std::vector<bool>& isDeleted)
 {
-    std::vector<Index> map(vector.size(), MAX_INDEX);
+    std::vector<Index> map(vector.size(), NULL_ID);
 
     Size back = 0;
 
@@ -49,7 +49,7 @@ std::vector<Index> vectorRemoveElement(
         std::vector<T>& vector,
         Index index)
 {
-    std::vector<Index> map(vector.size(), MAX_INDEX);
+    std::vector<Index> map(vector.size(), NULL_ID);
 
     for (Size i = 0; i < vector.size(); ++i) {
         if (i > index) {
@@ -76,7 +76,7 @@ Index vectorGetIndexByValue(
 {
     typename std::vector<T>::const_iterator itr = std::find(vector.cbegin(), vector.cend(), value);
 
-    Index id = MAX_INDEX;
+    Index id = NULL_ID;
     if (itr != vector.cend()) {
         id = std::distance(vector.cbegin(), itr);
     }

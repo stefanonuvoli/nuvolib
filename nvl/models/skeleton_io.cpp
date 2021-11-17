@@ -66,14 +66,14 @@ void skeletonLoadData(
         const std::vector<int>& parents,
         const std::vector<std::string>& names)
 {
-    std::vector<typename Skeleton<V>::JointId> idMap(joints.size(), MAX_INDEX);
+    std::vector<typename Skeleton<V>::JointId> idMap(joints.size(), NULL_ID);
 
     for (Index i = 0; i < joints.size(); ++i) {
         if (parents[i] == -1) {
             idMap[i] = skeleton.addRoot(joints[i], names[i]);
         }
         else {
-            assert(idMap[parents[i]] != MAX_INDEX);
+            assert(idMap[parents[i]] != NULL_ID);
             idMap[i] = skeleton.addChild(idMap[parents[i]], joints[i], names[i]);
         }
     }

@@ -15,7 +15,7 @@ public:
 
     /* Typedefs */
 
-    typedef Index MaterialId;
+    typedef Index Id;
 
     typedef C Color;
 
@@ -35,9 +35,9 @@ public:
 
     explicit MeshMaterial();
 
-    MaterialId& id();
-    const MaterialId& id() const;
-    void setId(MaterialId id);
+    Id& id();
+    const Id& id() const;
+    void setId(const Id& id);
 
     std::string& name();
     const std::string& name() const;
@@ -92,7 +92,7 @@ private:
     std::string vDiffuseMap;
     IlluminationModel vIlluminationModel;
 
-    MaterialId vId;
+    Id vId;
 
 };
 

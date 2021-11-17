@@ -53,20 +53,40 @@ typename MeshVertexHandler<T>::VertexId MeshVertexHandler<T>::addVertex(const Po
 
 template<class T>
 template<class... Ts>
-typename MeshVertexHandler<T>::VertexId MeshVertexHandler<T>::addVertex(const Ts... coordinates)
+typename MeshVertexHandler<T>::VertexId MeshVertexHandler<T>::addVertex(const Ts... points)
 {
     VertexId newId = nextVertexId();
-    Vertex vertex(coordinates...);
+    Vertex vertex(points...);
     vertex.setId(newId);
     vVertices.push_back(vertex);
     return newId;
 }
 
 template<class T>
+typename MeshVertexHandler<T>::VertexId MeshVertexHandler<T>::allocateVertices(const Size& n)
+{
+    return allocateVertices(n, T());
+}
+
+template<class T>
+typename MeshVertexHandler<T>::VertexId MeshVertexHandler<T>::allocateVertices(const Size& n, const Vertex& vertex)
+{
+    Index firstIndex = vVertices.realSize();
+    Index lastIndex = firstIndex + n;
+
+    vVertices.resize(lastIndex, vertex);
+    for (Index i = firstIndex; i < lastIndex; i++) {
+        vVertices[i].setId(i);
+    }
+
+    return firstIndex;
+}
+
+template<class T>
 void MeshVertexHandler<T>::deleteVertex(const VertexId& id)
 {
     Index copyId = id;
-    vVertices[copyId].setId(MAX_INDEX);
+    vVertices[copyId].setId(NULL_ID);
     vVertices.erase(copyId);
 }
 
@@ -104,114 +124,6 @@ template<class T>
 void MeshVertexHandler<T>::clearVertices()
 {
     vVertices.clear();
-}
-
-template<class T>
-typename MeshVertexHandler<T>::VertexNormal& MeshVertexHandler<T>::vertexNormal(const VertexId& id)
-{
-    return vertex(id).normal();
-}
-
-template<class T>
-const typename MeshVertexHandler<T>::VertexNormal& MeshVertexHandler<T>::vertexNormal(const VertexId& id) const
-{
-    return vertex(id).normal();
-}
-
-template<class T>
-void MeshVertexHandler<T>::setVertexNormal(const VertexId& id, const VertexNormal& normal)
-{
-    vertex(id).setNormal(normal);
-}
-
-template<class T>
-typename MeshVertexHandler<T>::VertexNormal& MeshVertexHandler<T>::vertexNormal(const Vertex& vertex)
-{
-    return vertexNormal(vertex.id());
-}
-
-template<class T>
-const typename MeshVertexHandler<T>::VertexNormal& MeshVertexHandler<T>::vertexNormal(const Vertex& vertex) const
-{
-    return vertexNormal(vertex.id());
-}
-
-template<class T>
-void MeshVertexHandler<T>::setVertexNormal(const Vertex& vertex, const VertexNormal& normal)
-{
-    setVertexNormal(vertex.id(), normal);
-}
-
-template<class T>
-typename MeshVertexHandler<T>::UV& MeshVertexHandler<T>::vertexUV(const VertexId& id)
-{
-    return vertex(id).uvCoords();
-}
-
-template<class T>
-const typename MeshVertexHandler<T>::UV& MeshVertexHandler<T>::vertexUV(const VertexId& id) const
-{
-    return vertex(id).uvCoords();
-}
-
-template<class T>
-void MeshVertexHandler<T>::setVertexUV(const VertexId& id, const UV& uvCoords)
-{
-    vertex(id).setUV(uvCoords);
-}
-
-template<class T>
-typename MeshVertexHandler<T>::UV& MeshVertexHandler<T>::vertexUV(const Vertex& vertex)
-{
-    return vertexUV(vertex.id());
-}
-
-template<class T>
-const typename MeshVertexHandler<T>::UV& MeshVertexHandler<T>::vertexUV(const Vertex& vertex) const
-{
-    return vertexUV(vertex.id());
-}
-
-template<class T>
-void MeshVertexHandler<T>::setVertexUV(const Vertex& vertex, const UV& uvCoords)
-{
-    setVertexUV(vertex.id(), uvCoords);
-}
-
-template<class T>
-typename MeshVertexHandler<T>::VertexColor& MeshVertexHandler<T>::vertexColor(const VertexId& id)
-{
-    return vertex(id).color();
-}
-
-template<class T>
-const typename MeshVertexHandler<T>::VertexColor& MeshVertexHandler<T>::vertexColor(const VertexId& id) const
-{
-    return vertex(id).color();
-}
-
-template<class T>
-void MeshVertexHandler<T>::setVertexColor(const VertexId& id, const VertexColor& color)
-{
-    vertex(id).setColor(color);
-}
-
-template<class T>
-typename MeshVertexHandler<T>::VertexColor& MeshVertexHandler<T>::vertexColor(const Vertex& vertex)
-{
-    return vertexColor(vertex.id());
-}
-
-template<class T>
-const typename MeshVertexHandler<T>::VertexColor& MeshVertexHandler<T>::vertexColor(const Vertex& vertex) const
-{
-    return vertexColor(vertex.id());
-}
-
-template<class T>
-void MeshVertexHandler<T>::setVertexColor(const Vertex& vertex, const VertexColor& color)
-{
-    setVertexColor(vertex.id(), color);
 }
 
 }

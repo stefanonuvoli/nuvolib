@@ -11,18 +11,18 @@
 namespace nvl {
 
 template<class Mesh, class R = double>
-std::vector<nvl::Vector3<R>> meshDifferentialCoordinates(
+std::vector<Vector3<R>> meshDifferentialCoordinates(
         const Mesh& mesh);
 template<class Mesh, class R = double>
-std::vector<nvl::Vector3<R>> meshDifferentialCoordinates(
+std::vector<Vector3<R>> meshDifferentialCoordinates(
         const Mesh& mesh,
         const std::vector<std::vector<typename Mesh::VertexId>>& vvAdj);
 template<class Mesh, class R = double>
-nvl::Vector3<R> meshDifferentialCoordinates(
+Vector3<R> meshDifferentialCoordinates(
         const Mesh& mesh,
         typename Mesh::VertexId& vId);
 template<class Mesh, class R = double>
-nvl::Vector3<R> meshDifferentialCoordinates(
+Vector3<R> meshDifferentialCoordinates(
         const Mesh& mesh,
         typename Mesh::VertexId& vId,
         const std::vector<std::vector<typename Mesh::VertexId>>& vvAdj);

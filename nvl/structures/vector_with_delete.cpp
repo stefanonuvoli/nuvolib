@@ -56,6 +56,8 @@ template<class T>
 void VectorWithDelete<T>::resize(Size size, T initValue)
 {
     vVector.resize(size, initValue);
+    vIsDeleted.resize(size, false);
+    vNumberElements += size - vNumberElements;
 }
 
 template<class T>
@@ -105,7 +107,7 @@ void VectorWithDelete<T>::erase(Index pos)
     assert(pos < vVector.size() && "Index exceed the vector dimension.");
     assert(!vIsDeleted[pos] && "Accessing to a deleted element in vector with delete.");
     vIsDeleted[pos] = true;
-    vNumberElements--;
+    --vNumberElements;
 }
 
 template<class T>
@@ -142,7 +144,7 @@ bool VectorWithDelete<T>::isDeleted(Index pos) const
 
 template<class T>
 std::vector<Index> VectorWithDelete<T>::compact() {
-    std::vector<Index> map = nvl::vectorRemoveElements(vVector, vIsDeleted);
+    std::vector<Index> map = vectorRemoveElements(vVector, vIsDeleted);
 
     vIsDeleted.resize(vVector.size());
     std::fill(vIsDeleted.begin(), vIsDeleted.end(), false);

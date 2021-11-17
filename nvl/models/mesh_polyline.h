@@ -16,12 +16,13 @@ public:
 
     /* Typedefs */
 
-    typedef Index PolylineId;
+    typedef Index Id;
 
+    typedef C Color;
     typedef V Vertex;
-    typedef typename V::VertexId VertexId;
+    typedef std::vector<Index> VertexContainer;
 
-    typedef C PolylineColor;
+    typedef typename V::Id VertexId;
 
 
     /* Constructors */
@@ -33,13 +34,13 @@ public:
 
     /* Methods */
 
-    PolylineId& id();
-    const PolylineId& id() const;
-    void setId(const PolylineId& id);
+    Id& id();
+    const Id& id() const;
+    void setId(const Id& id);
 
     template<class T, typename... Ts>
     void setVertexIds(const T& vertex, Ts... vertexIds);
-    void setVertexIds(const std::vector<VertexId>& vector);
+    void setVertexIds(const VertexContainer& vector);
 
     Size vertexNumber() const;
     void resizeVertexNumber(Size vertexNumber);
@@ -53,8 +54,8 @@ public:
     void eraseVertex(const Index& pos);
     void eraseVertex(const Vertex& vertex);
 
-    std::vector<VertexId>& vertexIds();
-    const std::vector<VertexId>& vertexIds() const;
+    VertexContainer& vertexIds();
+    const VertexContainer& vertexIds() const;
 
     VertexId& vertexId(const Index& pos);
     const VertexId& vertexId(const Index& pos) const;
@@ -66,16 +67,10 @@ public:
     void setNextVertexId(const Index& pos, VertexId vId);
     void setNextVertex(const Index& pos, const Vertex& vertex);
 
-    PolylineColor& color();
-    const PolylineColor& color() const;
-    void setColor(const PolylineColor& color);
-
 protected:
 
     Size vId;
-    std::vector<VertexId> vVertices;
-
-    PolylineColor vColor;
+    VertexContainer vVertices;
 
 private:
 

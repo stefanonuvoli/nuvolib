@@ -23,31 +23,34 @@ public:
     virtual void update() = 0;
 
     bool vertexVisible() const;
-    void setVertexVisible(bool visible);
+    virtual void setVertexVisible(bool visible);
 
     bool vertexNormalsVisible() const;
-    void setVertexNormalVisible(bool visible);
+    virtual void setVertexNormalVisible(bool visible);
 
     int vertexSize() const;
-    void setVertexSize(int size);
+    virtual void setVertexSize(int size);
 
     const Color& vertexUniformColor() const;
-    void setVertexUniformColor(const Color& color);
+    virtual void setVertexUniformColor(const Color& color);
 
     int vertexNormalSize() const;
-    void setVertexNormalSize(int value);
+    virtual void setVertexNormalSize(int value);
 
     const VertexShapeMode& vertexShapeMode() const;
-    void setVertexShapeMode(VertexShapeMode mode);
+    virtual void setVertexShapeMode(VertexShapeMode mode);
 
     const VertexColorMode& vertexColorMode() const;
-    void setVertexColorMode(VertexColorMode mode);
+    virtual void setVertexColorMode(VertexColorMode mode);
 
     bool vertexTransparency() const;
-    void setVertexTransparency(bool value);
+    virtual void setVertexTransparency(bool value);
 
+    virtual bool hasVertexColors() const = 0;
+    virtual bool hasVertexNormals() const = 0;
+    virtual bool hasVertexTransparency() const = 0;
 
-protected:
+private:
 
     bool vVertexVisible;
     bool vVertexNormalsVisible;

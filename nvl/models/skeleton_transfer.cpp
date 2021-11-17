@@ -26,7 +26,7 @@ void skeletonTransferJoints(
 
     birthJoint.clear();
 
-    std::vector<JointId> jointMap(skeleton.jointNumber(), MAX_INDEX);
+    std::vector<JointId> jointMap(skeleton.jointNumber(), NULL_ID);
 
     std::unordered_set<JointId> jointSet(joints.begin(), joints.end());
 
@@ -38,7 +38,7 @@ void skeletonTransferJoints(
         for (JointId i = 0; i < joints.size(); ++i) {
             JointId jId = joints[i];
 
-            if (jointMap[jId] != MAX_INDEX)
+            if (jointMap[jId] != NULL_ID)
                 continue;
 
             done = false;
@@ -48,21 +48,21 @@ void skeletonTransferJoints(
             const Joint& joint = skeleton.joint(jId);
             JointId parent = skeleton.parentId(jId);
 
-            JointId newJId = MAX_INDEX;
+            JointId newJId = NULL_ID;
             if (skeleton.isRoot(jId) || jointSet.find(parent) == jointSet.end()) {
-                if (targetParentId == MAX_INDEX) {
+                if (targetParentId == NULL_ID) {
                     newJId = skeleton.addRoot(joint);
                 }
                 else {
                     newJId = skeleton.addChild(targetParentId, joint);
                 }
             }
-            else if (jointMap[parent] != MAX_INDEX) {
+            else if (jointMap[parent] != NULL_ID) {
                 const Joint& joint = skeleton.joint(jId);
                 newJId = targetSkeleton.addChild(jointMap[parent], joint);
             }
 
-            if (newJId != MAX_INDEX) {
+            if (newJId != NULL_ID) {
                 jointMap[jId] = newJId;
                 assert(birthJoint.size() == newJId);
                 birthJoint.push_back(jId);

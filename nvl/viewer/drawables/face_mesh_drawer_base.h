@@ -21,6 +21,7 @@ public:
     typedef typename PolylineMeshDrawerBase::VertexColorMode VertexColorMode;
     typedef typename PolylineMeshDrawerBase::PolylineShapeMode PolylineShapeMode;
     typedef typename PolylineMeshDrawerBase::PolylineColorMode PolylineColorMode;
+
     enum FaceShadingMode { FACE_SHADING_SMOOTH, FACE_SHADING_FLAT };
     enum FaceColorMode { FACE_COLOR_PER_FACE, FACE_COLOR_PER_VERTEX, FACE_COLOR_UNIFORM };
     enum FaceShaderMode { FACE_SHADER_VERTEX_VALUE, FACE_SHADER_NONE };
@@ -31,53 +32,64 @@ public:
     virtual void update() = 0;
 
     bool faceVisible() const;
-    void setFaceVisible(bool visible);
+    virtual void setFaceVisible(bool visible);
 
     bool wireframeVisible() const;
-    void setWireframeVisible(bool visible);
+    virtual void setWireframeVisible(bool visible);
 
     bool faceNormalVisible() const;
-    void setFaceNormalVisible(bool visible);
+    virtual void setFaceNormalVisible(bool visible);
 
     bool textureVisible() const;
-    void setTextureVisible(bool visible);
+    virtual void setTextureVisible(bool visible);
 
     int wireframeSize() const;
-    void setWireframeSize(int size);
+    virtual void setWireframeSize(int size);
+
     const Color& wireframeColor() const;
-    void setWireframeColor(const Color& color);
+    virtual void setWireframeColor(const Color& color);
 
     int faceNormalSize() const;
-    void setFaceNormalSize(int size);
+    virtual void setFaceNormalSize(int size);
 
     const Color& faceUniformColor() const;
-    void setFaceUniformColor(const Color& value);
+    virtual void setFaceUniformColor(const Color& value);
 
     const FaceShadingMode& faceShadingMode() const;
-    void setFaceShadingMode(FaceShadingMode mode);
+    virtual void setFaceShadingMode(FaceShadingMode mode);
 
     const FaceColorMode& faceColorMode() const;
-    void setFaceColorMode(FaceColorMode mode);
+    virtual void setFaceColorMode(FaceColorMode mode);
 
     const FaceShaderMode& faceShaderMode() const;
-    void setFaceShaderMode(FaceShaderMode mode);
+    virtual void setFaceShaderMode(const FaceShaderMode& mode);
 
     GLShader* faceShader() const;
-    void setFaceShader(GLShader* value);
-
-    std::vector<double>& vertexValues();
-    void setVertexValues(const std::vector<double>& value);
-    void clearVertexValues();
-
-    std::vector<double>& faceValues();
-    void setFaceValues(const std::vector<double>& value);
-    void clearFaceValues();
+    virtual void setFaceShader(GLShader* value);
 
     bool faceTransparency() const;
-    void setFaceTransparency(bool value);
+    virtual void setFaceTransparency(bool value);
+
+    std::vector<double>& vertexValues();
+    const std::vector<double>& vertexValues() const;
+    virtual void setVertexValues(const std::vector<double>& value);
+    virtual void clearVertexValues();
+
+    std::vector<double>& faceValues();
+    const std::vector<double>& faceValues() const;
+    virtual void setFaceValues(const std::vector<double>& value);
+    virtual void clearFaceValues();
+
+    virtual bool hasFaceNormals() const = 0;
+    virtual bool hasFaceColors() const = 0;
+    virtual bool hasTextures() const = 0;
+    virtual bool hasFaceTransparency() const = 0;
+    virtual bool hasSmoothShading() const = 0;
+    virtual bool hasFlatShading() const = 0;
+    virtual bool hasVertexColors() const = 0;
 
 
-protected:
+private:
 
     bool vFaceVisible;
     bool vWireframeVisible;

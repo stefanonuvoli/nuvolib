@@ -15,10 +15,10 @@ void modelTransfer(
         std::vector<typename Model::Mesh::FaceId>& birthFace,
         std::vector<typename Model::Skeleton::JointId>& birthJoint)
 {
-    nvl::meshTransferFaces(model.mesh, faces, targetModel.mesh, birthVertex, birthFace);
-    nvl::skeletonTransferJoints(model.skeleton, joints, targetModel.skeleton, birthJoint);
-    nvl::modelSkinningWeightsTransfer(model, birthVertex, birthJoint, targetModel);
-    nvl::modelAnimationTransfer(model, birthJoint, targetModel);
+    meshTransferFaces(model.mesh, faces, targetModel.mesh, birthVertex, birthFace);
+    skeletonTransferJoints(model.skeleton, joints, targetModel.skeleton, birthJoint);
+    modelSkinningWeightsTransfer(model, birthVertex, birthJoint, targetModel);
+    modelAnimationTransfer(model, birthJoint, targetModel);
 }
 
 template<class Model>
@@ -34,11 +34,11 @@ void modelSkinningWeightsTransfer(
     targetModel.initializeSkinningWeights();
 
     for (VertexId vId = 0; vId < targetModel.mesh.nextVertexId(); ++vId) {
-        if (targetModel.mesh.isVertexDeleted(vId) || birthVertex[vId] == MAX_INDEX)
+        if (targetModel.mesh.isVertexDeleted(vId) || birthVertex[vId] == NULL_ID)
             continue;
 
         for (JointId jId = 0; jId < targetModel.skeleton.jointNumber(); ++jId) {
-            if (birthJoint[jId] == MAX_INDEX)
+            if (birthJoint[jId] == NULL_ID)
                 continue;
 
             targetModel.skinningWeights.setWeight(vId, jId, model.skinningWeights.weight(birthVertex[vId], birthJoint[jId]));
@@ -60,7 +60,7 @@ void modelSkinningWeightsTransferVertices(
     targetModel.initializeSkinningWeights();
 
     for (FaceId vId = 0; vId < targetModel.mesh.nextVertexId(); ++vId) {
-        if (targetModel.mesh.isVertexDeleted(vId) || birthVertex[vId] == MAX_INDEX)
+        if (targetModel.mesh.isVertexDeleted(vId) || birthVertex[vId] == NULL_ID)
             continue;
 
         for (JointId jId = 0; jId < targetModel.skeleton.jointNumber(); ++jId) {
@@ -87,7 +87,7 @@ void modelSkinningWeightsTransferJoints(
             continue;
 
         for (JointId jId = 0; jId < targetModel.skeleton.jointNumber(); ++jId) {
-            if (birthJoint[jId] == MAX_INDEX)
+            if (birthJoint[jId] == NULL_ID)
                 continue;
 
             targetModel.skinningWeights.setWeight(vId, birthJoint[jId], model.skinningWeights.weight(vId, birthJoint(jId)));
@@ -159,7 +159,7 @@ void modelAnimationFrameTransfer(
     newTransformations.resize(targetModel.skeleton.jointNumber());
 
     for (JointId jId = 0; jId < targetModel.skeleton.jointNumber(); ++jId) {
-        if (birthJoint[jId] == MAX_INDEX)
+        if (birthJoint[jId] == NULL_ID)
             continue;
 
         newTransformations[jId] = transformations[birthJoint[jId]];

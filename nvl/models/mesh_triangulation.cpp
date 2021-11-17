@@ -62,7 +62,7 @@ std::vector<typename Mesh::FaceId> meshTriangulateConvexFace(
 
     const Face& face = mesh.face(fId);
 
-    std::vector<VertexId> faceVertices(mesh.face(fId).vertexIds().begin(), mesh.face(fId).vertexIds().end());
+    std::vector<VertexId> faceVertices(mesh.faceVertexIds(fId).begin(), mesh.faceVertexIds(fId).end());
 
     Index vertexNumber = faceVertices.size();
 
@@ -83,7 +83,7 @@ std::vector<typename Mesh::FaceId> meshTriangulateConvexFace(
             newVertices[0] = faceVertices[0];
             newVertices[1] = faceVertices[j + 1];
             newVertices[2] = faceVertices[(j + 2) % vertexNumber];
-            mesh.face(currentFaceId).setVertexIds(newVertices);
+            mesh.setFaceVertexIds(currentFaceId, newVertices);
         }
     }
     else {
@@ -204,7 +204,7 @@ Mesh meshReconstructTriangulatedPolygons(
         const Face& face = derivedMesh.face(fId);
         const FaceId originalFaceId = derivedBirthFace[fId];
 
-        if (originalFaceId != MAX_INDEX) {
+        if (originalFaceId != NULL_ID) {
             for (VertexId j = 0; j < face.vertexNumber(); ++j) {
                 const VertexId originalVertexId = derivedBirthVertex[face.vertexId(j)];
                 derivedFaceSet[originalFaceId].insert(originalVertexId);
@@ -221,7 +221,7 @@ Mesh meshReconstructTriangulatedPolygons(
 
         const FaceId originalFaceId = derivedBirthFace[fId];
 
-        if (originalFaceId != MAX_INDEX && originalFaceSet[originalFaceId] == derivedFaceSet[originalFaceId]) {
+        if (originalFaceId != NULL_ID && originalFaceSet[originalFaceId] == derivedFaceSet[originalFaceId]) {
             originalFacesToCopy.insert(originalFaceId);
         }
         else {
@@ -241,15 +241,15 @@ Mesh meshReconstructTriangulatedPolygons(
 
         for (VertexId j = 0; j < face.vertexNumber(); ++j) {
             const VertexId vId = transferVertexMap[face.vertexId(j)];
-            assert(vId != MAX_INDEX);
+            assert(vId != NULL_ID);
             newVertices[j] = vId;
         }
 
         FaceId newFId = resultMesh.addFace(face);
-        face.setVertexIds(newVertices);
+        resultMesh.setFaceVertexIds(newFId, newVertices);
 
         assert(resultBirthFace.size() == newFId);
-        resultBirthFace.push_back(MAX_INDEX);
+        resultBirthFace.push_back(NULL_ID);
     }
 
     //Add original faces
@@ -259,15 +259,15 @@ Mesh meshReconstructTriangulatedPolygons(
         std::vector<VertexId> newVertices(face.vertexNumber());
 
         for (VertexId j = 0; j < face.vertexNumber(); ++j) {
-            if (derivedVertexMap[face.vertexId(j)] != nvl::MAX_INDEX) {
+            if (derivedVertexMap[face.vertexId(j)] != NULL_ID) {
                 const VertexId vId = transferVertexMap[derivedVertexMap[face.vertexId(j)]];
-                assert(vId != MAX_INDEX);
+                assert(vId != NULL_ID);
                 newVertices[j] = vId;
             }
         }
 
         FaceId newFId = resultMesh.addFace(face);
-        face.setVertexIds(newVertices);
+        resultMesh.setFaceVertexIds(newFId, newVertices);
 
         assert(resultBirthFace.size() == newFId);
         resultBirthFace.push_back(fId);

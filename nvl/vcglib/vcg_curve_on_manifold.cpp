@@ -25,7 +25,7 @@ Mesh curveOnManifold(
         const bool fixBorders,
         const bool fixCorners)
 {
-    typedef nvl::VCGTriangleMesh VCGTriangleMesh;
+    typedef VCGTriangleMesh VCGTriangleMesh;
 
     typedef typename Mesh::FaceId FaceId;
     typedef typename Mesh::VertexId VertexId;
@@ -37,7 +37,7 @@ Mesh curveOnManifold(
     birthFace.clear();
 
     if (segments.size() < 3) {
-        nvl::meshTransferFaces(mesh, outputMesh, birthVertex, birthFace);
+        meshTransferFaces(mesh, outputMesh, birthVertex, birthFace);
         return outputMesh;
     }
 
@@ -79,36 +79,36 @@ Mesh curveOnManifold(
     std::vector<Index> triangulatedResultBirthFace;
     convertVCGMeshToMesh(vcgResultMesh, triangulatedResultMesh, triangulatedResultBirthVertex, triangulatedResultBirthFace);
 
-    birthVertex.resize(triangulatedResultMesh.nextVertexId(), MAX_INDEX);
+    birthVertex.resize(triangulatedResultMesh.nextVertexId(), NULL_ID);
     for (VertexId vId = 0; vId < triangulatedResultMesh.nextVertexId(); ++vId) {
         if (!triangulatedResultMesh.isVertexDeleted(vId)) {
             Index mapping;
 
             mapping = triangulatedResultBirthVertex[vId];
-            assert(mapping != MAX_INDEX);
+            assert(mapping != NULL_ID);
             mapping = comBirthVertex[mapping];
-            if (mapping == MAX_INDEX)
+            if (mapping == NULL_ID)
                 continue;
             mapping = vcgBirthVertex[mapping];
-            assert(mapping != MAX_INDEX);
+            assert(mapping != NULL_ID);
 
             birthVertex[vId] = mapping;
         }
     }
 
-    std::vector<FaceId> tmpResultBirthFace(triangulatedResultMesh.nextFaceId(), MAX_INDEX);
+    std::vector<FaceId> tmpResultBirthFace(triangulatedResultMesh.nextFaceId(), NULL_ID);
     for (FaceId fId = 0; fId < triangulatedResultMesh.nextFaceId(); ++fId) {
         if (!triangulatedResultMesh.isFaceDeleted(fId)) {
             Index mapping;
 
             mapping = triangulatedResultBirthFace[fId];
-            assert(mapping != MAX_INDEX);
+            assert(mapping != NULL_ID);
             mapping = comBirthFace[mapping];
-            assert(mapping != MAX_INDEX);
+            assert(mapping != NULL_ID);
             mapping = vcgBirthFace[mapping];
-            assert(mapping != MAX_INDEX);
+            assert(mapping != NULL_ID);
             mapping = triangulatedBirthFace[mapping];
-            assert(mapping != MAX_INDEX);
+            assert(mapping != NULL_ID);
 
             tmpResultBirthFace[fId] = mapping;
         }
@@ -238,7 +238,7 @@ bool vcgCurveOnManifold(
                             closestPoint);
 
                 int bestEdge = 0;
-                ScalarType bestDistance = nvl::maxLimitValue<ScalarType>();
+                ScalarType bestDistance = maxLimitValue<ScalarType>();
 
                 for (int j = 0; j < f->VN(); ++j) {
                     CoordType point = (f->V0(j)->cP() + f->V1(j)->cP()) / 2;
@@ -284,7 +284,7 @@ bool vcgCurveOnManifold(
         }
     }
 
-    birthVertex.resize(resultMesh.vert.size(), MAX_INDEX);
+    birthVertex.resize(resultMesh.vert.size(), NULL_ID);
     #pragma omp parallel for
     for (Index i = 0; i < resultMesh.vert.size(); ++i) {
         if (!resultMesh.vert[i].IsD() && !resultMesh.vert[i].IsS()) {
@@ -292,7 +292,7 @@ bool vcgCurveOnManifold(
             birthVertex[i] = resultMesh.vert[i].Q();
         }
     }
-    birthFace.resize(resultMesh.face.size(), MAX_INDEX);
+    birthFace.resize(resultMesh.face.size(), NULL_ID);
     #pragma omp parallel for
     for (Index i = 0; i < resultMesh.face.size(); ++i) {
         if (!resultMesh.face[i].IsD()) {

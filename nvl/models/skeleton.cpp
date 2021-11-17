@@ -69,7 +69,7 @@ typename Skeleton<T>::JointId Skeleton<T>::addRoot(const Joint& joint)
 
     vRoots.push_back(newId);
 
-    vParents.push_back(MAX_INDEX);
+    vParents.push_back(NULL_ID);
 
     vChildren.push_back(std::vector<JointId>());
 
@@ -185,13 +185,13 @@ typename Skeleton<T>::Joint& Skeleton<T>::parent(const Joint& joint)
 template<class T>
 bool Skeleton<T>::isRoot(const Index& jId) const
 {
-    return parentId(jId) == MAX_INDEX;
+    return parentId(jId) == NULL_ID;
 }
 
 template<class T>
 bool Skeleton<T>::isRoot(const Joint& joint) const
 {
-    return parentId(joint) == MAX_INDEX;
+    return parentId(joint) == NULL_ID;
 }
 
 template<class T>

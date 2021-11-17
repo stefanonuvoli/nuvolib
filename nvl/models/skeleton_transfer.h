@@ -13,7 +13,7 @@ void skeletonTransferJoints(
         const std::vector<typename Skeleton::JointId>& joints,
         Skeleton& targetSkeleton,
         std::vector<typename Skeleton::JointId>& birthJoint,
-        typename Skeleton::JointId targetParentId = MAX_INDEX);
+        typename Skeleton::JointId targetParentId = NULL_ID);
 
 }
 

@@ -12,6 +12,8 @@ void meshComputeFaceNormalsPlanar(Mesh& mesh, const bool normalize)
 {
     typedef typename Mesh::FaceId FaceId;
 
+    mesh.enableFaceNormals();
+
     #pragma omp parallel for
     for (FaceId fId = 0; fId < mesh.nextFaceId(); ++fId) {
         if (!mesh.isFaceDeleted(fId)) {
@@ -33,7 +35,7 @@ void meshComputeFaceNormalPlanar(Mesh& mesh, typename Mesh::FaceId& fId, const b
 
     Index pointIndex = 0;
     for (const VertexId& vId : face.vertexIds()) {
-        points[pointIndex] = mesh.vertex(vId).point();
+        points[pointIndex] = mesh.vertexPoint(vId);
         ++pointIndex;
     }
 
@@ -44,6 +46,8 @@ template<class Mesh>
 void meshComputeFaceNormalsSVDFitting(Mesh& mesh, const bool normalize)
 {
     typedef typename Mesh::FaceId FaceId;
+
+    mesh.enableFaceNormals();
 
     #pragma omp parallel for
     for (FaceId fId = 0; fId < mesh.nextFaceId(); ++fId) {
@@ -66,7 +70,7 @@ void meshComputeFaceNormalSVDFitting(Mesh& mesh, typename Mesh::FaceId& fId, con
 
     Index pointIndex = 0;
     for (const VertexId& vId : face.vertexIds()) {
-        points[pointIndex] = mesh.vertex(vId).point();
+        points[pointIndex] = mesh.vertexPoint(vId);
         ++pointIndex;
     }
 
@@ -82,6 +86,8 @@ template<class Mesh>
 void meshComputeFaceNormalsCovarianceFitting(Mesh& mesh, const bool normalize)
 {
     typedef typename Mesh::FaceId FaceId;
+
+    mesh.enableFaceNormals();
 
     #pragma omp parallel for
     for (FaceId fId = 0; fId < mesh.nextFaceId(); ++fId) {
@@ -103,7 +109,7 @@ void meshComputeFaceNormalsCovarianceFitting(Mesh& mesh, typename Mesh::FaceId& 
 
     Index pointIndex = 0;
     for (const VertexId& vId : face.vertexIds()) {
-        points[pointIndex] = mesh.vertex(vId).point();
+        points[pointIndex] = mesh.vertexPoint(vId);
         ++pointIndex;
     }
 
@@ -119,6 +125,8 @@ template<class Mesh>
 void meshComputeFaceNormalsFromVertexNormals(Mesh& mesh, const bool normalize)
 {
     typedef typename Mesh::FaceId FaceId;
+
+    mesh.enableFaceNormals();
 
     #pragma omp parallel for
     for (FaceId fId = 0; fId < mesh.nextFaceId(); ++fId) {
@@ -146,7 +154,7 @@ void meshComputeFaceNormalFromVertexNormals(Mesh& mesh, typename Mesh::FaceId& f
         normal.normalize();
     }
 
-    face.setNormal(normal);
+    mesh.setFaceNormal(fId, normal);
 }
 
 template<class Mesh>
@@ -168,6 +176,8 @@ void meshComputeVertexNormalsFromFaceNormals(
         bool normalize)
 {
     typedef typename Mesh::VertexId VertexId;
+
+    mesh.enableVertexNormals();
 
     #pragma omp parallel for
     for (VertexId vId = 0; vId < mesh.nextVertexId(); ++vId) {
@@ -201,7 +211,7 @@ void meshComputeVertexNormalFromFaceNormals(
         }
     }
 
-    vertex.setNormal(normal);
+    mesh.setVertexNormal(vId, normal);
 }
 
 

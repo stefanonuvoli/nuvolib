@@ -60,6 +60,8 @@ NVL_INLINE void drawSphere(
     gluSphere(sphere, radius, slices, stacks);
 
     glPopMatrix();
+
+    gluDeleteQuadric(sphere);
 }
 
 NVL_INLINE void drawCylinder(
@@ -101,7 +103,10 @@ NVL_INLINE void drawCylinder(
     gluQuadricOrientation(disk1, GLU_INSIDE);
     gluDisk(disk1, 0, startRadius, slices, stacks);
 
-    glPopMatrix();
+    glPopMatrix();    
+
+    gluDeleteQuadric(cylinder);
+    gluDeleteQuadric(disk1);
 
     if (cull)
         glEnable(GL_CULL_FACE);

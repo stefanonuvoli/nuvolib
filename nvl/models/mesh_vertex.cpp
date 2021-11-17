@@ -3,7 +3,8 @@
 namespace nvl {
 
 template<class P, class N, class U, class C>
-MeshVertex<P,N,U,C>::MeshVertex() : vId(MAX_INDEX), vNormal(VertexNormal(0, 0, 0)), vUV(UV(0, 0)), vColor(VertexColor(0.7, 0.7, 0.7))
+MeshVertex<P,N,U,C>::MeshVertex() :
+    vId(NULL_ID)
 {
 
 }
@@ -16,19 +17,19 @@ MeshVertex<P,N,U,C>::MeshVertex(Ts... coordinates) : MeshVertex()
 }
 
 template<class P, class N, class U, class C>
-typename MeshVertex<P,N,U,C>::VertexId& MeshVertex<P,N,U,C>::id()
+typename MeshVertex<P,N,U,C>::Id& MeshVertex<P,N,U,C>::id()
 {
     return vId;
 }
 
 template<class P, class N, class U, class C>
-const typename MeshVertex<P,N,U,C>::VertexId& MeshVertex<P,N,U,C>::id() const
+const typename MeshVertex<P,N,U,C>::Id& MeshVertex<P,N,U,C>::id() const
 {
     return vId;
 }
 
 template<class P, class N, class U, class C>
-void MeshVertex<P,N,U,C>::setId(VertexId id)
+void MeshVertex<P,N,U,C>::setId(const Id& id)
 {
     vId = id;
 }
@@ -59,60 +60,6 @@ template<class T, typename... Ts>
 void MeshVertex<P,N,U,C>::setPoint(const T& coordinate, Ts... coordinates)
 {
     setPointVariadicHelper(0, coordinate, coordinates...);
-}
-
-template<class P, class N, class U, class C>
-typename MeshVertex<P,N,U,C>::VertexNormal& MeshVertex<P,N,U,C>::normal()
-{
-    return vNormal;
-}
-
-template<class P, class N, class U, class C>
-const typename MeshVertex<P,N,U,C>::VertexNormal& MeshVertex<P,N,U,C>::normal() const
-{
-    return vNormal;
-}
-
-template<class P, class N, class U, class C>
-void MeshVertex<P,N,U,C>::setNormal(const VertexNormal& normal)
-{
-    vNormal = normal;
-}
-
-template<class P, class N, class U, class C>
-typename MeshVertex<P,N,U,C>::UV& MeshVertex<P,N,U,C>::uvCoords()
-{
-    return vUV;
-}
-
-template<class P, class N, class U, class C>
-const typename MeshVertex<P,N,U,C>::UV& MeshVertex<P,N,U,C>::uvCoords() const
-{
-    return vUV;
-}
-
-template<class P, class N, class U, class C>
-void MeshVertex<P,N,U,C>::setUV(const UV& uvCoords)
-{
-    vUV = uvCoords;
-}
-
-template<class P, class N, class U, class C>
-typename MeshVertex<P,N,U,C>::VertexColor& MeshVertex<P,N,U,C>::color()
-{
-    return vColor;
-}
-
-template<class P, class N, class U, class C>
-const typename MeshVertex<P,N,U,C>::VertexColor& MeshVertex<P,N,U,C>::color() const
-{
-    return vColor;
-}
-
-template<class P, class N, class U, class C>
-void MeshVertex<P,N,U,C>::setColor(const VertexColor& color)
-{
-    vColor = color;
 }
 
 template<class P, class N, class U, class C>
@@ -148,9 +95,9 @@ void MeshVertex<P,N,U,C>::setPointVariadicHelper(EigenId pos)
 }
 
 template<class P, class N, class U, class C>
-std::ostream& operator<<(std::ostream& output, const MeshVertex<P,N,U,C>& vector)
+std::ostream& operator<<(std::ostream& output, const MeshVertex<P,N,U,C>& vertex)
 {
-    output << "[" << vector.id() << "]\t" << vector.point().transpose();
+    output << "[" << vertex.id() << "]\t" << vertex.point().transpose();
     return output;
 }
 

@@ -3,7 +3,8 @@
 namespace nvl {
 
 template<class V, class C>
-MeshPolyline<V,C>::MeshPolyline() : vId(MAX_INDEX), vColor(PolylineColor(63, 63, 63))
+MeshPolyline<V,C>::MeshPolyline() :
+    vId(NULL_ID)
 {
 
 }
@@ -16,19 +17,19 @@ MeshPolyline<V,C>::MeshPolyline(Ts... vertices) : MeshPolyline()
 }
 
 template<class V, class C>
-typename MeshPolyline<V,C>::PolylineId& MeshPolyline<V,C>::id()
+typename MeshPolyline<V,C>::Id& MeshPolyline<V,C>::id()
 {
     return vId;
 }
 
 template<class V, class C>
-const typename MeshPolyline<V,C>::PolylineId& MeshPolyline<V,C>::id() const
+const typename MeshPolyline<V,C>::Id& MeshPolyline<V,C>::id() const
 {
     return vId;
 }
 
 template<class V, class C>
-void MeshPolyline<V,C>::setId(const PolylineId& id)
+void MeshPolyline<V,C>::setId(const Id& id)
 {
     vId = id;
 }
@@ -45,7 +46,7 @@ void MeshPolyline<V,C>::setVertexIds(const T& vertex, Ts... vertices)
 }
 
 template<class V, class C>
-void MeshPolyline<V,C>::setVertexIds(const std::vector<VertexId>& vector)
+void MeshPolyline<V,C>::setVertexIds(const VertexContainer& vector)
 {
     assert(vector.size() >= 2 && "Polylines must be composed of at least 2 vertices.");
     this->vVertices.resize(vector.size());
@@ -64,7 +65,7 @@ template<class V, class C>
 void MeshPolyline<V,C>::resizeVertexNumber(Size vertexNumber)
 {
     assert(vertexNumber >= 2 && "Polyline must be composed of at least 2 vertices.");
-    vVertices.resize(vertexNumber, MAX_INDEX);
+    vVertices.resize(vertexNumber, NULL_ID);
 }
 
 template<class V, class C>
@@ -114,13 +115,13 @@ void MeshPolyline<V,C>::eraseVertex(const Vertex& vertex)
 }
 
 template<class V, class C>
-std::vector<typename MeshPolyline<V,C>::VertexId>& MeshPolyline<V,C>::vertexIds()
+typename MeshPolyline<V,C>::VertexContainer& MeshPolyline<V,C>::vertexIds()
 {
     return vVertices;
 }
 
 template<class V, class C>
-const std::vector<typename MeshPolyline<V,C>::VertexId>& MeshPolyline<V,C>::vertexIds() const
+const typename MeshPolyline<V,C>::VertexContainer& MeshPolyline<V,C>::vertexIds() const
 {
     return vVertices;
 }
@@ -214,29 +215,11 @@ void MeshPolyline<V,C>::setVertexIdsVariadicHelper(const Index& pos)
 }
 
 template<class V, class C>
-typename MeshPolyline<V,C>::PolylineColor& MeshPolyline<V,C>::color()
-{
-    return vColor;
-}
-
-template<class V, class C>
-const typename MeshPolyline<V,C>::PolylineColor& MeshPolyline<V,C>::color() const
-{
-    return vColor;
-}
-
-template<class V, class C>
-void MeshPolyline<V,C>::setColor(const PolylineColor& color)
-{
-    vColor = color;
-}
-
-template<class V, class C>
 std::ostream& operator<<(std::ostream& output, const MeshPolyline<V,C>& face)
 {
     output << "[" << face.id() << "]\t";
     for (const typename MeshPolyline<V,C>::VertexId& vId : face.vertexIds()) {
-        if (vId == MAX_INDEX) {
+        if (vId == NULL_ID) {
             output << "x";
         }
         else {

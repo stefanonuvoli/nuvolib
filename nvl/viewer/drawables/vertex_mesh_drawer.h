@@ -27,6 +27,10 @@ public:
 
     virtual void update() override;
 
+    bool hasVertexNormals() const override;
+    bool hasVertexColors() const override;
+    bool hasVertexTransparency() const override;
+
     Point3d renderingVertex(const Index& id) const;
     Vector3d renderingVertexNormal(const Index& id) const;
     Color renderingVertexColor(const Index& id) const;
@@ -65,6 +69,8 @@ protected:
     double getVertexSize() const;
     double getVertexNormalRadius() const;
     double getVertexNormalLength() const;
+
+    Color vDefaultVertexColor;
 };
 
 }

@@ -11,8 +11,8 @@
 namespace nvl {
 
 NVL_INLINE ModelLoaderWidget::ModelLoaderWidget(
-        nvl::Canvas* canvas,
-        nvl::DrawableListWidget* drawableListWidget,
+        Canvas* canvas,
+        DrawableListWidget* drawableListWidget,
         QWidget *parent) :
     QFrame(parent),
     ui(new Ui::ModelLoaderWidget),
@@ -32,10 +32,10 @@ NVL_INLINE ModelLoaderWidget::~ModelLoaderWidget()
     delete ui;
 }
 
-NVL_INLINE Index ModelLoaderWidget::loadModel(Model* model, const std::string& name)
+NVL_INLINE Index ModelLoaderWidget::loadModel(Model3d* model, const std::string& name)
 {
-    ModelDrawer* modelDrawer = new ModelDrawer(model);
-    modelDrawer->meshDrawer().setFaceColorMode(ModelDrawer::FaceColorMode::FACE_COLOR_PER_FACE);
+    ModelDrawer<Model3d>* modelDrawer = new ModelDrawer<Model3d>(model);
+    modelDrawer->meshDrawer().setFaceColorMode(ModelDrawer<Model3d>::FaceColorMode::FACE_COLOR_PER_FACE);
 
     vLoadedDrawables.insert(modelDrawer);
 
@@ -44,10 +44,10 @@ NVL_INLINE Index ModelLoaderWidget::loadModel(Model* model, const std::string& n
     return vCanvas->addDrawable(modelDrawer, name);
 }
 
-NVL_INLINE Index ModelLoaderWidget::loadPolygonMesh(PolygonMesh* mesh, const std::string& name)
+NVL_INLINE Index ModelLoaderWidget::loadPolygonMesh(PolygonMesh3d* mesh, const std::string& name)
 {
-    PolygonMeshDrawer* meshDrawer = new PolygonMeshDrawer(mesh);
-    meshDrawer->setFaceColorMode(ModelDrawer::FaceColorMode::FACE_COLOR_PER_FACE);
+    FaceMeshDrawer<PolygonMesh3d>* meshDrawer = new FaceMeshDrawer<PolygonMesh3d>(mesh);
+    meshDrawer->setFaceColorMode(ModelDrawer<Model3d>::FaceColorMode::FACE_COLOR_PER_FACE);
 
     vLoadedDrawables.insert(meshDrawer);
 
@@ -56,14 +56,14 @@ NVL_INLINE Index ModelLoaderWidget::loadPolygonMesh(PolygonMesh* mesh, const std
     return vCanvas->addDrawable(meshDrawer, name);
 }
 
-NVL_INLINE Index ModelLoaderWidget::loadModel(const Model& model, const std::string& name)
+NVL_INLINE Index ModelLoaderWidget::loadModel(const Model3d& model, const std::string& name)
 {
-    return loadModel(new Model(model), name);
+    return loadModel(new Model3d(model), name);
 }
 
-NVL_INLINE Index ModelLoaderWidget::loadPolygonMesh(const PolygonMesh& mesh, const std::string& name)
+NVL_INLINE Index ModelLoaderWidget::loadPolygonMesh(const PolygonMesh3d& mesh, const std::string& name)
 {
-    return loadPolygonMesh(new PolygonMesh(mesh), name);
+    return loadPolygonMesh(new PolygonMesh3d(mesh), name);
 }
 
 NVL_INLINE Index ModelLoaderWidget::loadDrawableFromFile(const std::string& filename)
@@ -78,18 +78,18 @@ NVL_INLINE Index ModelLoaderWidget::loadDrawableFromFile(const std::string& file
     }
     else {
         QMessageBox::warning(this, tr("Error"), tr("Error: cannot load the file, no supported extension!"));
-        return nvl::MAX_INDEX;
+        return NULL_ID;
     }
 }
 
 NVL_INLINE Index ModelLoaderWidget::loadPolygonMeshFromFile(const std::string& filename)
 {
-    PolygonMesh tmpMesh;
+    PolygonMesh3d tmpMesh;
 
-    bool success = nvl::meshLoadFromFile(filename, tmpMesh);
+    bool success = meshLoadFromFile(filename, tmpMesh);
 
     if (success) {
-        PolygonMesh* mesh = new PolygonMesh(tmpMesh);
+        PolygonMesh3d* mesh = new PolygonMesh3d(tmpMesh);
         updateNormals(*mesh);
 
         std::string name = filenameName(filename);
@@ -97,18 +97,18 @@ NVL_INLINE Index ModelLoaderWidget::loadPolygonMeshFromFile(const std::string& f
     }
     else {
         QMessageBox::warning(this, tr("Error"), tr("Error: impossible to load mesh!"));
-        return nvl::MAX_INDEX;
+        return NULL_ID;
     }
 }
 
 NVL_INLINE Index ModelLoaderWidget::loadModelFromFile(const std::string& filename)
 {
-    Model tmpModel;
+    Model3d tmpModel;
 
-    bool success = nvl::modelLoadFromFile(filename, tmpModel);
+    bool success = modelLoadFromFile(filename, tmpModel);
 
     if (success) {
-        Model* model = new Model(tmpModel);
+        Model3d* model = new Model3d(tmpModel);
         updateNormals(model->mesh);
 
         std::string name = filenameName(filename);
@@ -116,11 +116,11 @@ NVL_INLINE Index ModelLoaderWidget::loadModelFromFile(const std::string& filenam
     }
     else {
         QMessageBox::warning(this, tr("Error"), tr("Error: impossible to load model!"));
-        return nvl::MAX_INDEX;
+        return NULL_ID;
     }
 }
 
-NVL_INLINE void ModelLoaderWidget::slot_drawableSelectionChanged(const std::unordered_set<nvl::Skeleton3d::JointId>& selectedDrawables)
+NVL_INLINE void ModelLoaderWidget::slot_drawableSelectionChanged(const std::unordered_set<Skeleton3d::JointId>& selectedDrawables)
 {
     NVL_SUPPRESS_UNUSEDVARIABLE(selectedDrawables);
 
@@ -177,7 +177,43 @@ NVL_INLINE void ModelLoaderWidget::on_drawableRemoveButton_clicked()
 
 NVL_INLINE void ModelLoaderWidget::on_drawableSaveButton_clicked()
 {
-    //TODO
+    const std::unordered_set<Index>& selectedDrawables = vDrawableListWidget->selectedDrawables();
+
+    for (const Index& id : selectedDrawables) {
+        Drawable* drawable = vCanvas->drawable(id);
+
+        std::unordered_map<Drawable*, Model3d*>::iterator modelIt = vModelMap.find(drawable);
+        if (modelIt != vModelMap.end()) {
+
+            QString filename = QFileDialog::getSaveFileName(this,
+                tr("Save model"), QDir::homePath(),
+                tr("Model (*.rig);;All Files (*)"));
+
+            if (!filename.isEmpty()) {
+                const Model3d& model = *(modelIt->second);
+                bool success = nvl::modelSaveToFile(filename.toStdString(), model);
+                if (!success) {
+                    QMessageBox::warning(this, tr("Error"), tr("Error: impossible to save model!"));
+                }
+            }
+        }
+
+        std::unordered_map<Drawable*, PolygonMesh3d*>::iterator polygonMeshIt = vPolygonMeshMap.find(drawable);
+        if (polygonMeshIt != vPolygonMeshMap.end()) {
+
+            QString filename = QFileDialog::getSaveFileName(this,
+                tr("Save model"), QDir::homePath(),
+                tr("Model (*.rig);;All Files (*)"));
+
+            if (!filename.isEmpty()) {
+                const PolygonMesh3d& mesh = *(polygonMeshIt->second);
+                bool success = nvl::meshSaveToFile(filename.toStdString(), mesh);
+                if (!success) {
+                    QMessageBox::warning(this, tr("Error"), tr("Error: impossible to save mesh!"));
+                }
+            }
+        }
+    }
 }
 
 template<class M>
@@ -205,13 +241,13 @@ NVL_INLINE bool ModelLoaderWidget::removeDrawable(Drawable* drawable)
     if (it != vLoadedDrawables.end()) {
         vCanvas->removeDrawable(drawable);
 
-        std::unordered_map<Drawable*, Model*>::iterator modelIt = vModelMap.find(drawable);
+        std::unordered_map<Drawable*, Model3d*>::iterator modelIt = vModelMap.find(drawable);
         if (modelIt != vModelMap.end()) {
             delete modelIt->second;
             vModelMap.erase(modelIt);
         }
 
-        std::unordered_map<Drawable*, PolygonMesh*>::iterator polygonMeshIt = vPolygonMeshMap.find(drawable);
+        std::unordered_map<Drawable*, PolygonMesh3d*>::iterator polygonMeshIt = vPolygonMeshMap.find(drawable);
         if (polygonMeshIt != vPolygonMeshMap.end()) {
             delete polygonMeshIt->second;
             vPolygonMeshMap.erase(polygonMeshIt);
@@ -239,7 +275,7 @@ NVL_INLINE void ModelLoaderWidget::connectSignals()
 {
     if (vCanvas != nullptr) {
         //Connect signals to the viewer
-        connect(vDrawableListWidget, &nvl::DrawableListWidget::signal_drawableSelectionChanged, this, &ModelLoaderWidget::slot_drawableSelectionChanged);
+        connect(vDrawableListWidget, &DrawableListWidget::signal_drawableSelectionChanged, this, &ModelLoaderWidget::slot_drawableSelectionChanged);
     }
 }
 

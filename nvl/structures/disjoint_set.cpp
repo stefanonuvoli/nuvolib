@@ -44,7 +44,7 @@ Index DisjointSet<T,C>::find(const T& element) const {
         return findHelper(it->second);
     }
     else {
-        return MAX_INDEX;
+        return NULL_ID;
     }
 }
 
@@ -102,8 +102,8 @@ void DisjointSet<T,C>::clear()
 
 template<class T, class C>
 Index DisjointSet<T,C>::findHelper(const Index& id) const {
-    if (id == nvl::MAX_INDEX)
-        return nvl::MAX_INDEX;
+    if (id == NULL_ID)
+        return NULL_ID;
 
     if (vParent[id] == id) {
         return id;
@@ -113,7 +113,7 @@ Index DisjointSet<T,C>::findHelper(const Index& id) const {
 }
 template<class T, class C>
 bool DisjointSet<T,C>::mergeHelper(const Index& a, const Index& b) {
-    if (a == nvl::MAX_INDEX || b == nvl::MAX_INDEX) {
+    if (a == NULL_ID || b == NULL_ID) {
         return false;
     }
 

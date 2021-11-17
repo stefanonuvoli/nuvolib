@@ -26,7 +26,7 @@ contains(DEFINES, NVL_QT) {
         $$PWD/widgets/model_animation_widget.ui \
         $$PWD/widgets/model_drawer_widget.ui \
         $$PWD/widgets/model_loader_widget.ui \
-        $$PWD/widgets/skeletonjoint_list_widget.ui
+    $$PWD/widgets/skeleton_joint_list_widget.ui
 
     HEADERS += \
         $$PWD/gl/opengl_headers.h \
@@ -63,7 +63,7 @@ contains(DEFINES, NVL_QT) {
         $$PWD/widgets/model_loader_widget.h \
         $$PWD/widgets/qglviewer_canvas.h \
         $$PWD/widgets/qglviewer_object.h \
-        $$PWD/widgets/skeletonjoint_list_widget.h
+    $$PWD/widgets/skeleton_joint_list_widget.h
 
     SOURCES += \
         $$PWD/drawables/face_mesh_drawer.cpp \
@@ -99,10 +99,28 @@ contains(DEFINES, NVL_QT) {
         $$PWD/widgets/model_loader_widget.cpp \
         $$PWD/widgets/qglviewer_canvas.cpp \
         $$PWD/widgets/qglviewer_object.cpp \
-        $$PWD/widgets/skeletonjoint_list_widget.cpp
+    $$PWD/widgets/skeleton_joint_list_widget.cpp
 
     RESOURCES += \
         $$PWD/gl/shaders.qrc
 
     message(Module \"viewer\" loaded.)
 }
+
+SOURCES += \
+    $$PWD/widgets/face_mesh_drawer_widget.cpp \
+    $$PWD/widgets/polyline_mesh_drawer_widget.cpp \
+    $$PWD/widgets/skeleton_drawer_widget.cpp \
+    $$PWD/widgets/vertex_mesh_drawer_widget.cpp
+
+HEADERS += \
+    $$PWD/widgets/face_mesh_drawer_widget.h \
+    $$PWD/widgets/polyline_mesh_drawer_widget.h \
+    $$PWD/widgets/skeleton_drawer_widget.h \
+    $$PWD/widgets/vertex_mesh_drawer_widget.h
+
+FORMS += \
+    $$PWD/widgets/face_mesh_drawer_widget.ui \
+    $$PWD/widgets/polyline_mesh_drawer_widget.ui \
+    $$PWD/widgets/skeleton_drawer_widget.ui \
+    $$PWD/widgets/vertex_mesh_drawer_widget.ui

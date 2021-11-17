@@ -22,25 +22,28 @@ HEADERS += \
     $$PWD/animation_io_ska.h \
     $$PWD/animation_skinning.h \
     $$PWD/animation_transformations.h \
-    $$PWD/edge_mesh.h \
     $$PWD/face_mesh.h \
     $$PWD/mesh_array_face.h \
     $$PWD/mesh_differentiation.h \
-    $$PWD/mesh_edge.h \
     $$PWD/mesh_face.h \
+    $$PWD/mesh_face_material_handler.h \
+    $$PWD/mesh_face_normal_handler.h \
+    $$PWD/mesh_face_wedge_normal_handler.h \
+    $$PWD/mesh_face_wedge_uv_handler.h \
     $$PWD/mesh_material.h \
+    $$PWD/mesh_material_handler.h \
     $$PWD/mesh_polyline.h \
+    $$PWD/mesh_polyline_color_handler.h \
     $$PWD/mesh_vector_face.h \
     $$PWD/mesh_vertex.h \
-    $$PWD/mesh_edge_handler.h \
     $$PWD/mesh_face_handler.h \
     $$PWD/mesh_polyline_handler.h \
+    $$PWD/mesh_vertex_color_handler.h \
     $$PWD/mesh_vertex_handler.h \
     $$PWD/mesh_adjacencies.h \
     $$PWD/mesh_borders.h \
     $$PWD/mesh_cleaning.h \
     $$PWD/mesh_consistency.h \
-    $$PWD/mesh_edge_handler.h \
     $$PWD/mesh_eigen_convert.h \
     $$PWD/mesh_face_handler.h \
     $$PWD/mesh_face_navigator.h \
@@ -60,6 +63,10 @@ HEADERS += \
     $$PWD/mesh_transformations.h \
     $$PWD/mesh_triangulation.h \
     $$PWD/mesh_vertex_handler.h \
+    $$PWD/mesh_vertex_normal_handler.h \
+    $$PWD/mesh_vertex_uv_handler.h \
+    $$PWD/mesh_wedge_normal_handler.h \
+    $$PWD/mesh_wedge_uv_handler.h \
     $$PWD/meshes.h \
     $$PWD/model.h \
     $$PWD/model_deformation.h \
@@ -94,25 +101,28 @@ SOURCES +=  \
     $$PWD/animation_io_ska.cpp \
     $$PWD/animation_skinning.cpp \
     $$PWD/animation_transformations.cpp \
-    $$PWD/edge_mesh.cpp \
     $$PWD/face_mesh.cpp \
     $$PWD/mesh_array_face.cpp \
     $$PWD/mesh_differentiation.cpp \
-    $$PWD/mesh_edge.cpp \
     $$PWD/mesh_face.cpp \
+    $$PWD/mesh_face_material_handler.cpp \
+    $$PWD/mesh_face_normal_handler.cpp \
+    $$PWD/mesh_face_wedge_normal_handler.cpp \
+    $$PWD/mesh_face_wedge_uv_handler.cpp \
     $$PWD/mesh_material.cpp \
+    $$PWD/mesh_material_handler.cpp \
     $$PWD/mesh_polyline.cpp \
+    $$PWD/mesh_polyline_color_handler.cpp \
     $$PWD/mesh_vector_face.cpp \
     $$PWD/mesh_vertex.cpp \
-    $$PWD/mesh_edge_handler.cpp \
     $$PWD/mesh_face_handler.cpp \
     $$PWD/mesh_polyline_handler.cpp \
+    $$PWD/mesh_vertex_color_handler.cpp \
     $$PWD/mesh_vertex_handler.cpp \
     $$PWD/mesh_adjacencies.cpp \
     $$PWD/mesh_borders.cpp \
     $$PWD/mesh_cleaning.cpp \
     $$PWD/mesh_consistency.cpp \
-    $$PWD/mesh_edge_handler.cpp \
     $$PWD/mesh_eigen_convert.cpp \
     $$PWD/mesh_face_handler.cpp \
     $$PWD/mesh_face_navigator.cpp \
@@ -132,6 +142,10 @@ SOURCES +=  \
     $$PWD/mesh_transformations.cpp \
     $$PWD/mesh_triangulation.cpp \
     $$PWD/mesh_vertex_handler.cpp \
+    $$PWD/mesh_vertex_normal_handler.cpp \
+    $$PWD/mesh_vertex_uv_handler.cpp \
+    $$PWD/mesh_wedge_normal_handler.cpp \
+    $$PWD/mesh_wedge_uv_handler.cpp \
     $$PWD/model.cpp \
     $$PWD/model_deformation.cpp \
     $$PWD/model_io.cpp \

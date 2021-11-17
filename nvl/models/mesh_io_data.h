@@ -4,7 +4,6 @@
 #include <nvl/nuvolib.h>
 
 #include <nvl/math/point.h>
-#include <nvl/math/affine.h>
 #include <nvl/utilities/color.h>
 #include <nvl/models/mesh_material.h>
 
@@ -23,15 +22,16 @@ struct IOMeshMode {
     bool polylines;
     bool faces;
     bool vertexNormals;
-    bool vertexUV;
+    bool vertexUVs;
     bool vertexColors;
+    bool polylineColors;
     bool textures;
     bool faceNormals;
     bool materials;
 };
 
 //Mesh data
-template<class P = Point3d, class VN = Vector3d, class VU = Point2f, class VC = Color, class FN = Vector3d, class M = MeshMaterial<Color>>
+template<class P = Point3d, class VN = Vector3d, class UV = Point2f, class VC = Color, class PC = Color, class FN = Vector3d, class M = MeshMaterial<Color>>
 struct IOMeshData {
     IOMeshData();
 
@@ -40,8 +40,10 @@ struct IOMeshData {
     std::vector<std::vector<Index>> polylines;
 
     std::vector<VN> vertexNormals;
-    std::vector<VU> vertexUV;
+    std::vector<UV> vertexUVs;
     std::vector<VC> vertexColors;
+
+    std::vector<PC> polylineColors;
 
     std::vector<FN> faceNormals;
 
@@ -49,7 +51,7 @@ struct IOMeshData {
     std::vector<std::string> faceMaterials;
 
     std::vector<std::vector<Index>> faceVertexNormals;
-    std::vector<std::vector<Index>> faceVertexUV;
+    std::vector<std::vector<Index>> faceVertexUVs;
 
     void clear();
 };

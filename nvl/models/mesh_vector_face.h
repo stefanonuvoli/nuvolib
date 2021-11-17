@@ -11,21 +11,20 @@
 namespace nvl {
 
 template<class V, class N, class M>
-class MeshVectorFace : public MeshFace<V,N,M,std::vector<typename V::VertexId>>
+class MeshVectorFace : public MeshFace<V,N,M,std::vector<typename V::Id>>
 {
 
 public:
 
     /* Typedefs */
 
-    typedef typename MeshFace<V,N,M,std::vector<typename V::VertexId>>::FaceId FaceId;
-    typedef typename MeshFace<V,N,M,std::vector<typename V::VertexId>>::Vertex Vertex;
-    typedef typename MeshFace<V,N,M,std::vector<typename V::VertexId>>::VertexId VertexId;
-    typedef typename MeshFace<V,N,M,std::vector<typename V::VertexId>>::FaceNormal FaceNormal;
-    typedef typename MeshFace<V,N,M,std::vector<typename V::VertexId>>::VertexNormal VertexNormal;
-    typedef typename MeshFace<V,N,M,std::vector<typename V::VertexId>>::Material Material;
-    typedef typename MeshFace<V,N,M,std::vector<typename V::VertexId>>::MaterialId MaterialId;
-    typedef typename MeshFace<V,N,M,std::vector<typename V::VertexId>>::Container Container;
+    typedef typename MeshFace<V,N,M,std::vector<typename V::Id>>::Id Id;
+    typedef typename MeshFace<V,N,M,std::vector<typename V::Id>>::Vertex Vertex;
+    typedef typename MeshFace<V,N,M,std::vector<typename V::Id>>::VertexId VertexId;
+    typedef typename MeshFace<V,N,M,std::vector<typename V::Id>>::Normal Normal;
+    typedef typename MeshFace<V,N,M,std::vector<typename V::Id>>::VertexNormal VertexNormal;
+    typedef typename MeshFace<V,N,M,std::vector<typename V::Id>>::Material Material;
+    typedef typename MeshFace<V,N,M,std::vector<typename V::Id>>::VertexContainer VertexContainer;
 
 
     /* Constructors */

@@ -35,8 +35,8 @@ std::vector<Segment<typename Mesh::Point>> meshImplicitFunction(
             F f1 = vertexFunction[v1];
             F f2 = vertexFunction[v2];
 
-            Point p0 = mesh.vertex(v1).point();
-            Point p1 = mesh.vertex(v2).point();
+            Point p0 = mesh.vertexPoint(v1);
+            Point p1 = mesh.vertexPoint(v2);
 
             if (epsEqual(f1, 0.0) || epsEqual(f2, 0.0)) {
                 continue;

@@ -17,21 +17,16 @@ public:
 
     /* Typedefs */
 
-    typedef Index FaceId;
+    typedef Index Id;
 
     typedef V Vertex;
-    typedef typename V::VertexId VertexId;
-
-    typedef N FaceNormal;
-
-    typedef typename Vertex::VertexNormal VertexNormal;
-    typedef typename Vertex::UV UV;
-
+    typedef N Normal;
     typedef M Material;
-    typedef typename Material::MaterialId MaterialId;
-    typedef typename Material::Color MaterialColor;
+    typedef C VertexContainer;
 
-    typedef C Container;
+    typedef typename Vertex::Normal VertexNormal;
+    typedef typename Vertex::UV UV;
+    typedef typename V::Id VertexId;
 
 
     /* Constructors */
@@ -41,14 +36,14 @@ public:
 
     /* Methods */
 
-    FaceId& id();
-    const FaceId& id() const;
-    void setId(const FaceId& id);
+    Id& id();
+    const Id& id() const;
+    void setId(const Id& id);
 
     Size vertexNumber() const;
 
-    Container& vertexIds();
-    const Container& vertexIds() const;
+    VertexContainer& vertexIds();
+    const VertexContainer& vertexIds() const;
 
     VertexId& vertexId(const Index& pos);
     const VertexId& vertexId(const Index& pos) const;
@@ -60,37 +55,12 @@ public:
     void setNextVertexId(const Index& pos, const VertexId& vId);
     void setNextVertex(const Index& pos, const Vertex& vId);
 
-    FaceNormal& normal();
-    const FaceNormal& normal() const;
-    void setNormal(const FaceNormal& normalId);
-
-    bool hasWedgeVertexNormals() const;
-    const std::vector<VertexNormal>& wedgeVertexNormals() const;
-    void setWedgeVertexNormals(const std::vector<VertexNormal>& wedgeVertexNormals);
-    void clearWedgeVertexNormals();
-
-    bool hasWedgeUV() const;
-    const std::vector<UV>& wedgeUV() const;
-    void setWedgeUV(const std::vector<UV>& wedgeUV);
-    void clearWedgeUV();
-
-    MaterialId& materialId();
-    const MaterialId& materialId() const;
-    void setMaterialId(const MaterialId& materialId);
-
 
 protected:
 
-    FaceId vId;
+    Id vId;
 
-    Container vVertices;
-
-    FaceNormal vNormal;
-
-    std::vector<VertexNormal> vWedgeVertexNormals;
-    std::vector<UV> vWedgeUV;
-
-    MaterialId vFaceMaterialId;
+    VertexContainer vVertexIds;
 };
 
 

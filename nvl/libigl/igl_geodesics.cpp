@@ -36,11 +36,11 @@ std::vector<typename Mesh::Scalar> exactGeodesics(
     Eigen::MatrixXi F;
     convertMeshToEigenMesh(triangulatedMesh, V, F, conBirthVertex);
 
-    std::vector<VertexId> conVertexMap = nvl::inverseMap(conBirthVertex, triangulatedMesh.nextVertexId());
+    std::vector<VertexId> conVertexMap = inverseMap(conBirthVertex, triangulatedMesh.nextVertexId());
 
     std::vector<VertexId> conTargetVertices(targetVertices.size());
     for (Index i = 0; i < targetVertices.size(); i++) {
-        assert(conVertexMap[targetVertices[i]] != nvl::MAX_INDEX);
+        assert(conVertexMap[targetVertices[i]] != NULL_ID);
         conTargetVertices[i] = conVertexMap[targetVertices[i]];
     }
 

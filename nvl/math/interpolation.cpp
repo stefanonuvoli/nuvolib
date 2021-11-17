@@ -7,9 +7,9 @@ namespace nvl {
 template<class T, class W>
 T interpolateLinear(const T& v1, const T& v2, const W& a)
 {
-    if (nvl::epsEqual(a, 0.0))
+    if (epsEqual(a, 0.0))
         return v1;
-    if (nvl::epsEqual(a, 1.0))
+    if (epsEqual(a, 1.0))
         return v2;
 
     return (a - 1) * v1 + a * v2;
@@ -37,9 +37,9 @@ T interpolateLinear(const std::vector<T>& v, const std::vector<W>& weights)
 template<class T, class W>
 Affine3<T> interpolateAffine(const Affine3<T>& t1, const Affine3<T>& t2, const W& a)
 {
-    if (nvl::epsEqual(a, 0.0))
+    if (epsEqual(a, 0.0))
         return t1;
-    if (nvl::epsEqual(a, 1.0))
+    if (epsEqual(a, 1.0))
         return t2;
 
     Matrix33<T> s1Matrix, r1Matrix, s2Matrix, r2Matrix;
@@ -100,9 +100,9 @@ Affine3<T> interpolateAffine(const std::vector<Affine3<T>>& t, const std::vector
 template<class T, EigenId D, class W>
 Vector<T, D> interpolateVectorLinear(const Vector<T, D>& v1, const Vector<T, D>& v2, const W& a)
 {
-    if (nvl::epsEqual(a, 0.0))
+    if (epsEqual(a, 0.0))
         return v1;
-    if (nvl::epsEqual(a, 1.0))
+    if (epsEqual(a, 1.0))
         return v2;
 
     return (v1 * (1 - a)) + (v2 * a);
@@ -129,9 +129,9 @@ Vector<T, D> interpolateVectorLinear(const std::vector<Vector<T, D>>& v, const s
 template<class T, EigenId D, class W>
 Translation<T, D> interpolateTranslationLinear(const Translation<T, D>& t1, const Translation<T, D>& t2, const W& a)
 {
-    if (nvl::epsEqual(a, 0.0))
+    if (epsEqual(a, 0.0))
         return t1;
-    if (nvl::epsEqual(a, 1.0))
+    if (epsEqual(a, 1.0))
         return t2;
 
     Vector3<T> v1(t1);
@@ -158,9 +158,9 @@ Translation<T, D> interpolateTranslationLinear(const std::vector<Translation<T, 
 template<class T, EigenId D, class W>
 Scaling<T, D> interpolateScalingLinear(const Scaling<T, D>& s1, const Scaling<T, D>& s2, const W& a)
 {
-    if (nvl::epsEqual(a, 0.0))
+    if (epsEqual(a, 0.0))
         return s1;
-    if (nvl::epsEqual(a, 1.0))
+    if (epsEqual(a, 1.0))
         return s2;
 
     Vector3<T> v1(s1.diagonal());
@@ -185,9 +185,9 @@ Scaling<T, D> interpolateScalingLinear(const std::vector<Scaling<T, D>>& s, cons
 template<class T, class W>
 Rotation3<T> interpolateRotationSpherical(const Rotation3<T>& r1, const Rotation3<T>& r2, const W& a)
 {
-    if (nvl::epsEqual(a, 0.0))
+    if (epsEqual(a, 0.0))
         return r1;
-    if (nvl::epsEqual(a, 1.0))
+    if (epsEqual(a, 1.0))
         return r2;
 
     Quaterniond q1(r1.rotation());
@@ -212,9 +212,9 @@ Rotation3<T> interpolateRotationSpherical(const std::vector<Rotation3<T>>& r, co
 template<class T, class W>
 Quaternion<T> interpolateRotationSpherical(const Quaternion<T>& q1, const Quaternion<T>& q2, const W& a)
 {
-    if (nvl::epsEqual(a, 0.0))
+    if (epsEqual(a, 0.0))
         return q1;
-    if (nvl::epsEqual(a, 1.0))
+    if (epsEqual(a, 1.0))
         return q2;
 
     return q1.slerp(a, q2);
@@ -248,9 +248,9 @@ Quaternion<T> interpolateRotationSpherical(const std::vector<Quaternion<T>>& q, 
 template<class T, class W>
 DualQuaternion<T> interpolateDualQuaternion(const DualQuaternion<T>& q1, const DualQuaternion<T>& q2, const W& a)
 {
-    if (nvl::epsEqual(a, 0.0))
+    if (epsEqual(a, 0.0))
         return q1;
-    if (nvl::epsEqual(a, 1.0))
+    if (epsEqual(a, 1.0))
         return q2;
 
     return DualQuaternion<T>(interpolateRotationSpherical(q1.rotation(), q2.rotation(), a), interpolateTranslationLinear(q1.translation(), q2.translation(), a));

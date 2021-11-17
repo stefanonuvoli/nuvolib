@@ -117,7 +117,7 @@ std::vector<std::vector<typename Mesh::FaceId>> meshFaceFaceAdjacencies(
 
         const Face& face = mesh.face(fId);
 
-        ffAdj[fId].resize(face.vertexNumber(), MAX_INDEX);
+        ffAdj[fId].resize(face.vertexNumber(), NULL_ID);
 
         for (Index fePos = 0; fePos < face.vertexNumber(); ++fePos) {
             const VertexId& vId = face.vertexId(fePos);
@@ -179,7 +179,7 @@ std::vector<std::vector<typename Mesh::FaceId>> meshConnectedComponents(
     typedef typename Mesh::FaceId FaceId;
 
     std::vector<std::vector<typename Mesh::FaceId>> connectedComponents;
-    faceComponentMap.resize(mesh.nextFaceId(), MAX_INDEX);
+    faceComponentMap.resize(mesh.nextFaceId(), NULL_ID);
 
     std::stack<FaceId> stack;
     std::vector<bool> visited(mesh.nextFaceId(), false);
@@ -201,7 +201,7 @@ std::vector<std::vector<typename Mesh::FaceId>> meshConnectedComponents(
                 faceComponentMap[fId] = connectedComponents.size();
 
                 for (const FaceId& adjId : ffAdj[fId]) {
-                    if (adjId != MAX_INDEX && !visited[adjId]) {
+                    if (adjId != NULL_ID && !visited[adjId]) {
                         stack.push(adjId);
                     }
                 }
@@ -256,7 +256,7 @@ std::vector<std::vector<typename Mesh::FaceId>> meshSubsetConnectedComponents(
     typedef typename Mesh::FaceId FaceId;
 
     std::vector<std::vector<typename Mesh::FaceId>> connectedComponents;
-    faceComponentMap.resize(mesh.nextFaceId(), MAX_INDEX);
+    faceComponentMap.resize(mesh.nextFaceId(), NULL_ID);
 
     std::stack<FaceId> stack;
     std::vector<bool> visited(mesh.nextFaceId(), false);
@@ -278,7 +278,7 @@ std::vector<std::vector<typename Mesh::FaceId>> meshSubsetConnectedComponents(
                 faceComponentMap[fId] = connectedComponents.size();
 
                 for (FaceId adjId : ffAdj[fId]) {
-                    if (adjId != MAX_INDEX && !visited[adjId]) {
+                    if (adjId != NULL_ID && !visited[adjId]) {
                         stack.push(adjId);
                     }
                 }

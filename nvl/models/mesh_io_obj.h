@@ -9,17 +9,17 @@
 
 namespace nvl {
 
-template<class P, class VN, class VU, class VC, class FN, class M>
+template<class P, class VN, class UV, class VC, class PC, class FN, class M>
 bool meshLoadDataFromObj(
         const std::string& filename,
-        IOMeshData<P,VN,VU,VC,FN,M>& data,
+        IOMeshData<P,VN,UV,VC,PC,FN,M>& data,
         IOMeshError& error = internal::dummyIOMeshError,
         IOMeshMode& mode = internal::dummyIOMeshMode);
 
-template<class P, class VN, class VU, class VC, class FN, class M>
+template<class P, class VN, class UV, class VC, class PC, class FN, class M>
 bool meshSaveDataToObj(
         const std::string& filename,
-        const IOMeshData<P,VN,VU,VC,FN,M>& data,
+        const IOMeshData<P,VN,UV,VC,PC,FN,M>& data,
         IOMeshError& error = internal::dummyIOMeshError,
         const IOMeshMode& mode = internal::dummyIOMeshMode);
 

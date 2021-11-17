@@ -10,7 +10,8 @@ NVL_INLINE PolylineMeshDrawerBase::PolylineMeshDrawerBase() :
     vPolylineSize(5),
     vPolylineUniformColor(0.7, 0.7, 0.7),
     vPolylineShapeMode(POLYLINE_SHAPE_CYLINDER),
-    vPolylineColorMode(POLYLINE_COLOR_PER_POLYLINE)
+    vPolylineColorMode(POLYLINE_COLOR_PER_POLYLINE),
+    vPolylineTransparency(false)
 {
 
 }

@@ -22,7 +22,7 @@
 
 namespace nvl {
 
-class Null {
+class NullType {
 
 };
 
@@ -39,7 +39,7 @@ typedef size_t Index;
 /**
  * @brief Maximum index in a default container
  */
-const Size MAX_INDEX = std::numeric_limits<Index>::max();
+const Size NULL_ID = std::numeric_limits<Index>::max();
 
 #ifdef NVL_MATH_LOADED
 /**

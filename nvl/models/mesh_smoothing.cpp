@@ -19,7 +19,7 @@ void meshLaplacianSmoothing(
         const Index iterations,
         const double alpha)
 {
-    const std::vector<std::vector<Index>> vvAdj = nvl::meshVertexVertexAdjacencies(mesh);
+    const std::vector<std::vector<Index>> vvAdj = meshVertexVertexAdjacencies(mesh);
     meshLaplacianSmoothing(mesh, iterations, alpha, vvAdj);
 }
 
@@ -43,7 +43,7 @@ void meshLaplacianSmoothing(
 
     assert(alpha >= 0.0 && alpha <= 1.0);
 
-    if (nvl::epsEqual(alpha, 1.0))
+    if (epsEqual(alpha, 1.0))
         return;
 
     std::vector<Point> pointVector(mesh.nextVertexId());
@@ -53,7 +53,7 @@ void meshLaplacianSmoothing(
         if (mesh.isVertexDeleted(vId))
             continue;
 
-        pointVector[vId] = mesh.vertex(vId).point();
+        pointVector[vId] = mesh.vertexPoint(vId);
     }
 
     for (Index it = 0; it < iterations; ++it) {
@@ -67,7 +67,7 @@ void meshLaplacianSmoothing(
             Point value = alpha * tmpVector[vId];
             double adjWeight = (1 - alpha) / vvAdj[vId].size();
             for (const VertexId& adj : vvAdj[vId]) {
-                assert(adj != nvl::MAX_INDEX);
+                assert(adj != NULL_ID);
                 value += adjWeight * tmpVector[adj];
             }
             pointVector[vId] = value;
@@ -79,7 +79,7 @@ void meshLaplacianSmoothing(
         if (mesh.isVertexDeleted(vId))
             continue;
 
-        mesh.vertex(vId).setPoint(pointVector[vId]);
+        mesh.setVertexPoint(vId, pointVector[vId]);
     }
 }
 
@@ -96,7 +96,7 @@ void meshLaplacianSmoothing(
         const Index iterations,
         const std::vector<double>& alphas)
 {
-    const std::vector<std::vector<Index>> vvAdj = nvl::meshVertexVertexAdjacencies(mesh);
+    const std::vector<std::vector<Index>> vvAdj = meshVertexVertexAdjacencies(mesh);
     meshLaplacianSmoothing(mesh, iterations, alphas, vvAdj);
 }
 
@@ -127,7 +127,7 @@ void meshLaplacianSmoothing(
         if (mesh.isVertexDeleted(vId))
             continue;
 
-        pointVector[vId] = mesh.vertex(vId).point();
+        pointVector[vId] = mesh.vertexPoint(vId);
     }
 
     for (Index it = 0; it < iterations; ++it) {
@@ -140,13 +140,13 @@ void meshLaplacianSmoothing(
 
             assert(alphas[vId] >= 0.0 && alphas[vId] <= 1.0);
 
-            if (!nvl::epsEqual(alphas[vId], 1.0)) {
+            if (!epsEqual(alphas[vId], 1.0)) {
                 continue;
 
                 Point value = alphas[vId] * tmpVector[vId];
                 double adjWeight = (1 - alphas[vId]) / vvAdj[vId].size();
                 for (const VertexId& adj : vvAdj[vId]) {
-                    assert(adj != nvl::MAX_INDEX);
+                    assert(adj != NULL_ID);
                     value += adjWeight * tmpVector[adj];
                 }
                 pointVector[vId] = value;
@@ -159,8 +159,8 @@ void meshLaplacianSmoothing(
         if (mesh.isVertexDeleted(vId))
             continue;
 
-        if (!nvl::epsEqual(alphas[vId], 1.0)) {
-            mesh.vertex(vId).setPoint(pointVector[vId]);
+        if (!epsEqual(alphas[vId], 1.0)) {
+            mesh.setVertexPoint(vId, pointVector[vId]);
         }
     }
 }
@@ -180,7 +180,7 @@ void meshLaplacianSmoothing(
         const Index iterations,
         const double alpha)
 {
-    const std::vector<std::vector<Index>> vvAdj = nvl::meshVertexVertexAdjacencies(mesh);
+    const std::vector<std::vector<Index>> vvAdj = meshVertexVertexAdjacencies(mesh);
     meshLaplacianSmoothing(mesh, vertices, iterations, alpha, vvAdj);
 }
 
@@ -206,7 +206,7 @@ void meshLaplacianSmoothing(
 
     assert(alpha >= 0.0 && alpha <= 1.0);
 
-    if (nvl::epsEqual(alpha, 1.0))
+    if (epsEqual(alpha, 1.0))
         return;
 
     std::vector<Point> pointVector(mesh.nextVertexId());
@@ -216,7 +216,7 @@ void meshLaplacianSmoothing(
         if (mesh.isVertexDeleted(vId))
             continue;
 
-        pointVector[vId] = mesh.vertex(vId).point();
+        pointVector[vId] = mesh.vertexPoint(vId);
     }
 
     for (Index it = 0; it < iterations; ++it) {
@@ -229,7 +229,7 @@ void meshLaplacianSmoothing(
             Point value = alpha * tmpVector[vId];
             double adjWeight = (1 - alpha) / vvAdj[vId].size();
             for (const VertexId& adj : vvAdj[vId]) {
-                assert(adj != nvl::MAX_INDEX);
+                assert(adj != NULL_ID);
                 value += adjWeight * tmpVector[adj];
             }
             pointVector[vId] = value;
@@ -239,7 +239,7 @@ void meshLaplacianSmoothing(
     #pragma omp parallel for
     for (VertexId i = 0; i < vertices.size(); i++) {
         const VertexId& vId = vertices[i];
-        mesh.vertex(vId).setPoint(pointVector[vId]);
+        mesh.setVertexPoint(vId, pointVector[vId]);
     }
 }
 
@@ -258,7 +258,7 @@ void meshLaplacianSmoothing(
         const Index iterations,
         const std::vector<double>& alphas)
 {
-    const std::vector<std::vector<Index>> vvAdj = nvl::meshVertexVertexAdjacencies(mesh);
+    const std::vector<std::vector<Index>> vvAdj = meshVertexVertexAdjacencies(mesh);
     meshLaplacianSmoothing(mesh, vertices, iterations, alphas, vvAdj);
 }
 
@@ -290,7 +290,7 @@ void meshLaplacianSmoothing(
         if (mesh.isVertexDeleted(vId))
             continue;
 
-        pointVector[vId] = mesh.vertex(vId).point();
+        pointVector[vId] = mesh.vertexPoint(vId);
     }
 
     for (Index it = 0; it < iterations; ++it) {
@@ -303,11 +303,11 @@ void meshLaplacianSmoothing(
 
             assert(alpha >= 0.0 && alpha <= 1.0);
 
-            if (!nvl::epsEqual(alpha, 1.0)) {
+            if (!epsEqual(alpha, 1.0)) {
                 Point value = alpha * tmpVector[vId];
                 double adjWeight = (1 - alpha) / vvAdj[vId].size();
                 for (const VertexId& adj : vvAdj[vId]) {
-                    assert(adj != nvl::MAX_INDEX);
+                    assert(adj != NULL_ID);
                     value += adjWeight * tmpVector[adj];
                 }
                 pointVector[vId] = value;
@@ -320,8 +320,8 @@ void meshLaplacianSmoothing(
         const VertexId& vId = vertices[i];
         const double& alpha = alphas[i];
 
-        if (!nvl::epsEqual(alpha, 1.0)) {
-            mesh.vertex(vId).setPoint(pointVector[vId]);
+        if (!epsEqual(alpha, 1.0)) {
+            mesh.setVertexPoint(vId, pointVector[vId]);
         }
     }
 }

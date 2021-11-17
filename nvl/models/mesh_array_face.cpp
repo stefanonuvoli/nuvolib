@@ -3,7 +3,7 @@
 namespace nvl {
 
 template<class V, class N, class M, Size D>
-MeshArrayFace<V,N,M,D>::MeshArrayFace() : MeshFace<V,N,M,std::array<typename V::VertexId,D>>()
+MeshArrayFace<V,N,M,D>::MeshArrayFace() : MeshFace<V,N,M,std::array<typename V::Id,D>>()
 {
 
 }
@@ -29,7 +29,7 @@ void MeshArrayFace<V,N,M,D>::setVertexIds(const std::vector<VertexId>& vector)
 {
     assert(vector.size() == D && "Vector contains a different number of coordinates for the face array setter.");
     for (Index i = 0; i < vector.size(); ++i) {
-        this->vVertices[i] = vector[i];
+        this->vVertexIds[i] = vector[i];
     }
 }
 
@@ -46,14 +46,14 @@ template<class V, class N, class M, Size D>
 void MeshArrayFace<V,N,M,D>::setVertexIdsVariadicBase(const Index& pos, const Vertex& vertex)
 {
     assert(pos < D && "Wrong number of elements in face array setter.");
-    this->vVertices[pos] = vertex.id();
+    this->vVertexIds[pos] = vertex.id();
 }
 
 template<class V, class N, class M, Size D>
 void MeshArrayFace<V,N,M,D>::setVertexIdsVariadicBase(const Index& pos, const VertexId& vertexId)
 {
     assert(pos < D && "Wrong number of elements in face array setter.");
-    this->vVertices[pos] = vertexId;
+    this->vVertexIds[pos] = vertexId;
 }
 
 template<class V, class N, class M, Size D>
@@ -68,7 +68,7 @@ std::ostream& operator<<(std::ostream& output, const MeshArrayFace<V,N,M,D>& fac
 {
     output << "[" << face.id() << "]\t";
     for (const typename MeshArrayFace<V,N,M,D>::VertexId& vId : face.vertexIds()) {
-        if (vId == MAX_INDEX) {
+        if (vId == NULL_ID) {
             output << "x";
         }
         else {

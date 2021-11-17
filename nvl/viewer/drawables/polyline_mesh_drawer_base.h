@@ -25,24 +25,28 @@ public:
     virtual void update() = 0;
 
     bool polylineVisible() const;
-    void setPolylineVisible(bool visible);
+    virtual void setPolylineVisible(bool visible);
 
     int polylineSize() const;
-    void setPolylineSize(int size);
+    virtual void setPolylineSize(int size);
 
     const Color& polylineUniformColor() const;
-    void setPolylineUniformColor(const Color& color);
+    virtual void setPolylineUniformColor(const Color& color);
 
     const PolylineShapeMode& polylineShapeMode() const;
-    void setPolylineShapeMode(PolylineShapeMode mode);
+    virtual void setPolylineShapeMode(PolylineShapeMode mode);
 
     const PolylineColorMode& polylineColorMode() const;
-    void setPolylineColorMode(PolylineColorMode mode);
+    virtual void setPolylineColorMode(PolylineColorMode mode);
 
     bool polylineTransparency() const;
-    void setPolylineTransparency(bool value);
+    virtual void setPolylineTransparency(bool value);
 
-protected:
+    virtual bool hasPolylineColors() const = 0;
+    virtual bool hasPolylineTransparency() const = 0;
+    virtual bool hasVertexColors() const = 0;
+
+private:
 
     bool vPolylineVisible;
 

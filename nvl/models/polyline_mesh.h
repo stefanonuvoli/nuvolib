@@ -6,6 +6,7 @@
 #include <nvl/models/vertex_mesh.h>
 
 #include <nvl/models/mesh_polyline_handler.h>
+#include <nvl/models/mesh_polyline_color_handler.h>
 
 #include <ostream>
 
@@ -14,12 +15,18 @@ namespace nvl {
 template<class V, class L>
 class PolylineMesh :
         public VertexMesh<V>,
-        public MeshPolylineHandler<L>
+        public MeshPolylineHandler<L>,
+        public MeshPolylineColorHandler<L, typename L::Color>
 {
 
 public:
 
     /* Typedefs  */
+
+    typedef typename MeshPolylineHandler<L>::Polyline Polyline;
+    typedef typename MeshPolylineHandler<L>::PolylineId PolylineId;
+
+    typedef typename Polyline::Color PolylineColor;
 
     typedef typename VertexMesh<V>::VertexId VertexId;
     typedef typename VertexMesh<V>::Vertex Vertex;
@@ -29,13 +36,6 @@ public:
     typedef typename VertexMesh<V>::Scalar Scalar;
     typedef typename VertexMesh<V>::Point Point;
 
-    typedef typename MeshPolylineHandler<L>::Polyline Polyline;
-    typedef typename MeshPolylineHandler<L>::PolylineId PolylineId;
-    typedef typename Polyline::PolylineColor PolylineColor;
-
-    typedef typename VertexMesh<V>::VertexContainer VertexContainer;
-    typedef typename MeshPolylineHandler<L>::PolylineContainer PolylineContainer;
-
 
     /* Constructors */
 
@@ -44,11 +44,35 @@ public:
 
     /* Methods */
 
+    PolylineId addPolyline(const Polyline& polyline);
+    template<class... Ts>
+    PolylineId addPolyline(const Ts... vertices);
+
+    PolylineId allocatePolylines(const Size& n);
+    PolylineId allocatePolylines(const Size& n, const Polyline& polyline);
+
+    typename L::VertexContainer& polylineVertexIds(const PolylineId& id);
+    const typename L::VertexContainer& polylineVertexIds(const PolylineId& id) const;
+    void setPolylineVertexIds(const PolylineId& id, const typename L::VertexContainer& vertexIds);
+
+    bool hasPolylineColors() const;
+    void enablePolylineColors();
+    void disablePolylineColors();
+
     void compactAll();
-    std::vector<VertexId> compactVertices();
     std::vector<PolylineId> compactPolylines();
 
+    std::vector<VertexId> compactVertices() override;
+
+    void clearPolylines();
     void clear();
+
+protected:
+
+    bool vPolylineColorsEnabled;
+
+    void updateComponents();
+    void updatePolylineColors();
 
 };
 

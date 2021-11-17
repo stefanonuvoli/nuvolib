@@ -33,7 +33,7 @@ NVL_INLINE Index ModelAnimationWidget::selectedAnimation() const
     if (vCanvas != nullptr && selectedDrawer != nullptr) {
         return selectedDrawer->loadedAnimation();
     }
-    return MAX_INDEX;
+    return NULL_ID;
 }
 
 NVL_INLINE void ModelAnimationWidget::selectAnimation(const Index& id)
@@ -41,7 +41,7 @@ NVL_INLINE void ModelAnimationWidget::selectAnimation(const Index& id)
     ModelDrawer<Model3d>* selectedDrawer = getSelectedModelDrawer();
 
     if (vCanvas != nullptr && selectedDrawer != nullptr) {
-        if (id == nvl::MAX_INDEX)
+        if (id == NULL_ID)
             selectedDrawer->unloadAnimation();
         else
             selectedDrawer->loadAnimation(id);
@@ -53,7 +53,7 @@ NVL_INLINE void ModelAnimationWidget::selectAnimation(const Index& id)
 
 NVL_INLINE void ModelAnimationWidget::unselectAnimation()
 {
-    selectAnimation(nvl::MAX_INDEX);
+    selectAnimation(NULL_ID);
 }
 
 NVL_INLINE void ModelAnimationWidget::updateView()
@@ -150,13 +150,13 @@ NVL_INLINE void ModelAnimationWidget::updateOptions()
 
     bool drawableSelected = vCanvas != nullptr && selectedDrawer != nullptr;
     bool animationRunning = drawableSelected && vCanvas->animationsRunning();
-    bool loadedAnimation = drawableSelected && selectedDrawer->loadedAnimation() != nvl::MAX_INDEX;
+    bool loadedAnimation = drawableSelected && selectedDrawer->loadedAnimation() != NULL_ID;
 
     double animationSpeed = 1.0;
     bool skinningDQ = false;
     bool skinningLB = false;
     bool loop = false;
-    Index currentKeyframe = nvl::MAX_INDEX;
+    Index currentKeyframe = NULL_ID;
     int fps = 60;
     bool blend = true;
     bool keepKeyframe = true;
@@ -199,7 +199,7 @@ NVL_INLINE void ModelAnimationWidget::updateOptions()
     }
     ui->keyframeSlider->setValue(currentKeyframe);
 
-    if (currentKeyframe != nvl::MAX_INDEX) {
+    if (currentKeyframe != NULL_ID) {
         const std::string frameInfo = std::to_string(currentKeyframe) + std::string(" - ") + std::to_string(currentTime);
         ui->frameInfoLabel->setText(frameInfo.c_str());
     }
@@ -218,7 +218,7 @@ NVL_INLINE void ModelAnimationWidget::updateSelection()
     ModelDrawer<Model3d>* selectedDrawer = getSelectedModelDrawer();
 
     if (selectedDrawer != nullptr) {
-        if (selectedDrawer->loadedAnimation() != MAX_INDEX) {
+        if (selectedDrawer->loadedAnimation() != NULL_ID) {
             ui->animationTreeWidget->topLevelItem(selectedDrawer->loadedAnimation() + 1)->setSelected(true);
         }
         else {
@@ -255,7 +255,7 @@ NVL_INLINE void ModelAnimationWidget::on_animationTreeWidget_itemSelectionChange
     if (vHandleUpdate) {
         QList<QTreeWidgetItem*> items = ui->animationTreeWidget->selectedItems();
 
-        Index vSelectedAnimation = MAX_INDEX;
+        Index vSelectedAnimation = NULL_ID;
 
         if (items.size() >= 1) {
             QTreeWidgetItem* item = items[0];
@@ -267,7 +267,7 @@ NVL_INLINE void ModelAnimationWidget::on_animationTreeWidget_itemSelectionChange
         }
 
         ModelDrawer<Model3d>* selectedDrawer = getSelectedModelDrawer();
-        if (vSelectedAnimation != MAX_INDEX) {
+        if (vSelectedAnimation != NULL_ID) {
             selectedDrawer->loadAnimation(vSelectedAnimation);
         }
         else {

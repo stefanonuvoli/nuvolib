@@ -16,16 +16,14 @@ public:
 
     /* Typedefs */
 
-    typedef Index VertexId;
+    typedef Index Id;
 
-    typedef N VertexNormal;
-
-    typedef C VertexColor;
-
+    typedef N Normal;
+    typedef C Color;
     typedef U UV;
-
     typedef P Point;
     typedef typename P::Scalar Scalar;
+
 
     /* Constructors */
 
@@ -36,9 +34,9 @@ public:
 
     /* Methods */
 
-    VertexId& id();
-    const VertexId& id() const;
-    void setId(VertexId id);
+    Id& id();
+    const Id& id() const;
+    void setId(const Id& id);
 
     Point& point();
     const Point& point() const;
@@ -46,26 +44,12 @@ public:
     void setPoint(const T& coordinate, Ts... coordinates);
     void setPoint(const std::vector<Scalar>& vector);
 
-    VertexNormal& normal();
-    const VertexNormal& normal() const;
-    void setNormal(const VertexNormal& normal);
-
-    UV& uvCoords();
-    const UV& uvCoords() const;
-    void setUV(const UV& uvCoords);
-
-    VertexColor& color();
-    const VertexColor& color() const;
-    void setColor(const VertexColor& color);
 
 protected:
 
     Size vId;
     Point vPoint;
 
-    VertexNormal vNormal;
-    UV vUV;
-    VertexColor vColor;
 
 private:
 

@@ -58,12 +58,12 @@ NVL_INLINE bool Canvas::removeDrawable(const Index& id)
         return false;
 
     Drawable* drawable = vDrawables[id];
-    std::vector<Index> map = nvl::vectorRemoveElement(vDrawables, id);
-    nvl::vectorRemoveElement(vAnimables, id);
-    nvl::vectorRemoveElement(vPickables, id);
-    nvl::vectorRemoveElement(vFrameables, id);
-    nvl::vectorRemoveElement(vNames, id);
-    nvl::vectorRemoveElement(vListable, id);
+    std::vector<Index> map = vectorRemoveElement(vDrawables, id);
+    vectorRemoveElement(vAnimables, id);
+    vectorRemoveElement(vPickables, id);
+    vectorRemoveElement(vFrameables, id);
+    vectorRemoveElement(vNames, id);
+    vectorRemoveElement(vListable, id);
 
     emit signal_drawableRemoved(id, drawable);
     emit signal_drawableListChanged(vDrawables);
@@ -251,9 +251,9 @@ NVL_INLINE Canvas::PickingData& Canvas::pickingData(const int name)
 
 NVL_INLINE Canvas::PickingData::PickingData():
     identifier(PICKING_NONE),
-    value1(MAX_INDEX),
-    value2(MAX_INDEX),
-    value3(MAX_INDEX)
+    value1(NULL_ID),
+    value2(NULL_ID),
+    value3(NULL_ID)
 {
 
 }

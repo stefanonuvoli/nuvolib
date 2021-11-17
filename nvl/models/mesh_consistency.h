@@ -13,12 +13,6 @@ std::vector<typename Mesh::FaceId> meshRemoveFacesWithDeletedVertices(Mesh& mode
 template<class Mesh>
 std::vector<typename Mesh::PolylineId> meshRemovePolylinesWithDeletedVertices(Mesh& model);
 
-template<class Mesh>
-std::vector<typename Mesh::EdgeId> meshRemoveEdgesWithDeletedVertices(Mesh& model);
-
-template<class Mesh>
-std::vector<typename Mesh::EdgeId> meshRemoveEdgesWithDeletedFaces(Mesh& model);
-
 }
 
 #include "mesh_consistency.cpp"

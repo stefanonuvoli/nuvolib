@@ -21,7 +21,7 @@ MeshDrawer<M>::MeshDrawer(M* mesh, const bool visible, const bool pickable) :
     vMesh(mesh),
     vBoundingBox(AlignedBox3d())
 {
-    update();
+    updateBoundingBox();
 }
 
 template<class M>
@@ -85,7 +85,7 @@ void MeshDrawer<M>::updateBoundingBox()
     if (this->vMesh == nullptr)
         return;
 
-    setBoundingBox(nvl::meshBoundingBox(*vMesh));
+    setBoundingBox(meshBoundingBox(*vMesh));
 }
 
 }

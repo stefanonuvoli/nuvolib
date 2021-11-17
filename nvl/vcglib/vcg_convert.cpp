@@ -64,8 +64,8 @@ void convertVCGMeshToEigen(
     V.resize(nSelectedVertices, dim);
     F.resize(nSelectedFaces, numVerticesPerFace);
 
-    std::vector<Index> vMap(vcgMesh.vert.size(), MAX_INDEX);
-    birthVertex.resize(nSelectedVertices, MAX_INDEX);
+    std::vector<Index> vMap(vcgMesh.vert.size(), NULL_ID);
+    birthVertex.resize(nSelectedVertices, NULL_ID);
     size_t vId = 0;
     for (size_t i = 0; i < vcgMesh.vert.size(); ++i){
         if ((!selectedOnly || vcgMesh.vert[i].IsS()) && !vcgMesh.vert[i].IsD()) {
@@ -80,7 +80,7 @@ void convertVCGMeshToEigen(
         }
     }
 
-    birthFace.resize(nSelectedFaces, MAX_INDEX);
+    birthFace.resize(nSelectedFaces, NULL_ID);
     size_t fId = 0;
     for (size_t i = 0; i < vcgMesh.face.size(); ++i){
         if ((!selectedOnly || vcgMesh.face[i].IsS()) && !vcgMesh.face[i].IsD()) {
@@ -238,7 +238,7 @@ void convertVCGMeshToMesh(
         if ((!selectedOnly || vcgMesh.vert[vId].IsS()) && !vcgMesh.vert[vId].IsD()) {
             VCGCoordType coord = vcgMesh.vert[vId].P();
 
-            nvl::Point3d p;
+            Point3d p;
             for (Index j = 0; j < dim; ++j) {
                 p(j) = coord[j];
             }
@@ -281,7 +281,7 @@ void convertVCGMeshToMesh(
         if ((!selectedOnly || vcgMesh.vert[vId].IsS()) && !vcgMesh.vert[vId].IsD()) {
             VCGCoordType coord = vcgMesh.vert[vId].P();
 
-            nvl::Point3d p;
+            Point3d p;
             for (Index j = 0; j < dim; ++j) {
                 p(j) = coord[j];
             }

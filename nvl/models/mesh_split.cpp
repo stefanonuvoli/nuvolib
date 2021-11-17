@@ -13,7 +13,7 @@ typename Mesh::VertexId meshSplitEdge(
 {
     typedef typename Mesh::FaceId FaceId;
 
-    std::vector<std::vector<FaceId>> vfAdj = nvl::meshVertexFaceAdjacencies(mesh);
+    std::vector<std::vector<FaceId>> vfAdj = meshVertexFaceAdjacencies(mesh);
     return meshSplitEdge(mesh, vertex1, vertex2, newVertexPoint, vfAdj);
 }
 
@@ -29,7 +29,7 @@ typename Mesh::VertexId meshSplitEdge(
     typedef typename Mesh::FaceId FaceId;
     typedef typename Mesh::Face Face;
 
-    VertexId newVertexId = nvl::MAX_INDEX;
+    VertexId newVertexId = NULL_ID;
 
     std::vector<std::pair<FaceId, Index>> facesToSplit;
     for (const FaceId& fId : vfAdj[vertex1]) {
@@ -74,13 +74,13 @@ typename Mesh::VertexId meshSplitEdge(
 
             FaceId fId1 = mesh.addFace(faceVertices1);
 
-            FaceId fId2 = nvl::MAX_INDEX;
+            FaceId fId2 = NULL_ID;
             if (faceVertices3.size() < 3) {
-                mesh.face(fId).setVertexIds(faceVertices2);
+                mesh.setFaceVertexIds(fId, faceVertices2);
             }
             else {
                 fId2 = mesh.addFace(faceVertices2);
-                mesh.face(fId).setVertexIds(faceVertices3);
+                mesh.setFaceVertexIds(fId, faceVertices3);
             }
 
             vfAdj[newVertexId].push_back(fId);
@@ -90,7 +90,7 @@ typename Mesh::VertexId meshSplitEdge(
             vfAdj[faceVertices1[1]].push_back(fId1);
             vfAdj[faceVertices1[2]].push_back(fId1);
 
-            if (fId2 < nvl::MAX_INDEX) {
+            if (fId2 != NULL_ID) {
                 vfAdj[faceVertices2[2]].erase(std::remove(vfAdj[faceVertices2[2]].begin(), vfAdj[faceVertices2[2]].end(), fId), vfAdj[faceVertices2[2]].end());
                 vfAdj[faceVertices2[0]].push_back(fId2);
                 vfAdj[faceVertices2[1]].push_back(fId2);

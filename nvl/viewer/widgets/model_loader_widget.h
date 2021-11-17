@@ -21,24 +21,19 @@ class ModelLoaderWidget : public QFrame
 {
     Q_OBJECT
 
-    typedef nvl::Model3d Model;
-    typedef nvl::ModelDrawer<Model> ModelDrawer;
-    typedef nvl::PolygonMesh3d PolygonMesh;
-    typedef nvl::FaceMeshDrawer<PolygonMesh> PolygonMeshDrawer;
-
 
 public:
 
     explicit ModelLoaderWidget(
-            nvl::Canvas* canvas,
-            nvl::DrawableListWidget* drawableListWidget,
+            Canvas* canvas,
+            DrawableListWidget* drawableListWidget,
             QWidget *parent = nullptr);
     ~ModelLoaderWidget();
 
-    Index loadModel(Model* drawable, const std::string& name);
-    Index loadPolygonMesh(PolygonMesh* drawable, const std::string& name);
-    Index loadModel(const Model& drawable, const std::string& name);
-    Index loadPolygonMesh(const PolygonMesh& drawable, const std::string& name);
+    Index loadModel(Model3d* drawable, const std::string& name);
+    Index loadPolygonMesh(PolygonMesh3d* drawable, const std::string& name);
+    Index loadModel(const Model3d& drawable, const std::string& name);
+    Index loadPolygonMesh(const PolygonMesh3d& drawable, const std::string& name);
 
     Index loadDrawableFromFile(const std::string& filename);
     Index loadModelFromFile(const std::string& filename);
@@ -47,7 +42,7 @@ public:
 
 public Q_SLOTS:
 
-    void slot_drawableSelectionChanged(const std::unordered_set<nvl::Skeleton3d::JointId>& selectedDrawables);
+    void slot_drawableSelectionChanged(const std::unordered_set<Skeleton3d::JointId>& selectedDrawables);
 
 
 private Q_SLOTS:
@@ -72,13 +67,13 @@ private:
 
     Ui::ModelLoaderWidget *ui;
 
-    nvl::Canvas* vCanvas;
-    nvl::DrawableListWidget* vDrawableListWidget;
+    Canvas* vCanvas;
+    DrawableListWidget* vDrawableListWidget;
 
     std::unordered_set<Drawable*> vLoadedDrawables;
 
-    std::unordered_map<Drawable*, Model*> vModelMap;
-    std::unordered_map<Drawable*, PolygonMesh*> vPolygonMeshMap;
+    std::unordered_map<Drawable*, Model3d*> vModelMap;
+    std::unordered_map<Drawable*, PolygonMesh3d*> vPolygonMeshMap;
 
 };
 

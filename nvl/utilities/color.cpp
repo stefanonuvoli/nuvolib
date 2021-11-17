@@ -202,7 +202,7 @@ NVL_INLINE QColor Color::toQColor()
 
 NVL_INLINE bool Color::operator<(const Color& color) const
 {
-    return nvl::pairwiseComparator(this->vRed, color.vRed, this->vGreen, color.vGreen, this->vBlue, color.vBlue, this->vAlpha, color.vAlpha);
+    return pairwiseComparator(this->vRed, color.vRed, this->vGreen, color.vGreen, this->vBlue, color.vBlue, this->vAlpha, color.vAlpha);
 }
 
 NVL_INLINE bool Color::operator==(const Color& color) const

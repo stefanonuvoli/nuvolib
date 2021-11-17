@@ -5,7 +5,7 @@ namespace nvl {
 template<class Mesh>
 MeshFaceNavigator<Mesh>::MeshFaceNavigator(const Mesh& mesh) : vMesh(mesh)
 {
-    vFFAdj = nvl::meshFaceFaceAdjacencies(mesh, vFFEdgePos);
+    vFFAdj = meshFaceFaceAdjacencies(mesh, vFFEdgePos);
 }
 
 template<class Mesh>
@@ -15,8 +15,8 @@ MeshFaceNavigator<Mesh>::MeshFaceNavigator(
         const std::vector<std::vector<Index>>& ffEdgePos)
     : vMesh(mesh), vFFAdj(ffAdj), vFFEdgePos(ffEdgePos)
 {
-    vFId = nvl::MAX_INDEX;
-    vEId = nvl::MAX_INDEX;
+    vFId = NULL_ID;
+    vEId = NULL_ID;
     vVertexFlipped = false;
 }
 
@@ -41,21 +41,21 @@ void MeshFaceNavigator<Mesh>::setVertexFlipped(const bool flipped)
 template<class Mesh>
 const typename MeshFaceNavigator<Mesh>::FaceId& MeshFaceNavigator<Mesh>::face() const
 {
-    assert(vFId != nvl::MAX_INDEX && vEId != nvl::MAX_INDEX);
+    assert(vFId != NULL_ID && vEId != NULL_ID);
     return this->vFId;
 }
 
 template<class Mesh>
 const Index& MeshFaceNavigator<Mesh>::edge() const
 {
-    assert(vFId != nvl::MAX_INDEX && vEId != nvl::MAX_INDEX);
+    assert(vFId != NULL_ID && vEId != NULL_ID);
     return this->vEId;
 }
 
 template<class Mesh>
 const typename MeshFaceNavigator<Mesh>::VertexId& MeshFaceNavigator<Mesh>::vertex() const
 {
-    assert(vFId != nvl::MAX_INDEX && vEId != nvl::MAX_INDEX);
+    assert(vFId != NULL_ID && vEId != NULL_ID);
     if (vVertexFlipped) {
         return this->vMesh.face(this->vFId).vertexId(this->vEId);
     }
@@ -67,7 +67,7 @@ const typename MeshFaceNavigator<Mesh>::VertexId& MeshFaceNavigator<Mesh>::verte
 template<class Mesh>
 const bool& MeshFaceNavigator<Mesh>::isVertexFlipped() const
 {
-    assert(vFId != nvl::MAX_INDEX && vEId != nvl::MAX_INDEX);
+    assert(vFId != NULL_ID && vEId != NULL_ID);
     return this->vVertexFlipped;
 }
 
@@ -76,7 +76,7 @@ bool MeshFaceNavigator<Mesh>::flipFace()
 {
     typedef typename Mesh::Face Face;
 
-    if (vFId == nvl::MAX_INDEX || vEId == nvl::MAX_INDEX)
+    if (vFId == NULL_ID || vEId == NULL_ID)
         return false;
 
     const Face& face = vMesh.face(vFId);
@@ -95,7 +95,7 @@ bool MeshFaceNavigator<Mesh>::flipFace()
         }
     }
 
-    assert(nvl::meshIsBorderFaceEdge(vMesh, vFId, vEId, vFFEdgePos));
+    assert(meshIsBorderFaceEdge(vMesh, vFId, vEId, vFFEdgePos));
 
     return false;
 }
@@ -103,7 +103,7 @@ bool MeshFaceNavigator<Mesh>::flipFace()
 template<class Mesh>
 bool MeshFaceNavigator<Mesh>::flipVertex()
 {
-    if (vFId == nvl::MAX_INDEX || vEId == nvl::MAX_INDEX)
+    if (vFId == NULL_ID || vEId == NULL_ID)
         return false;
 
     vVertexFlipped = true;
@@ -115,7 +115,7 @@ template<class Mesh>
 bool MeshFaceNavigator<Mesh>::nextEdge()
 {
     typedef typename Mesh::Face Face;
-    if (vFId == nvl::MAX_INDEX || vEId == nvl::MAX_INDEX)
+    if (vFId == NULL_ID || vEId == NULL_ID)
         return false;
 
     const Face& face = vMesh.face(vFId);
@@ -126,7 +126,7 @@ template<class Mesh>
 bool MeshFaceNavigator<Mesh>::prevEdge()
 {
     typedef typename Mesh::Face Face;
-    if (vFId == nvl::MAX_INDEX || vEId == nvl::MAX_INDEX)
+    if (vFId == NULL_ID || vEId == NULL_ID)
         return false;
 
     const Face& face = vMesh.face(vFId);
@@ -140,7 +140,7 @@ bool MeshFaceNavigator<Mesh>::prevEdge()
 template<class Mesh>
 bool MeshFaceNavigator<Mesh>::isOnBorder() const
 {
-    return nvl::meshIsBorderFaceEdge(vMesh, vFId, vEId, vFFEdgePos);
+    return meshIsBorderFaceEdge(vMesh, vFId, vEId, vFFEdgePos);
 }
 
 }

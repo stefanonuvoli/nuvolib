@@ -38,39 +38,4 @@ std::vector<typename Mesh::PolylineId> meshRemovePolylinesWithDeletedVertices(Me
     return deletedPolylines;
 }
 
-template<class Mesh>
-std::vector<typename Mesh::EdgeId> meshRemoveEdgesWithDeletedVertices(Mesh& mesh)
-{
-    std::vector<typename Mesh::EdgeId> deletedEdges;
-
-    for (const typename Mesh::Edge& edge : mesh.edges()) {
-        typename Mesh::VertexId firstVId, secondVId;
-
-        firstVId = edge.firstVertexId();
-        secondVId = edge.secondVertexId();
-        if (firstVId >= mesh.nextVertexId() || secondVId >= mesh.nextVertexId() || mesh.isVertexDeleted(firstVId) || mesh.isVertexDeleted(secondVId)) {
-            deletedEdges.push_back(edge.id());
-            mesh.deleteEdge(edge);
-        }
-    }
-
-    return deletedEdges;
-}
-
-template<class Mesh>
-std::vector<typename Mesh::EdgeId> meshRemoveEdgesWithDeletedFaces(Mesh& mesh)
-{
-    std::vector<typename Mesh::EdgeId> deletedEdges;
-
-    for (const typename Mesh::Edge& edge : mesh.edges()) {
-        typename Mesh::FaceId fId = edge.faceId();
-        if (fId >= mesh.nextFaceId() || mesh.isFaceDeleted(fId)) {
-            deletedEdges.push_back(edge.id());
-            mesh.deleteEdge(edge);
-        }
-    }
-
-    return deletedEdges;
-}
-
 }

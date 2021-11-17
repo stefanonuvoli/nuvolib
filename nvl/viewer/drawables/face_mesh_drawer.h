@@ -13,7 +13,9 @@
 namespace nvl {
 
 template<class M>
-class FaceMeshDrawer : public FaceMeshDrawerBase, public PolylineMeshDrawer<M>
+class FaceMeshDrawer :
+        public FaceMeshDrawerBase,
+        public PolylineMeshDrawer<M>
 {
 
 public:
@@ -27,7 +29,15 @@ public:
 
     virtual void update() override;
 
-    const std::vector<unsigned int>& renderingFace(const Index &id) const;
+    bool hasFaceNormals() const override;
+    bool hasFaceColors() const override;
+    bool hasTextures() const override;
+    bool hasFaceTransparency() const override;
+    bool hasSmoothShading() const override;
+    bool hasFlatShading() const override;
+    bool hasVertexColors() const override;
+
+    const std::vector<unsigned int>& renderingFace(const Index& id) const;
     Vector3d renderingFaceNormal(const Index& id) const;
     Color renderingFaceColor(const Index& id) const;
     Color renderingFaceWireframeColor(const Index& id) const;
@@ -83,12 +93,13 @@ protected:
     void drawFaceNormals() const;
     void drawVertexValueShader() const;
 
-    void drawFaceSmoothShadingWithNames(Canvas* canvas, const Index drawableId) const;
-    void drawFaceFlatShadingWithNames(Canvas* canvas, const Index drawableId) const;
+    void drawFaceWithNames(Canvas* canvas, const Index drawableId) const;
     void drawWireframeWithNames(Canvas* canvas, const Index drawableId) const;
 
     double getFaceNormalRadius() const;
     double getFaceNormalLength() const;
+
+    Color vDefaultFaceColor;
 };
 
 }

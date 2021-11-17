@@ -19,21 +19,20 @@ std::vector<typename Mesh::VertexId> collapseBorders(
 {
     typedef typename Mesh::VertexId VertexId;
     typedef typename Mesh::FaceId FaceId;
-    typedef typename nvl::Index Index;
 
-    nvl::VCGTriangleMesh vcgMesh;
+    VCGTriangleMesh vcgMesh;
     std::vector<VertexId> meshBirthVertex;
     std::vector<FaceId> meshBirthFace;
-    nvl::convertMeshToVCGMesh(mesh, vcgMesh, meshBirthVertex, meshBirthFace);
+    convertMeshToVCGMesh(mesh, vcgMesh, meshBirthVertex, meshBirthFace);
 
-    std::vector<Index> vcgVertexMap = nvl::inverseMap(meshBirthVertex, mesh.nextVertexId());
+    std::vector<Index> vcgVertexMap = inverseMap(meshBirthVertex, mesh.nextVertexId());
 
     std::vector<typename Mesh::VertexId> vcgVerticesToKeep(verticesToKeep.size());
 
     #pragma omp parallel for
     for (Index i = 0; i < verticesToKeep.size(); ++i) {
         const VertexId& vId = verticesToKeep[i];
-        assert(vcgVertexMap[vId] != nvl::MAX_INDEX);
+        assert(vcgVertexMap[vId] != NULL_ID);
         vcgVerticesToKeep[i] = vcgVertexMap[vId];
     }
 
@@ -42,13 +41,13 @@ std::vector<typename Mesh::VertexId> collapseBorders(
     mesh.clear();
     std::vector<VertexId> vcgBirthVertex;
     std::vector<FaceId> vcgBirthFace;
-    nvl::convertVCGMeshToMesh(vcgMesh, mesh, vcgBirthVertex, vcgBirthFace);
+    convertVCGMeshToMesh(vcgMesh, mesh, vcgBirthVertex, vcgBirthFace);
 
-    std::vector<Index> meshVertexMap = nvl::inverseMap(vcgBirthVertex, vcgMesh.vert.size());
+    std::vector<Index> meshVertexMap = inverseMap(vcgBirthVertex, vcgMesh.vert.size());
     
     std::vector<VertexId> nonCollapsed(vcgNonCollapsed.size());
     for (Index i = 0; i < vcgNonCollapsed.size(); ++i) {
-        assert(meshVertexMap[vcgNonCollapsed[i]] != nvl::MAX_INDEX);
+        assert(meshVertexMap[vcgNonCollapsed[i]] != NULL_ID);
         nonCollapsed[i] = meshVertexMap[vcgNonCollapsed[i]];
     }
 
@@ -61,15 +60,15 @@ std::vector<size_t> vcgCollapseBorders(
     VCGMesh& vcgMesh,
     const std::vector<size_t>& verticesToKeep)
 {
-    typedef typename nvl::VCGTriangleMesh::VertexType VCGVertexType;
-    typedef typename nvl::VCGTriangleMesh::CoordType VCGCoordType;
+    typedef typename VCGTriangleMesh::VertexType VCGVertexType;
+    typedef typename VCGTriangleMesh::CoordType VCGCoordType;
     typedef typename vcg::tri::BasicVertexPair<VCGVertexType> VertexPair;
 
-    vcg::tri::UpdateTopology<nvl::VCGTriangleMesh>::FaceFace(vcgMesh);
-    vcg::tri::UpdateTopology<nvl::VCGTriangleMesh>::VertexFace(vcgMesh);
-    vcg::tri::UpdateFlags<nvl::VCGTriangleMesh>::VertexBorderFromFaceAdj(vcgMesh);
+    vcg::tri::UpdateTopology<VCGTriangleMesh>::FaceFace(vcgMesh);
+    vcg::tri::UpdateTopology<VCGTriangleMesh>::VertexFace(vcgMesh);
+    vcg::tri::UpdateFlags<VCGTriangleMesh>::VertexBorderFromFaceAdj(vcgMesh);
 
-    vcg::tri::UpdateFlags<nvl::VCGTriangleMesh>::VertexClearS(vcgMesh);
+    vcg::tri::UpdateFlags<VCGTriangleMesh>::VertexClearS(vcgMesh);
 
     #pragma omp parallel for
     for (Index i = 0; i < verticesToKeep.size(); ++i) {
@@ -133,8 +132,8 @@ std::vector<size_t> vcgCollapseBorders(
                     pos = v1->P();
 
                 VertexPair VPair(v0, v1);
-                if (vcg::tri::EdgeCollapser<nvl::VCGTriangleMesh,VertexPair>::LinkConditions(VPair)) {
-                    vcg::tri::EdgeCollapser<nvl::VCGTriangleMesh,VertexPair>::Do(vcgMesh, VPair, pos);
+                if (vcg::tri::EdgeCollapser<VCGTriangleMesh,VertexPair>::LinkConditions(VPair)) {
+                    vcg::tri::EdgeCollapser<VCGTriangleMesh,VertexPair>::Do(vcgMesh, VPair, pos);
                     collapsed = true;
 
                     break;
@@ -143,10 +142,10 @@ std::vector<size_t> vcgCollapseBorders(
         }
 
         if (collapsed) {
-            vcg::tri::Allocator<nvl::VCGTriangleMesh>::CompactEveryVector(vcgMesh);
-            vcg::tri::UpdateTopology<nvl::VCGTriangleMesh>::FaceFace(vcgMesh);
-            vcg::tri::UpdateTopology<nvl::VCGTriangleMesh>::VertexFace(vcgMesh);
-            vcg::tri::UpdateFlags<nvl::VCGTriangleMesh>::VertexBorderFromFaceAdj(vcgMesh);
+            vcg::tri::Allocator<VCGTriangleMesh>::CompactEveryVector(vcgMesh);
+            vcg::tri::UpdateTopology<VCGTriangleMesh>::FaceFace(vcgMesh);
+            vcg::tri::UpdateTopology<VCGTriangleMesh>::VertexFace(vcgMesh);
+            vcg::tri::UpdateFlags<VCGTriangleMesh>::VertexBorderFromFaceAdj(vcgMesh);
         }
     }
     while (collapsed);

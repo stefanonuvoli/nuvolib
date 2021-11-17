@@ -58,8 +58,8 @@ typename Mesh::Point meshFaceBarycenter(const Mesh& mesh, const typename Mesh::F
 
     std::vector<Point> points;
 
-    for (const VertexId& vId : mesh.face(fId).vertexIds()) {
-        points.push_back(mesh.vertex(vId).point());
+    for (const VertexId& vId : mesh.faceVertexIds(fId)) {
+        points.push_back(mesh.vertexPoint(vId));
     }
 
     return barycenter(points);
@@ -82,7 +82,7 @@ typename Mesh::Point meshFaceEdgeMidpoint(const Mesh& mesh, const typename Mesh:
 
     const VertexId& v1 = face.vertexId(fePos);
     const VertexId& v2 = face.nextVertexId(fePos);
-    Point p = (mesh.vertex(v1).point() + mesh.vertex(v2).point()) / 2;
+    Point p = (mesh.vertexPoint(v1) + mesh.vertexPoint(v2)) / 2;
 
     return p;
 }

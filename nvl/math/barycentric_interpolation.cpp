@@ -65,7 +65,7 @@ V barycentricInterpolationBarycenterSubdivision(
         //Get barycenter and average value
         Point<T,D> pB = polygon[0];
         V vB = values[0];
-        for (nvl::Index j = 1; j < polygon.size(); ++j) {
+        for (Index j = 1; j < polygon.size(); ++j) {
             pB += polygon[j];
             vB += values[j];
         }
@@ -73,7 +73,7 @@ V barycentricInterpolationBarycenterSubdivision(
         vB /= polygon.size();
 
         //Calculate the interpolated value on the best triangle
-        T minDistance = nvl::maxLimitValue<T>();
+        T minDistance = maxLimitValue<T>();
         Index bestV1;
         Index bestV2;
         for (Index j = 0; j < polygon.size(); ++j) {
@@ -81,7 +81,7 @@ V barycentricInterpolationBarycenterSubdivision(
             const Index& v2 = (j + 1) % polygon.size();
 
             Point<T,D> planeClosestPoint;
-            Point<T,D> closestPoint = nvl::closestPointOnTriangle(polygon[v1], polygon[v2], pB, point, planeClosestPoint);
+            Point<T,D> closestPoint = closestPointOnTriangle(polygon[v1], polygon[v2], pB, point, planeClosestPoint);
 
             T distance = (point - closestPoint).norm();
             if (distance < minDistance) {
@@ -89,7 +89,7 @@ V barycentricInterpolationBarycenterSubdivision(
                 bestV2 = v2;
 
                 if (useClosestPoint) {
-                    queryPoint = nvl::closestPointOnTriangle(polygon[v1], polygon[v2], pB, point);
+                    queryPoint = closestPointOnTriangle(polygon[v1], polygon[v2], pB, point);
                 }
                 else {
                     queryPoint = planeClosestPoint;
@@ -99,7 +99,7 @@ V barycentricInterpolationBarycenterSubdivision(
             }
         }
 
-        value = nvl::barycentricInterpolation(
+        value = barycentricInterpolation(
             polygon[bestV1],
             polygon[bestV2],
             pB,
@@ -139,7 +139,7 @@ V barycentricInterpolationDiagonalSubdivision(
         Point<T,D> queryPoint = point;
 
         //Calculate the interpolated value on the best triangle
-        T minDistance = nvl::maxLimitValue<T>();
+        T minDistance = maxLimitValue<T>();
         Index bestV1;
         Index bestV2;
         Index bestV3;
@@ -150,7 +150,7 @@ V barycentricInterpolationDiagonalSubdivision(
             const Index& v3 = j + 2;
 
             Point<T,D> planeClosestPoint;
-            Point<T,D> closestPoint = nvl::closestPointOnTriangle(polygon[v1], polygon[v2], polygon[v3], point, planeClosestPoint);
+            Point<T,D> closestPoint = closestPointOnTriangle(polygon[v1], polygon[v2], polygon[v3], point, planeClosestPoint);
 
             T distance = (point - closestPoint).norm();
             if (distance < minDistance) {
@@ -159,7 +159,7 @@ V barycentricInterpolationDiagonalSubdivision(
                 bestV3 = v3;
 
                 if (useClosestPoint) {
-                    queryPoint = nvl::closestPointOnTriangle(polygon[v1], polygon[v2], polygon[v3], point);
+                    queryPoint = closestPointOnTriangle(polygon[v1], polygon[v2], polygon[v3], point);
                 }
                 else {
                     queryPoint = planeClosestPoint;
@@ -169,7 +169,7 @@ V barycentricInterpolationDiagonalSubdivision(
             }
         }
 
-        value = nvl::barycentricInterpolation(
+        value = barycentricInterpolation(
             polygon[bestV1],
             polygon[bestV2],
             polygon[bestV3],

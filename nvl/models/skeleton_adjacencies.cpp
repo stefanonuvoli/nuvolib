@@ -25,7 +25,7 @@ std::vector<std::vector<typename Skeleton::JointId>> skeletonJointJointAdjacenci
             jjAdj[childId].push_back(joint.id());
 
             childIds[joint.id()].push_back(childPos);
-            childIds[childId].push_back(MAX_INDEX);
+            childIds[childId].push_back(NULL_ID);
 
             ++childPos;
         }
@@ -101,7 +101,7 @@ std::vector<unsigned int> skeletonJointDistance(
 {
     std::vector<bool> computedJoints(skeleton.jointNumber(), false);
 
-    std::vector<unsigned int> distance(skeleton.jointNumber(), nvl::maxLimitValue<unsigned int>());
+    std::vector<unsigned int> distance(skeleton.jointNumber(), maxLimitValue<unsigned int>());
     distance[seedJoint] = 0;
 
     internal::skeletonJointDistanceRecursive(skeleton, seedJoint, distance, computedJoints);
@@ -116,7 +116,7 @@ std::vector<unsigned int> skeletonJointDistance(
 {
     typedef typename Skeleton::JointId JointId;
 
-    std::vector<unsigned int> distance(skeleton.jointNumber(), nvl::maxLimitValue<unsigned int>());
+    std::vector<unsigned int> distance(skeleton.jointNumber(), maxLimitValue<unsigned int>());
     for (JointId seedJoint : seedJoints) {
         std::vector<unsigned int> currentDistance = skeletonJointDistance(skeleton, seedJoint);
 

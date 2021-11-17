@@ -28,15 +28,15 @@ void PolylineMeshDrawer<M>::draw() const
 
     VertexMeshDrawer<M>::draw();
 
-    if (this->vPolylineVisible) {
-        if (this->vPolylineShapeMode == PolylineMeshDrawerBase::POLYLINE_SHAPE_LINE) {
+    if (this->polylineVisible()) {
+        if (this->polylineShapeMode() == PolylineMeshDrawerBase::POLYLINE_SHAPE_LINE) {
             drawPolylinesLines();
         }
-        else if (this->vPolylineShapeMode == PolylineMeshDrawerBase::POLYLINE_SHAPE_CYLINDER) {
+        else if (this->polylineShapeMode() == PolylineMeshDrawerBase::POLYLINE_SHAPE_CYLINDER) {
             drawPolylinesCylinder();
         }
         else {
-            assert(this->vPolylineShapeMode == PolylineMeshDrawerBase::POLYLINE_SHAPE_ARROW);
+            assert(this->polylineShapeMode() == PolylineMeshDrawerBase::POLYLINE_SHAPE_ARROW);
             drawPolylinesArrow();
         }
     }
@@ -50,15 +50,15 @@ void PolylineMeshDrawer<M>::drawWithNames(Canvas* canvas, const Index drawableId
 
     VertexMeshDrawer<M>::drawWithNames(canvas, drawableId);
 
-    if (this->vPolylineVisible) {
-        if (this->vPolylineShapeMode == PolylineMeshDrawerBase::POLYLINE_SHAPE_LINE) {
+    if (this->polylineVisible()) {
+        if (this->polylineShapeMode() == PolylineMeshDrawerBase::POLYLINE_SHAPE_LINE) {
             drawPolylinesLinesWithNames(canvas, drawableId);
         }
-        else if (this->vPolylineShapeMode == PolylineMeshDrawerBase::POLYLINE_SHAPE_CYLINDER) {
+        else if (this->polylineShapeMode() == PolylineMeshDrawerBase::POLYLINE_SHAPE_CYLINDER) {
             drawPolylinesCylinderWithNames(canvas, drawableId);
         }
         else {
-            assert(this->vPolylineShapeMode == PolylineMeshDrawerBase::POLYLINE_SHAPE_ARROW);
+            assert(this->polylineShapeMode() == PolylineMeshDrawerBase::POLYLINE_SHAPE_ARROW);
             drawPolylinesArrowWithNames(canvas, drawableId);
         }
     }
@@ -70,6 +70,23 @@ void PolylineMeshDrawer<M>::update()
     VertexMeshDrawer<M>::update();
 
     resetRenderingPolylineData();
+}
+
+template<class M>
+bool PolylineMeshDrawer<M>::hasPolylineColors() const {
+    return !this->vRenderingPolylineColors.empty();
+}
+
+template<class M>
+bool PolylineMeshDrawer<M>::hasPolylineTransparency() const
+{
+    return true;
+}
+
+template<class M>
+bool PolylineMeshDrawer<M>::hasVertexColors() const
+{
+    return VertexMeshDrawer<M>::hasVertexColors();
 }
 
 template<class M>
@@ -101,7 +118,7 @@ void PolylineMeshDrawer<M>::resetRenderingPolylineData()
     if (this->vMesh == nullptr)
         return;
 
-    vPolylineMap.resize(this->vMesh->nextPolylineId(), MAX_INDEX);
+    vPolylineMap.resize(this->vMesh->nextPolylineId(), NULL_ID);
 
     Index i = 0;
     for (const Polyline& polyline : this->vMesh->polylines()) {
@@ -122,9 +139,10 @@ void PolylineMeshDrawer<M>::resetRenderingPolylines()
 
     #pragma omp parallel for
     for (PolylineId pId = 0; pId < this->vMesh->nextPolylineId(); ++pId) {
-        if (!this->vMesh->isPolylineDeleted(pId)) {
-            resetRenderingPolyline(pId);
-        }
+        if (this->vMesh->isPolylineDeleted(pId))
+            continue;
+
+        resetRenderingPolyline(pId);
     }
 }
 
@@ -133,13 +151,19 @@ void PolylineMeshDrawer<M>::resetRenderingPolylineColors()
 {
     typedef typename M::PolylineId PolylineId;
 
-    this->vRenderingPolylineColors.resize(this->vMesh->polylineNumber() * 4);
+    if (this->vMesh->hasPolylineColors()) {
+        this->vRenderingPolylineColors.resize(this->vMesh->polylineNumber() * 4);
 
-    #pragma omp parallel for
-    for (PolylineId pId = 0; pId < this->vMesh->nextPolylineId(); ++pId) {
-        if (!this->vMesh->isPolylineDeleted(pId)) {
-            resetRenderingPolylineColor(pId);
+        #pragma omp parallel for
+        for (PolylineId vId = 0; vId < this->vMesh->nextPolylineId(); ++vId) {
+            if (this->vMesh->isPolylineDeleted(vId))
+                continue;
+
+            resetRenderingPolylineColor(vId);
         }
+    }
+    else {
+        this->vRenderingPolylineColors.clear();
     }
 }
 
@@ -152,9 +176,9 @@ void PolylineMeshDrawer<M>::setRenderingPolylines(const std::vector<std::vector<
 template<class M>
 void PolylineMeshDrawer<M>::resetRenderingPolylineColor(const Index& id)
 {
-    typedef typename M::Polyline Polyline;
-    const Polyline& polyline = this->vMesh->polyline(id);
-    setRenderingPolylineColor(id, polyline.color());
+    typedef typename M::PolylineColor PolylineColor;
+    const PolylineColor& color = this->vMesh->polylineColor(id);
+    setRenderingPolylineColor(id, color);
 }
 
 template<class M>
@@ -206,32 +230,42 @@ void PolylineMeshDrawer<M>::drawPolylinesLines() const
     glDepthRange(0.0, 1.0);
     glDepthFunc(GL_LEQUAL);
 
-    glLineWidth(this->vPolylineSize);
+    glLineWidth(this->polylineSize());
 
     glEnableClientState(GL_VERTEX_ARRAY);
     glVertexPointer(3, GL_DOUBLE, 0, this->vRenderingVertices.data());
 
-    if (this->vPolylineColorMode == PolylineMeshDrawerBase::POLYLINE_COLOR_PER_VERTEX) {
-        glEnableClientState(GL_COLOR_ARRAY);
-        glColorPointer(4, GL_FLOAT, 0, this->vRenderingVertexColors.data());
+    if (this->polylineColorMode() == PolylineMeshDrawerBase::POLYLINE_COLOR_PER_VERTEX) {
+        if (!this->vRenderingVertexColors.empty()) {
+            glEnableClientState(GL_COLOR_ARRAY);
+            glColorPointer(4, GL_FLOAT, 0, this->vRenderingVertexColors.data());
+        }
+        else {
+            glColor(this->vDefaultVertexColor);
+        }
     }
-    else if (this->vPolylineColorMode == PolylineMeshDrawerBase::POLYLINE_COLOR_UNIFORM) {
-        glColor(this->vPolylineUniformColor);
+    else if (this->polylineColorMode() == PolylineMeshDrawerBase::POLYLINE_COLOR_UNIFORM) {
+        glColor(this->polylineUniformColor());
     }
 
     for (Index i = 0; i < this->vRenderingPolylines.size(); ++i) {
-        if (this->vPolylineColorMode == PolylineMeshDrawerBase::POLYLINE_COLOR_PER_POLYLINE) {
-            glColor4f(
+        if (this->polylineColorMode() == PolylineMeshDrawerBase::POLYLINE_COLOR_PER_POLYLINE) {
+            if (!this->vRenderingPolylineColors.empty()) {
+                glColor4f(
                     this->vRenderingPolylineColors[i*4],
                     this->vRenderingPolylineColors[i*4+1],
                     this->vRenderingPolylineColors[i*4+2],
                     this->vRenderingPolylineColors[i*4+3]);
+            }
+            else {
+                glColor(this->vDefaultVertexColor);
+            }
         }
 
         glDrawElements(GL_LINE_STRIP, this->vRenderingPolylines[i].size(), GL_UNSIGNED_INT, this->vRenderingPolylines[i].data());
     }
 
-    if (this->vPolylineColorMode == PolylineMeshDrawerBase::POLYLINE_COLOR_PER_VERTEX) {
+    if (this->polylineColorMode() == PolylineMeshDrawerBase::POLYLINE_COLOR_PER_VERTEX) {
         glDisableClientState(GL_COLOR_ARRAY);
     }
 
@@ -258,13 +292,21 @@ void PolylineMeshDrawer<M>::drawPolylinesCylinder() const
             Point point1(this->vRenderingVertices[vId1*3], this->vRenderingVertices[vId1*3+1], this->vRenderingVertices[vId1*3+2]);
             Point point2(this->vRenderingVertices[vId2*3], this->vRenderingVertices[vId2*3+1], this->vRenderingVertices[vId2*3+2]);
 
-            if (this->vPolylineColorMode == PolylineMeshDrawerBase::POLYLINE_COLOR_PER_POLYLINE) {
-                Color color(this->vRenderingPolylineColors[i*4], this->vRenderingPolylineColors[i*4+1], this->vRenderingPolylineColors[i*4+2], this->vRenderingPolylineColors[i*4+3]);
+            if (this->polylineColorMode() == PolylineMeshDrawerBase::POLYLINE_COLOR_PER_POLYLINE) {
+                Color color;
+
+                if (!this->vRenderingPolylineColors.empty()) {
+                    color = Color(this->vRenderingPolylineColors[i*4], this->vRenderingPolylineColors[i*4+1], this->vRenderingPolylineColors[i*4+2], this->vRenderingPolylineColors[i*4+3]);
+                }
+                else {
+                    color = vDefaultPolylineColor;
+                }
+
                 drawCylinder(point1, point2, polylineSize, polylineSize, color, subdivision, subdivision);
             }
             else {
-                assert(this->vPolylineColorMode == PolylineMeshDrawerBase::POLYLINE_COLOR_PER_VERTEX || this->vPolylineColorMode == PolylineMeshDrawerBase::POLYLINE_COLOR_UNIFORM);
-                drawCylinder(point1, point2, polylineSize, polylineSize, this->vPolylineUniformColor, subdivision, subdivision);
+                assert(this->polylineColorMode() == PolylineMeshDrawerBase::POLYLINE_COLOR_PER_VERTEX || this->polylineColorMode() == PolylineMeshDrawerBase::POLYLINE_COLOR_UNIFORM);
+                drawCylinder(point1, point2, polylineSize, polylineSize, this->polylineUniformColor(), subdivision, subdivision);
             }
         }
     }
@@ -287,13 +329,21 @@ void PolylineMeshDrawer<M>::drawPolylinesArrow() const
             Point point1(this->vRenderingVertices[vId1*3], this->vRenderingVertices[vId1*3+1], this->vRenderingVertices[vId1*3+2]);
             Point point2(this->vRenderingVertices[vId2*3], this->vRenderingVertices[vId2*3+1], this->vRenderingVertices[vId2*3+2]);
 
-            if (this->vPolylineColorMode == PolylineMeshDrawerBase::POLYLINE_COLOR_PER_POLYLINE) {
-                Color color(this->vRenderingPolylineColors[i*4], this->vRenderingPolylineColors[i*4+1], this->vRenderingPolylineColors[i*4+2], this->vRenderingPolylineColors[i*4+3]);
+            if (this->polylineColorMode() == PolylineMeshDrawerBase::POLYLINE_COLOR_PER_POLYLINE) {
+                Color color;
+
+                if (!this->vRenderingPolylineColors.empty()) {
+                    color = Color(this->vRenderingPolylineColors[i*4], this->vRenderingPolylineColors[i*4+1], this->vRenderingPolylineColors[i*4+2], this->vRenderingPolylineColors[i*4+3]);
+                }
+                else {
+                    color = vDefaultPolylineColor;
+                }
+
                 drawArrow(point1, point2, arrowRadius, color, subdivision, subdivision);
             }
             else {
-                assert(this->vPolylineColorMode == PolylineMeshDrawerBase::POLYLINE_COLOR_PER_VERTEX || this->vPolylineColorMode == PolylineMeshDrawerBase::POLYLINE_COLOR_UNIFORM);
-                drawArrow(point1, point2, arrowRadius, this->vPolylineUniformColor, subdivision, subdivision);
+                assert(this->polylineColorMode() == PolylineMeshDrawerBase::POLYLINE_COLOR_PER_VERTEX || this->polylineColorMode() == PolylineMeshDrawerBase::POLYLINE_COLOR_UNIFORM);
+                drawArrow(point1, point2, arrowRadius, this->polylineUniformColor(), subdivision, subdivision);
             }
         }
     }
@@ -314,30 +364,43 @@ void PolylineMeshDrawer<M>::drawPolylinesLinesWithNames(Canvas* canvas, const In
     glDepthRange(0.0, 1.0);
     glDepthFunc(GL_LEQUAL);
 
-    glLineWidth(this->vPolylineSize);
+    glLineWidth(this->polylineSize());
 
     glBegin(GL_LINES);
 
-    glColor(this->vPolylineUniformColor);
+    glColor(this->polylineUniformColor());
 
     for (Index pId = 0; pId < this->vMesh->nextPolylineId(); ++pId) {
         if (this->vMesh->isPolylineDeleted(pId))
             continue;
 
-        float alpha = this->vPolylineUniformColor.alphaF();
-        if (this->vPolylineColorMode == PolylineMeshDrawerBase::POLYLINE_COLOR_PER_POLYLINE) {
-            alpha = this->renderingPolylineColor(pId).alphaF();
-        }
-        else if (this->vPolylineColorMode == PolylineMeshDrawerBase::POLYLINE_COLOR_PER_VERTEX) {
-            float avgAlpha = 0.0f;
-            for (Index j = 0; j < this->renderingPolyline(pId).size(); ++j) {
-                VertexId vId1 = this->renderingPolyline(pId).at(j);
-                Color currentColor = this->renderingVertexColor(vId1);
-                avgAlpha += currentColor.alphaF();
+        float alpha = this->polylineUniformColor().alphaF();
+        if (this->polylineColorMode() == PolylineMeshDrawerBase::POLYLINE_COLOR_PER_POLYLINE) {
+            if (!this->vRenderingPolylineColors.empty()) {
+                alpha = this->renderingPolylineColor(pId).alphaF();
             }
-            alpha = avgAlpha / this->renderingPolyline(pId).size();
+            else {
+                alpha = vDefaultPolylineColor.alphaF();
+            }
         }
-        if (this->polylineTransparency() && alpha <= nvl::EPSILON) {
+        else if (this->polylineColorMode() == PolylineMeshDrawerBase::POLYLINE_COLOR_PER_VERTEX) {
+            float avgAlpha = 0.0f;
+
+            if (!this->vRenderingVertexColors.empty()) {
+                for (Index j = 0; j < this->renderingPolyline(pId).size(); ++j) {
+                    VertexId vId = this->renderingPolyline(pId).at(j);
+                    Color currentColor = this->renderingVertexColor(vId);
+                    avgAlpha += currentColor.alphaF();
+                }
+                avgAlpha /= this->renderingPolyline(pId).size();
+            }
+            else {
+                avgAlpha = this->vDefaultVertexColor.alphaF();
+            }
+
+            alpha = avgAlpha;
+        }
+        if (this->polylineTransparency() && alpha <= EPSILON) {
             continue;
         }
 
@@ -382,20 +445,33 @@ void PolylineMeshDrawer<M>::drawPolylinesCylinderWithNames(Canvas* canvas, const
         if (this->vMesh->isPolylineDeleted(pId))
             continue;
 
-        float alpha = this->vPolylineUniformColor.alphaF();
-        if (this->vPolylineColorMode == PolylineMeshDrawerBase::POLYLINE_COLOR_PER_POLYLINE) {
-            alpha = this->renderingPolylineColor(pId).alphaF();
-        }
-        else if (this->vPolylineColorMode == PolylineMeshDrawerBase::POLYLINE_COLOR_PER_VERTEX) {
-            float avgAlpha = 0.0f;
-            for (Index j = 0; j < this->renderingPolyline(pId).size(); ++j) {
-                VertexId vId = this->renderingPolyline(pId).at(j);
-                Color currentColor = this->renderingVertexColor(vId);
-                avgAlpha += currentColor.alphaF();
+        float alpha = this->polylineUniformColor().alphaF();
+        if (this->polylineColorMode() == PolylineMeshDrawerBase::POLYLINE_COLOR_PER_POLYLINE) {
+            if (!this->vRenderingPolylineColors.empty()) {
+                alpha = this->renderingPolylineColor(pId).alphaF();
             }
-            alpha = avgAlpha / this->renderingPolyline(pId).size();
+            else {
+                alpha = vDefaultPolylineColor.alphaF();
+            }
         }
-        if (this->polylineTransparency() && alpha <= nvl::EPSILON) {
+        else if (this->polylineColorMode() == PolylineMeshDrawerBase::POLYLINE_COLOR_PER_VERTEX) {
+            float avgAlpha = 0.0f;
+
+            if (!this->vRenderingVertexColors.empty()) {
+                for (Index j = 0; j < this->renderingPolyline(pId).size(); ++j) {
+                    VertexId vId = this->renderingPolyline(pId).at(j);
+                    Color currentColor = this->renderingVertexColor(vId);
+                    avgAlpha += currentColor.alphaF();
+                }
+                avgAlpha /= this->renderingPolyline(pId).size();
+            }
+            else {
+                avgAlpha = this->vDefaultVertexColor.alphaF();
+            }
+
+            alpha = avgAlpha;
+        }
+        if (this->polylineTransparency() && alpha <= EPSILON) {
             continue;
         }
 
@@ -413,7 +489,7 @@ void PolylineMeshDrawer<M>::drawPolylinesCylinderWithNames(Canvas* canvas, const
             pickingNameMap.push_back(pickingData);
 
             glPushName(pickingNameMap.size() - 1);
-            drawCylinder(point1, point2, polylineSize, polylineSize, this->vPolylineUniformColor, subdivision, subdivision);
+            drawCylinder(point1, point2, polylineSize, polylineSize, this->polylineUniformColor(), subdivision, subdivision);
             glPopName();
         }
     }
@@ -448,7 +524,7 @@ void PolylineMeshDrawer<M>::drawPolylinesArrowWithNames(Canvas* canvas, const In
             pickingNameMap.push_back(pickingData);
 
             glPushName(pickingNameMap.size() - 1);
-            drawArrow(point1, point2, arrowRadius, this->vPolylineUniformColor, subdivision, subdivision);
+            drawArrow(point1, point2, arrowRadius, this->polylineUniformColor(), subdivision, subdivision);
             glPopName();
         }
     }
@@ -458,7 +534,7 @@ template<class M>
 double PolylineMeshDrawer<M>::getPolylineSize() const
 {
     const double bboxFactor = 0.001;
-    return this->vPolylineSize * (this->boundingBox().diagonal().norm() * bboxFactor);
+    return this->polylineSize() * (this->boundingBox().diagonal().norm() * bboxFactor);
 }
 
 template<class M>

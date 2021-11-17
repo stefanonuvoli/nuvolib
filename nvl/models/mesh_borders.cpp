@@ -23,7 +23,7 @@ bool meshIsBorderFaceEdge(
 {
     NVL_SUPPRESS_UNUSEDVARIABLE(mesh);
 
-    return ffAdj[fId][fePos] == MAX_INDEX;
+    return ffAdj[fId][fePos] == NULL_ID;
 }
 
 template<class Mesh>
@@ -240,7 +240,7 @@ bool meshSubsetIsBorderFaceEdge(
 {
     NVL_SUPPRESS_UNUSEDVARIABLE(mesh);
 
-    return ffAdj[fId][fePos] == MAX_INDEX || selectedFaces.find(ffAdj[fId][fePos]) == selectedFaces.end();
+    return ffAdj[fId][fePos] == NULL_ID || selectedFaces.find(ffAdj[fId][fePos]) == selectedFaces.end();
 }
 
 template<class Mesh, class Set>

@@ -4,22 +4,10 @@
 
 DEFINES += NVL_STRUCTURES_LOADED
 
-# ----- Containers -----
-
 HEADERS += \
     $$PWD/disjoint_set.h \
     $$PWD/internal/vector_with_delete_iterator.h \
-    $$PWD/vector_with_delete.h
-
-SOURCES += \
-    $$PWD/disjoint_set.cpp \
-    $$PWD/internal/vector_with_delete_iterator.cpp \
-    $$PWD/vector_with_delete.cpp
-
-
-# ----- Graphs -----
-
-HEADERS += \
+    $$PWD/vector_with_delete.h \
     $$PWD/dijkstra.h \
     $$PWD/graph.h \
     $$PWD/internal/graph_adjacentiterator.h \
@@ -29,6 +17,9 @@ HEADERS += \
     $$PWD/internal/graph_nodeiterator.h
 
 SOURCES += \
+    $$PWD/disjoint_set.cpp \
+    $$PWD/internal/vector_with_delete_iterator.cpp \
+    $$PWD/vector_with_delete.cpp \
     $$PWD/dijkstra.cpp \
     $$PWD/graph.cpp \
     $$PWD/internal/graph_adjacentiterator.cpp \

@@ -9,13 +9,13 @@ MeshPolylineHandler<T>::MeshPolylineHandler()
 }
 
 template<class T>
-typename MeshPolylineHandler<T>::PolylineId MeshPolylineHandler<T>::polylineNumber() const
+Size MeshPolylineHandler<T>::polylineNumber() const
 {
     return vPolylines.size();
 }
 
 template<class T>
-Size MeshPolylineHandler<T>::nextPolylineId() const
+typename MeshPolylineHandler<T>::PolylineId MeshPolylineHandler<T>::nextPolylineId() const
 {
     return vPolylines.realSize();
 }
@@ -54,12 +54,31 @@ typename MeshPolylineHandler<T>::PolylineId MeshPolylineHandler<T>::addPolyline(
     return newId;
 }
 
+template<class T>
+typename MeshPolylineHandler<T>::PolylineId MeshPolylineHandler<T>::allocatePolylines(const Size& n)
+{
+    return allocatePolylines(n, Polyline());
+}
+
+template<class T>
+typename MeshPolylineHandler<T>::PolylineId MeshPolylineHandler<T>::allocatePolylines(const Size& n, const Polyline& polyline)
+{
+    Index firstIndex = vPolylines.realSize();
+    Index lastIndex = firstIndex + n;
+
+    vPolylines.resize(lastIndex, polyline);
+    for (Index i = firstIndex; i < lastIndex; i++) {
+        vPolylines[i].setId(i);
+    }
+
+    return firstIndex;
+}
 
 template<class T>
 void MeshPolylineHandler<T>::deletePolyline(const PolylineId& id)
 {
     Index copyId = id;
-    vPolylines[copyId].setId(MAX_INDEX);
+    vPolylines[copyId].setId(NULL_ID);
     vPolylines.erase(copyId);
 }
 

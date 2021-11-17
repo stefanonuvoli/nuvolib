@@ -50,7 +50,7 @@ DualQuaternion<T>::DualQuaternion(const Rotation3<T>& rotation, const Translatio
 
 template<class T>
 DualQuaternion<T>::DualQuaternion(const Affine3<T>& affine)
-    : DualQuaternion(nvl::Quaterniond(affine.rotation()), nvl::Translation3<T>(affine.translation()))
+    : DualQuaternion(Quaterniond(affine.rotation()), Translation3<T>(affine.translation()))
 {
 
 }

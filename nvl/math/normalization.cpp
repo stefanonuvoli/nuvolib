@@ -11,7 +11,7 @@ void normalize(std::vector<T>& vector)
     for (const T& v : vector) {
         sum += v;
     }
-    if (!nvl::epsEqual(sum, 0)) {
+    if (!epsEqual(sum, 0)) {
         for (T& v : vector) {
             v /= sum;
         }

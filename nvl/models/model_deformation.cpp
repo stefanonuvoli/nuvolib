@@ -20,7 +20,7 @@ void modelDeformLinearBlendingSkinning(
         Point3d p = model.skeleton.joint(jId).restPose() * Point3<Scalar>(0,0,0);
         p = t * p;
 
-        nvl::Translation3d tra(p);
+        Translation3d tra(p);
 
         const Transformation r = tra * Transformation::Identity();
 
@@ -30,13 +30,13 @@ void modelDeformLinearBlendingSkinning(
     #pragma omp parallel for
     for (Index vId = 0; vId < model.mesh.nextVertexId(); ++vId) {
         if (!model.mesh.isVertexDeleted(vId)) {
-            T t = nvl::animationLinearBlendingSkinningVertex(skinningWeights, transformations, vId);
+            T t = animationLinearBlendingSkinningVertex(skinningWeights, transformations, vId);
 
-            const Point3d& p = model.mesh.vertex(vId).point();
+            const Point3d& p = model.mesh.vertexPoint(vId);
             const Vector3d& n = model.mesh.vertexNormal(vId);
 
-            model.mesh.vertex(vId).setPoint(t * p);
-            model.mesh.vertex(vId).setNormal(t.rotation() * n);
+            model.mesh.setVertexPoint(vId, t * p);
+            model.mesh.setVertexNormal(vId,t.rotation() * n);
         }
     }
 }
@@ -59,7 +59,7 @@ void modelDeformDualQuaternionSkinning(
         Point3d p = model.skeleton.joint(jId).restPose() * Point3<Scalar>(0,0,0);
         p = dq * p;
 
-        nvl::Translation3d tra(p);
+        Translation3d tra(p);
 
         const Transformation r = tra * Transformation::Identity();
 
@@ -69,13 +69,13 @@ void modelDeformDualQuaternionSkinning(
     #pragma omp parallel for
     for (Index vId = 0; vId < model.mesh.nextVertexId(); ++vId) {
         if (!model.mesh.isVertexDeleted(vId)) {
-            DualQuaterniond dq = nvl::animationDualQuaternionSkinningVertex(skinningWeights, transformations, vId);
+            DualQuaterniond dq = animationDualQuaternionSkinningVertex(skinningWeights, transformations, vId);
 
-            const Point3d& p = model.mesh.vertex(vId).point();
+            const Point3d& p = model.mesh.vertexPoint(vId);
             const Vector3d& n = model.mesh.vertexNormal(vId);
 
-            model.mesh.vertex(vId).setPoint(dq * p);
-            model.mesh.vertex(vId).setNormal(dq.rotation() * n);
+            model.mesh.setVertexPoint(vId, dq * p);
+            model.mesh.setVertexNormal(vId, dq.rotation() * n);
         }
     }
 }

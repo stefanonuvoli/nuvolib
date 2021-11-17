@@ -49,7 +49,7 @@ Mesh refineByImplicitFunction(
     vcgRefineByImplicitFunction(vcgMesh, vertexFunction, vcgResultMesh, vcgCurveVertices, refineBirthVertex, refineBirthFace);
 
     if (vcgCurveVertices.size() < 3) {
-        nvl::meshTransferFaces(mesh, outputMesh, birthVertex, birthFace);
+        meshTransferFaces(mesh, outputMesh, birthVertex, birthFace);
         return outputMesh;
     }
 
@@ -65,36 +65,36 @@ Mesh refineByImplicitFunction(
     std::vector<Index> triangulatedResultBirthFace;
     convertVCGMeshToMesh(vcgResultMesh, triangulatedResultMesh, triangulatedResultBirthVertex, triangulatedResultBirthFace);
 
-    birthVertex.resize(triangulatedResultMesh.nextVertexId(), MAX_INDEX);
+    birthVertex.resize(triangulatedResultMesh.nextVertexId(), NULL_ID);
     for (VertexId vId = 0; vId < triangulatedResultMesh.nextVertexId(); ++vId) {
         if (!triangulatedResultMesh.isVertexDeleted(vId)) {
             Index mapping;
 
             mapping = triangulatedResultBirthVertex[vId];
-            assert(mapping != MAX_INDEX);
+            assert(mapping != NULL_ID);
             mapping = refineBirthVertex[mapping];
-            if (mapping == MAX_INDEX)
+            if (mapping == NULL_ID)
                 continue;
             mapping = vcgBirthVertex[mapping];
-            assert(mapping != MAX_INDEX);
+            assert(mapping != NULL_ID);
 
             birthVertex[vId] = mapping;
         }
     }
 
-    std::vector<FaceId> tmpResultBirthFace(triangulatedResultMesh.nextFaceId(), MAX_INDEX);
+    std::vector<FaceId> tmpResultBirthFace(triangulatedResultMesh.nextFaceId(), NULL_ID);
     for (FaceId fId = 0; fId < triangulatedResultMesh.nextFaceId(); ++fId) {
         if (!triangulatedResultMesh.isFaceDeleted(fId)) {
             Index mapping;
 
             mapping = triangulatedResultBirthFace[fId];
-            assert(mapping != MAX_INDEX);
+            assert(mapping != NULL_ID);
             mapping = refineBirthFace[mapping];
-            assert(mapping != MAX_INDEX);
+            assert(mapping != NULL_ID);
             mapping = vcgBirthFace[mapping];
-            assert(mapping != MAX_INDEX);
+            assert(mapping != NULL_ID);
             mapping = triangulatedBirthFace[mapping];
-            assert(mapping != MAX_INDEX);
+            assert(mapping != NULL_ID);
 
             tmpResultBirthFace[fId] = mapping;
         }
@@ -316,7 +316,7 @@ bool vcgRefineMesh(
     curveLines.erase(std::unique(curveLines.begin(), curveLines.end()), curveLines.end());
 
     //Setting the birth information
-    birthVertex.resize(resultMesh.vert.size(), MAX_INDEX);
+    birthVertex.resize(resultMesh.vert.size(), NULL_ID);
     #pragma omp parallel for
     for (Index i = 0; i < resultMesh.vert.size(); ++i) {
         if (!resultMesh.vert[i].IsD() && !resultMesh.vert[i].IsS()) {
@@ -325,7 +325,7 @@ bool vcgRefineMesh(
         }
     }
 
-    birthFace.resize(resultMesh.face.size(), MAX_INDEX);
+    birthFace.resize(resultMesh.face.size(), NULL_ID);
     #pragma omp parallel for
     for (Index i = 0; i < resultMesh.face.size(); ++i) {
         if (!resultMesh.face[i].IsD()) {

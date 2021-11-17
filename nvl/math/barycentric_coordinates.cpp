@@ -15,7 +15,7 @@ std::vector<R> barycentricCoordinates(
 {
     Point<T,D> queryPoint = point;
     if (useClosestPoint) {
-        queryPoint = nvl::closestPointOnTriangle(p1, p2, p3, point);
+        queryPoint = closestPointOnTriangle(p1, p2, p3, point);
     }
 
     std::vector<R> bc(D);
@@ -36,17 +36,17 @@ std::vector<R> barycentricCoordinates(
     bc[1] = (d00 * d21 - d01 * d20) / denom;
 
     //Avoid numerical errors
-    if (nvl::epsEqual(bc[0], 0.0)) {
+    if (epsEqual(bc[0], 0.0)) {
         bc[0] = 0.0;
     }
-    else if (nvl::epsEqual(bc[0], 1.0)) {
+    else if (epsEqual(bc[0], 1.0)) {
         bc[0] = 1.0;
     }
 
-    if (nvl::epsEqual(bc[1], 0.0)) {
+    if (epsEqual(bc[1], 0.0)) {
         bc[1] = 0.0;
     }
-    else if (nvl::epsEqual(bc[1], 1.0)) {
+    else if (epsEqual(bc[1], 1.0)) {
         bc[1] = 1.0;
     }
 

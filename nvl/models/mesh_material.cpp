@@ -5,9 +5,9 @@ namespace nvl {
 template<class C>
 MeshMaterial<C>::MeshMaterial() :
     vName(""),
-    vAmbientColor(Color(0.7, 0.7, 0.7)),
-    vDiffuseColor(Color(0.7, 0.7, 0.7)),
-    vSpecularColor(Color(0.7, 0.7, 0.7)),
+    vAmbientColor(Color(1.0, 1.0, 1.0)),
+    vDiffuseColor(Color(1.0, 1.0, 1.0)),
+    vSpecularColor(Color(1.0, 1.0, 1.0)),
     vTransparency(0.0),
     vAmbientMap(""),
     vSpecularMap(""),
@@ -18,19 +18,19 @@ MeshMaterial<C>::MeshMaterial() :
 }
 
 template<class C>
-typename MeshMaterial<C>::MaterialId& MeshMaterial<C>::id()
+typename MeshMaterial<C>::Id& MeshMaterial<C>::id()
 {
     return vId;
 }
 
 template<class C>
-const typename MeshMaterial<C>::MaterialId& MeshMaterial<C>::id() const
+const typename MeshMaterial<C>::Id& MeshMaterial<C>::id() const
 {
     return vId;
 }
 
 template<class C>
-void MeshMaterial<C>::setId(MaterialId id)
+void MeshMaterial<C>::setId(const Id& id)
 {
     vId = id;
 }

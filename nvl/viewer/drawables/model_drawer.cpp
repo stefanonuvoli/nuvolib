@@ -21,7 +21,7 @@ ModelDrawer<M>::ModelDrawer(M* model, const bool visible, const bool pickable, c
     vModel(model),
     vMeshDrawer(&model->mesh),
     vSkeletonDrawer(&model->skeleton),
-    vAnimationLoaded(MAX_INDEX),
+    vAnimationLoaded(NULL_ID),
     vAnimationRunning(false),
     vAnimationPaused(false)
 {
@@ -218,7 +218,7 @@ void ModelDrawer<M>::loadAnimation(const Index& id)
     }
 
     //Compute final transformations
-    vAnimationFrames = nvl::animationComputeFinalTransformations(*(vSkeletonDrawer.skeleton()), vAnimationFrames);
+    vAnimationFrames = animationComputeFinalTransformations(*(vSkeletonDrawer.skeleton()), vAnimationFrames);
 
     if (this->vAnimationSkinningMode == SkinningMode::SKINNING_DUAL_QUATERNIONS) {
         dualQuaternionTransformations.resize(vAnimationFrames.size());
@@ -253,10 +253,10 @@ void ModelDrawer<M>::resetAnimation()
 template<class M>
 void ModelDrawer<M>::unloadAnimation()
 {
-    vAnimationLoaded = MAX_INDEX;
+    vAnimationLoaded = NULL_ID;
     vAnimationFrames.clear();
     dualQuaternionTransformations.clear();
-    vAnimationCurrentFrameId = MAX_INDEX;
+    vAnimationCurrentFrameId = NULL_ID;
     vAnimationRunning = false;
 
     this->vMeshDrawer.resetRenderingVertices();
@@ -267,7 +267,7 @@ void ModelDrawer<M>::unloadAnimation()
 template<class M>
 bool ModelDrawer<M>::isAnimationLoaded() const
 {
-    return vAnimationLoaded != MAX_INDEX;
+    return vAnimationLoaded != NULL_ID;
 }
 
 template<class M>
@@ -323,9 +323,9 @@ void ModelDrawer<M>::renderLinearBlendingSkinning(const std::vector<T>& transfor
     #pragma omp parallel for
     for (Index vId = 0; vId < this->vModel->mesh.nextVertexId(); ++vId) {
         if (!this->vModel->mesh.isVertexDeleted(vId)) {
-            T t = nvl::animationLinearBlendingSkinningVertex(skinningWeights, transformations, vId);
+            T t = animationLinearBlendingSkinningVertex(skinningWeights, transformations, vId);
 
-            const Point3d& p = this->vModel->mesh.vertex(vId).point();
+            const Point3d& p = this->vModel->mesh.vertexPoint(vId);
             const Vector3d& n = this->vModel->mesh.vertexNormal(vId);
 
             vMeshDrawer.setRenderingVertex(vId, t * p);
@@ -353,9 +353,9 @@ void ModelDrawer<M>::renderDualQuaternionSkinning(const std::vector<DualQuaterni
     #pragma omp parallel for
     for (Index vId = 0; vId < this->vModel->mesh.nextVertexId(); ++vId) {
         if (!this->vModel->mesh.isVertexDeleted(vId)) {
-            DualQuaterniond dq = nvl::animationDualQuaternionSkinningVertex(skinningWeights, transformations, vId);
+            DualQuaterniond dq = animationDualQuaternionSkinningVertex(skinningWeights, transformations, vId);
 
-            const Point3d& p = this->vModel->mesh.vertex(vId).point();
+            const Point3d& p = this->vModel->mesh.vertexPoint(vId);
             const Vector3d& n = this->vModel->mesh.vertexNormal(vId);
 
             vMeshDrawer.setRenderingVertex(vId, dq * p);

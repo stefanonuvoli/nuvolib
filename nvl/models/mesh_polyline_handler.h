@@ -20,9 +20,11 @@ public:
     /* Typedefs */
 
     typedef T Polyline;
-    typedef Index PolylineId;
+    typedef typename Polyline::Id PolylineId;
 
-    typedef VectorWithDelete<Polyline> PolylineContainer;
+    typedef typename Polyline::VertexId VertexId;
+
+    typedef VectorWithDelete<Polyline> Container;
 
     /* Constructors */
 
@@ -40,6 +42,9 @@ public:
     PolylineId addPolyline(const Polyline& polyline);
     template<class... Ts>
     PolylineId addPolyline(const Ts... vertices);
+
+    PolylineId allocatePolylines(const Size& n);
+    PolylineId allocatePolylines(const Size& n, const Polyline& polyline);
 
     void deletePolyline(const PolylineId& id);
     bool isPolylineDeleted(const PolylineId& id) const;

@@ -14,13 +14,25 @@ class SkeletonJoint
 
 public:
 
-    typedef Index JointId;
+    /* Typedefs */
+
+    typedef Index Id;
+
     typedef T Transformation;
     typedef typename T::Scalar Scalar;
+
+
+    /* Constructors */
 
     SkeletonJoint();
     SkeletonJoint(const T& restPose);
     SkeletonJoint(const T& restPose, const std::string& name);
+
+
+    /* Methods */
+
+    const Id& id() const;
+    void setId(const Id& id);
 
     const std::string& name() const;
     void setName(const std::string &value);
@@ -29,12 +41,9 @@ public:
     T& restPose();
     void setRestPose(const T& restPose);
 
-    const JointId& id() const;
-    void setId(const JointId& id);
-
 protected:
 
-    JointId vId;
+    Id vId;
     T vRestPose;
     std::string vName;
 };

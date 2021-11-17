@@ -25,7 +25,7 @@ public:
     typedef typename T::Scalar Scalar;
 
     typedef SkeletonJoint<T> Joint;
-    typedef typename Joint::JointId JointId;
+    typedef typename Joint::Id JointId;
 
     Skeleton();
 

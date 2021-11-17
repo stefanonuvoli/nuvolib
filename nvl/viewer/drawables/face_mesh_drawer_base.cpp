@@ -127,7 +127,7 @@ NVL_INLINE const typename FaceMeshDrawerBase::FaceShaderMode& FaceMeshDrawerBase
     return vFaceShaderMode;
 }
 
-NVL_INLINE void FaceMeshDrawerBase::setFaceShaderMode(FaceShaderMode mode)
+NVL_INLINE void FaceMeshDrawerBase::setFaceShaderMode(const FaceShaderMode& mode)
 {
     vFaceShaderMode = mode;
 }
@@ -147,6 +147,11 @@ NVL_INLINE std::vector<double>& FaceMeshDrawerBase::vertexValues()
     return vVertexValues;
 }
 
+NVL_INLINE const std::vector<double>& FaceMeshDrawerBase::vertexValues() const
+{
+    return vVertexValues;
+}
+
 NVL_INLINE void FaceMeshDrawerBase::setVertexValues(const std::vector<double>& value)
 {
     vVertexValues = value;
@@ -158,6 +163,11 @@ NVL_INLINE void FaceMeshDrawerBase::clearVertexValues()
 }
 
 NVL_INLINE std::vector<double>& FaceMeshDrawerBase::faceValues()
+{
+    return vFaceValues;
+}
+
+NVL_INLINE const std::vector<double>& FaceMeshDrawerBase::faceValues() const
 {
     return vFaceValues;
 }

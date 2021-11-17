@@ -7,137 +7,196 @@
 
 namespace nvl {
 
-template<class Mesh>
+
+/* Transfer entire mesh */
+
+template<class M1, class M2>
 void meshTransfer(
-        const Mesh& mesh,
-        Mesh& targetMesh);
+        const M1& mesh,
+        M2& targetMesh);
 
-template<class Mesh>
+template<class M1, class M2>
 void meshTransfer(
-        const Mesh& mesh,
-        Mesh& targetMesh,
-        std::vector<typename Mesh::VertexId>& birthVertex,
-        std::vector<typename Mesh::PolylineId>& birthPolyline,
-        std::vector<typename Mesh::FaceId>& birthFace);
+        const M1& mesh,
+        M2& targetMesh,
+        std::vector<typename M1::VertexId>& birthVertex,
+        std::vector<typename M1::PolylineId>& birthPolyline,
+        std::vector<typename M1::FaceId>& birthFace);
 
-template<class Mesh>
-void meshTransferFaces(
-        const Mesh& mesh,
-        Mesh& targetMesh);
 
-template<class Mesh>
-void meshTransferFaces(
-        const Mesh& mesh,
-        Mesh& targetMesh,
-        std::vector<typename Mesh::VertexId>& birthVertex,
-        std::vector<typename Mesh::FaceId>& birthFace);
 
-template<class Mesh>
-void meshTransferFaces(
-        const Mesh& mesh,
-        const std::vector<typename Mesh::FaceId>& faces,
-        Mesh& targetMesh);
+/* Transfer vertices */
 
-template<class Mesh>
-void meshTransferFaces(
-        const Mesh& mesh,
-        const std::vector<typename Mesh::FaceId>& faces,
-        Mesh& targetMesh,
-        std::vector<typename Mesh::VertexId>& birthVertex,
-        std::vector<typename Mesh::FaceId>& birthFace);
-
-template<class Mesh>
-void meshTransferPolylines(
-        const Mesh& mesh,
-        Mesh& targetMesh);
-
-template<class Mesh>
-void meshTransferPolylines(
-        const Mesh& mesh,
-        Mesh& targetMesh,
-        std::vector<typename Mesh::VertexId>& birthVertex,
-        std::vector<typename Mesh::PolylineId>& birthPolyline);
-
-template<class Mesh>
-void meshTransferPolylines(
-        const Mesh& mesh,
-        const std::vector<typename Mesh::PolylineId>& polylines,
-        Mesh& targetMesh);
-
-template<class Mesh>
-void meshTransferPolylines(
-        const Mesh& mesh,
-        const std::vector<typename Mesh::PolylineId>& polylines,
-        Mesh& targetMesh,
-        std::vector<typename Mesh::VertexId>& birthVertex,
-        std::vector<typename Mesh::PolylineId>& birthPolyline);
-
-template<class Mesh>
+template<class M1, class M2>
 void meshTransferVertices(
-        const Mesh& mesh,
-        Mesh& targetMesh);
+        const M1& mesh,
+        M2& targetMesh);
 
-template<class Mesh>
+template<class M1, class M2>
 void meshTransferVertices(
-        const Mesh& mesh,
-        Mesh& targetMesh,
-        std::vector<typename Mesh::VertexId>& birthVertex);
+        const M1& mesh,
+        M2& targetMesh,
+        std::vector<typename M1::VertexId>& birthVertex);
 
-template<class Mesh>
+template<class M1, class M2>
 void meshTransferVertices(
-        const Mesh& mesh,
-        const std::vector<typename Mesh::VertexId>& vertices,
-        Mesh& targetMesh);
+        const M1& mesh,
+        const std::vector<typename M1::VertexId>& vertices,
+        M2& targetMesh);
 
-template<class Mesh>
+template<class M1, class M2>
 void meshTransferVertices(
-        const Mesh& mesh,
-        const std::vector<typename Mesh::VertexId>& vertices,
-        Mesh& targetMesh,
-        std::vector<typename Mesh::VertexId>& birthVertex);
+        const M1& mesh,
+        const std::vector<typename M1::VertexId>& vertices,
+        M2& targetMesh,
+        std::vector<typename M1::VertexId>& birthVertex);
 
-template<class Mesh>
+template<class M1, class M2>
+void meshTransferVertices(
+        const M1& mesh,
+        const std::vector<typename M1::VertexId>& vertices,
+        M2& targetMesh,
+        std::vector<typename M1::VertexId>& birthVertex,
+        std::vector<typename M1::VertexId>& vertexMap);
+
+
+
+/* Transfer polylines */
+
+template<class M1, class M2>
+void meshTransferPolylines(
+        const M1& mesh,
+        M2& targetMesh);
+
+template<class M1, class M2>
+void meshTransferPolylines(
+        const M1& mesh,
+        M2& targetMesh,
+        std::vector<typename M1::VertexId>& birthVertex,
+        std::vector<typename M1::PolylineId>& birthPolyline);
+
+template<class M1, class M2>
+void meshTransferPolylines(
+        const M1& mesh,
+        const std::vector<typename M1::PolylineId>& polylines,
+        M2& targetMesh);
+
+template<class M1, class M2>
+void meshTransferPolylines(
+        const M1& mesh,
+        const std::vector<typename M1::PolylineId>& polylines,
+        M2& targetMesh,
+        std::vector<typename M1::VertexId>& birthVertex,
+        std::vector<typename M1::PolylineId>& birthPolyline);
+
+template<class M1, class M2>
+void meshTransferPolylines(
+        const M1& mesh,
+        const std::vector<typename M1::PolylineId>& polylines,
+        M2& targetMesh,
+        std::vector<typename M1::VertexId>& birthVertex,
+        std::vector<typename M1::PolylineId>& birthPolyline,
+        std::vector<typename M1::VertexId>& vertexMap);
+
+template<class M1, class M2>
+void meshTransferPolylines(
+        const M1& mesh,
+        const std::vector<typename M1::VertexId>& vertexMap,
+        M2& targetMesh,
+        std::vector<typename M1::PolylineId>& birthPolyline);
+
+
+
+/* Transfer faces */
+
+template<class M1, class M2>
+void meshTransferFaces(
+        const M1& mesh,
+        M2& targetMesh);
+
+template<class M1, class M2>
+void meshTransferFaces(
+        const M1& mesh,
+        M2& targetMesh,
+        std::vector<typename M1::VertexId>& birthVertex,
+        std::vector<typename M1::FaceId>& birthFace);
+
+template<class M1, class M2>
+void meshTransferFaces(
+        const M1& mesh,
+        const std::vector<typename M1::FaceId>& faces,
+        M2& targetMesh);
+
+template<class M1, class M2>
+void meshTransferFaces(
+        const M1& mesh,
+        const std::vector<typename M1::FaceId>& faces,
+        M2& targetMesh,
+        std::vector<typename M1::VertexId>& birthVertex,
+        std::vector<typename M1::FaceId>& birthFace);
+
+template<class M1, class M2>
+void meshTransferFaces(
+        const M1& mesh,
+        const std::vector<typename M1::FaceId>& faces,
+        M2& targetMesh,
+        std::vector<typename M1::VertexId>& birthVertex,
+        std::vector<typename M1::FaceId>& birthFace,
+        std::vector<typename M1::VertexId>& vertexMap);
+
+template<class M1, class M2>
+void meshTransferFaces(
+        const M1& mesh,
+        const std::vector<typename M1::VertexId>& vertexMap,
+        M2& targetMesh,
+        std::vector<typename M1::FaceId>& birthFace);
+
+
+
+/* Transfer vertices with related components */
+
+template<class M1, class M2>
 void meshTransferVerticesWithPolylines(
-        const Mesh& mesh,
-        const std::vector<typename Mesh::VertexId>& vertices,
-        Mesh& targetMesh);
+        const M1& mesh,
+        const std::vector<typename M1::VertexId>& vertices,
+        M2& targetMesh);
 
-template<class Mesh>
+template<class M1, class M2>
 void meshTransferVerticesWithPolylines(
-        const Mesh& mesh,
-        const std::vector<typename Mesh::VertexId>& vertices,
-        Mesh& targetMesh,
-        std::vector<typename Mesh::VertexId>& birthVertex,
-        std::vector<typename Mesh::PolylineId>& birthPolyline);
+        const M1& mesh,
+        const std::vector<typename M1::VertexId>& vertices,
+        M2& targetMesh,
+        std::vector<typename M1::VertexId>& birthVertex,
+        std::vector<typename M1::PolylineId>& birthPolyline);
 
-template<class Mesh>
+template<class M1, class M2>
 void meshTransferVerticesWithFaces(
-        const Mesh& mesh,
-        const std::vector<typename Mesh::VertexId>& vertices,
-        Mesh& targetMesh);
+        const M1& mesh,
+        const std::vector<typename M1::VertexId>& vertices,
+        M2& targetMesh);
 
-template<class Mesh>
+template<class M1, class M2>
 void meshTransferVerticesWithFaces(
-        const Mesh& mesh,
-        const std::vector<typename Mesh::VertexId>& vertices,
-        Mesh& targetMesh,
-        std::vector<typename Mesh::VertexId>& birthVertex,
-        std::vector<typename Mesh::FaceId>& birthFace);
+        const M1& mesh,
+        const std::vector<typename M1::VertexId>& vertices,
+        M2& targetMesh,
+        std::vector<typename M1::VertexId>& birthVertex,
+        std::vector<typename M1::FaceId>& birthFace);
 
-template<class Mesh>
+template<class M1, class M2>
 void meshTransferVerticesWithFacesAndPolylines(
-        const Mesh& mesh,
-        const std::vector<typename Mesh::VertexId>& vertices,
-        Mesh& targetMesh);
+        const M1& mesh,
+        const std::vector<typename M1::VertexId>& vertices,
+        M2& targetMesh);
 
-template<class Mesh>
+template<class M1, class M2>
 void meshTransferVerticesWithFacesAndPolylines(
-        const Mesh& mesh,
-        const std::vector<typename Mesh::VertexId>& vertices,
-        Mesh& targetMesh,
-        std::vector<typename Mesh::VertexId>& birthVertex,
-        std::vector<typename Mesh::PolylineId>& birthPolyline,
-        std::vector<typename Mesh::FaceId>& birthFace);
+        const M1& mesh,
+        const std::vector<typename M1::VertexId>& vertices,
+        M2& targetMesh,
+        std::vector<typename M1::VertexId>& birthVertex,
+        std::vector<typename M1::PolylineId>& birthPolyline,
+        std::vector<typename M1::FaceId>& birthFace);
 
 }
 

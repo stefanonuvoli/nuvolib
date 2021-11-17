@@ -101,7 +101,6 @@ void animationComputeGlobalTransformations(
     typedef S Skeleton;
     typedef T Transformation;
     typedef typename Skeleton::JointId JointId;
-    typedef typename Skeleton::Joint Joint;
 
     const Transformation& currentTransformation = transformations[currentId];
 
@@ -223,7 +222,7 @@ void animationBlendFrameTransformations(
             if (keepKeyframes && currentFrameId < animationFrames.size() - 1) {
                 blendedAnimationFrames.push_back(animationFrames[currentFrameId]);
 
-                if (nvl::epsEqual(time2, currentTime, 0.01)) {
+                if (epsEqual(time2, currentTime, 0.01)) {
                     currentTime += timeStep;
                 }
             }
@@ -239,7 +238,7 @@ void animationBlendFrameTransformations(
             std::vector<Transformation>& transformations = blendedFrame.transformations();
             transformations.resize(transformations1.size());
             for (Index jId = 0; jId < transformations1.size(); ++jId) {
-                transformations[jId] = nvl::interpolateAffine(transformations1[jId], transformations2[jId], alpha);
+                transformations[jId] = interpolateAffine(transformations1[jId], transformations2[jId], alpha);
             }
 
             blendedAnimationFrames.push_back(blendedFrame);

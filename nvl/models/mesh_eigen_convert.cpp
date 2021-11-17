@@ -25,7 +25,7 @@ void convertMeshToEigenMesh(
         if (mesh.isVertexDeleted(vId))
             continue;
 
-        const Point& point = mesh.vertex(vId).point();
+        const Point& point = mesh.vertexPoint(vId);
 
         for (Index j = 0; j < numVerticesPerFace; j++) {
             V(eigenVertexId, j) = point(j);
@@ -70,13 +70,13 @@ void convertMeshToEigenMesh(
     V.resize(mesh.vertexNumber(), dim);
     F.resize(mesh.faceNumber(), numVerticesPerFace);
 
-    birthVertex.resize(mesh.vertexNumber(), MAX_INDEX);
+    birthVertex.resize(mesh.vertexNumber(), NULL_ID);
     int eigenVertexId = 0;
     for (VertexId vId = 0; vId < mesh.nextVertexId(); vId++){
         if (mesh.isVertexDeleted(vId))
             continue;
 
-        const Point& point = mesh.vertex(vId).point();
+        const Point& point = mesh.vertexPoint(vId);
 
         for (Index j = 0; j < numVerticesPerFace; j++) {
             V(eigenVertexId, j) = point(j);
@@ -86,7 +86,7 @@ void convertMeshToEigenMesh(
         eigenVertexId++;
     }
 
-    birthFace.resize(mesh.faceNumber(), MAX_INDEX);
+    birthFace.resize(mesh.faceNumber(), NULL_ID);
     int eigenFaceId = 0;
     for (FaceId fId = 0; fId < mesh.nextFaceId(); fId++){
         if (mesh.isFaceDeleted(fId))

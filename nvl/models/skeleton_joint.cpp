@@ -16,7 +16,7 @@ SkeletonJoint<T>::SkeletonJoint(const T& restPose) : SkeletonJoint(restPose, "")
 
 template<class T>
 SkeletonJoint<T>::SkeletonJoint(const T& restPose, const std::string& name) :
-    vId(MAX_INDEX),
+    vId(NULL_ID),
     vRestPose(restPose),
     vName(name)
 {
@@ -54,13 +54,13 @@ void SkeletonJoint<T>::setRestPose(const T& restPose)
 }
 
 template<class T>
-const typename SkeletonJoint<T>::JointId& SkeletonJoint<T>::id() const
+const typename SkeletonJoint<T>::Id& SkeletonJoint<T>::id() const
 {
     return vId;
 }
 
 template<class T>
-void SkeletonJoint<T>::setId(const JointId& value)
+void SkeletonJoint<T>::setId(const Id& value)
 {
     vId = value;
 }

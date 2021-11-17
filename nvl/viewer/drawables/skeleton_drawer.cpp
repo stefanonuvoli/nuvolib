@@ -54,7 +54,7 @@ void SkeletonDrawer<S>::draw() const
                 continue;
 
             float alpha = this->vRenderingBoneColors[bId*4+3];
-            if (this->transparency() && alpha <= nvl::EPSILON) {
+            if (this->transparency() && alpha <= EPSILON) {
                 continue;
             }
 
@@ -77,7 +77,7 @@ void SkeletonDrawer<S>::draw() const
             Color color(this->vRenderingJointColors[i*4], this->vRenderingJointColors[i*4+1], this->vRenderingJointColors[i*4+2], this->vRenderingJointColors[i*4+3]);
 
             float alpha = color.alphaF();
-            if (this->transparency() && alpha <= nvl::EPSILON) {
+            if (this->transparency() && alpha <= EPSILON) {
                 continue;
             }
 
@@ -114,7 +114,7 @@ void SkeletonDrawer<S>::drawWithNames(Canvas* canvas, const Index drawableId) co
                 continue;
 
             float alpha = this->vRenderingBoneColors[bId*4+3];
-            if (this->transparency() && alpha <= nvl::EPSILON) {
+            if (this->transparency() && alpha <= EPSILON) {
                 continue;
             }
 
@@ -148,7 +148,7 @@ void SkeletonDrawer<S>::drawWithNames(Canvas* canvas, const Index drawableId) co
             Color color = this->renderingJointColor(jId);
 
             float alpha = color.alphaF();
-            if (this->transparency() && alpha <= nvl::EPSILON) {
+            if (this->transparency() && alpha <= EPSILON) {
                 continue;
             }
 
@@ -318,7 +318,7 @@ void SkeletonDrawer<S>::resetRenderingJointColor(const Index& id)
 
     const JointId& parentId = this->vSkeleton->parentId(id);
 
-    if (parentId != MAX_INDEX) {
+    if (parentId != NULL_ID) {
         setRenderingJointColor(id, this->vJointColor);
     }
     else {
@@ -333,7 +333,7 @@ void SkeletonDrawer<S>::resetRenderingBone(const Index& id)
 
     const JointId& parentId = this->vSkeleton->parentId(id);
 
-    if (parentId != MAX_INDEX) {
+    if (parentId != NULL_ID) {
         std::vector<unsigned int> jointIds(2);
         jointIds[0] = static_cast<unsigned int>(parentId);
         jointIds[1] = static_cast<unsigned int>(id);

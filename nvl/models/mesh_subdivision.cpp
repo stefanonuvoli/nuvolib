@@ -68,9 +68,9 @@ std::vector<typename Mesh::FaceId> meshSubdivideInTrianglesBarycenter(
     std::vector<FaceId> resultingFaces(vertexNumber);
     resultingFaces[0] = fId;
 
-    Point b = mesh.vertex(face.vertexId(0)).point();
+    Point b = mesh.vertexPoint(face.vertexId(0));
     for (Index j = 1; j < vertexNumber; ++j) {
-        b += mesh.vertex(face.vertexId(j)).point();
+        b += mesh.vertexPoint(face.vertexId(j));
     }
     b /= vertexNumber;
 
@@ -79,7 +79,8 @@ std::vector<typename Mesh::FaceId> meshSubdivideInTrianglesBarycenter(
     for (VertexId j = 0; j < vertexNumber; ++j) {
         FaceId currentFaceId = fId;
         if (j > 0) {
-            FaceId newFaceId = mesh.addFace(face);
+            const Face& currentFace = mesh.face(currentFaceId);
+            FaceId newFaceId = mesh.addFace(currentFace);
             currentFaceId = newFaceId;
             resultingFaces[j] = newFaceId;
         }
@@ -88,7 +89,7 @@ std::vector<typename Mesh::FaceId> meshSubdivideInTrianglesBarycenter(
         newVertices[1] = faceVertices[(j + 1) % vertexNumber];
         newVertices[2] = newVertexId;
 
-        mesh.face(currentFaceId).setVertexIds(newVertices);
+        mesh.setFaceVertexIds(currentFaceId, newVertices);
     }
 
     return resultingFaces;

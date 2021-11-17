@@ -27,6 +27,10 @@ public:
 
     virtual void update() override;
 
+    bool hasPolylineColors() const override;
+    bool hasPolylineTransparency() const override;
+    bool hasVertexColors() const override;
+
     const std::vector<unsigned int>& renderingPolyline(const Index& id) const;
     Color renderingPolylineColor(const Index& id) const;
 
@@ -59,6 +63,8 @@ protected:
 
     double getPolylineSize() const;
     double getPolylineRadius() const;
+
+    Color vDefaultPolylineColor;
 };
 
 }

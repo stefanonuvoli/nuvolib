@@ -19,7 +19,7 @@ void dijkstra(
         std::vector<double>& dist,
         std::vector<long long int>& pred);
 
-/* Implementation for nvl::Graph */
+/* Implementation for Graph */
 
 /**
  * @brief Single graph path representation
