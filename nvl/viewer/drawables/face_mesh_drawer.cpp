@@ -6,7 +6,7 @@
 #include <nvl/math/constants.h>
 #include <nvl/math/numeric_limits.h>
 
-#include <nvl/models/mesh_geometric_information.h>
+#include <nvl/models/algorithms/mesh_geometric_information.h>
 
 #ifdef NVL_STB_LOADED
 #define STB_IMAGE_STATIC
@@ -348,7 +348,7 @@ void FaceMeshDrawer<M>::resetRenderingFaceColor(const Index& id)
     typedef typename M::MaterialColor MaterialColor;
 
     if (!this->vMesh->faceMaterialIsNull(id)) {
-        const Material& material = this->vMesh->material(this->vMesh->faceMaterialId(id));
+        const Material& material = this->vMesh->material(this->vMesh->faceMaterial(id));
 
         MaterialColor c = material.diffuseColor();
         c.setAlphaF(1.0 - material.transparency());
@@ -402,7 +402,7 @@ void FaceMeshDrawer<M>::resetRenderingFaceWireframeColor(const Index& id)
 template<class M>
 void FaceMeshDrawer<M>::resetRenderingFaceMaterial(const Index& id)
 {
-    setRenderingFaceMaterial(id, this->vMesh->faceMaterialId(id));
+    setRenderingFaceMaterial(id, this->vMesh->faceMaterial(id));
 }
 
 template<class M>
@@ -510,7 +510,7 @@ void FaceMeshDrawer<M>::loadTextures()
                 continue;
 
             if (!this->vMesh->faceMaterialIsNull(fId)) {
-                const MaterialId& mId = this->vMesh->faceMaterialId(fId);
+                const MaterialId& mId = this->vMesh->faceMaterial(fId);
                 usedMaterials.insert(mId);
             }
         }

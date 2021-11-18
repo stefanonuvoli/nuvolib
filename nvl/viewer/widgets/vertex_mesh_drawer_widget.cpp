@@ -1,6 +1,9 @@
 ﻿#include "vertex_mesh_drawer_widget.h"
 #include "ui_vertex_mesh_drawer_widget.h"
 
+#include <nvl/models/mesh_3d.h>
+#include <nvl/models/model_3d.h>
+
 namespace nvl {
 
 NVL_INLINE VertexMeshDrawerWidget::VertexMeshDrawerWidget(

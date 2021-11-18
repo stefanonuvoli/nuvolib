@@ -1,9 +1,6 @@
 #include "model_animation_widget.h"
 #include "ui_model_animation_widget.h"
 
-#include <nvl/viewer/drawables/model_drawer.h>
-#include <nvl/models/model.h>
-
 namespace nvl {
 
 NVL_INLINE ModelAnimationWidget::ModelAnimationWidget(

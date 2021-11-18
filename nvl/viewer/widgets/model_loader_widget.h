@@ -5,8 +5,8 @@
 
 #include <nvl/viewer/widgets/canvas.h>
 #include <nvl/viewer/widgets/drawable_list_widget.h>
-#include <nvl/models/model.h>
-#include <nvl/models/meshes.h>
+
+#include <nvl/models/model_3d.h>
 
 #include <unordered_map>
 #include <unordered_set>

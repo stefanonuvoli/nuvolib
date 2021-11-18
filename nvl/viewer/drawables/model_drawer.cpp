@@ -1,7 +1,7 @@
 #include "model_drawer.h"
 
-#include <nvl/models/animation_algorithms.h>
-#include <nvl/models/animation_skinning.h>
+#include <nvl/models/algorithms/animation_algorithms.h>
+#include <nvl/models/algorithms/animation_skinning.h>
 
 #include <chrono>
 

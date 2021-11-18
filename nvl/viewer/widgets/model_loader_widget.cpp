@@ -1,9 +1,9 @@
 #include "model_loader_widget.h"
 #include "ui_model_loader_widget.h"
 
-#include <nvl/models/model_io.h>
+#include <nvl/models/io/model_io.h>
 
-#include <nvl/models/mesh_normals.h>
+#include <nvl/models/algorithms/mesh_normals.h>
 
 #include <QMessageBox>
 #include <QFileDialog>

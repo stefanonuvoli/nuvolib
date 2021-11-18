@@ -6,7 +6,7 @@
 #include <nvl/vcglib/vcg_triangle_mesh.h>
 #include <nvl/vcglib/vcg_convert.h>
 
-#include <nvl/models/mesh_triangulation.h>
+#include <nvl/models/algorithms/mesh_triangulation.h>
 
 #include <vcg/complex/algorithms/curve_on_manifold.h>
 

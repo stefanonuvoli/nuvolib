@@ -1,9 +1,6 @@
 #include "animation_widget.h"
 #include "ui_animation_widget.h"
 
-#include <nvl/viewer/drawables/model_drawer.h>
-#include <nvl/models/model.h>
-
 namespace nvl {
 
 NVL_INLINE AnimationWidget::AnimationWidget(Canvas* canvas, QWidget* parent) :

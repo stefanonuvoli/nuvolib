@@ -5,7 +5,7 @@
 
 #include <nvl/math/comparisons.h>
 
-#include <nvl/models/mesh_triangulation.h>
+#include <nvl/models/algorithms/mesh_triangulation.h>
 
 #include <vcg/complex/algorithms/refine.h>
 #include <vcg/complex/algorithms/update/quality.h>

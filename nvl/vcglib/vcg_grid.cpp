@@ -1,6 +1,6 @@
 #include "vcg_grid.h"
 
-#include <nvl/models/mesh_triangulation.h>
+#include <nvl/models/algorithms/mesh_triangulation.h>
 
 #include <nvl/vcglib/vcg_convert.h>
 

@@ -2,7 +2,7 @@
 
 #include <nvl/math/point.h>
 
-#include <nvl/models/mesh_geometric_information.h>
+#include <nvl/models/algorithms/mesh_geometric_information.h>
 
 namespace nvl {
 

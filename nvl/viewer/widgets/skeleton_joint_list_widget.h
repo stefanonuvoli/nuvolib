@@ -9,9 +9,8 @@
 #include <nvl/viewer/widgets/canvas.h>
 #include <nvl/viewer/interfaces/drawable.h>
 #include <nvl/viewer/drawables/skeleton_drawer.h>
-#include <nvl/viewer/drawables/model_drawer.h>
 
-#include <nvl/models/skeleton.h>
+#include <nvl/models/skeleton_3d.h>
 
 namespace Ui {
 class SkeletonJointListWidget;

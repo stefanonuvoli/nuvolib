@@ -12,7 +12,7 @@
 #include <nvl/viewer/drawables/face_mesh_drawer.h>
 #include <nvl/viewer/drawables/skeleton_drawer.h>
 
-#include <nvl/models/animation.h>
+#include <nvl/models/animation_3d.h>
 
 #include <nvl/math/dual_quaternion.h>
 

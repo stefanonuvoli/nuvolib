@@ -1,6 +1,8 @@
 ﻿#include "skeleton_drawer_widget.h"
 #include "ui_skeleton_drawer_widget.h"
 
+#include <nvl/models/model_3d.h>
+
 namespace nvl {
 
 NVL_INLINE SkeletonDrawerWidget::SkeletonDrawerWidget(

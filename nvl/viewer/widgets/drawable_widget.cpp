@@ -1,9 +1,5 @@
 #include "drawable_widget.h"
 #include "ui_drawable_widget.h"
-
-#include <nvl/viewer/drawables/model_drawer.h>
-#include <nvl/models/model.h>
-
 namespace nvl {
 
 NVL_INLINE DrawableWidget::DrawableWidget(

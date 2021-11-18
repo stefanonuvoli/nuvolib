@@ -1,6 +1,8 @@
 ﻿#include "face_mesh_drawer_widget.h"
 #include "ui_face_mesh_drawer_widget.h"
 
+#include <nvl/models/structures/model.h>
+
 namespace nvl {
 
 NVL_INLINE FaceMeshDrawerWidget::FaceMeshDrawerWidget(

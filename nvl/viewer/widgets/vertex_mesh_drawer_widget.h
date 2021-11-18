@@ -7,9 +7,6 @@
 #include <nvl/viewer/widgets/drawable_list_widget.h>
 #include <nvl/viewer/drawables/vertex_mesh_drawer.h>
 
-#include <nvl/models/meshes.h>
-#include <nvl/models/model.h>
-
 #include <QFrame>
 
 namespace Ui {

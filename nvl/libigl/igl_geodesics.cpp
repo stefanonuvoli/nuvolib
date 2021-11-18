@@ -1,6 +1,6 @@
 #include "igl_geodesics.h"
 
-#include <nvl/models/mesh_triangulation.h>
+#include <nvl/models/algorithms/mesh_triangulation.h>
 
 #include <nvl/math/numeric_limits.h>
 

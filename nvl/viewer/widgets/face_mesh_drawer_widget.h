@@ -9,9 +9,6 @@
 #include <nvl/viewer/gl/ramp_qglshader.h>
 #include <nvl/viewer/gl/contour_qglshader.h>
 
-#include <nvl/models/meshes.h>
-#include <nvl/models/model.h>
-
 #include <QFrame>
 
 namespace Ui {

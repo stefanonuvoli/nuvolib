@@ -2,7 +2,8 @@
 #include "ui_drawable_list_widget.h"
 
 #include <nvl/viewer/drawables/model_drawer.h>
-#include <nvl/models/model.h>
+
+#include <nvl/models/model_3d.h>
 
 namespace nvl {
 
