@@ -42,20 +42,20 @@ HEADERS += \
     $$PWD/algorithms/skeleton_transfer.h \
     $$PWD/algorithms/skeleton_transformations.h \
     $$PWD/animation_3d.h \
-    $$PWD/handlers/mesh_face_handler.h \
-    $$PWD/handlers/mesh_face_material_handler.h \
-    $$PWD/handlers/mesh_face_normal_handler.h \
-    $$PWD/handlers/mesh_face_wedge_normal_handler.h \
-    $$PWD/handlers/mesh_face_wedge_uv_handler.h \
-    $$PWD/handlers/mesh_material_handler.h \
-    $$PWD/handlers/mesh_polyline_color_handler.h \
-    $$PWD/handlers/mesh_polyline_handler.h \
-    $$PWD/handlers/mesh_vertex_color_handler.h \
-    $$PWD/handlers/mesh_vertex_handler.h \
-    $$PWD/handlers/mesh_vertex_normal_handler.h \
-    $$PWD/handlers/mesh_vertex_uv_handler.h \
-    $$PWD/handlers/mesh_wedge_normal_handler.h \
-    $$PWD/handlers/mesh_wedge_uv_handler.h \
+    $$PWD/structures/handlers/mesh_face_handler.h \
+    $$PWD/structures/handlers/mesh_face_material_handler.h \
+    $$PWD/structures/handlers/mesh_face_normal_handler.h \
+    $$PWD/structures/handlers/mesh_face_wedge_normal_handler.h \
+    $$PWD/structures/handlers/mesh_face_wedge_uv_handler.h \
+    $$PWD/structures/handlers/mesh_material_handler.h \
+    $$PWD/structures/handlers/mesh_polyline_color_handler.h \
+    $$PWD/structures/handlers/mesh_polyline_handler.h \
+    $$PWD/structures/handlers/mesh_vertex_color_handler.h \
+    $$PWD/structures/handlers/mesh_vertex_handler.h \
+    $$PWD/structures/handlers/mesh_vertex_normal_handler.h \
+    $$PWD/structures/handlers/mesh_vertex_uv_handler.h \
+    $$PWD/structures/handlers/mesh_wedge_normal_handler.h \
+    $$PWD/structures/handlers/mesh_wedge_uv_handler.h \
     $$PWD/io/animation_io.h \
     $$PWD/io/animation_io_data.h \
     $$PWD/io/animation_io_ska.h \
@@ -121,20 +121,20 @@ SOURCES += \
     $$PWD/algorithms/skeleton_adjacencies.cpp \
     $$PWD/algorithms/skeleton_transfer.cpp \
     $$PWD/algorithms/skeleton_transformations.cpp \
-    $$PWD/handlers/mesh_face_handler.cpp \
-    $$PWD/handlers/mesh_face_material_handler.cpp \
-    $$PWD/handlers/mesh_face_normal_handler.cpp \
-    $$PWD/handlers/mesh_face_wedge_normal_handler.cpp \
-    $$PWD/handlers/mesh_face_wedge_uv_handler.cpp \
-    $$PWD/handlers/mesh_material_handler.cpp \
-    $$PWD/handlers/mesh_polyline_color_handler.cpp \
-    $$PWD/handlers/mesh_polyline_handler.cpp \
-    $$PWD/handlers/mesh_vertex_color_handler.cpp \
-    $$PWD/handlers/mesh_vertex_handler.cpp \
-    $$PWD/handlers/mesh_vertex_normal_handler.cpp \
-    $$PWD/handlers/mesh_vertex_uv_handler.cpp \
-    $$PWD/handlers/mesh_wedge_normal_handler.cpp \
-    $$PWD/handlers/mesh_wedge_uv_handler.cpp \
+    $$PWD/structures/handlers/mesh_face_handler.cpp \
+    $$PWD/structures/handlers/mesh_face_material_handler.cpp \
+    $$PWD/structures/handlers/mesh_face_normal_handler.cpp \
+    $$PWD/structures/handlers/mesh_face_wedge_normal_handler.cpp \
+    $$PWD/structures/handlers/mesh_face_wedge_uv_handler.cpp \
+    $$PWD/structures/handlers/mesh_material_handler.cpp \
+    $$PWD/structures/handlers/mesh_polyline_color_handler.cpp \
+    $$PWD/structures/handlers/mesh_polyline_handler.cpp \
+    $$PWD/structures/handlers/mesh_vertex_color_handler.cpp \
+    $$PWD/structures/handlers/mesh_vertex_handler.cpp \
+    $$PWD/structures/handlers/mesh_vertex_normal_handler.cpp \
+    $$PWD/structures/handlers/mesh_vertex_uv_handler.cpp \
+    $$PWD/structures/handlers/mesh_wedge_normal_handler.cpp \
+    $$PWD/structures/handlers/mesh_wedge_uv_handler.cpp \
     $$PWD/io/animation_io.cpp \
     $$PWD/io/animation_io_data.cpp \
     $$PWD/io/animation_io_ska.cpp \

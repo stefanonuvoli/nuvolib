@@ -60,9 +60,8 @@ std::vector<typename Mesh::FaceId> meshTriangulateConvexFace(
     typedef typename Mesh::FaceId FaceId;
     typedef typename Mesh::VertexId VertexId;
 
-    const Face& face = mesh.face(fId);
-
-    std::vector<VertexId> faceVertices(mesh.faceVertexIds(fId).begin(), mesh.faceVertexIds(fId).end());
+    const typename Face::VertexContainer faceVertices = mesh.faceVertexIds(fId);
+    const Face face = mesh.face(fId);
 
     Index vertexNumber = faceVertices.size();
 
@@ -74,15 +73,17 @@ std::vector<typename Mesh::FaceId> meshTriangulateConvexFace(
 
         for (VertexId j = 0; j < vertexNumber - 2; ++j) {
             FaceId currentFaceId = fId;
+
             if (j > 0) {
-                FaceId newFaceId = mesh.addFace(face);
-                currentFaceId = newFaceId;
-                resultingFaces[j] = newFaceId;
+                currentFaceId = mesh.addFace(face);
+                resultingFaces[j] = currentFaceId;
             }
+
             std::vector<VertexId> newVertices(3);
             newVertices[0] = faceVertices[0];
             newVertices[1] = faceVertices[j + 1];
             newVertices[2] = faceVertices[(j + 2) % vertexNumber];
+
             mesh.setFaceVertexIds(currentFaceId, newVertices);
         }
     }
@@ -153,7 +154,7 @@ std::vector<typename Mesh::FaceId> meshTriangulateBarycenter(
     std::vector<FaceId> resultingFaces;
 
     if (vertexNumber > 3) {
-        resultingFaces = meshSubdivideInTrianglesBarycenter(mesh, fId);
+        resultingFaces = meshSubdivideInBarycenterWithTriangles(mesh, fId);
     }
     else {
         resultingFaces.resize(1);

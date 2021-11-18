@@ -5,10 +5,10 @@
 
 #include <nvl/models/structures/abstract_mesh.h>
 
-#include <nvl/models/handlers/mesh_vertex_handler.h>
-#include <nvl/models/handlers/mesh_vertex_normal_handler.h>
-#include <nvl/models/handlers/mesh_vertex_color_handler.h>
-#include <nvl/models/handlers/mesh_vertex_uv_handler.h>
+#include <nvl/models/structures/handlers/mesh_vertex_handler.h>
+#include <nvl/models/structures/handlers/mesh_vertex_normal_handler.h>
+#include <nvl/models/structures/handlers/mesh_vertex_color_handler.h>
+#include <nvl/models/structures/handlers/mesh_vertex_uv_handler.h>
 
 #include <ostream>
 

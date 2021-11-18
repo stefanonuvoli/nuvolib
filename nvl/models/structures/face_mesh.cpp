@@ -64,6 +64,12 @@ void FaceMesh<V,L,F>::setFaceVertexIds(const FaceId& id, const typename F::Verte
 }
 
 template<class V, class L, class F>
+Size FaceMesh<V,L,F>::faceVertexNumber(const FaceId& id) const
+{
+    MeshFaceHandler<F>::face(id).vertexNumber();
+}
+
+template<class V, class L, class F>
 void FaceMesh<V,L,F>::computeNormals()
 {
     computeFaceNormals();

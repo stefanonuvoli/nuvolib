@@ -5,8 +5,8 @@
 
 #include <nvl/models/structures/vertex_mesh.h>
 
-#include <nvl/models/handlers/mesh_polyline_handler.h>
-#include <nvl/models/handlers/mesh_polyline_color_handler.h>
+#include <nvl/models/structures/handlers/mesh_polyline_handler.h>
+#include <nvl/models/structures/handlers/mesh_polyline_color_handler.h>
 
 #include <ostream>
 
@@ -54,6 +54,8 @@ public:
     typename L::VertexContainer& polylineVertexIds(const PolylineId& id);
     const typename L::VertexContainer& polylineVertexIds(const PolylineId& id) const;
     void setPolylineVertexIds(const PolylineId& id, const typename L::VertexContainer& vertexIds);
+    Size polylineVertexNumber(const PolylineId& id) const;
+
 
     bool hasPolylineColors() const;
     void enablePolylineColors();

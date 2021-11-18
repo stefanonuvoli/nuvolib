@@ -5,14 +5,14 @@
 
 #include <nvl/models/structures/polyline_mesh.h>
 
-#include <nvl/models/handlers/mesh_face_handler.h>
-#include <nvl/models/handlers/mesh_material_handler.h>
-#include <nvl/models/handlers/mesh_face_material_handler.h>
-#include <nvl/models/handlers/mesh_face_normal_handler.h>
-#include <nvl/models/handlers/mesh_wedge_normal_handler.h>
-#include <nvl/models/handlers/mesh_wedge_uv_handler.h>
-#include <nvl/models/handlers/mesh_face_wedge_normal_handler.h>
-#include <nvl/models/handlers/mesh_face_wedge_uv_handler.h>
+#include <nvl/models/structures/handlers/mesh_face_handler.h>
+#include <nvl/models/structures/handlers/mesh_material_handler.h>
+#include <nvl/models/structures/handlers/mesh_face_material_handler.h>
+#include <nvl/models/structures/handlers/mesh_face_normal_handler.h>
+#include <nvl/models/structures/handlers/mesh_wedge_normal_handler.h>
+#include <nvl/models/structures/handlers/mesh_wedge_uv_handler.h>
+#include <nvl/models/structures/handlers/mesh_face_wedge_normal_handler.h>
+#include <nvl/models/structures/handlers/mesh_face_wedge_uv_handler.h>
 
 #include <ostream>
 
@@ -79,6 +79,7 @@ public:
     typename F::VertexContainer& faceVertexIds(const FaceId& id);
     const typename F::VertexContainer& faceVertexIds(const FaceId& id) const;
     void setFaceVertexIds(const FaceId& id, const typename F::VertexContainer& vertexIds);
+    Size faceVertexNumber(const FaceId& id) const;
 
     bool hasFaceNormals() const;
     void enableFaceNormals();

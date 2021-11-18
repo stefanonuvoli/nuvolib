@@ -8,14 +8,14 @@
 namespace nvl {
 
 template<class Mesh>
-void meshSubdivideInTrianglesBarycenter(
+void meshSubdivideInBarycenterWithTriangles(
         Mesh& mesh);
 template<class Mesh>
-void meshSubdivideInTrianglesBarycenter(
+void meshSubdivideInBarycenterWithTriangles(
         Mesh& mesh,
         std::vector<typename Mesh::FaceId>& birthFace);
 template<class Mesh>
-std::vector<typename Mesh::FaceId> meshSubdivideInTrianglesBarycenter(
+std::vector<typename Mesh::FaceId> meshSubdivideInBarycenterWithTriangles(
         Mesh& mesh,
         const typename Mesh::FaceId& fId);
 

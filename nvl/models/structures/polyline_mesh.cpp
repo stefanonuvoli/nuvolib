@@ -59,6 +59,12 @@ void PolylineMesh<V,L>::setPolylineVertexIds(const PolylineId& id, const typenam
 }
 
 template<class V, class L>
+Size PolylineMesh<V,L>::polylineVertexNumber(const PolylineId& id) const
+{
+    MeshPolylineHandler<L>::face(id).vertexNumber();
+}
+
+template<class V, class L>
 bool PolylineMesh<V,L>::hasPolylineColors() const
 {
     return vPolylineColorsEnabled;
