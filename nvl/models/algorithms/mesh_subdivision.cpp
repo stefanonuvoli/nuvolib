@@ -61,7 +61,7 @@ std::vector<typename Mesh::FaceId> meshSubdivideInBarycenterWithTriangles(
     typedef typename Mesh::VertexId VertexId;
     typedef typename Mesh::Point Point;
 
-    const typename Face::VertexContainer faceVertices = mesh.faceVertexIds(fId);
+    const typename Mesh::FaceContainer faceVertices = mesh.faceVertexIds(fId);
     const Face face = mesh.face(fId);
 
     Index vertexNumber = faceVertices.size();

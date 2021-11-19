@@ -8,7 +8,7 @@
 
 namespace nvl {
 
-template<class V, class C>
+template<class V>
 class MeshPolyline
 {
 
@@ -18,11 +18,10 @@ public:
 
     typedef Index Id;
 
-    typedef C Color;
     typedef V Vertex;
-    typedef std::vector<Index> VertexContainer;
-
     typedef typename V::Id VertexId;
+
+    typedef std::vector<Index> Container;
 
 
     /* Constructors */
@@ -40,7 +39,7 @@ public:
 
     template<class T, typename... Ts>
     void setVertexIds(const T& vertex, Ts... vertexIds);
-    void setVertexIds(const VertexContainer& vector);
+    void setVertexIds(const Container& vector);
 
     Size vertexNumber() const;
     void resizeVertexNumber(Size vertexNumber);
@@ -54,8 +53,8 @@ public:
     void eraseVertex(const Index& pos);
     void eraseVertex(const Vertex& vertex);
 
-    VertexContainer& vertexIds();
-    const VertexContainer& vertexIds() const;
+    Container& vertexIds();
+    const Container& vertexIds() const;
 
     VertexId& vertexId(const Index& pos);
     const VertexId& vertexId(const Index& pos) const;
@@ -70,7 +69,7 @@ public:
 protected:
 
     Size vId;
-    VertexContainer vVertices;
+    Container vVertices;
 
 private:
 
@@ -81,8 +80,8 @@ private:
     void setVertexIdsVariadicHelper(const Index& pos);
 };
 
-template<class V, class C>
-std::ostream& operator<<(std::ostream& output, const MeshPolyline<V,C>& polyline);
+template<class V>
+std::ostream& operator<<(std::ostream& output, const MeshPolyline<V>& polyline);
 
 }
 

@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include <nvl/models/meshes.h>
-#include <nvl/models/mesh_consistency.h>
+#include <nvl/models/mesh_3d.h>
+#include <nvl/models/algorithms/mesh_consistency.h>
 
 /**
  * @brief Surface triangle mesh initialization and deletion samples.

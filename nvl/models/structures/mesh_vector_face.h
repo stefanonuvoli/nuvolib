@@ -10,21 +10,18 @@
 
 namespace nvl {
 
-template<class V, class N, class M>
-class MeshVectorFace : public MeshFace<V,N,M,std::vector<typename V::Id>>
+template<class V>
+class MeshVectorFace : public MeshFace<V,std::vector<typename V::Id>>
 {
 
 public:
 
     /* Typedefs */
 
-    typedef typename MeshFace<V,N,M,std::vector<typename V::Id>>::Id Id;
-    typedef typename MeshFace<V,N,M,std::vector<typename V::Id>>::Vertex Vertex;
-    typedef typename MeshFace<V,N,M,std::vector<typename V::Id>>::VertexId VertexId;
-    typedef typename MeshFace<V,N,M,std::vector<typename V::Id>>::Normal Normal;
-    typedef typename MeshFace<V,N,M,std::vector<typename V::Id>>::VertexNormal VertexNormal;
-    typedef typename MeshFace<V,N,M,std::vector<typename V::Id>>::Material Material;
-    typedef typename MeshFace<V,N,M,std::vector<typename V::Id>>::VertexContainer VertexContainer;
+    typedef typename MeshFace<V,std::vector<typename V::Id>>::Id Id;
+    typedef typename MeshFace<V,std::vector<typename V::Id>>::Vertex Vertex;
+    typedef typename MeshFace<V,std::vector<typename V::Id>>::VertexId VertexId;
+    typedef typename MeshFace<V,std::vector<typename V::Id>>::Container Container;
 
 
     /* Constructors */
@@ -60,8 +57,8 @@ private:
     void setVertexIdsVariadicHelper(const Index& pos);
 };
 
-template<class V, class N, class M>
-std::ostream& operator<<(std::ostream& output, const MeshVectorFace<V,N,M>& face);
+template<class V>
+std::ostream& operator<<(std::ostream& output, const MeshVectorFace<V>& face);
 
 }
 

@@ -9,7 +9,7 @@ MeshVertexUVHandler<V,U>::MeshVertexUVHandler()
 }
 
 template<class V, class U>
-typename MeshVertexUVHandler<V,U>::UV& MeshVertexUVHandler<V,U>::vertexUV(const VertexId& id)
+typename MeshVertexUVHandler<V,U>::VertexUV& MeshVertexUVHandler<V,U>::vertexUV(const VertexId& id)
 {
     assert(id < vVertexUVs.realSize() && "Vertex uvs not enabled or not properly initialized.");
 
@@ -17,7 +17,7 @@ typename MeshVertexUVHandler<V,U>::UV& MeshVertexUVHandler<V,U>::vertexUV(const 
 }
 
 template<class V, class U>
-const typename MeshVertexUVHandler<V,U>::UV& MeshVertexUVHandler<V,U>::vertexUV(const VertexId& id) const
+const typename MeshVertexUVHandler<V,U>::VertexUV& MeshVertexUVHandler<V,U>::vertexUV(const VertexId& id) const
 {
     assert(id < vVertexUVs.realSize() && "Vertex uvs not enabled or not properly initialized.");
 
@@ -25,7 +25,7 @@ const typename MeshVertexUVHandler<V,U>::UV& MeshVertexUVHandler<V,U>::vertexUV(
 }
 
 template<class V, class U>
-void MeshVertexUVHandler<V,U>::setVertexUV(const VertexId& id, const UV& uv)
+void MeshVertexUVHandler<V,U>::setVertexUV(const VertexId& id, const VertexUV& uv)
 {
     assert(id < vVertexUVs.realSize() && "Vertex uvs not enabled or not properly initialized.");
 
@@ -33,19 +33,19 @@ void MeshVertexUVHandler<V,U>::setVertexUV(const VertexId& id, const UV& uv)
 }
 
 template<class V, class U>
-typename MeshVertexUVHandler<V,U>::UV& MeshVertexUVHandler<V,U>::vertexUV(const Vertex& vertex)
+typename MeshVertexUVHandler<V,U>::VertexUV& MeshVertexUVHandler<V,U>::vertexUV(const Vertex& vertex)
 {
     return vertexUV(vertex.id());
 }
 
 template<class V, class U>
-const typename MeshVertexUVHandler<V,U>::UV& MeshVertexUVHandler<V,U>::vertexUV(const Vertex& vertex) const
+const typename MeshVertexUVHandler<V,U>::VertexUV& MeshVertexUVHandler<V,U>::vertexUV(const Vertex& vertex) const
 {
     return vertexUV(vertex.id());
 }
 
 template<class V, class U>
-void MeshVertexUVHandler<V,U>::setVertexUV(const Vertex& vertex, const UV& uv)
+void MeshVertexUVHandler<V,U>::setVertexUV(const Vertex& vertex, const VertexUV& uv)
 {
     setVertexUV(vertex.id(), uv);
 }

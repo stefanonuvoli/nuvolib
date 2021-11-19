@@ -12,29 +12,38 @@
 
 namespace nvl {
 
-template<class V, class L>
+template<class V, class C>
+class PolylineMeshTypes;
+
+template<class VT, class PT>
 class PolylineMesh :
-        public VertexMesh<V>,
-        public MeshPolylineHandler<L>,
-        public MeshPolylineColorHandler<L, typename L::Color>
+        public VertexMesh<VT>,
+        public MeshPolylineHandler<typename PT::Polyline>,
+        public MeshPolylineColorHandler<typename PT::Polyline, typename PT::Color>
 {
 
 public:
 
     /* Typedefs  */
 
-    typedef typename MeshPolylineHandler<L>::Polyline Polyline;
-    typedef typename MeshPolylineHandler<L>::PolylineId PolylineId;
+    typedef typename PT::Polyline Polyline;
+    typedef typename PT::Color PolylineColor;
 
-    typedef typename Polyline::Color PolylineColor;
+    typedef typename Polyline::Container PolylineContainer;
 
-    typedef typename VertexMesh<V>::VertexId VertexId;
-    typedef typename VertexMesh<V>::Vertex Vertex;
-    typedef typename VertexMesh<V>::VertexColor VertexColor;
-    typedef typename VertexMesh<V>::VertexNormal VertexNormal;
-    typedef typename VertexMesh<V>::UV UV;
-    typedef typename VertexMesh<V>::Scalar Scalar;
-    typedef typename VertexMesh<V>::Point Point;
+    /* Parent typedefs  */
+
+    typedef typename VertexMesh<VT>::Vertex Vertex;
+    typedef typename VertexMesh<VT>::VertexId VertexId;
+    typedef typename VertexMesh<VT>::Point Point;
+    typedef typename VertexMesh<VT>::Scalar Scalar;
+    typedef typename VertexMesh<VT>::VertexNormal VertexNormal;
+    typedef typename VertexMesh<VT>::VertexColor VertexColor;
+    typedef typename VertexMesh<VT>::VertexUV VertexUV;
+
+    /* Handlers typedefs  */
+
+    typedef typename MeshPolylineHandler<Polyline>::PolylineId PolylineId;
 
 
     /* Constructors */
@@ -53,9 +62,9 @@ public:
 
     Size polylineVertexNumber(const PolylineId& id) const;
 
-    typename L::VertexContainer& polylineVertexIds(const PolylineId& id);
-    const typename L::VertexContainer& polylineVertexIds(const PolylineId& id) const;
-    void setPolylineVertexIds(const PolylineId& id, const typename L::VertexContainer& vertexIds);
+    PolylineContainer& polylineVertexIds(const PolylineId& id);
+    const PolylineContainer& polylineVertexIds(const PolylineId& id) const;
+    void setPolylineVertexIds(const PolylineId& id, const PolylineContainer& vertexIds);
 
     VertexId polylineVertexId(const PolylineId& id, const Index& pos);
     const VertexId polylineVertexId(const PolylineId& id, const Index& pos) const;
@@ -82,8 +91,20 @@ protected:
 
 };
 
-template<class V, class L>
-std::ostream& operator<<(std::ostream& output, const PolylineMesh<V,L>& mesh);
+template<class P, class C>
+class PolylineMeshTypes
+{
+
+public:
+
+    typedef P Polyline;
+    typedef C Color;
+
+};
+
+
+template<class VT, class PT>
+std::ostream& operator<<(std::ostream& output, const PolylineMesh<VT,PT>& mesh);
 
 }
 

@@ -2,116 +2,129 @@
 
 namespace nvl {
 
-template<class V, class L>
-PolylineMesh<V,L>::PolylineMesh() :
+template<class VT, class PT>
+PolylineMesh<VT,PT>::PolylineMesh() :
     vPolylineColorsEnabled(false)
 {
     this->vType = MeshType::POLYLINE;
 }
 
-template<class V, class L>
-typename PolylineMesh<V,L>::PolylineId PolylineMesh<V,L>::addPolyline(const Polyline& polyline)
+template<class VT, class PT>
+typename PolylineMesh<VT,PT>::PolylineId PolylineMesh<VT,PT>::addPolyline(const Polyline& polyline)
 {
-    PolylineId newPId = MeshPolylineHandler<L>::addPolyline(polyline);
+    PolylineId newPId = MeshPolylineHandler<Polyline>::addPolyline(polyline);
     updateComponents();
     return newPId;
 }
 
-template<class V, class L>
+template<class VT, class PT>
 template<class... Ts>
-typename PolylineMesh<V,L>::PolylineId PolylineMesh<V,L>::addPolyline(const Ts... points)
+typename PolylineMesh<VT,PT>::PolylineId PolylineMesh<VT,PT>::addPolyline(const Ts... points)
 {
-    PolylineId newPId = MeshPolylineHandler<L>::addPolyline(points...);
+    PolylineId newPId = MeshPolylineHandler<Polyline>::addPolyline(points...);
     updateComponents();
     return newPId;
 }
 
-template<class V, class L>
-typename PolylineMesh<V,L>::PolylineId PolylineMesh<V,L>::allocatePolylines(const Size& n)
+template<class VT, class PT>
+typename PolylineMesh<VT,PT>::PolylineId PolylineMesh<VT,PT>::allocatePolylines(const Size& n)
 {
     return allocatePolylines(n, Polyline());
 }
 
-template<class V, class L>
-typename PolylineMesh<V,L>::PolylineId PolylineMesh<V,L>::allocatePolylines(const Size& n, const Polyline& polyline)
+template<class VT, class PT>
+typename PolylineMesh<VT,PT>::PolylineId PolylineMesh<VT,PT>::allocatePolylines(const Size& n, const Polyline& polyline)
 {
-    PolylineId newPId = MeshPolylineHandler<L>::allocatePolylines(n, polyline);
+    PolylineId newPId = MeshPolylineHandler<Polyline>::allocatePolylines(n, polyline);
     updateComponents();
     return newPId;
 }
 
-template<class V, class L>
-typename L::VertexContainer& PolylineMesh<V,L>::polylineVertexIds(const PolylineId& id)
+template<class VT, class PT>
+typename PolylineMesh<VT,PT>::PolylineContainer& PolylineMesh<VT,PT>::polylineVertexIds(const PolylineId& id)
 {
-    return MeshPolylineHandler<L>::polyline(id).vertexIds();
+    return MeshPolylineHandler<Polyline>::polyline(id).vertexIds();
 }
 
-template<class V, class L>
-Size PolylineMesh<V,L>::polylineVertexNumber(const PolylineId& id) const
+template<class VT, class PT>
+Size PolylineMesh<VT,PT>::polylineVertexNumber(const PolylineId& id) const
 {
-    MeshPolylineHandler<L>::polyline(id).vertexNumber();
+    MeshPolylineHandler<Polyline>::polyline(id).vertexNumber();
 }
 
-template<class V, class L>
-const typename L::VertexContainer& PolylineMesh<V,L>::polylineVertexIds(const PolylineId& id) const
+template<class VT, class PT>
+const typename PolylineMesh<VT,PT>::PolylineContainer& PolylineMesh<VT,PT>::polylineVertexIds(const PolylineId& id) const
 {
-    return MeshPolylineHandler<L>::polyline(id).vertexIds();
+    return MeshPolylineHandler<Polyline>::polyline(id).vertexIds();
 }
 
-template<class V, class L>
-void PolylineMesh<V,L>::setPolylineVertexIds(const PolylineId& id, const typename L::VertexContainer& vertexIds)
+template<class VT, class PT>
+void PolylineMesh<VT,PT>::setPolylineVertexIds(const PolylineId& id, const PolylineContainer& vertexIds)
 {
-    MeshPolylineHandler<L>::polyline(id).setVertexIds(vertexIds);
+    MeshPolylineHandler<Polyline>::polyline(id).setVertexIds(vertexIds);
 }
 
-template<class V, class L>
-typename PolylineMesh<V,L>::VertexId PolylineMesh<V,L>::polylineVertexId(const PolylineId& id, const Index& pos)
+template<class VT, class PT>
+typename PolylineMesh<VT,PT>::VertexId PolylineMesh<VT,PT>::polylineVertexId(const PolylineId& id, const Index& pos)
 {
-    return MeshPolylineHandler<L>::polyline(id).vertexId(pos);
+    return MeshPolylineHandler<Polyline>::polyline(id).vertexId(pos);
 }
 
-template<class V, class L>
-const typename PolylineMesh<V,L>::VertexId PolylineMesh<V,L>::polylineVertexId(const PolylineId& id, const Index& pos) const
+template<class VT, class PT>
+const typename PolylineMesh<VT,PT>::VertexId PolylineMesh<VT,PT>::polylineVertexId(const PolylineId& id, const Index& pos) const
 {
-    return MeshPolylineHandler<L>::polyline(id).vertexId(pos);
+    return MeshPolylineHandler<Polyline>::polyline(id).vertexId(pos);
 }
 
-template<class V, class L>
-void PolylineMesh<V,L>::setPolylineVertexId(const PolylineId& id, const Index& pos, const VertexId& vId)
+template<class VT, class PT>
+void PolylineMesh<VT,PT>::setPolylineVertexId(const PolylineId& id, const Index& pos, const VertexId& vId)
 {
-    MeshPolylineHandler<L>::polyline(id).setVertexId(pos, vId);
+    MeshPolylineHandler<Polyline>::polyline(id).setVertexId(pos, vId);
 }
 
-template<class V, class L>
-bool PolylineMesh<V,L>::hasPolylineColors() const
+template<class VT, class PT>
+bool PolylineMesh<VT,PT>::hasPolylineColors() const
 {
     return vPolylineColorsEnabled;
 }
 
-template<class V, class L>
-void PolylineMesh<V,L>::enablePolylineColors()
+template<class VT, class PT>
+void PolylineMesh<VT,PT>::enablePolylineColors()
 {
     vPolylineColorsEnabled = true;
     updatePolylineColors();
 }
 
-template<class V, class L>
-void PolylineMesh<V,L>::disablePolylineColors()
+template<class VT, class PT>
+void PolylineMesh<VT,PT>::disablePolylineColors()
 {
     vPolylineColorsEnabled = false;
     updatePolylineColors();
 }
 
-template<class V, class L>
-void PolylineMesh<V,L>::compactAll()
+template<class VT, class PT>
+void PolylineMesh<VT,PT>::compactAll()
 {
     compactPolylines();
     compactPolylines();
 }
 
-template<class V, class L>
-std::vector<typename PolylineMesh<V,L>::PolylineId> PolylineMesh<V,L>::compactPolylines()
+template<class VT, class PT>
+std::vector<typename PolylineMesh<VT,PT>::PolylineId> PolylineMesh<VT,PT>::compactPolylines()
 {
+    //Compact polyline colors
+    if (this->hasPolylineColors()) {
+        for (PolylineId vId = 0; vId < this->nextPolylineId(); vId++) {
+            if (this->isPolylineDeleted(vId)) {
+                this->vPolylineColors.erase(vId);
+            }
+        }
+        this->vPolylineColors.compact();
+    }
+    else {
+        this->vPolylineColors.clear();
+    }
+
     std::vector<Index> pMap = this->vPolylines.compact();
 
     //Update polyline ids
@@ -124,10 +137,10 @@ std::vector<typename PolylineMesh<V,L>::PolylineId> PolylineMesh<V,L>::compactPo
     return pMap;
 }
 
-template<class V, class L>
-std::vector<typename PolylineMesh<V,L>::VertexId> PolylineMesh<V,L>::compactVertices()
+template<class VT, class PT>
+std::vector<typename PolylineMesh<VT,PT>::VertexId> PolylineMesh<VT,PT>::compactVertices()
 {
-    std::vector<Index> vMap = VertexMesh<V>::compactVertices();
+    std::vector<Index> vMap = VertexMesh<VT>::compactVertices();
 
     //Update vertex ids in polylines
     for (Polyline& polyline : this->polylines()) {
@@ -144,28 +157,28 @@ std::vector<typename PolylineMesh<V,L>::VertexId> PolylineMesh<V,L>::compactVert
 }
 
 
-template<class V, class L>
-void PolylineMesh<V,L>::clearPolylines()
+template<class VT, class PT>
+void PolylineMesh<VT,PT>::clearPolylines()
 {
-    MeshPolylineHandler<L>::clearPolylines();
+    MeshPolylineHandler<Polyline>::clearPolylines();
     this->vPolylineColors.clear();
 }
 
-template<class V, class L>
-void PolylineMesh<V,L>::clear()
+template<class VT, class PT>
+void PolylineMesh<VT,PT>::clear()
 {
-    VertexMesh<V>::clear();
+    VertexMesh<VT>::clear();
     this->clearPolylines();
 }
 
-template<class V, class L>
-void PolylineMesh<V,L>::updateComponents()
+template<class VT, class PT>
+void PolylineMesh<VT,PT>::updateComponents()
 {
     updatePolylineColors();
 }
 
-template<class V, class L>
-void PolylineMesh<V,L>::updatePolylineColors()
+template<class VT, class PT>
+void PolylineMesh<VT,PT>::updatePolylineColors()
 {
     if (vPolylineColorsEnabled) {
         this->vPolylineColors.resize(this->nextPolylineId(), VertexColor(0.7, 0.7, 0.7));
@@ -175,14 +188,14 @@ void PolylineMesh<V,L>::updatePolylineColors()
     }
 }
 
-template<class V, class L>
-std::ostream& operator<<(std::ostream& output, const PolylineMesh<V,L>& polylineMesh)
+template<class VT, class PT>
+std::ostream& operator<<(std::ostream& output, const PolylineMesh<VT,PT>& polylineMesh)
 {
-    const VertexMesh<V>& vMesh = polylineMesh;
+    const VertexMesh<VT>& vMesh = polylineMesh;
     output << vMesh;
 
     output << "Polylines: " << polylineMesh.polylineNumber() << std::endl;
-    for (const typename PolylineMesh<V,L>::Polyline& polyline : polylineMesh.polylines()) {
+    for (const typename PolylineMesh<VT,PT>::Polyline& polyline : polylineMesh.polylines()) {
         output << polyline << std::endl;
     }
 

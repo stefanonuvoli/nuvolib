@@ -18,48 +18,53 @@
 
 namespace nvl {
 
-template<class V, class L, class F>
+template<class F, class N, class M>
+class FaceMeshTypes;
+
+template<class VT, class PT, class FT>
 class FaceMesh :
-        public PolylineMesh<V,L>,
-        public MeshFaceHandler<F>,
-        public MeshMaterialHandler<typename F::Material>,
-        public MeshFaceMaterialHandler<F, typename F::Material>,
-        public MeshFaceNormalHandler<F, typename F::Normal>,
-        public MeshWedgeNormalHandler<typename F::Normal>,
-        public MeshFaceWedgeNormalHandler<F, typename F::Normal>,
-        public MeshWedgeUVHandler<typename F::UV>,
-        public MeshFaceWedgeUVHandler<F, typename F::UV>
+        public PolylineMesh<VT,PT>,
+        public MeshFaceHandler<typename FT::Face>,
+        public MeshMaterialHandler<typename FT::Material>,
+        public MeshFaceMaterialHandler<typename FT::Face, typename FT::Material>,
+        public MeshFaceNormalHandler<typename FT::Face, typename FT::Normal>,
+        public MeshWedgeNormalHandler<typename VT::Normal>,
+        public MeshFaceWedgeNormalHandler<typename FT::Face, typename VT::Normal>,
+        public MeshWedgeUVHandler<typename VT::UV>,
+        public MeshFaceWedgeUVHandler<typename FT::Face, typename VT::UV>
 {
 
 public:
 
     /* Typedefs  */
 
-    typedef typename MeshFaceHandler<F>::Face Face;
-    typedef typename MeshFaceHandler<F>::FaceId FaceId;
+    typedef typename FT::Face Face;
+    typedef typename FT::Normal FaceNormal;
+    typedef typename FT::Material Material;
 
-    typedef typename Face::Normal FaceNormal;
-    typedef typename Face::Material Material;
-    typedef typename Material::Id MaterialId;
     typedef typename Material::Color MaterialColor;
+    typedef typename Face::Container FaceContainer;
 
-    typedef typename Face::VertexNormal WedgeNormal;
-    typedef typename Face::UV WedgeUV;
+    /* Parent typedefs  */
 
-    typedef typename MeshFaceWedgeNormalHandler<F,WedgeNormal>::WedgeNormalId WedgeNormalId;
-    typedef typename MeshFaceWedgeUVHandler<F,WedgeUV>::WedgeUVId WedgeUVId;
+    typedef typename PolylineMesh<VT,PT>::Polyline Polyline;
+    typedef typename PolylineMesh<VT,PT>::PolylineColor PolylineColor;
+    typedef typename PolylineMesh<VT,PT>::PolylineContainer PolylineContainer;
 
-    typedef typename PolylineMesh<V,L>::Vertex Vertex;
-    typedef typename PolylineMesh<V,L>::VertexId VertexId;
-    typedef typename PolylineMesh<V,L>::VertexColor VertexColor;
-    typedef typename PolylineMesh<V,L>::VertexNormal VertexNormal;
-    typedef typename PolylineMesh<V,L>::UV UV;
-    typedef typename PolylineMesh<V,L>::Scalar Scalar;
-    typedef typename PolylineMesh<V,L>::Point Point;
+    typedef typename VertexMesh<VT>::Vertex Vertex;
+    typedef typename VertexMesh<VT>::VertexId VertexId;
+    typedef typename VertexMesh<VT>::Point Point;
+    typedef typename VertexMesh<VT>::Scalar Scalar;
+    typedef typename VertexMesh<VT>::VertexNormal VertexNormal;
+    typedef typename VertexMesh<VT>::VertexColor VertexColor;
+    typedef typename VertexMesh<VT>::VertexUV VertexUV;
 
-    typedef typename PolylineMesh<V,L>::PolylineId PolylineId;
-    typedef typename PolylineMesh<V,L>::Polyline Polyline;
-    typedef typename PolylineMesh<V,L>::PolylineColor PolylineColor;
+    /* Handlers typedefs  */
+
+    typedef typename MeshFaceHandler<Face>::FaceId FaceId;
+    typedef typename MeshFaceMaterialHandler<Face, Material>::MaterialId MaterialId;
+    typedef typename MeshFaceWedgeNormalHandler<Face,VertexNormal>::WedgeNormalId WedgeNormalId;
+    typedef typename MeshFaceWedgeUVHandler<Face,VertexUV>::WedgeUVId WedgeUVId;
 
 
     /* Constructors */
@@ -78,9 +83,9 @@ public:
 
     Size faceVertexNumber(const FaceId& id) const;
 
-    typename F::VertexContainer& faceVertexIds(const FaceId& id);
-    const typename F::VertexContainer& faceVertexIds(const FaceId& id) const;
-    void setFaceVertexIds(const FaceId& id, const typename F::VertexContainer& vertexIds);
+    FaceContainer& faceVertexIds(const FaceId& id);
+    const FaceContainer& faceVertexIds(const FaceId& id) const;
+    void setFaceVertexIds(const FaceId& id, const FaceContainer& vertexIds);
 
     VertexId faceVertexId(const FaceId& id, const Index& pos);
     const VertexId faceVertexId(const FaceId& id, const Index& pos) const;
@@ -129,8 +134,20 @@ protected:
 
 };
 
-template<class V, class L, class F>
-std::ostream& operator<<(std::ostream& output, const FaceMesh<V,L,F>& mesh);
+template<class F, class N, class M>
+class FaceMeshTypes
+{
+
+public:
+
+    typedef F Face;
+    typedef N Normal;
+    typedef M Material;
+
+};
+
+template<class VT, class PT, class FT>
+std::ostream& operator<<(std::ostream& output, const FaceMesh<VT,PT,FT>& mesh);
 
 }
 

@@ -2,114 +2,114 @@
 
 namespace nvl {
 
-template<class V, class N, class M, class C>
-MeshFace<V,N,M,C>::MeshFace() :
+template<class V, class C>
+MeshFace<V,C>::MeshFace() :
     vId(NULL_ID)
 {
 
 }
 
-template<class V, class N, class M, class C>
-typename MeshFace<V,N,M,C>::Id& MeshFace<V,N,M,C>::id()
+template<class V, class C>
+typename MeshFace<V,C>::Id& MeshFace<V,C>::id()
 {
     return vId;
 }
 
-template<class V, class N, class M, class C>
-const typename MeshFace<V,N,M,C>::Id& MeshFace<V,N,M,C>::id() const
+template<class V, class C>
+const typename MeshFace<V,C>::Id& MeshFace<V,C>::id() const
 {
     return vId;
 }
 
-template<class V, class N, class M, class C>
-void MeshFace<V,N,M,C>::setId(const Id& id)
+template<class V, class C>
+void MeshFace<V,C>::setId(const Id& id)
 {
     vId = id;
 }
 
-template<class V, class N, class M, class C>
-Size MeshFace<V,N,M,C>::vertexNumber() const
+template<class V, class C>
+Size MeshFace<V,C>::vertexNumber() const
 {
     return vVertexIds.size();
 }
 
-template<class V, class N, class M, class C>
-typename MeshFace<V,N,M,C>::VertexContainer& MeshFace<V,N,M,C>::vertexIds()
+template<class V, class C>
+typename MeshFace<V,C>::Container& MeshFace<V,C>::vertexIds()
 {
     return vVertexIds;
 }
 
-template<class V, class N, class M, class C>
-const typename MeshFace<V,N,M,C>::VertexContainer& MeshFace<V,N,M,C>::vertexIds() const
+template<class V, class C>
+const typename MeshFace<V,C>::Container& MeshFace<V,C>::vertexIds() const
 {
     return vVertexIds;
 }
 
-template<class V, class N, class M, class C>
-typename MeshFace<V,N,M,C>::VertexId& MeshFace<V,N,M,C>::vertexId(const Index& pos)
+template<class V, class C>
+typename MeshFace<V,C>::VertexId& MeshFace<V,C>::vertexId(const Index& pos)
 {
     assert(pos < vVertexIds.size() && "Index exceed the face dimension.");
 
     return vVertexIds[pos];
 }
 
-template<class V, class N, class M, class C>
-const typename MeshFace<V,N,M,C>::VertexId& MeshFace<V,N,M,C>::vertexId(const Index& pos) const
+template<class V, class C>
+const typename MeshFace<V,C>::VertexId& MeshFace<V,C>::vertexId(const Index& pos) const
 {
     assert(pos < vVertexIds.size() && "Index exceed the face dimension.");
 
     return vVertexIds[pos];
 }
 
-template<class V, class N, class M, class C>
-void MeshFace<V,N,M,C>::setVertexId(const Index& pos, const VertexId& vId)
+template<class V, class C>
+void MeshFace<V,C>::setVertexId(const Index& pos, const VertexId& vId)
 {
     assert(pos < vVertexIds.size() && "Index exceed the face dimension.");
 
     vVertexIds[pos] = vId;
 }
 
-template<class V, class N, class M, class C>
-void MeshFace<V,N,M,C>::setVertex(const Index& pos, const Vertex& vertex)
+template<class V, class C>
+void MeshFace<V,C>::setVertex(const Index& pos, const Vertex& vertex)
 {
     setVertexId(pos, vertex.id());
 }
 
-template<class V, class N, class M, class C>
-typename MeshFace<V,N,M,C>::VertexId& MeshFace<V,N,M,C>::nextVertexId(const Index& pos)
+template<class V, class C>
+typename MeshFace<V,C>::VertexId& MeshFace<V,C>::nextVertexId(const Index& pos)
 {
     assert(pos < vVertexIds.size() && "Index exceed the face dimension.");
 
     return vVertexIds[(pos + 1) % vVertexIds.size()];
 }
 
-template<class V, class N, class M, class C>
-const typename MeshFace<V,N,M,C>::VertexId& MeshFace<V,N,M,C>::nextVertexId(const Index& pos) const
+template<class V, class C>
+const typename MeshFace<V,C>::VertexId& MeshFace<V,C>::nextVertexId(const Index& pos) const
 {
     assert(pos < vVertexIds.size() && "Index exceed the face dimension.");
 
     return vVertexIds[(pos + 1) % vVertexIds.size()];
 }
 
-template<class V, class N, class M, class C>
-void MeshFace<V,N,M,C>::setNextVertexId(const Index& pos, const VertexId& vId)
+template<class V, class C>
+void MeshFace<V,C>::setNextVertexId(const Index& pos, const VertexId& vId)
 {
     assert(pos < vVertexIds.size() && "Index exceed the face dimension.");
 
     vVertexIds[(pos + 1) % vVertexIds.size()] = vId;
 }
 
-template<class V, class N, class M, class C>
-void MeshFace<V,N,M,C>::setNextVertex(const Index& pos, const Vertex& vertex)
+template<class V, class C>
+void MeshFace<V,C>::setNextVertex(const Index& pos, const Vertex& vertex)
 {
     setNextVertexId(pos, vertex.id());
 }
 
-template<class V, class N, class M, class C>
-std::ostream& operator<<(std::ostream& output, const MeshFace<V,N,M,C>& face)
+template<class V, class C>
+std::ostream& operator<<(std::ostream& output, const MeshFace<V,C>& face)
 {
     output << "[" << face.id() << "]\t";
-    for (const typename MeshFace<V,N,M,C>::VertexId& vId : face.vertexIds()) {
+    for (const typename MeshFace<V,C>::VertexId& vId : face.vertexIds()) {
         if (vId == NULL_ID) {
             output << "x";
         }

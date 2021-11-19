@@ -4,8 +4,8 @@
 
 namespace nvl {
 
-template<class V, class L, class F>
-FaceMesh<V,L,F>::FaceMesh() :
+template<class VT, class PT, class FT>
+FaceMesh<VT,PT,FT>::FaceMesh() :
     vFaceNormalsEnabled(false),
     vFaceMaterialEnabled(false),
     vWedgeNormalsEnabled(false),
@@ -14,180 +14,180 @@ FaceMesh<V,L,F>::FaceMesh() :
     this->vType = MeshType::FACE;
 }
 
-template<class V, class L, class F>
-typename FaceMesh<V,L,F>::FaceId FaceMesh<V,L,F>::addFace(const Face& face)
+template<class VT, class PT, class FT>
+typename FaceMesh<VT,PT,FT>::FaceId FaceMesh<VT,PT,FT>::addFace(const Face& face)
 {
-    FaceId newFId = MeshFaceHandler<F>::addFace(face);
+    FaceId newFId = MeshFaceHandler<Face>::addFace(face);
     updateComponents();
     return newFId;
 }
 
-template<class V, class L, class F>
+template<class VT, class PT, class FT>
 template<class... Ts>
-typename FaceMesh<V,L,F>::FaceId FaceMesh<V,L,F>::addFace(const Ts... vertices)
+typename FaceMesh<VT,PT,FT>::FaceId FaceMesh<VT,PT,FT>::addFace(const Ts... vertices)
 {
-    FaceId newFId = MeshFaceHandler<F>::addFace(vertices...);
+    FaceId newFId = MeshFaceHandler<Face>::addFace(vertices...);
     updateComponents();
     return newFId;
 }
 
-template<class V, class L, class F>
-typename FaceMesh<V,L,F>::FaceId FaceMesh<V,L,F>::allocateFaces(const Size& n)
+template<class VT, class PT, class FT>
+typename FaceMesh<VT,PT,FT>::FaceId FaceMesh<VT,PT,FT>::allocateFaces(const Size& n)
 {
     return allocateFaces(n, Face());
 }
 
-template<class V, class L, class F>
-typename FaceMesh<V,L,F>::FaceId FaceMesh<V,L,F>::allocateFaces(const Size& n, const Face& face)
+template<class VT, class PT, class FT>
+typename FaceMesh<VT,PT,FT>::FaceId FaceMesh<VT,PT,FT>::allocateFaces(const Size& n, const Face& face)
 {
-    FaceId newFId = MeshFaceHandler<F>::allocateFaces(n, face);
+    FaceId newFId = MeshFaceHandler<Face>::allocateFaces(n, face);
     updateComponents();
     return newFId;
 }
 
-template<class V, class L, class F>
-Size FaceMesh<V,L,F>::faceVertexNumber(const FaceId& id) const
+template<class VT, class PT, class FT>
+Size FaceMesh<VT,PT,FT>::faceVertexNumber(const FaceId& id) const
 {
-    MeshFaceHandler<F>::face(id).vertexNumber();
+    MeshFaceHandler<Face>::face(id).vertexNumber();
 }
 
-template<class V, class L, class F>
-typename F::VertexContainer& FaceMesh<V,L,F>::faceVertexIds(const FaceId& id)
+template<class VT, class PT, class FT>
+typename FaceMesh<VT,PT,FT>::FaceContainer& FaceMesh<VT,PT,FT>::faceVertexIds(const FaceId& id)
 {
-    return MeshFaceHandler<F>::face(id).vertexIds();
+    return MeshFaceHandler<Face>::face(id).vertexIds();
 }
 
-template<class V, class L, class F>
-const typename F::VertexContainer& FaceMesh<V,L,F>::faceVertexIds(const FaceId& id) const
+template<class VT, class PT, class FT>
+const typename FaceMesh<VT,PT,FT>::FaceContainer& FaceMesh<VT,PT,FT>::faceVertexIds(const FaceId& id) const
 {
-    return MeshFaceHandler<F>::face(id).vertexIds();
+    return MeshFaceHandler<Face>::face(id).vertexIds();
 }
 
-template<class V, class L, class F>
-void FaceMesh<V,L,F>::setFaceVertexIds(const FaceId& id, const typename F::VertexContainer& vertexIds)
+template<class VT, class PT, class FT>
+void FaceMesh<VT,PT,FT>::setFaceVertexIds(const FaceId& id, const FaceContainer& vertexIds)
 {
-    MeshFaceHandler<F>::face(id).setVertexIds(vertexIds);
+    MeshFaceHandler<Face>::face(id).setVertexIds(vertexIds);
 }
 
-template<class V, class L, class F>
-typename FaceMesh<V,L,F>::VertexId FaceMesh<V,L,F>::faceVertexId(const FaceId& id, const Index& pos)
+template<class VT, class PT, class FT>
+typename FaceMesh<VT,PT,FT>::VertexId FaceMesh<VT,PT,FT>::faceVertexId(const FaceId& id, const Index& pos)
 {
-    return MeshFaceHandler<F>::face(id).vertexId(pos);
+    return MeshFaceHandler<Face>::face(id).vertexId(pos);
 }
 
-template<class V, class L, class F>
-const typename FaceMesh<V,L,F>::VertexId FaceMesh<V,L,F>::faceVertexId(const FaceId& id, const Index& pos) const
+template<class VT, class PT, class FT>
+const typename FaceMesh<VT,PT,FT>::VertexId FaceMesh<VT,PT,FT>::faceVertexId(const FaceId& id, const Index& pos) const
 {
-    return MeshFaceHandler<F>::face(id).vertexId(pos);
+    return MeshFaceHandler<Face>::face(id).vertexId(pos);
 }
 
-template<class V, class L, class F>
-void FaceMesh<V,L,F>::setFaceVertexId(const FaceId& id, const Index& pos, const VertexId& vId)
+template<class VT, class PT, class FT>
+void FaceMesh<VT,PT,FT>::setFaceVertexId(const FaceId& id, const Index& pos, const VertexId& vId)
 {
-    MeshFaceHandler<F>::face(id).setVertexId(pos, vId);
+    MeshFaceHandler<Face>::face(id).setVertexId(pos, vId);
 }
 
-template<class V, class L, class F>
-void FaceMesh<V,L,F>::computeNormals()
+template<class VT, class PT, class FT>
+void FaceMesh<VT,PT,FT>::computeNormals()
 {
     computeFaceNormals();
     computeVertexNormals();
 }
 
-template<class V, class L, class F>
-void FaceMesh<V,L,F>::computeFaceNormals()
+template<class VT, class PT, class FT>
+void FaceMesh<VT,PT,FT>::computeFaceNormals()
 {
     meshComputeFaceNormalsSVDFitting(*this);
 }
 
-template<class V, class L, class F>
-void FaceMesh<V,L,F>::computeVertexNormals()
+template<class VT, class PT, class FT>
+void FaceMesh<VT,PT,FT>::computeVertexNormals()
 {
     meshComputeVertexNormalsFromFaceNormals(*this);
 }
 
-template<class V, class L, class F>
-bool FaceMesh<V,L,F>::hasFaceNormals() const
+template<class VT, class PT, class FT>
+bool FaceMesh<VT,PT,FT>::hasFaceNormals() const
 {
     return vFaceNormalsEnabled;
 }
 
-template<class V, class L, class F>
-void FaceMesh<V,L,F>::enableFaceNormals()
+template<class VT, class PT, class FT>
+void FaceMesh<VT,PT,FT>::enableFaceNormals()
 {
     vFaceNormalsEnabled = true;
     updateFaceNormals();
 }
 
-template<class V, class L, class F>
-void FaceMesh<V,L,F>::disableFaceNormals()
+template<class VT, class PT, class FT>
+void FaceMesh<VT,PT,FT>::disableFaceNormals()
 {
     vFaceNormalsEnabled = false;
     updateFaceNormals();
 }
 
-template<class V, class L, class F>
-bool FaceMesh<V,L,F>::hasFaceMaterials() const
+template<class VT, class PT, class FT>
+bool FaceMesh<VT,PT,FT>::hasFaceMaterials() const
 {
     return vFaceMaterialEnabled;
 }
 
-template<class V, class L, class F>
-void FaceMesh<V,L,F>::enableFaceMaterials()
+template<class VT, class PT, class FT>
+void FaceMesh<VT,PT,FT>::enableFaceMaterials()
 {
     vFaceMaterialEnabled = true;
     updateFaceMaterials();
 }
 
-template<class V, class L, class F>
-void FaceMesh<V,L,F>::disableFaceMaterials()
+template<class VT, class PT, class FT>
+void FaceMesh<VT,PT,FT>::disableFaceMaterials()
 {
     vFaceMaterialEnabled = false;
     updateFaceMaterials();
 }
 
-template<class V, class L, class F>
-bool FaceMesh<V,L,F>::hasWedgeNormals() const
+template<class VT, class PT, class FT>
+bool FaceMesh<VT,PT,FT>::hasWedgeNormals() const
 {
     return vWedgeNormalsEnabled;
 }
 
-template<class V, class L, class F>
-void FaceMesh<V,L,F>::enableWedgeNormals()
+template<class VT, class PT, class FT>
+void FaceMesh<VT,PT,FT>::enableWedgeNormals()
 {
     vWedgeNormalsEnabled = true;
     updateFaceWedgeNormals();
 }
 
-template<class V, class L, class F>
-void FaceMesh<V,L,F>::disableWedgeNormals()
+template<class VT, class PT, class FT>
+void FaceMesh<VT,PT,FT>::disableWedgeNormals()
 {
     vWedgeNormalsEnabled = false;
     updateFaceWedgeNormals();
 }
 
-template<class V, class L, class F>
-bool FaceMesh<V,L,F>::hasWedgeUVs() const
+template<class VT, class PT, class FT>
+bool FaceMesh<VT,PT,FT>::hasWedgeUVs() const
 {
     return vWedgeUVsEnabled;
 }
 
-template<class V, class L, class F>
-void FaceMesh<V,L,F>::enableWedgeUVs()
+template<class VT, class PT, class FT>
+void FaceMesh<VT,PT,FT>::enableWedgeUVs()
 {
     vWedgeUVsEnabled = true;
     updateFaceWedgeUVs();
 }
 
-template<class V, class L, class F>
-void FaceMesh<V,L,F>::disableWedgeUVs()
+template<class VT, class PT, class FT>
+void FaceMesh<VT,PT,FT>::disableWedgeUVs()
 {
     vWedgeUVsEnabled = false;
     updateFaceWedgeUVs();
 }
 
-template<class V, class L, class F>
-void FaceMesh<V,L,F>::compactAll()
+template<class VT, class PT, class FT>
+void FaceMesh<VT,PT,FT>::compactAll()
 {
     compactVertices();
     this->compactFaces();
@@ -197,8 +197,8 @@ void FaceMesh<V,L,F>::compactAll()
     compactWedgeUVs();
 }
 
-template<class V, class L, class F>
-std::vector<typename FaceMesh<V,L,F>::MaterialId> FaceMesh<V,L,F>::compactMaterials()
+template<class VT, class PT, class FT>
+std::vector<typename FaceMesh<VT,PT,FT>::MaterialId> FaceMesh<VT,PT,FT>::compactMaterials()
 {
     std::vector<MaterialId> mMap = this->vMaterials.compact();
 
@@ -216,8 +216,8 @@ std::vector<typename FaceMesh<V,L,F>::MaterialId> FaceMesh<V,L,F>::compactMateri
     return mMap;
 }
 
-template<class V, class L, class F>
-std::vector<typename FaceMesh<V,L,F>::WedgeNormalId> FaceMesh<V,L,F>::compactWedgeNormals()
+template<class VT, class PT, class FT>
+std::vector<typename FaceMesh<VT,PT,FT>::WedgeNormalId> FaceMesh<VT,PT,FT>::compactWedgeNormals()
 {
     std::vector<WedgeNormalId> wMap = this->vWedgeUVs.compact();
 
@@ -240,8 +240,8 @@ std::vector<typename FaceMesh<V,L,F>::WedgeNormalId> FaceMesh<V,L,F>::compactWed
     return wMap;
 }
 
-template<class V, class L, class F>
-std::vector<typename FaceMesh<V,L,F>::WedgeUVId> FaceMesh<V,L,F>::compactWedgeUVs()
+template<class VT, class PT, class FT>
+std::vector<typename FaceMesh<VT,PT,FT>::WedgeUVId> FaceMesh<VT,PT,FT>::compactWedgeUVs()
 {
     std::vector<WedgeUVId> wMap = this->vWedgeUVs.compact();
 
@@ -264,8 +264,8 @@ std::vector<typename FaceMesh<V,L,F>::WedgeUVId> FaceMesh<V,L,F>::compactWedgeUV
     return wMap;
 }
 
-template<class V, class L, class F>
-std::vector<typename FaceMesh<V,L,F>::FaceId> FaceMesh<V,L,F>::compactFaces()
+template<class VT, class PT, class FT>
+std::vector<typename FaceMesh<VT,PT,FT>::FaceId> FaceMesh<VT,PT,FT>::compactFaces()
 {
     //Compact face materials
     if (this->hasFaceMaterials()) {
@@ -293,7 +293,7 @@ std::vector<typename FaceMesh<V,L,F>::FaceId> FaceMesh<V,L,F>::compactFaces()
         this->vFaceNormals.clear();
     }
 
-    //Compact face normals
+    //Compact face wedge normals
     if (this->hasWedgeNormals()) {
         for (FaceId fId = 0; fId < this->nextFaceId(); fId++) {
             if (this->isFaceDeleted(fId)) {
@@ -306,7 +306,7 @@ std::vector<typename FaceMesh<V,L,F>::FaceId> FaceMesh<V,L,F>::compactFaces()
         this->vFaceWedgeNormals.clear();
     }
 
-    //Compact face normals
+    //Compact face wedge UVs
     if (this->hasWedgeUVs()) {
         for (FaceId fId = 0; fId < this->nextFaceId(); fId++) {
             if (this->isFaceDeleted(fId)) {
@@ -332,10 +332,10 @@ std::vector<typename FaceMesh<V,L,F>::FaceId> FaceMesh<V,L,F>::compactFaces()
     return fMap;
 }
 
-template<class V, class L, class F>
-std::vector<typename FaceMesh<V,L,F>::VertexId> FaceMesh<V,L,F>::compactVertices()
+template<class VT, class PT, class FT>
+std::vector<typename FaceMesh<VT,PT,FT>::VertexId> FaceMesh<VT,PT,FT>::compactVertices()
 {
-    std::vector<VertexId> vMap = PolylineMesh<V,L>::compactVertices();
+    std::vector<VertexId> vMap = PolylineMesh<VT,PT>::compactVertices();
 
     //Update vertex ids in faces
     for (Face& face : this->faces()) {
@@ -351,24 +351,24 @@ std::vector<typename FaceMesh<V,L,F>::VertexId> FaceMesh<V,L,F>::compactVertices
     return vMap;
 }
 
-template<class V, class L, class F>
-void FaceMesh<V,L,F>::clearFaces()
+template<class VT, class PT, class FT>
+void FaceMesh<VT,PT,FT>::clearFaces()
 {
-    MeshFaceHandler<F>::clearFaces();
+    MeshFaceHandler<Face>::clearFaces();
     this->vFaceMaterials.clear();
     this->vFaceNormals.clear();
 }
 
-template<class V, class L, class F>
-void FaceMesh<V,L,F>::clear()
+template<class VT, class PT, class FT>
+void FaceMesh<VT,PT,FT>::clear()
 {
-    PolylineMesh<V,L>::clear();
+    PolylineMesh<VT,PT>::clear();
     this->clearFaces();
     this->clearMaterials();
 }
 
-template<class V, class L, class F>
-void FaceMesh<V,L,F>::updateComponents()
+template<class VT, class PT, class FT>
+void FaceMesh<VT,PT,FT>::updateComponents()
 {
     updateFaceMaterials();
     updateFaceNormals();
@@ -376,8 +376,8 @@ void FaceMesh<V,L,F>::updateComponents()
     updateFaceWedgeUVs();
 }
 
-template<class V, class L, class F>
-void FaceMesh<V,L,F>::updateFaceMaterials()
+template<class VT, class PT, class FT>
+void FaceMesh<VT,PT,FT>::updateFaceMaterials()
 {
     if (vFaceMaterialEnabled) {
         this->vFaceMaterials.resize(this->nextFaceId(), NULL_ID);
@@ -387,8 +387,8 @@ void FaceMesh<V,L,F>::updateFaceMaterials()
     }
 }
 
-template<class V, class L, class F>
-void FaceMesh<V,L,F>::updateFaceNormals()
+template<class VT, class PT, class FT>
+void FaceMesh<VT,PT,FT>::updateFaceNormals()
 {
     if (vFaceNormalsEnabled) {
         this->vFaceNormals.resize(this->nextFaceId(), FaceNormal::Zero());
@@ -398,8 +398,8 @@ void FaceMesh<V,L,F>::updateFaceNormals()
     }
 }
 
-template<class V, class L, class F>
-void FaceMesh<V,L,F>::updateFaceWedgeNormals()
+template<class VT, class PT, class FT>
+void FaceMesh<VT,PT,FT>::updateFaceWedgeNormals()
 {
     if (vWedgeNormalsEnabled) {
         this->vFaceWedgeNormals.resize(this->nextFaceId());
@@ -409,8 +409,8 @@ void FaceMesh<V,L,F>::updateFaceWedgeNormals()
     }
 }
 
-template<class V, class L, class F>
-void FaceMesh<V,L,F>::updateFaceWedgeUVs()
+template<class VT, class PT, class FT>
+void FaceMesh<VT,PT,FT>::updateFaceWedgeUVs()
 {
     if (vWedgeUVsEnabled) {
         this->vFaceWedgeUVs.resize(this->nextFaceId());
@@ -420,14 +420,14 @@ void FaceMesh<V,L,F>::updateFaceWedgeUVs()
     }
 }
 
-template<class V, class L, class F>
-std::ostream& operator<<(std::ostream& output, const FaceMesh<V,L,F>& faceMesh)
+template<class VT, class PT, class FT>
+std::ostream& operator<<(std::ostream& output, const FaceMesh<VT,PT,FT>& faceMesh)
 {
-    const PolylineMesh<V,L>& eMesh = faceMesh;
+    const PolylineMesh<VT,PT>& eMesh = faceMesh;
     output << eMesh;
 
     output << "Faces: " << faceMesh.faceNumber() << std::endl;
-    for (const typename FaceMesh<V,L,F>::Face& face : faceMesh.faces()) {
+    for (const typename FaceMesh<VT,PT,FT>::Face& face : faceMesh.faces()) {
         output << face << std::endl;
     }
 

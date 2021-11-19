@@ -20,26 +20,35 @@
 
 namespace nvl {
 
-/* Basic components */
-typedef MeshVertex<Point3d, Vector3d, Point2f, Color> Vertex3d;
+/* Defining types */
 
-typedef MeshPolyline<Vertex3d, Color> Polyline3d;
+typedef MeshVertex<Point3d> Vertex3d;
+typedef VertexMeshTypes<Vertex3d, Vector3d, Color, Point2f> Vertex3dTypes;
+
+typedef MeshPolyline<Vertex3d> Polyline3d;
+typedef PolylineMeshTypes<Polyline3d, Color> Polyline3dTypes;
 
 typedef MeshMaterial<Color> MeshMaterial3d;
-typedef MeshVectorFace<Vertex3d, Vector3d, MeshMaterial3d> PolygonFace3d;
-typedef MeshArrayFace<Vertex3d, Vector3d, MeshMaterial3d, 3> TriangleFace3d;
-typedef MeshArrayFace<Vertex3d, Vector3d, MeshMaterial3d, 4> QuadFace3d;
+typedef MeshVectorFace<Vertex3d> PolygonFace3d;
+typedef MeshArrayFace<Vertex3d, 3> TriangleFace3d;
+typedef MeshArrayFace<Vertex3d, 4> QuadFace3d;
+typedef FaceMeshTypes<PolygonFace3d, Vector3d, MeshMaterial3d> PolygonFace3dTypes;
+typedef FaceMeshTypes<QuadFace3d, Vector3d, MeshMaterial3d> QuadFace3dTypes;
+typedef FaceMeshTypes<TriangleFace3d, Vector3d, MeshMaterial3d> TriangleFace3dTypes;
 
 /* Vertex meshes */
-typedef VertexMesh<Vertex3d> VertexMesh3d;
+
+typedef VertexMesh<Vertex3dTypes> VertexMesh3d;
 
 /* Polyline meshes */
-typedef PolylineMesh<Vertex3d, Polyline3d> PolylineMesh3d;
+
+typedef PolylineMesh<Vertex3dTypes, Polyline3dTypes> PolylineMesh3d;
 
 /* Face meshes */
-typedef FaceMesh<Vertex3d, Polyline3d, TriangleFace3d> TriangleMesh3d;
-typedef FaceMesh<Vertex3d, Polyline3d, QuadFace3d> QuadMesh3d;
-typedef FaceMesh<Vertex3d, Polyline3d, PolygonFace3d> PolygonMesh3d;
+
+typedef FaceMesh<Vertex3dTypes, Polyline3dTypes, PolygonFace3dTypes> PolygonMesh3d;
+typedef FaceMesh<Vertex3dTypes, Polyline3dTypes, QuadFace3dTypes> QuadMesh3d;
+typedef FaceMesh<Vertex3dTypes, Polyline3dTypes, TriangleFace3dTypes> TriangleMesh3d;
 
 }
 

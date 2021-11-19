@@ -38,25 +38,25 @@ void meshLoadVertexData(
         const std::vector<U>& vertexUVs,
         const std::vector<C>& vertexColors);
 
-template<class V, class P, class N, class U, class C>
+template<class VT, class P, class N, class U, class C>
 void meshLoadVertexData(
-        VertexMesh<V>& mesh,
+        VertexMesh<VT>& mesh,
         const std::vector<P>& vertices,
         const std::vector<N>& vertexNormals,
         const std::vector<U>& vertexUVs,
         const std::vector<C>& vertexColors);
 
-template<class V, class L, class P, class N, class U, class C>
+template<class VT, class PT, class P, class N, class U, class C>
 void meshLoadVertexData(
-        PolylineMesh<V,L>& mesh,
+        PolylineMesh<VT,PT>& mesh,
         const std::vector<P>& vertices,
         const std::vector<N>& vertexNormals,
         const std::vector<U>& vertexUVs,
         const std::vector<C>& vertexColors);
 
-template<class V, class L, class F, class P, class N, class U, class C>
+template<class VT, class PT, class FT, class P, class N, class U, class C>
 void meshLoadVertexData(
-        FaceMesh<V,L,F>& mesh,
+        FaceMesh<VT,PT,FT>& mesh,
         const std::vector<P>& vertices,
         const std::vector<N>& vertexNormals,
         const std::vector<U>& vertexUVs,
@@ -68,15 +68,15 @@ void meshLoadPolylineData(
         const std::vector<std::vector<Index>>& polylines,
         const std::vector<C>& polylineColors);
 
-template<class V, class L, class C>
+template<class VT, class PT, class C>
 void meshLoadPolylineData(
-        PolylineMesh<V,L>& mesh,
+        PolylineMesh<VT,PT>& mesh,
         const std::vector<std::vector<Index>>& polylines,
         const std::vector<C>& polylineColors);
 
-template<class V, class L, class F, class C>
+template<class VT, class PT, class FT, class C>
 void meshLoadPolylineData(
-        FaceMesh<V,L,F>& mesh,
+        FaceMesh<VT,PT,FT>& mesh,
         const std::vector<std::vector<Index>>& polylines,
         const std::vector<C>& polylineColors);
 
@@ -92,9 +92,9 @@ void meshLoadFaceData(
         const std::vector<std::vector<Index>>& faceVertexNormals,
         const std::vector<std::vector<Index>>& faceVertexUVs);
 
-template<class V, class L, class F, class FN, class VN, class U, class M>
+template<class VT, class PT, class FT, class FN, class VN, class U, class M>
 void meshLoadFaceData(
-        FaceMesh<V,L,F>& mesh,
+        FaceMesh<VT,PT,FT>& mesh,
         const std::vector<std::vector<Index>>& faces,
         const std::vector<FN>& faceNormals,
         const std::vector<M>& materials,
@@ -117,25 +117,25 @@ void meshSaveVertexData(
         std::vector<U>& vertexUVs,
         std::vector<C>& vertexColors);
 
-template<class V, class P, class N, class U, class C>
+template<class VT, class P, class N, class U, class C>
 void meshSaveVertexData(
-        const VertexMesh<V>& mesh,
+        const VertexMesh<VT>& mesh,
         std::vector<P>& vertices,
         std::vector<N>& vertexNormals,
         std::vector<U>& vertexUVs,
         std::vector<C>& vertexColors);
 
-template<class V, class L, class P, class N, class U, class C>
+template<class VT, class PT, class P, class N, class U, class C>
 void meshSaveVertexData(
-        const PolylineMesh<V,L>& mesh,
+        const PolylineMesh<VT,PT>& mesh,
         std::vector<P>& vertices,
         std::vector<N>& vertexNormals,
         std::vector<U>& vertexUVs,
         std::vector<C>& vertexColors);
 
-template<class V, class L, class F, class P, class N, class U, class C>
+template<class VT, class PT, class FT, class P, class N, class U, class C>
 void meshSaveVertexData(
-        const FaceMesh<V,L,F>& mesh,
+        const FaceMesh<VT,PT,FT>& mesh,
         std::vector<P>& vertices,
         std::vector<N>& vertexNormals,
         std::vector<U>& vertexUVs,
@@ -147,15 +147,15 @@ void meshSavePolylineData(
         std::vector<std::vector<Index>>& polylines,
         std::vector<C>& polylineColors);
 
-template<class V, class P, class C>
+template<class VT, class PT, class C>
 void meshSavePolylineData(
-        const PolylineMesh<V,P>& mesh,
+        const PolylineMesh<VT,PT>& mesh,
         std::vector<std::vector<Index>>& polylines,
         std::vector<C>& polylineColors);
 
-template<class V, class L, class F, class C>
+template<class VT, class PT, class FT, class C>
 void meshSavePolylineData(
-        const FaceMesh<V,L,F>& mesh,
+        const FaceMesh<VT,PT,FT>& mesh,
         std::vector<std::vector<Index>>& polylines,
         std::vector<C>& polylineColors);
 
@@ -171,9 +171,9 @@ void meshSaveFaceData(
         std::vector<std::vector<Index>>& faceVertexNormals,
         std::vector<std::vector<Index>>& faceVertexUVs);
 
-template<class V, class P, class F, class FN, class VN, class U, class M>
+template<class VT, class PT, class FT, class FN, class VN, class U, class M>
 void meshSaveFaceData(
-        const FaceMesh<V,P,F>& mesh,
+        const FaceMesh<VT,PT,FT>& mesh,
         std::vector<std::vector<Index>>& faces,
         std::vector<FN>& faceNormals,
         std::vector<M>& materials,

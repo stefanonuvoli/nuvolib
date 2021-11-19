@@ -21,19 +21,19 @@ typename MeshWedgeNormalHandler<N>::WedgeNormalId MeshWedgeNormalHandler<N>::nex
 }
 
 template<class N>
-typename MeshWedgeNormalHandler<N>::WedgeNormal& MeshWedgeNormalHandler<N>::wedgeNormal(const WedgeNormalId& id)
+typename MeshWedgeNormalHandler<N>::VertexNormal& MeshWedgeNormalHandler<N>::wedgeNormal(const WedgeNormalId& id)
 {
     return vWedgeNormals[id];
 }
 
 template<class N>
-const typename MeshWedgeNormalHandler<N>::WedgeNormal& MeshWedgeNormalHandler<N>::wedgeNormal(const WedgeNormalId& id) const
+const typename MeshWedgeNormalHandler<N>::VertexNormal& MeshWedgeNormalHandler<N>::wedgeNormal(const WedgeNormalId& id) const
 {
     return vWedgeNormals[id];
 }
 
 template<class N>
-typename MeshWedgeNormalHandler<N>::WedgeNormalId MeshWedgeNormalHandler<N>::addWedgeNormal(const WedgeNormal& wedgeNormal)
+typename MeshWedgeNormalHandler<N>::WedgeNormalId MeshWedgeNormalHandler<N>::addWedgeNormal(const VertexNormal& wedgeNormal)
 {
     WedgeNormalId newId = nextWedgeNormalId();
     vWedgeNormals.push_back(wedgeNormal);
@@ -43,11 +43,11 @@ typename MeshWedgeNormalHandler<N>::WedgeNormalId MeshWedgeNormalHandler<N>::add
 template<class N>
 typename MeshWedgeNormalHandler<N>::WedgeNormalId MeshWedgeNormalHandler<N>::allocateWedgeNormals(const Size& n)
 {
-    return allocateWedgeNormals(n, WedgeNormal());
+    return allocateWedgeNormals(n, VertexNormal());
 }
 
 template<class N>
-typename MeshWedgeNormalHandler<N>::WedgeNormalId MeshWedgeNormalHandler<N>::allocateWedgeNormals(const Size& n, const WedgeNormal& wedgeNormal)
+typename MeshWedgeNormalHandler<N>::WedgeNormalId MeshWedgeNormalHandler<N>::allocateWedgeNormals(const Size& n, const VertexNormal& wedgeNormal)
 {
     Index firstIndex = vWedgeNormals.realSize();
     Index lastIndex = firstIndex + n;

@@ -2,8 +2,8 @@
 
 namespace nvl {
 
-template<class V>
-VertexMesh<V>::VertexMesh() :
+template<class VT>
+VertexMesh<VT>::VertexMesh() :
     vVertexNormalsEnabled(false),
     vVertexColorsEnabled(false),
     vVertexUVsEnabled(false)
@@ -11,131 +11,131 @@ VertexMesh<V>::VertexMesh() :
     this->vType = MeshType::VERTEX;
 }
 
-template<class V>
-typename VertexMesh<V>::VertexId VertexMesh<V>::addVertex(const Vertex& vertex)
+template<class VT>
+typename VertexMesh<VT>::VertexId VertexMesh<VT>::addVertex(const Vertex& vertex)
 {
-    VertexId newVId = MeshVertexHandler<V>::addVertex(vertex);
+    VertexId newVId = MeshVertexHandler<Vertex>::addVertex(vertex);
     updateComponents();
     return newVId;
 }
 
-template<class V>
-typename VertexMesh<V>::VertexId VertexMesh<V>::addVertex(const Point& point)
+template<class VT>
+typename VertexMesh<VT>::VertexId VertexMesh<VT>::addVertex(const Point& point)
 {
-    VertexId newVId = MeshVertexHandler<V>::addVertex(point);
+    VertexId newVId = MeshVertexHandler<Vertex>::addVertex(point);
     updateComponents();
     return newVId;
 }
 
-template<class V>
+template<class VT>
 template<class... Ts>
-typename VertexMesh<V>::VertexId VertexMesh<V>::addVertex(const Ts... points)
+typename VertexMesh<VT>::VertexId VertexMesh<VT>::addVertex(const Ts... points)
 {
-    VertexId newVId = MeshVertexHandler<V>::addVertex(points...);
+    VertexId newVId = MeshVertexHandler<Vertex>::addVertex(points...);
     updateComponents();
     return newVId;
 }
 
-template<class V>
-typename VertexMesh<V>::VertexId VertexMesh<V>::allocateVertices(const Size& n)
+template<class VT>
+typename VertexMesh<VT>::VertexId VertexMesh<VT>::allocateVertices(const Size& n)
 {
     return allocateVertices(n, Vertex());
 }
 
-template<class V>
-typename VertexMesh<V>::VertexId VertexMesh<V>::allocateVertices(const Size& n, const Vertex& vertex)
+template<class VT>
+typename VertexMesh<VT>::VertexId VertexMesh<VT>::allocateVertices(const Size& n, const Vertex& vertex)
 {
-    VertexId newVId = MeshVertexHandler<V>::allocateVertices(n, vertex);
+    VertexId newVId = MeshVertexHandler<Vertex>::allocateVertices(n, vertex);
     updateComponents();
     return newVId;
 }
 
-template<class V>
-typename VertexMesh<V>::Point& VertexMesh<V>::vertexPoint(const VertexId& id)
+template<class VT>
+typename VertexMesh<VT>::Point& VertexMesh<VT>::vertexPoint(const VertexId& id)
 {
-    return MeshVertexHandler<V>::vertex(id).point();
+    return MeshVertexHandler<Vertex>::vertex(id).point();
 }
 
-template<class V>
-const typename VertexMesh<V>::Point& VertexMesh<V>::vertexPoint(const VertexId& id) const
+template<class VT>
+const typename VertexMesh<VT>::Point& VertexMesh<VT>::vertexPoint(const VertexId& id) const
 {
-    return MeshVertexHandler<V>::vertex(id).point();
+    return MeshVertexHandler<Vertex>::vertex(id).point();
 }
 
-template<class V>
-void VertexMesh<V>::setVertexPoint(const VertexId& id, const Point& point)
+template<class VT>
+void VertexMesh<VT>::setVertexPoint(const VertexId& id, const Point& point)
 {
-    MeshVertexHandler<V>::vertex(id).setPoint(point);
+    MeshVertexHandler<Vertex>::vertex(id).setPoint(point);
 }
 
-template<class V>
-bool VertexMesh<V>::hasVertexNormals() const
+template<class VT>
+bool VertexMesh<VT>::hasVertexNormals() const
 {
     return vVertexNormalsEnabled;
 }
 
-template<class V>
-void VertexMesh<V>::enableVertexNormals()
+template<class VT>
+void VertexMesh<VT>::enableVertexNormals()
 {
     vVertexNormalsEnabled = true;
     updateVertexNormals();
 }
 
-template<class V>
-void VertexMesh<V>::disableVertexNormals()
+template<class VT>
+void VertexMesh<VT>::disableVertexNormals()
 {
     vVertexNormalsEnabled = false;
     updateVertexNormals();
 }
 
-template<class V>
-bool VertexMesh<V>::hasVertexColors() const
+template<class VT>
+bool VertexMesh<VT>::hasVertexColors() const
 {
     return vVertexColorsEnabled;
 }
 
-template<class V>
-void VertexMesh<V>::enableVertexColors()
+template<class VT>
+void VertexMesh<VT>::enableVertexColors()
 {
     vVertexColorsEnabled = true;
     updateVertexColors();
 }
 
-template<class V>
-void VertexMesh<V>::disableVertexColors()
+template<class VT>
+void VertexMesh<VT>::disableVertexColors()
 {
     vVertexColorsEnabled = false;
     updateVertexColors();
 }
 
-template<class V>
-bool VertexMesh<V>::hasVertexUVs() const
+template<class VT>
+bool VertexMesh<VT>::hasVertexUVs() const
 {
     return vVertexUVsEnabled;
 }
 
-template<class V>
-void VertexMesh<V>::enableVertexUVs()
+template<class VT>
+void VertexMesh<VT>::enableVertexUVs()
 {
     vVertexUVsEnabled = true;
     updateVertexUVs();
 }
 
-template<class V>
-void VertexMesh<V>::disableVertexUVs()
+template<class VT>
+void VertexMesh<VT>::disableVertexUVs()
 {
     vVertexUVsEnabled = false;
     updateVertexUVs();
 }
 
-template<class V>
-void VertexMesh<V>::compactAll()
+template<class VT>
+void VertexMesh<VT>::compactAll()
 {
     this->compactVertices();
 }
 
-template<class V>
-std::vector<typename VertexMesh<V>::VertexId> VertexMesh<V>::compactVertices()
+template<class VT>
+std::vector<typename VertexMesh<VT>::VertexId> VertexMesh<VT>::compactVertices()
 {
     //Compact vertex normals
     if (this->hasVertexNormals()) {
@@ -188,31 +188,31 @@ std::vector<typename VertexMesh<V>::VertexId> VertexMesh<V>::compactVertices()
     return vMap;
 }
 
-template<class V>
-void VertexMesh<V>::clearVertices()
+template<class VT>
+void VertexMesh<VT>::clearVertices()
 {
-    MeshVertexHandler<V>::clearVertices();
+    MeshVertexHandler<Vertex>::clearVertices();
     this->vVertexNormals.clear();
     this->vVertexColors.clear();
     this->vVertexUVs.clear();
 }
 
-template<class V>
-void VertexMesh<V>::clear()
+template<class VT>
+void VertexMesh<VT>::clear()
 {
     this->clearVertices();
 }
 
-template<class V>
-void VertexMesh<V>::updateComponents()
+template<class VT>
+void VertexMesh<VT>::updateComponents()
 {
     updateVertexNormals();
     updateVertexColors();
     updateVertexUVs();
 }
 
-template<class V>
-void VertexMesh<V>::updateVertexNormals()
+template<class VT>
+void VertexMesh<VT>::updateVertexNormals()
 {
     if (vVertexNormalsEnabled) {
         this->vVertexNormals.resize(this->nextVertexId(), VertexNormal::Zero());
@@ -222,8 +222,8 @@ void VertexMesh<V>::updateVertexNormals()
     }
 }
 
-template<class V>
-void VertexMesh<V>::updateVertexColors()
+template<class VT>
+void VertexMesh<VT>::updateVertexColors()
 {
     if (vVertexColorsEnabled) {
         this->vVertexColors.resize(this->nextVertexId(), VertexColor(0.7, 0.7, 0.7));
@@ -233,22 +233,22 @@ void VertexMesh<V>::updateVertexColors()
     }
 }
 
-template<class V>
-void VertexMesh<V>::updateVertexUVs()
+template<class VT>
+void VertexMesh<VT>::updateVertexUVs()
 {
     if (vVertexUVsEnabled) {
-        this->vVertexUVs.resize(this->nextVertexId(), UV::Zero());
+        this->vVertexUVs.resize(this->nextVertexId(), VertexUV::Zero());
     }
     else {
         this->vVertexUVs.clear();
     }
 }
 
-template<class V>
-std::ostream& operator<<(std::ostream& output, const VertexMesh<V>& vertexMesh)
+template<class VT>
+std::ostream& operator<<(std::ostream& output, const VertexMesh<VT>& vertexMesh)
 {
     output << "Vertices: " << vertexMesh.vertexNumber() << std::endl;
-    for (const typename VertexMesh<V>::Vertex& vertex : vertexMesh.vertices()) {
+    for (const typename VertexMesh<VT>::Vertex& vertex : vertexMesh.vertices()) {
         output << vertex << std::endl;
     }
 

@@ -20,11 +20,11 @@ public:
     /* Typedefs */
 
     typedef V Vertex;
-    typedef U UV;
+    typedef U VertexUV;
 
     typedef typename V::Id VertexId;
 
-    typedef VectorWithDelete<UV> Container;
+    typedef VectorWithDelete<VertexUV> Container;
 
 
     /* Constructors */
@@ -34,13 +34,13 @@ public:
 
     /* Methods */
 
-    UV& vertexUV(const VertexId& id);
-    const UV& vertexUV(const VertexId& id) const;
-    void setVertexUV(const VertexId& id, const UV& uv);
+    VertexUV& vertexUV(const VertexId& id);
+    const VertexUV& vertexUV(const VertexId& id) const;
+    void setVertexUV(const VertexId& id, const VertexUV& uv);
 
-    UV& vertexUV(const Vertex& vertex);
-    const UV& vertexUV(const Vertex& vertex) const;
-    void setVertexUV(const Vertex& vertex, const UV& uv);
+    VertexUV& vertexUV(const Vertex& vertex);
+    const VertexUV& vertexUV(const Vertex& vertex) const;
+    void setVertexUV(const Vertex& vertex, const VertexUV& uv);
 
 
 protected:

@@ -14,29 +14,35 @@
 
 namespace nvl {
 
-template<class V>
+template<class V, class N, class C, class U>
+class VertexMeshTypes;
+
+template<class VT>
 class VertexMesh :
         public AbstractMesh,
-        public MeshVertexHandler<V>,
-        public MeshVertexNormalHandler<V, typename V::Normal>,
-        public MeshVertexColorHandler<V, typename V::Color>,
-        public MeshVertexUVHandler<V, typename V::UV>
+        public MeshVertexHandler<typename VT::Vertex>,
+        public MeshVertexNormalHandler<typename VT::Vertex, typename VT::Normal>,
+        public MeshVertexColorHandler<typename VT::Vertex, typename VT::Color>,
+        public MeshVertexUVHandler<typename VT::Vertex, typename VT::UV>
 {
 
 public:
 
     /* Typedefs */
 
-    typedef typename MeshVertexHandler<V>::Vertex Vertex;
-    typedef typename MeshVertexHandler<V>::VertexId VertexId;
+    typedef typename VT::Vertex Vertex;
 
-    typedef typename Vertex::Color VertexColor;
-    typedef typename Vertex::Normal VertexNormal;
-    typedef typename Vertex::UV UV;
+    typedef typename VT::Normal VertexNormal;
+    typedef typename VT::Color VertexColor;
+    typedef typename VT::UV VertexUV;
+
     typedef typename Vertex::Point Point;
     typedef typename Vertex::Scalar Scalar;
 
-    typedef typename MeshVertexHandler<V>::Container Container;
+    /* Handlers typedefs  */
+
+    typedef typename MeshVertexHandler<Vertex>::VertexId VertexId;
+
 
     /* Constructors */
 
@@ -87,8 +93,21 @@ protected:
 
 };
 
-template<class V>
-std::ostream& operator<<(std::ostream& output, const VertexMesh<V>& vertexMesh);
+template<class V, class N, class C, class U>
+class VertexMeshTypes
+{
+
+public:
+
+    typedef V Vertex;
+    typedef N Normal;
+    typedef C Color;
+    typedef U UV;
+
+};
+
+template<class VT>
+std::ostream& operator<<(std::ostream& output, const VertexMesh<VT>& vertexMesh);
 
 }
 

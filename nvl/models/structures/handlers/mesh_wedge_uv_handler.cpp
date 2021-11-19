@@ -21,19 +21,19 @@ typename MeshWedgeUVHandler<U>::WedgeUVId MeshWedgeUVHandler<U>::nextWedgeUVId()
 }
 
 template<class U>
-typename MeshWedgeUVHandler<U>::WedgeUV& MeshWedgeUVHandler<U>::wedgeUV(const WedgeUVId& id)
+typename MeshWedgeUVHandler<U>::VertexUV& MeshWedgeUVHandler<U>::wedgeUV(const WedgeUVId& id)
 {
     return vWedgeUVs[id];
 }
 
 template<class U>
-const typename MeshWedgeUVHandler<U>::WedgeUV& MeshWedgeUVHandler<U>::wedgeUV(const WedgeUVId& id) const
+const typename MeshWedgeUVHandler<U>::VertexUV& MeshWedgeUVHandler<U>::wedgeUV(const WedgeUVId& id) const
 {
     return vWedgeUVs[id];
 }
 
 template<class U>
-typename MeshWedgeUVHandler<U>::WedgeUVId MeshWedgeUVHandler<U>::addWedgeUV(const WedgeUV& wedgeUV)
+typename MeshWedgeUVHandler<U>::WedgeUVId MeshWedgeUVHandler<U>::addWedgeUV(const VertexUV& wedgeUV)
 {
     WedgeUVId newId = nextWedgeUVId();
     vWedgeUVs.push_back(wedgeUV);
@@ -43,11 +43,11 @@ typename MeshWedgeUVHandler<U>::WedgeUVId MeshWedgeUVHandler<U>::addWedgeUV(cons
 template<class U>
 typename MeshWedgeUVHandler<U>::WedgeUVId MeshWedgeUVHandler<U>::allocateWedgeUVs(const Size& n)
 {
-    return allocateWedgeUVs(n, WedgeUV());
+    return allocateWedgeUVs(n, VertexUV());
 }
 
 template<class U>
-typename MeshWedgeUVHandler<U>::WedgeUVId MeshWedgeUVHandler<U>::allocateWedgeUVs(const Size& n, const WedgeUV& wedgeUV)
+typename MeshWedgeUVHandler<U>::WedgeUVId MeshWedgeUVHandler<U>::allocateWedgeUVs(const Size& n, const VertexUV& wedgeUV)
 {
     Index firstIndex = vWedgeUVs.realSize();
     Index lastIndex = firstIndex + n;

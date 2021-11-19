@@ -19,10 +19,10 @@ public:
 
     /* Typedefs */
 
-    typedef N WedgeNormal;
+    typedef N VertexNormal;
     typedef Index WedgeNormalId;
 
-    typedef VectorWithDelete<WedgeNormal> Container;
+    typedef VectorWithDelete<VertexNormal> Container;
 
 
     /* Constructors */
@@ -35,13 +35,13 @@ public:
     Size wedgeNormalNumber() const;
     WedgeNormalId nextWedgeNormalId() const;
 
-    WedgeNormal& wedgeNormal(const WedgeNormalId& id);
-    const WedgeNormal& wedgeNormal(const WedgeNormalId& id) const;
+    VertexNormal& wedgeNormal(const WedgeNormalId& id);
+    const VertexNormal& wedgeNormal(const WedgeNormalId& id) const;
 
-    WedgeNormalId addWedgeNormal(const WedgeNormal& wedgeNormal);
+    WedgeNormalId addWedgeNormal(const VertexNormal& wedgeNormal);
 
     WedgeNormalId allocateWedgeNormals(const Size& n);
-    WedgeNormalId allocateWedgeNormals(const Size& n, const WedgeNormal& wedgeNormal);
+    WedgeNormalId allocateWedgeNormals(const Size& n, const VertexNormal& wedgeNormal);
 
     void deleteWedgeNormal(const WedgeNormalId& id);
     bool isWedgeNormalDeleted(const WedgeNormalId& id) const;

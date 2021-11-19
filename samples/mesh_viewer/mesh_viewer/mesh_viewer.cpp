@@ -11,11 +11,11 @@
 
 #include <nvl/math/transformations.h>
 
-#include <nvl/models/meshes.h>
-#include <nvl/models/mesh_normals.h>
-#include <nvl/models/mesh_io.h>
-#include <nvl/models/mesh_transformations.h>
-#include <nvl/models/mesh_geometric_information.h>
+#include <nvl/models/mesh_3d.h>
+#include <nvl/models/algorithms/mesh_normals.h>
+#include <nvl/models/algorithms/mesh_transformations.h>
+#include <nvl/models/algorithms/mesh_geometric_information.h>
+#include <nvl/models/io/mesh_io.h>
 
 int main(int argc, char *argv[]) {
     typedef nvl::PolygonMesh3d Mesh;

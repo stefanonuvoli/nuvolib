@@ -1,8 +1,8 @@
 #include <iostream>
 
-#include <nvl/models/meshes.h>
-#include <nvl/models/mesh_normals.h>
-#include <nvl/models/mesh_io.h>
+#include <nvl/models/mesh_3d.h>
+#include <nvl/models/algorithms/mesh_normals.h>
+#include <nvl/models/io/mesh_io.h>
 
 nvl::TriangleMesh3d createTriangleCube();
 nvl::PolygonMesh3d createPolygonCube();

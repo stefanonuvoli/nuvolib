@@ -4,9 +4,9 @@
 #include <nvl/viewer/widgets/qglviewer_canvas.h>
 #include <nvl/viewer/drawables/face_mesh_drawer.h>
 
-#include <nvl/models/meshes.h>
-#include <nvl/models/mesh_normals.h>
-#include <nvl/models/mesh_subdivision.h>
+#include <nvl/models/mesh_3d.h>
+#include <nvl/models/algorithms/mesh_normals.h>
+#include <nvl/models/algorithms/mesh_subdivision.h>
 
 #include <nvl/math/barycentric_coordinates.h>
 #include <nvl/math/barycentric_interpolation.h>
@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
 
     //Viewer
     nvl::ViewerWindow viewer;
-    viewer.setWindowTitle("SkinMixer");
+    viewer.setWindowTitle("Triangle barycentric interpolation");
 
     //Add canvas
     nvl::QGLViewerCanvas canvas(&viewer);
@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
     //Subdivision
     Mesh subdividedMesh = mesh;
     for (int i = 0; i < SUBDIVISION_ITERATIONS; i++) {
-        nvl::meshSubdivideInTrianglesBarycenter(subdividedMesh);
+        nvl::meshSubdivideInBarycenterWithTriangles(subdividedMesh);
     }
 
     //Interpolate colors

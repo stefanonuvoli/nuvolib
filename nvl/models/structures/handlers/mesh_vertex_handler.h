@@ -9,8 +9,6 @@
 
 #include <nvl/utilities/iterator_wrapper.h>
 
-#include <nvl/math/alignedbox.h>
-
 namespace nvl {
 
 template<class T>
@@ -21,7 +19,7 @@ public:
 
     /* Typedefs */
 
-    typedef T Vertex;    
+    typedef T Vertex;
     typedef typename Vertex::Id VertexId;
 
     typedef typename Vertex::Point Point;

@@ -9,7 +9,7 @@
 
 namespace nvl {
 
-template<class V, class N, class M, class C>
+template<class V, class C>
 class MeshFace
 {
 
@@ -20,13 +20,9 @@ public:
     typedef Index Id;
 
     typedef V Vertex;
-    typedef N Normal;
-    typedef M Material;
-    typedef C VertexContainer;
-
-    typedef typename Vertex::Normal VertexNormal;
-    typedef typename Vertex::UV UV;
     typedef typename V::Id VertexId;
+
+    typedef C Container;
 
 
     /* Constructors */
@@ -42,8 +38,8 @@ public:
 
     Size vertexNumber() const;
 
-    VertexContainer& vertexIds();
-    const VertexContainer& vertexIds() const;
+    Container& vertexIds();
+    const Container& vertexIds() const;
 
     VertexId& vertexId(const Index& pos);
     const VertexId& vertexId(const Index& pos) const;
@@ -60,12 +56,12 @@ protected:
 
     Id vId;
 
-    VertexContainer vVertexIds;
+    Container vVertexIds;
 };
 
 
-template<class V, class N, class M, class C>
-std::ostream& operator<<(std::ostream& output, const MeshFace<V,N,M,C>& face);
+template<class V, class C>
+std::ostream& operator<<(std::ostream& output, const MeshFace<V,C>& face);
 
 }
 

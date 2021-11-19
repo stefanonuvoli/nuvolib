@@ -19,10 +19,10 @@ public:
 
     /* Typedefs */
 
-    typedef U WedgeUV;
+    typedef U VertexUV;
     typedef Index WedgeUVId;
 
-    typedef VectorWithDelete<WedgeUV> Container;
+    typedef VectorWithDelete<VertexUV> Container;
 
 
     /* Constructors */
@@ -35,13 +35,13 @@ public:
     Size wedgeUVNumber() const;
     WedgeUVId nextWedgeUVId() const;
 
-    WedgeUV& wedgeUV(const WedgeUVId& id);
-    const WedgeUV& wedgeUV(const WedgeUVId& id) const;
+    VertexUV& wedgeUV(const WedgeUVId& id);
+    const VertexUV& wedgeUV(const WedgeUVId& id) const;
 
-    WedgeUVId addWedgeUV(const WedgeUV& wedgeUV);
+    WedgeUVId addWedgeUV(const VertexUV& wedgeUV);
 
     WedgeUVId allocateWedgeUVs(const Size& n);
-    WedgeUVId allocateWedgeUVs(const Size& n, const WedgeUV& wedgeUV);
+    WedgeUVId allocateWedgeUVs(const Size& n, const VertexUV& wedgeUV);
 
     void deleteWedgeUV(const WedgeUVId& id);
     bool isWedgeUVDeleted(const WedgeUVId& id) const;

@@ -8,7 +8,7 @@
 
 namespace nvl {
 
-template<class P, class N, class U, class C>
+template<class P>
 class MeshVertex
 {
 
@@ -17,12 +17,8 @@ public:
     /* Typedefs */
 
     typedef Index Id;
-
-    typedef N Normal;
-    typedef C Color;
-    typedef U UV;
     typedef P Point;
-    typedef typename P::Scalar Scalar;
+    typedef typename Point::Scalar Scalar;
 
 
     /* Constructors */
@@ -61,8 +57,8 @@ private:
 };
 
 
-template<class P, class N, class U, class C>
-std::ostream& operator<<(std::ostream& output, const MeshVertex<P,N,U,C>& vector);
+template<class P>
+std::ostream& operator<<(std::ostream& output, const MeshVertex<P>& vector);
 
 }
 

@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include <nvl/models/meshes.h>
-#include <nvl/models/mesh_normals.h>
+#include <nvl/models/mesh_3d.h>
+#include <nvl/models/algorithms/mesh_normals.h>
 
 /**
  * @brief We set the geometric face and vertex normals of a mesh

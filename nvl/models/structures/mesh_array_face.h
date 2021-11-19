@@ -11,8 +11,8 @@
 
 namespace nvl {
 
-template<class V, class N, class M, Size D>
-class MeshArrayFace : public MeshFace<V,N,M,std::array<typename V::Id,D>>
+template<class V, Size D>
+class MeshArrayFace : public MeshFace<V,std::array<typename V::Id,D>>
 {
     static_assert(sizeof(D) >= 3, "Faces must be composed of at least 3 vertices.");
 
@@ -20,13 +20,10 @@ public:
 
     /* Typedefs */
 
-    typedef typename MeshFace<V,N,M,std::array<typename V::Id,D>>::Id Id;
-    typedef typename MeshFace<V,N,M,std::array<typename V::Id,D>>::Vertex Vertex;
-    typedef typename MeshFace<V,N,M,std::array<typename V::Id,D>>::VertexId VertexId;
-    typedef typename MeshFace<V,N,M,std::array<typename V::Id,D>>::Normal Normal;
-    typedef typename MeshFace<V,N,M,std::array<typename V::Id,D>>::VertexNormal VertexNormal;
-    typedef typename MeshFace<V,N,M,std::array<typename V::Id,D>>::Material Material;
-    typedef typename MeshFace<V,N,M,std::array<typename V::Id,D>>::VertexContainer VertexContainer;
+    typedef typename MeshFace<V,std::array<typename V::Id,D>>::Id Id;
+    typedef typename MeshFace<V,std::array<typename V::Id,D>>::Vertex Vertex;
+    typedef typename MeshFace<V,std::array<typename V::Id,D>>::VertexId VertexId;
+    typedef typename MeshFace<V,std::array<typename V::Id,D>>::Container Container;
 
 
     /* Constructors */
@@ -53,9 +50,8 @@ private:
 
 };
 
-
-template<class V, class N, class M, Size D>
-std::ostream& operator<<(std::ostream& output, const MeshArrayFace<V,N,M,D>& face);
+template<class V, Size D>
+std::ostream& operator<<(std::ostream& output, const MeshArrayFace<V,D>& face);
 
 }
 

@@ -2,42 +2,42 @@
 
 namespace nvl {
 
-template<class V, class C>
-MeshPolyline<V,C>::MeshPolyline() :
+template<class V>
+MeshPolyline<V>::MeshPolyline() :
     vId(NULL_ID)
 {
 
 }
 
-template<class V, class C>
+template<class V>
 template<typename... Ts>
-MeshPolyline<V,C>::MeshPolyline(Ts... vertices) : MeshPolyline()
+MeshPolyline<V>::MeshPolyline(Ts... vertices) : MeshPolyline()
 {
     setVertexIds(vertices...);
 }
 
-template<class V, class C>
-typename MeshPolyline<V,C>::Id& MeshPolyline<V,C>::id()
+template<class V>
+typename MeshPolyline<V>::Id& MeshPolyline<V>::id()
 {
     return vId;
 }
 
-template<class V, class C>
-const typename MeshPolyline<V,C>::Id& MeshPolyline<V,C>::id() const
+template<class V>
+const typename MeshPolyline<V>::Id& MeshPolyline<V>::id() const
 {
     return vId;
 }
 
-template<class V, class C>
-void MeshPolyline<V,C>::setId(const Id& id)
+template<class V>
+void MeshPolyline<V>::setId(const Id& id)
 {
     vId = id;
 }
 
 
-template<class V, class C>
+template<class V>
 template<class T, typename... Ts>
-void MeshPolyline<V,C>::setVertexIds(const T& vertex, Ts... vertices)
+void MeshPolyline<V>::setVertexIds(const T& vertex, Ts... vertices)
 {
     static_assert(sizeof...(vertices) >= 1, "Polylines must be composed of at least 2 vertices.");
     assert(sizeof...(vertices) >= 1 && "Polylines must be composed of at least 2 vertices.");
@@ -45,8 +45,8 @@ void MeshPolyline<V,C>::setVertexIds(const T& vertex, Ts... vertices)
     setVertexIdsVariadicHelper(0, vertex, vertices...);
 }
 
-template<class V, class C>
-void MeshPolyline<V,C>::setVertexIds(const VertexContainer& vector)
+template<class V>
+void MeshPolyline<V>::setVertexIds(const Container& vector)
 {
     assert(vector.size() >= 2 && "Polylines must be composed of at least 2 vertices.");
     this->vVertices.resize(vector.size());
@@ -55,170 +55,170 @@ void MeshPolyline<V,C>::setVertexIds(const VertexContainer& vector)
     }
 }
 
-template<class V, class C>
-Size MeshPolyline<V,C>::vertexNumber() const
+template<class V>
+Size MeshPolyline<V>::vertexNumber() const
 {
     return vVertices.size();
 }
 
-template<class V, class C>
-void MeshPolyline<V,C>::resizeVertexNumber(Size vertexNumber)
+template<class V>
+void MeshPolyline<V>::resizeVertexNumber(Size vertexNumber)
 {
     assert(vertexNumber >= 2 && "Polyline must be composed of at least 2 vertices.");
     vVertices.resize(vertexNumber, NULL_ID);
 }
 
-template<class V, class C>
-void MeshPolyline<V,C>::insertVertex(VertexId vId)
+template<class V>
+void MeshPolyline<V>::insertVertex(VertexId vId)
 {
     this->vVertices.push_back(vId);
 }
 
-template<class V, class C>
-void MeshPolyline<V,C>::insertVertex(const Index& pos, const VertexId& vId)
+template<class V>
+void MeshPolyline<V>::insertVertex(const Index& pos, const VertexId& vId)
 {
     assert(pos <= this->vVertices.size() && "Index exceed the face dimension.");
 
     this->vVertices.insert(this->vVertices.begin() + pos, vId);
 }
 
-template<class V, class C>
-void MeshPolyline<V,C>::insertVertex(const Vertex& vertex)
+template<class V>
+void MeshPolyline<V>::insertVertex(const Vertex& vertex)
 {
     insertVertex(vertex);
 }
 
-template<class V, class C>
-void MeshPolyline<V,C>::insertVertex(const Index& pos, const Vertex& vertex)
+template<class V>
+void MeshPolyline<V>::insertVertex(const Index& pos, const Vertex& vertex)
 {
     insertVertex(pos, vertex.id());
 }
 
-template<class V, class C>
-void MeshPolyline<V,C>::eraseBackVertex()
+template<class V>
+void MeshPolyline<V>::eraseBackVertex()
 {
     this->vVertices.resize(this->vVertices.size() - 1);
 }
 
-template<class V, class C>
-void MeshPolyline<V,C>::eraseVertex(const Index& pos)
+template<class V>
+void MeshPolyline<V>::eraseVertex(const Index& pos)
 {
     assert(pos < this->vVertices.size() && "Index exceed the face dimension.");
 
     this->vVertices.erase(this->vVertices.begin() + pos);
 }
 
-template<class V, class C>
-void MeshPolyline<V,C>::eraseVertex(const Vertex& vertex)
+template<class V>
+void MeshPolyline<V>::eraseVertex(const Vertex& vertex)
 {
     eraseVertex(vertex.id());
 }
 
-template<class V, class C>
-typename MeshPolyline<V,C>::VertexContainer& MeshPolyline<V,C>::vertexIds()
+template<class V>
+typename MeshPolyline<V>::Container& MeshPolyline<V>::vertexIds()
 {
     return vVertices;
 }
 
-template<class V, class C>
-const typename MeshPolyline<V,C>::VertexContainer& MeshPolyline<V,C>::vertexIds() const
+template<class V>
+const typename MeshPolyline<V>::Container& MeshPolyline<V>::vertexIds() const
 {
     return vVertices;
 }
 
-template<class V, class C>
-typename MeshPolyline<V,C>::VertexId& MeshPolyline<V,C>::vertexId(const Index& pos)
+template<class V>
+typename MeshPolyline<V>::VertexId& MeshPolyline<V>::vertexId(const Index& pos)
 {
     assert(pos < vVertices.size() && "Index exceed the polyline dimension.");
 
     return vVertices[pos];
 }
 
-template<class V, class C>
-const typename MeshPolyline<V,C>::VertexId& MeshPolyline<V,C>::vertexId(const Index& pos) const
+template<class V>
+const typename MeshPolyline<V>::VertexId& MeshPolyline<V>::vertexId(const Index& pos) const
 {
     assert(pos < vVertices.size() && "Index exceed the polyline dimension.");
 
     return vVertices[pos];
 }
 
-template<class V, class C>
-void MeshPolyline<V,C>::setVertexId(const Index& pos, const VertexId& vId)
+template<class V>
+void MeshPolyline<V>::setVertexId(const Index& pos, const VertexId& vId)
 {
     assert(pos < vVertices.size() && "Index exceed the polyline dimension.");
 
     vVertices[pos] = vId;
 }
 
-template<class V, class C>
-void MeshPolyline<V,C>::setVertex(const Index& pos, const Vertex& vertex)
+template<class V>
+void MeshPolyline<V>::setVertex(const Index& pos, const Vertex& vertex)
 {
     setVertexId(pos, vertex.id());
 }
 
 
-template<class V, class C>
-typename MeshPolyline<V,C>::VertexId& MeshPolyline<V,C>::nextVertexId(const Index& pos)
+template<class V>
+typename MeshPolyline<V>::VertexId& MeshPolyline<V>::nextVertexId(const Index& pos)
 {
     assert(pos <= vVertices.size() - 1 && "Index exceed the polyline dimension.");
 
     return vVertices[(pos + 1) % vVertices.size()];
 }
 
-template<class V, class C>
-const typename MeshPolyline<V,C>::VertexId& MeshPolyline<V,C>::nextVertexId(const Index& pos) const
+template<class V>
+const typename MeshPolyline<V>::VertexId& MeshPolyline<V>::nextVertexId(const Index& pos) const
 {
     assert(pos < vVertices.size() - 1 && "Index exceed the polyline dimension.");
 
     return vVertices[(pos + 1)];
 }
 
-template<class V, class C>
-void MeshPolyline<V,C>::setNextVertexId(const Index& pos, const VertexId& vId)
+template<class V>
+void MeshPolyline<V>::setNextVertexId(const Index& pos, const VertexId& vId)
 {
     assert(pos < vVertices.size() - 1 && "Index exceed the polyline dimension.");
 
     vVertices[(pos + 1)] = vId;
 }
 
-template<class V, class C>
-void MeshPolyline<V,C>::setNextVertex(const Index& pos, const Vertex& vertex)
+template<class V>
+void MeshPolyline<V>::setNextVertex(const Index& pos, const Vertex& vertex)
 {
     setNextVertexId(pos, vertex.id());
 }
 
-template<class V, class C>
+template<class V>
 template<class T, typename... Ts>
-void MeshPolyline<V,C>::setVertexIdsVariadicHelper(const Index& pos, const T& vertex, Ts... vertices)
+void MeshPolyline<V>::setVertexIdsVariadicHelper(const Index& pos, const T& vertex, Ts... vertices)
 {
     setVertexIdsVariadicBase(pos, vertex);
     setVertexIdsVariadicHelper(pos+1, vertices...);
 }
 
-template<class V, class C>
-void MeshPolyline<V,C>::setVertexIdsVariadicBase(const Index& pos, const Vertex& vertex)
+template<class V>
+void MeshPolyline<V>::setVertexIdsVariadicBase(const Index& pos, const Vertex& vertex)
 {
     vVertices[pos] = vertex.id();
 }
 
-template<class V, class C>
-void MeshPolyline<V,C>::setVertexIdsVariadicBase(const Index& pos, const VertexId& vertexId)
+template<class V>
+void MeshPolyline<V>::setVertexIdsVariadicBase(const Index& pos, const VertexId& vertexId)
 {
     vVertices[pos] = vertexId;
 }
 
-template<class V, class C>
-void MeshPolyline<V,C>::setVertexIdsVariadicHelper(const Index& pos)
+template<class V>
+void MeshPolyline<V>::setVertexIdsVariadicHelper(const Index& pos)
 {
     assert(pos >= 2 && "Polylines must be composed of at least 2 vertices.");
     NVL_SUPPRESS_UNUSEDVARIABLE(pos);
 }
 
-template<class V, class C>
-std::ostream& operator<<(std::ostream& output, const MeshPolyline<V,C>& face)
+template<class V>
+std::ostream& operator<<(std::ostream& output, const MeshPolyline<V>& face)
 {
     output << "[" << face.id() << "]\t";
-    for (const typename MeshPolyline<V,C>::VertexId& vId : face.vertexIds()) {
+    for (const typename MeshPolyline<V>::VertexId& vId : face.vertexIds()) {
         if (vId == NULL_ID) {
             output << "x";
         }

@@ -364,7 +364,7 @@ template<class M>
 void FaceMeshDrawer<M>::resetRenderingFaceUV(const Index& id)
 {
     typedef typename M::Face Face;
-    typedef typename M::UV UV;
+    typedef typename M::VertexUV VertexUV;
 
     const Face& face = this->vMesh->face(id);
 
@@ -374,18 +374,18 @@ void FaceMeshDrawer<M>::resetRenderingFaceUV(const Index& id)
 
         for (Index j = 0; j < face.vertexNumber(); ++j) {
             if (wedgeUVIds[j] != nvl::NULL_ID) {
-                const UV& uv = this->vMesh->wedgeUV(wedgeUVIds[j]);
+                const VertexUV& uv = this->vMesh->wedgeUV(wedgeUVIds[j]);
                 uvPoints[j] = Point2f(uv.x(), uv.y());
             }
             else if (this->vMesh->hasVertexUVs()) {
-                const UV& uv = this->vMesh->vertexUV(face.vertexId(j));
+                const VertexUV& uv = this->vMesh->vertexUV(face.vertexId(j));
                 uvPoints[j] = Point2f(uv.x(), uv.y());
             }
         }
     }
     else if (this->vMesh->hasVertexUVs()) {
         for (Index j = 0; j < face.vertexNumber(); ++j) {
-            const UV& uv = this->vMesh->vertexUV(face.vertexId(j));
+            const VertexUV& uv = this->vMesh->vertexUV(face.vertexId(j));
             uvPoints[j] = Point2f(uv.x(), uv.y());
         }
     }

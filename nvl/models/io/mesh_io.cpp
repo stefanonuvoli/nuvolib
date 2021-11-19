@@ -15,7 +15,7 @@ bool meshLoadFromFile(
     IOMeshData<
             typename Mesh::Point,
             typename Mesh::VertexNormal,
-            typename Mesh::UV,
+            typename Mesh::VertexUV,
             typename Mesh::VertexColor,
             typename Mesh::PolylineColor,
             typename Mesh::FaceNormal,
@@ -57,7 +57,7 @@ bool meshSaveToFile(
         IOMeshData<
                 typename Mesh::Point,
                 typename Mesh::VertexNormal,
-                typename Mesh::UV,
+                typename Mesh::VertexUV,
                 typename Mesh::VertexColor,
                 typename Mesh::PolylineColor,
                 typename Mesh::FaceNormal,
@@ -92,15 +92,15 @@ void meshLoadVertexData(
     NVL_SUPPRESS_UNUSEDVARIABLE(vertexColors);
 }
 
-template<class V, class P, class N, class U, class C>
+template<class VT, class P, class N, class U, class C>
 void meshLoadVertexData(
-        VertexMesh<V>& mesh,
+        VertexMesh<VT>& mesh,
         const std::vector<P>& vertices,
         const std::vector<N>& vertexNormals,
         const std::vector<U>& vertexUVs,
         const std::vector<C>& vertexColors)
 {
-    typedef typename VertexMesh<V>::VertexId VertexId;
+    typedef typename VertexMesh<VT>::VertexId VertexId;
 
     bool enableVertexNormals = !vertices.empty() && vertices.size() == vertexNormals.size();
     bool enableVertexUV = !vertices.empty() && vertices.size() == vertexUVs.size();
@@ -138,26 +138,26 @@ void meshLoadVertexData(
     }
 }
 
-template<class V, class L, class P, class N, class U, class C>
+template<class VT, class PT, class P, class N, class U, class C>
 void meshLoadVertexData(
-        PolylineMesh<V,L>& mesh,
+        PolylineMesh<VT,PT>& mesh,
         const std::vector<P>& vertices,
         const std::vector<N>& vertexNormals,
         const std::vector<U>& vertexUVs,
         const std::vector<C>& vertexColors)
 {
-    meshLoadVertexData(static_cast<VertexMesh<V>&>(mesh), vertices, vertexNormals, vertexUVs, vertexColors);
+    meshLoadVertexData(static_cast<VertexMesh<VT>&>(mesh), vertices, vertexNormals, vertexUVs, vertexColors);
 }
 
-template<class V, class L, class F, class P, class N, class U, class C>
+template<class VT, class PT, class FT, class P, class N, class U, class C>
 void meshLoadVertexData(
-        FaceMesh<V,L,F>& mesh,
+        FaceMesh<VT,PT,FT>& mesh,
         const std::vector<P>& vertices,
         const std::vector<N>& vertexNormals,
         const std::vector<U>& vertexUVs,
         const std::vector<C>& vertexColors)
 {
-    meshLoadVertexData(static_cast<VertexMesh<V>&>(mesh), vertices, vertexNormals, vertexUVs, vertexColors);
+    meshLoadVertexData(static_cast<VertexMesh<VT>&>(mesh), vertices, vertexNormals, vertexUVs, vertexColors);
 }
 
 template<class Mesh, class C>
@@ -171,13 +171,13 @@ void meshLoadPolylineData(
     NVL_SUPPRESS_UNUSEDVARIABLE(polylineColors);
 }
 
-template<class V, class L, class C>
+template<class VT, class PT, class C>
 void meshLoadPolylineData(
-        PolylineMesh<V,L>& mesh,
+        PolylineMesh<VT,PT>& mesh,
         const std::vector<std::vector<Index>>& polylines,
         const std::vector<C>& polylineColors)
 {
-    typedef typename PolylineMesh<V,L>::PolylineId PolylineId;
+    typedef typename PolylineMesh<VT,PT>::PolylineId PolylineId;
 
     bool enablePolylineColors = !polylines.empty() && polylines.size() == polylineColors.size();
 
@@ -196,13 +196,13 @@ void meshLoadPolylineData(
     }
 }
 
-template<class V, class L, class F, class C>
+template<class VT, class PT, class FT, class C>
 void meshLoadPolylineData(
-        FaceMesh<V,L,F>& mesh,
+        FaceMesh<VT,PT,FT>& mesh,
         const std::vector<std::vector<Index>>& polylines,
         const std::vector<C>& polylineColors)
 {
-    meshLoadPolylineData(static_cast<PolylineMesh<V,L>&>(mesh), polylines, polylineColors);
+    meshLoadPolylineData(static_cast<PolylineMesh<VT,PT>&>(mesh), polylines, polylineColors);
 }
 
 template<class Mesh, class FN, class VN, class U, class M>
@@ -228,9 +228,9 @@ void meshLoadFaceData(
     NVL_SUPPRESS_UNUSEDVARIABLE(faceVertexUVs);
 }
 
-template<class V, class L, class F, class FN, class VN, class U, class M>
+template<class VT, class PT, class FT, class FN, class VN, class U, class M>
 void meshLoadFaceData(
-        FaceMesh<V,L,F>& mesh,
+        FaceMesh<VT,PT,FT>& mesh,
         const std::vector<std::vector<Index>>& faces,
         const std::vector<FN>& faceNormals,
         const std::vector<M>& materials,
@@ -240,11 +240,11 @@ void meshLoadFaceData(
         const std::vector<std::vector<Index>>& faceVertexNormals,
         const std::vector<std::vector<Index>>& faceVertexUVs)
 {
-    typedef typename FaceMesh<V,L,F>::MaterialId MaterialId;
-    typedef typename FaceMesh<V,L,F>::FaceId FaceId;
-    typedef typename FaceMesh<V,L,F>::VertexId VertexId;
-    typedef typename FaceMesh<V,L,F>::VertexNormal VertexNormal;
-    typedef typename FaceMesh<V,L,F>::UV UV;
+    typedef typename FaceMesh<VT,PT,FT>::MaterialId MaterialId;
+    typedef typename FaceMesh<VT,PT,FT>::FaceId FaceId;
+    typedef typename FaceMesh<VT,PT,FT>::VertexId VertexId;
+    typedef typename FaceMesh<VT,PT,FT>::VertexNormal VertexNormal;
+    typedef typename FaceMesh<VT,PT,FT>::VertexUV VertexUV;
 
     const Index NO_VALUE = NULL_ID;
     const Index MULTIPLE_VALUES = NULL_ID - 1;
@@ -393,8 +393,8 @@ void meshLoadFaceData(
                 assert(vertexToUV[vId] != NO_VALUE);
 
                 if (vertexToUV[vId] == MULTIPLE_VALUES) {
-                    const UV& UV = vertexUVs[faceVertexUVs[i][j]];
-                    const Index& newWUId = mesh.addWedgeUV(UV);
+                    const VertexUV& uv = vertexUVs[faceVertexUVs[i][j]];
+                    const Index& newWUId = mesh.addWedgeUV(uv);
                     wedgeUVIds[j] = newWUId;
 
                     customVertexUVs = true;
@@ -441,15 +441,15 @@ void meshSaveVertexData(
     NVL_SUPPRESS_UNUSEDVARIABLE(vertexColors);
 }
 
-template<class V, class P, class N, class U, class C>
+template<class VT, class P, class N, class U, class C>
 void meshSaveVertexData(
-        const VertexMesh<V>& mesh,
+        const VertexMesh<VT>& mesh,
         std::vector<P>& vertices,
         std::vector<N>& vertexNormals,
         std::vector<U>& vertexUVs,
         std::vector<C>& vertexColors)
 {
-    typedef typename VertexMesh<V>::Vertex Vertex;
+    typedef typename VertexMesh<VT>::Vertex Vertex;
 
     for (const Vertex& v : mesh.vertices()) {
         vertices.push_back(v.point());
@@ -468,26 +468,26 @@ void meshSaveVertexData(
     }
 }
 
-template<class V, class L, class P, class N, class U, class C>
+template<class VT, class PT, class P, class N, class U, class C>
 void meshSaveVertexData(
-        const PolylineMesh<V,L>& mesh,
+        const PolylineMesh<VT,PT>& mesh,
         std::vector<P>& vertices,
         std::vector<N>& vertexNormals,
         std::vector<U>& vertexUVs,
         std::vector<C>& vertexColors)
 {
-    meshSaveVertexData(static_cast<const VertexMesh<V>&>(mesh), vertices, vertexNormals, vertexUVs, vertexColors);
+    meshSaveVertexData(static_cast<const VertexMesh<VT>&>(mesh), vertices, vertexNormals, vertexUVs, vertexColors);
 }
 
-template<class V, class L, class F, class P, class N, class U, class C>
+template<class VT, class PT, class FT, class P, class N, class U, class C>
 void meshSaveVertexData(
-        const FaceMesh<V,L,F>& mesh,
+        const FaceMesh<VT,PT,FT>& mesh,
         std::vector<P>& vertices,
         std::vector<N>& vertexNormals,
         std::vector<U>& vertexUVs,
         std::vector<C>& vertexColors)
 {
-    meshSaveVertexData(static_cast<const VertexMesh<V>&>(mesh), vertices, vertexNormals, vertexUVs, vertexColors);
+    meshSaveVertexData(static_cast<const VertexMesh<VT>&>(mesh), vertices, vertexNormals, vertexUVs, vertexColors);
 }
 
 template<class Mesh, class C>
@@ -501,14 +501,14 @@ void meshSavePolylineData(
     NVL_SUPPRESS_UNUSEDVARIABLE(polylineColors);
 }
 
-template<class V, class P, class C>
+template<class VT, class PT, class C>
 void meshSavePolylineData(
-        const PolylineMesh<V,P>& mesh,
+        const PolylineMesh<VT,PT>& mesh,
         std::vector<std::vector<Index>>& polylines,
         std::vector<C>& polylineColors)
 {
-    typedef typename PolylineMesh<V,P>::Polyline Polyline;
-    typedef typename PolylineMesh<V,P>::VertexId VertexId;
+    typedef typename PolylineMesh<VT,PT>::Polyline Polyline;
+    typedef typename PolylineMesh<VT,PT>::VertexId VertexId;
 
     for (const Polyline& p : mesh.polylines()) {
         const std::vector<VertexId>& vertexIds = p.vertexIds();
@@ -521,13 +521,13 @@ void meshSavePolylineData(
     }
 }
 
-template<class V, class L, class F, class C>
+template<class VT, class PT, class FT, class C>
 void meshSavePolylineData(
-        const FaceMesh<V,L,F>& mesh,
+        const FaceMesh<VT,PT,FT>& mesh,
         std::vector<std::vector<Index>>& polylines,
         std::vector<C>& polylineColors)
 {
-    meshSavePolylineData(static_cast<const PolylineMesh<V,L>&>(mesh), polylines, polylineColors);
+    meshSavePolylineData(static_cast<const PolylineMesh<VT,PT>&>(mesh), polylines, polylineColors);
 }
 
 
@@ -554,9 +554,9 @@ void meshSaveFaceData(
     NVL_SUPPRESS_UNUSEDVARIABLE(faceMaterials);
 }
 
-template<class V, class P, class F, class FN, class VN, class U, class M>
+template<class VT, class PT, class FT, class FN, class VN, class U, class M>
 void meshSaveFaceData(
-        const FaceMesh<V,P,F>& mesh,
+        const FaceMesh<VT,PT,FT>& mesh,
         std::vector<std::vector<Index>>& faces,
         std::vector<FN>& faceNormals,
         std::vector<M>& materials,
@@ -566,14 +566,14 @@ void meshSaveFaceData(
         std::vector<std::vector<Index>>& faceVertexNormals,
         std::vector<std::vector<Index>>& faceVertexUVs)
 {
-    typedef typename FaceMesh<V,P,F>::Face Face;
-    typedef typename FaceMesh<V,P,F>::VertexNormal VertexNormal;
-    typedef typename FaceMesh<V,P,F>::UV UV;
-    typedef typename FaceMesh<V,P,F>::Material Material;
-    typedef typename Face::VertexContainer VertexContainer;
+    typedef typename FaceMesh<VT,PT,FT>::Face Face;
+    typedef typename FaceMesh<VT,PT,FT>::VertexNormal VertexNormal;
+    typedef typename FaceMesh<VT,PT,FT>::VertexUV VertexUV;
+    typedef typename FaceMesh<VT,PT,FT>::Material Material;
+    typedef typename FaceMesh<VT,PT,FT>::FaceContainer FaceContainer;
 
     for (const Face& f : mesh.faces()) {
-        const VertexContainer& vertexIds = f.vertexIds();
+        const FaceContainer& vertexIds = f.vertexIds();
 
         faces.push_back(std::vector<Index>(vertexIds.begin(), vertexIds.end()));
 
@@ -623,7 +623,7 @@ void meshSaveFaceData(
                     const Index& nId = wedgeUVs[j];
 
                     if (nId != NULL_ID) {
-                        const UV& normal = mesh.wedgeUV(nId);
+                        const VertexUV& normal = mesh.wedgeUV(nId);
 
                         vertexUVs.push_back(normal);
                         Index wedgeUVId = vertexUVs.size() - 1;
