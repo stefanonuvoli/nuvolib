@@ -47,6 +47,12 @@ typename L::VertexContainer& PolylineMesh<V,L>::polylineVertexIds(const Polyline
 }
 
 template<class V, class L>
+Size PolylineMesh<V,L>::polylineVertexNumber(const PolylineId& id) const
+{
+    MeshPolylineHandler<L>::polyline(id).vertexNumber();
+}
+
+template<class V, class L>
 const typename L::VertexContainer& PolylineMesh<V,L>::polylineVertexIds(const PolylineId& id) const
 {
     return MeshPolylineHandler<L>::polyline(id).vertexIds();
@@ -59,9 +65,21 @@ void PolylineMesh<V,L>::setPolylineVertexIds(const PolylineId& id, const typenam
 }
 
 template<class V, class L>
-Size PolylineMesh<V,L>::polylineVertexNumber(const PolylineId& id) const
+typename PolylineMesh<V,L>::VertexId PolylineMesh<V,L>::polylineVertexId(const PolylineId& id, const Index& pos)
 {
-    MeshPolylineHandler<L>::face(id).vertexNumber();
+    return MeshPolylineHandler<L>::polyline(id).vertexId(pos);
+}
+
+template<class V, class L>
+const typename PolylineMesh<V,L>::VertexId PolylineMesh<V,L>::polylineVertexId(const PolylineId& id, const Index& pos) const
+{
+    return MeshPolylineHandler<L>::polyline(id).vertexId(pos);
+}
+
+template<class V, class L>
+void PolylineMesh<V,L>::setPolylineVertexId(const PolylineId& id, const Index& pos, const VertexId& vId)
+{
+    MeshPolylineHandler<L>::polyline(id).setVertexId(pos, vId);
 }
 
 template<class V, class L>

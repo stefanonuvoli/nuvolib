@@ -76,10 +76,15 @@ public:
     FaceId allocateFaces(const Size& n);
     FaceId allocateFaces(const Size& n, const Face& face);
 
+    Size faceVertexNumber(const FaceId& id) const;
+
     typename F::VertexContainer& faceVertexIds(const FaceId& id);
     const typename F::VertexContainer& faceVertexIds(const FaceId& id) const;
     void setFaceVertexIds(const FaceId& id, const typename F::VertexContainer& vertexIds);
-    Size faceVertexNumber(const FaceId& id) const;
+
+    VertexId faceVertexId(const FaceId& id, const Index& pos);
+    const VertexId faceVertexId(const FaceId& id, const Index& pos) const;
+    void setFaceVertexId(const FaceId& id, const Index& pos, const VertexId& vertexId);
 
     bool hasFaceNormals() const;
     void enableFaceNormals();

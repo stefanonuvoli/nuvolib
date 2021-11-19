@@ -49,7 +49,7 @@ void MeshVectorFace<V,N,M>::insertVertex(VertexId vId)
 }
 
 template<class V, class N, class M>
-void MeshVectorFace<V,N,M>::insertVertex(const Index& pos, VertexId vId)
+void MeshVectorFace<V,N,M>::insertVertex(const Index& pos, const VertexId& vId)
 {
     assert(pos <= this->vVertexIds.size() && "Index exceed the face dimension.");
 

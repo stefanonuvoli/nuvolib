@@ -43,7 +43,7 @@ public:
     void resizeVertexNumber(Size vertexNumber);
 
     void insertVertex(VertexId vId);
-    void insertVertex(const Index& pos, VertexId vId);
+    void insertVertex(const Index& pos, const VertexId& vId);
     void insertVertex(const Vertex& vId);
     void insertVertex(const Index& pos, const Vertex& vertex);
 

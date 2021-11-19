@@ -47,7 +47,7 @@ public:
 
     VertexId& vertexId(const Index& pos);
     const VertexId& vertexId(const Index& pos) const;
-    void setVertexId(const Index& pos, VertexId vId);
+    void setVertexId(const Index& pos, const VertexId& vId);
     void setVertex(const Index& pos, const Vertex& vId);
 
     VertexId& nextVertexId(const Index& pos);

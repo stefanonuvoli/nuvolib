@@ -46,6 +46,12 @@ typename FaceMesh<V,L,F>::FaceId FaceMesh<V,L,F>::allocateFaces(const Size& n, c
 }
 
 template<class V, class L, class F>
+Size FaceMesh<V,L,F>::faceVertexNumber(const FaceId& id) const
+{
+    MeshFaceHandler<F>::face(id).vertexNumber();
+}
+
+template<class V, class L, class F>
 typename F::VertexContainer& FaceMesh<V,L,F>::faceVertexIds(const FaceId& id)
 {
     return MeshFaceHandler<F>::face(id).vertexIds();
@@ -64,9 +70,21 @@ void FaceMesh<V,L,F>::setFaceVertexIds(const FaceId& id, const typename F::Verte
 }
 
 template<class V, class L, class F>
-Size FaceMesh<V,L,F>::faceVertexNumber(const FaceId& id) const
+typename FaceMesh<V,L,F>::VertexId FaceMesh<V,L,F>::faceVertexId(const FaceId& id, const Index& pos)
 {
-    MeshFaceHandler<F>::face(id).vertexNumber();
+    return MeshFaceHandler<F>::face(id).vertexId(pos);
+}
+
+template<class V, class L, class F>
+const typename FaceMesh<V,L,F>::VertexId FaceMesh<V,L,F>::faceVertexId(const FaceId& id, const Index& pos) const
+{
+    return MeshFaceHandler<F>::face(id).vertexId(pos);
+}
+
+template<class V, class L, class F>
+void FaceMesh<V,L,F>::setFaceVertexId(const FaceId& id, const Index& pos, const VertexId& vId)
+{
+    MeshFaceHandler<F>::face(id).setVertexId(pos, vId);
 }
 
 template<class V, class L, class F>

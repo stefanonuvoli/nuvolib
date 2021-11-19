@@ -46,7 +46,7 @@ public:
     void resizeVertexNumber(Size vertexNumber);
 
     void insertVertex(VertexId vId);
-    void insertVertex(const Index& pos, VertexId vId);
+    void insertVertex(const Index& pos, const VertexId& vId);
     void insertVertex(const Vertex& vId);
     void insertVertex(const Index& pos, const Vertex& vertex);
 
@@ -59,12 +59,12 @@ public:
 
     VertexId& vertexId(const Index& pos);
     const VertexId& vertexId(const Index& pos) const;
-    void setVertexId(const Index& pos, VertexId vId);
+    void setVertexId(const Index& pos, const VertexId& vId);
     void setVertex(const Index& pos, const Vertex& vertex);
 
     VertexId& nextVertexId(const Index& pos);
     const VertexId& nextVertexId(const Index& pos) const;
-    void setNextVertexId(const Index& pos, VertexId vId);
+    void setNextVertexId(const Index& pos, const VertexId& vId);
     void setNextVertex(const Index& pos, const Vertex& vertex);
 
 protected:

@@ -51,11 +51,15 @@ public:
     PolylineId allocatePolylines(const Size& n);
     PolylineId allocatePolylines(const Size& n, const Polyline& polyline);
 
+    Size polylineVertexNumber(const PolylineId& id) const;
+
     typename L::VertexContainer& polylineVertexIds(const PolylineId& id);
     const typename L::VertexContainer& polylineVertexIds(const PolylineId& id) const;
     void setPolylineVertexIds(const PolylineId& id, const typename L::VertexContainer& vertexIds);
-    Size polylineVertexNumber(const PolylineId& id) const;
 
+    VertexId polylineVertexId(const PolylineId& id, const Index& pos);
+    const VertexId polylineVertexId(const PolylineId& id, const Index& pos) const;
+    void setPolylineVertexId(const PolylineId& id, const Index& pos, const VertexId& vId);
 
     bool hasPolylineColors() const;
     void enablePolylineColors();

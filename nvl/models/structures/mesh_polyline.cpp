@@ -75,7 +75,7 @@ void MeshPolyline<V,C>::insertVertex(VertexId vId)
 }
 
 template<class V, class C>
-void MeshPolyline<V,C>::insertVertex(const Index& pos, VertexId vId)
+void MeshPolyline<V,C>::insertVertex(const Index& pos, const VertexId& vId)
 {
     assert(pos <= this->vVertices.size() && "Index exceed the face dimension.");
 
@@ -143,7 +143,7 @@ const typename MeshPolyline<V,C>::VertexId& MeshPolyline<V,C>::vertexId(const In
 }
 
 template<class V, class C>
-void MeshPolyline<V,C>::setVertexId(const Index& pos, VertexId vId)
+void MeshPolyline<V,C>::setVertexId(const Index& pos, const VertexId& vId)
 {
     assert(pos < vVertices.size() && "Index exceed the polyline dimension.");
 
@@ -174,7 +174,7 @@ const typename MeshPolyline<V,C>::VertexId& MeshPolyline<V,C>::nextVertexId(cons
 }
 
 template<class V, class C>
-void MeshPolyline<V,C>::setNextVertexId(const Index& pos, VertexId vId)
+void MeshPolyline<V,C>::setNextVertexId(const Index& pos, const VertexId& vId)
 {
     assert(pos < vVertices.size() - 1 && "Index exceed the polyline dimension.");
 
