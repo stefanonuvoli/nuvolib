@@ -33,20 +33,6 @@ struct IOModelMode {
     IOAnimationMode animationMode;
 };
 
-//Model data
-struct IOModelData {
-    IOModelData();
-
-    std::string meshFilename;
-    std::string skeletonFilename;
-    std::string skinningWeightsFilename;
-    std::vector<std::string> animationFilenames;
-
-    std::string name;
-
-    void clear();
-};
-
 namespace internal {
 
 //Dummy variables for default arguments

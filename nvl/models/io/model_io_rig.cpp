@@ -6,16 +6,18 @@
 
 namespace nvl {
 
-NVL_INLINE bool modelLoadDataFromRig(
+template<class Model>
+bool modelLoadModelFromRig(
         const std::string& filename,
-        IOModelData& data,
+        Model& model,
         IOModelError& error,
         IOModelMode& mode)
-{
+{    
+    //Get filename path
+    std::string path = filenamePath(filename);
+
     //Use "." as decimal separator
     std::setlocale(LC_NUMERIC, "en_US.UTF-8");
-
-    data.clear();
 
     std::ifstream fRig; //File streams
     std::string line;
@@ -28,6 +30,12 @@ NVL_INLINE bool modelLoadDataFromRig(
         error = IO_MODEL_FILE_ERROR;
         return false;
     }
+
+    std::string name;
+    std::string meshFile;
+    std::string skeletonFile;
+    std::string skinningWeightsFile;
+    std::vector<std::string> animationFiles;
 
     while (std::getline(fRig, line)) {
         std::istringstream iss(line);
@@ -43,13 +51,13 @@ NVL_INLINE bool modelLoadDataFromRig(
                 std::string tmpString;
                 iss >> tmpString;
                 if (!first)
-                    data.name += " ";
-                data.name += tmpString;
+                    name += " ";
+                name += tmpString;
                 first = false;
             }
         }
         if (token == "m" && mode.mesh) {
-            if (!data.meshFilename.empty()) {
+            if (!meshFile.empty()) {
                 error = IO_MODEL_FORMAT_NON_RECOGNISED;
                 return false;
             }
@@ -59,13 +67,16 @@ NVL_INLINE bool modelLoadDataFromRig(
                 std::string tmpString;
                 iss >> tmpString;
                 if (!first)
-                    data.meshFilename += " ";
-                data.meshFilename += tmpString;
+                    meshFile += " ";
+                meshFile += tmpString;
                 first = false;
+            }
+            if (meshFile.at(0) != '/') {
+                meshFile = path + meshFile;
             }
         }
         else if (token == "s" && mode.skeleton) {
-            if (!data.skeletonFilename.empty()) {
+            if (!skeletonFile.empty()) {
                 error = IO_MODEL_FORMAT_NON_RECOGNISED;
                 return false;
             }
@@ -75,13 +86,16 @@ NVL_INLINE bool modelLoadDataFromRig(
                 std::string tmpString;
                 iss >> tmpString;
                 if (!first)
-                    data.skeletonFilename += " ";
-                data.skeletonFilename += tmpString;
+                    skeletonFile += " ";
+                skeletonFile += tmpString;
                 first = false;
+            }
+            if (skeletonFile.at(0) != '/') {
+                skeletonFile = path + skeletonFile;
             }
         }
         else if (token == "w" && mode.skinningWeights) {
-            if (!data.skinningWeightsFilename.empty()) {
+            if (!skinningWeightsFile.empty()) {
                 error = IO_MODEL_FORMAT_NON_RECOGNISED;
                 return false;
             }
@@ -91,9 +105,12 @@ NVL_INLINE bool modelLoadDataFromRig(
                 std::string tmpString;
                 iss >> tmpString;
                 if (!first)
-                    data.skinningWeightsFilename += " ";
-                data.skinningWeightsFilename += tmpString;
+                    skinningWeightsFile += " ";
+                skinningWeightsFile += tmpString;
                 first = false;
+            }
+            if (skinningWeightsFile.at(0) != '/') {
+                skinningWeightsFile = path + skinningWeightsFile;
             }
         }
         else if (token == "a" && mode.animations) {
@@ -108,28 +125,74 @@ NVL_INLINE bool modelLoadDataFromRig(
                 animationFilename += tmpString;
                 first = false;
             }
+            if (animationFilename.at(0) != '/') {
+                animationFilename = path + animationFilename;
+            }
 
-            data.animationFilenames.push_back(animationFilename);
+            animationFiles.push_back(animationFilename);
         }
     }
 
-    if (data.name.empty()) {
-        std::string name = filenameName(filename);
-        data.name = name;
+    if (name.empty()) {
+        name = filenameName(filename);
     }
 
     fRig.close();
 
+    bool success = true;
+    if (success) {
+        model.setName(name);
+
+        if (mode.mesh && !meshFile.empty()) {
+            IOMeshError meshError;
+            success &= meshLoadFromFile(meshFile, model.mesh, meshError, mode.meshMode);
+            if (!success) {
+                error = IO_MODEL_MESH_ERROR;
+            }
+        }
+
+        if (success && mode.skeleton && !skeletonFile.empty()) {
+            IOSkeletonError skeletonError;
+            success &= skeletonLoadFromFile(skeletonFile, model.skeleton, skeletonError, mode.skeletonMode);
+            if (!success) {
+                error = IO_MODEL_SKELETON_ERROR;
+            }
+        }
+
+        if (success && mode.skinningWeights && !skinningWeightsFile.empty()) {
+            model.initializeSkinningWeights();
+
+            IOSkinningWeightsError skinningWeightsError;
+            success &= skinningWeightsLoadFromFile(skinningWeightsFile, model.skinningWeights, skinningWeightsError, mode.skinningWeightsMode);
+        }
+
+        if (success && mode.animations) {
+            for (const std::string& animationFile : animationFiles) {
+                typename Model::Animation animation;
+
+                IOAnimationError animationError;
+                success &= animationLoadFromFile(animationFile, animation, animationError, mode.animationMode);
+
+                model.addAnimation(animation);
+            }
+        }
+    }
+
     //Successfully loaded
-    return true;
+    return success;
 }
 
-NVL_INLINE bool modelSaveDataToRig(
+
+template<class Model>
+bool modelSaveModelToRig(
         const std::string& filename,
-        const IOModelData& data,
+        const Model& model,
         IOModelError& error,
         const IOModelMode& mode)
 {
+    //Get filename path
+    std::string path = filenamePath(filename);
+
     //Use "." as decimal separator
     std::setlocale(LC_NUMERIC, "en_US.UTF-8");
 
@@ -144,31 +207,79 @@ NVL_INLINE bool modelSaveDataToRig(
         return false;
     }
 
-    //Set precision
-    fRig.precision(6);
-    fRig.setf(std::ios::fixed, std:: ios::floatfield);
+    std::string name = model.name();
+    std::string meshFile = name + ".obj";
+    std::string skeletonFile = name + ".skt";
+    std::string skinningWeightsFile = name + ".skw";
+    std::vector<std::string> animationFiles(model.animationNumber());
+    for (Index i = 0; i < model.animationNumber(); ++i) {
+        animationFiles[i] = model.animation(i).name() + ".ska";
+    }
 
-    if (!data.name.empty()) {
-        fRig << "n " << data.name << std::endl;
-    }
+    bool success = true;
     if (mode.mesh) {
-        fRig << "m " << data.meshFilename << std::endl;
+        IOMeshError meshError;
+        success &= meshSaveToFile(path + meshFile, model.mesh, meshError, mode.meshMode);
+        if (!success) {
+            error = IO_MODEL_MESH_ERROR;
+        }
     }
-    if (mode.skeleton) {
-        fRig << "s " << data.skeletonFilename << std::endl;
+
+    if (success && mode.skeleton) {
+        IOSkeletonError skeletonError;
+        success &= skeletonSaveToFile(path + skeletonFile, model.skeleton, skeletonError, mode.skeletonMode);
+        if (!success) {
+            error = IO_MODEL_SKELETON_ERROR;
+        }
     }
-    if (mode.skinningWeights) {
-        fRig << "w " << data.skinningWeightsFilename << std::endl;
+
+    if (success && mode.skinningWeights) {
+        IOSkinningWeightsError skinningWeightsError;
+        success &= skinningWeightsSaveToFile(path + skinningWeightsFile, model.skinningWeights, skinningWeightsError, mode.skinningWeightsMode);
+        if (!success) {
+            error = IO_MODEL_SKINNINGWEIGHTS_ERROR;
+        }
     }
-    if (mode.animations) {
-        for (const std::string& s : data.animationFilenames)
-        fRig << "a " << s << std::endl;
+
+    if (success && mode.animations) {
+        for (Index i = 0; i < model.animationNumber(); ++i) {
+            const std::string& animationFile = animationFiles[i];
+
+            IOAnimationError animationError;
+            success &= animationSaveToFile(path + animationFile, model.animation(i), animationError, mode.animationMode);
+            if (!success) {
+                error = IO_MODEL_ANIMATION_ERROR;
+            }
+        }
+    }
+
+    if (success) {
+        //Set precision
+        fRig.precision(6);
+        fRig.setf(std::ios::fixed, std:: ios::floatfield);
+
+        if (!name.empty()) {
+            fRig << "n " << name << std::endl;
+        }
+        if (mode.mesh) {
+            fRig << "m " << meshFile << std::endl;
+        }
+        if (mode.skeleton) {
+            fRig << "s " << skeletonFile << std::endl;
+        }
+        if (mode.skinningWeights) {
+            fRig << "w " << skinningWeightsFile << std::endl;
+        }
+        if (mode.animations) {
+            for (const std::string& s : animationFiles)
+            fRig << "a " << s << std::endl;
+        }
     }
 
     //Close obj file
     fRig.close();
 
-    return true;
+    return success;
 }
 
 }

@@ -9,17 +9,4 @@ NVL_INLINE IOModelMode::IOModelMode() :
 
 }
 
-NVL_INLINE IOModelData::IOModelData()
-{
-    clear();
-}
-
-NVL_INLINE void IOModelData::clear()
-{
-    meshFilename.clear();
-    skeletonFilename.clear();
-    skinningWeightsFilename.clear();
-    animationFilenames.clear();
-}
-
 }

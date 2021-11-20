@@ -8,8 +8,9 @@
     error(Module "models" requires the module "structures".)
 }
 
-DEFINES += NVL_MODELS_LOADED
+include(fbxsdk.pri)
 
+DEFINES += NVL_MODELS_LOADED
 
 message(Module \"models\" loaded.)
 
@@ -42,6 +43,7 @@ HEADERS += \
     $$PWD/algorithms/skeleton_transfer.h \
     $$PWD/algorithms/skeleton_transformations.h \
     $$PWD/animation_3d.h \
+    $$PWD/io/model_io_fbx.h \
     $$PWD/structures/handlers/mesh_face_handler.h \
     $$PWD/structures/handlers/mesh_face_material_handler.h \
     $$PWD/structures/handlers/mesh_face_normal_handler.h \
@@ -121,6 +123,7 @@ SOURCES += \
     $$PWD/algorithms/skeleton_adjacencies.cpp \
     $$PWD/algorithms/skeleton_transfer.cpp \
     $$PWD/algorithms/skeleton_transformations.cpp \
+    $$PWD/io/model_io_fbx.cpp \
     $$PWD/structures/handlers/mesh_face_handler.cpp \
     $$PWD/structures/handlers/mesh_face_material_handler.cpp \
     $$PWD/structures/handlers/mesh_face_normal_handler.cpp \

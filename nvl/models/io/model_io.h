@@ -18,6 +18,13 @@ bool modelSaveToFile(
         IOModelError& error = internal::dummyIOModelError,
         const IOModelMode& mode = internal::dummyIOModelMode);
 
+template<class Model>
+bool modelLoadFromFile(
+        const std::string& filename,
+        std::vector<Model>& models,
+        IOModelError& error,
+        IOModelMode& mode);
+
 }
 
 #include "model_io.cpp"

@@ -9,14 +9,16 @@
 
 namespace nvl {
 
-bool modelLoadDataFromRig(
+template<class Model>
+bool modelLoadModelFromRig(
         const std::string& filename,
-        IOModelData& data,
+        Model& model,
         IOModelError& error,
         IOModelMode& mode);
-bool modelSaveDataToRig(
+template<class Model>
+bool modelSaveModelToRig(
         const std::string& filename,
-        const IOModelData& data,
+        const Model& model,
         IOModelError& error,
         const IOModelMode& mode);
 
