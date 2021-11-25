@@ -46,6 +46,12 @@ const typename MeshFace<V,C>::Container& MeshFace<V,C>::vertexIds() const
 }
 
 template<class V, class C>
+void MeshFace<V,C>::setVertexIds(const Container& container)
+{
+    this->vVertexIds = container;
+}
+
+template<class V, class C>
 typename MeshFace<V,C>::VertexId& MeshFace<V,C>::vertexId(const Index& pos)
 {
     assert(pos < vVertexIds.size() && "Index exceed the face dimension.");

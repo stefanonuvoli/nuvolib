@@ -17,11 +17,11 @@ struct IOSkinningWeightsMode {
 };
 
 //Skeleton weights
-template<class T = double>
+template<class S = double>
 struct IOSkinningWeightsData {
     IOSkinningWeightsData();
 
-    std::vector<std::tuple<Index, Index, T>> weights;
+    std::vector<std::tuple<Index, Index, S>> weights;
 
     void clear();
 };

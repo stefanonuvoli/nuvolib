@@ -125,10 +125,6 @@ void modelAnimationTransfer(
 
     newAnimation.setName(animation.name());
 
-    AnimationFrame newRestFrame;
-    modelAnimationFrameTransfer(model, animation.restFrame(), birthJoint, targetModel, newRestFrame);
-    newAnimation.setRestFrame(newRestFrame);
-
     for (const AnimationFrame& frame : animation.keyframes()) {
         AnimationFrame newFrame;
         modelAnimationFrameTransfer(model, frame, birthJoint, targetModel, newFrame);

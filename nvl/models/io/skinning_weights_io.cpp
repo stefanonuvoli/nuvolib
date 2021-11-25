@@ -4,20 +4,20 @@
 
 namespace nvl {
 
-template<class S>
+template<class W>
 bool skinningWeightsLoadFromFile(
         const std::string& filename,
-        S& skinningWeights,
+        W& skinningWeights,
         IOSkinningWeightsError& error,
-        IOSkinningWeightsMode& mode)
+        const IOSkinningWeightsMode& mode)
 {
-    IOSkinningWeightsData<typename S::Scalar> data;
+    IOSkinningWeightsData<typename W::Scalar> skinningWeightsData;
 
     std::string ext = filenameExtension(filename);
 
     bool success;
     if (ext == "skw") {
-        success = skinningWeightsLoadDataFromSkw(filename, data, error, mode);
+        success = skinningWeightsLoadDataFromSKW(filename, skinningWeightsData, error);
     }
     else {
         error = IO_SKINNINGWEIGHTS_EXTENSION_NON_SUPPORTED;
@@ -25,16 +25,16 @@ bool skinningWeightsLoadFromFile(
     }
 
     if (success) {
-        skinningWeightsLoadData(skinningWeights, data.weights);
+        skinningWeightsLoadData(skinningWeights, skinningWeightsData, mode);
     }
 
     return success;
 }
 
-template<class S>
+template<class W>
 bool skinningWeightsSaveToFile(
         const std::string& filename,
-        const S& skinningWeights,
+        const W& skinningWeights,
         IOSkinningWeightsError& error,
         const IOSkinningWeightsMode& mode)
 {
@@ -42,10 +42,11 @@ bool skinningWeightsSaveToFile(
 
     bool success;
     if (ext == "skw") {
-        IOSkinningWeightsData<typename S::Scalar> data;
-        skinningWeightsSaveData(skinningWeights, data.weights);
+        IOSkinningWeightsData<typename W::Scalar> skinningWeightsData;
 
-        success = skinningWeightsSaveDataToSkw(filename, data, error, mode);
+        skinningWeightsSaveData(skinningWeights, skinningWeightsData, mode);
+
+        success = skinningWeightsSaveDataToSKW(filename, skinningWeightsData, error);
     }
     else {
         error = IO_SKINNINGWEIGHTS_EXTENSION_NON_SUPPORTED;
@@ -56,30 +57,33 @@ bool skinningWeightsSaveToFile(
 }
 
 
-template<class T, class J>
+template<class W>
 void skinningWeightsLoadData(
-        SkinningWeights<T>& skinningWeights,
-        const std::vector<std::tuple<Index, Index, J>>& weights)
+        SkinningWeights<W>& skinningWeights,
+        const IOSkinningWeightsData<W>& skinningWeightsData,
+        const IOSkinningWeightsMode& mode)
 {
-    for (const std::tuple<Index, Index, J>& tuple : weights) {
-        skinningWeights.setWeight(std::get<1>(tuple), std::get<0>(tuple), std::get<2>(tuple));
+    for (const std::tuple<Index, Index, W>& tuple : skinningWeightsData.weights) {
+        skinningWeights.setWeight(std::get<0>(tuple), std::get<1>(tuple), std::get<2>(tuple));
     }
+
     skinningWeights.updateNonZeros();
 }
 
-template<class T, class J>
+template<class W>
 void skinningWeightsSaveData(
-        const SkinningWeights<T>& skinningWeights,
-        std::vector<std::tuple<Index, Index, J>>& weights)
+        const SkinningWeights<W>& skinningWeights,
+        IOSkinningWeightsData<W>& skinningWeightsData,
+        const IOSkinningWeightsMode& mode)
 {
     const std::vector<std::vector<Index>>& nonZeros = skinningWeights.nonZeroWeights();
 
     for (Index v = 0; v < nonZeros.size(); v++) {
         for (const Index& j : nonZeros[v]) {
-            weights.push_back(std::make_tuple(j, v, skinningWeights.weight(v, j)));
+            skinningWeightsData.weights.push_back(
+                std::make_tuple(v, j, skinningWeights.weight(v, j)));
         }
     }
-
 }
 
 }

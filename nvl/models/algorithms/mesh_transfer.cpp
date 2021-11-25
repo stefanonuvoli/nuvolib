@@ -548,7 +548,7 @@ void meshTransferFaces(
                 materialMap[mId] = newMId;
             }
 
-            targetMesh.setfaceMaterial(newFId, materialMap[mId]);
+            targetMesh.setFaceMaterial(newFId, materialMap[mId]);
         }
 
         if (mesh.hasWedgeNormals() && !mesh.faceWedgeNormalsAreNull(fId)) {
@@ -669,7 +669,7 @@ void meshTransferFaces(
                     materialMap[mId] = newMId;
                 }
 
-                targetMesh.setfaceMaterial(newFId, materialMap[mId]);
+                targetMesh.setFaceMaterial(newFId, materialMap[mId]);
             }
 
             if (mesh.hasWedgeNormals() && !mesh.faceWedgeNormalsAreNull(fId)) {

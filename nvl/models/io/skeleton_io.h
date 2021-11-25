@@ -12,7 +12,7 @@ bool skeletonLoadFromFile(
         const std::string& filename,
         S& skeleton,
         IOSkeletonError& error = internal::dummyIOSkeletonError,
-        IOSkeletonMode& mode = internal::dummyIOSkeletonMode);
+        const IOSkeletonMode& mode = internal::dummyIOSkeletonMode);
 
 template<class S>
 bool skeletonSaveToFile(
@@ -24,19 +24,17 @@ bool skeletonSaveToFile(
 
 /* Raw data IO */
 
-template<class V, class T>
+template<class S, class SD>
 void skeletonLoadData(
-        Skeleton<V>& skeleton,
-        const std::vector<T>& joints,
-        const std::vector<int>& parents,
-        const std::vector<std::string>& names);
+        S& skeleton,
+        const SD& skeletonData,
+        const IOSkeletonMode& mode);
 
-template<class V, class T>
+template<class Skeleton, class SD>
 void skeletonSaveData(
-        const Skeleton<V>& skeleton,
-        std::vector<T>& joints,
-        std::vector<int>& parents,
-        std::vector<std::string>& names);
+        const Skeleton& skeleton,
+        SD& skeletonData,
+        const IOSkeletonMode& mode);
 
 }
 

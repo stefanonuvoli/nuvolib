@@ -33,7 +33,7 @@ const typename MeshFaceMaterialHandler<F,M>::MaterialId& MeshFaceMaterialHandler
 }
 
 template<class F, class M>
-void MeshFaceMaterialHandler<F,M>::setfaceMaterial(const FaceId& id, const MaterialId& materialId)
+void MeshFaceMaterialHandler<F,M>::setFaceMaterial(const FaceId& id, const MaterialId& materialId)
 {
     assert(id < vFaceMaterials.realSize() && "Face materials not enabled or not properly initialized.");
 
@@ -41,13 +41,13 @@ void MeshFaceMaterialHandler<F,M>::setfaceMaterial(const FaceId& id, const Mater
 }
 
 template<class F, class M>
-void MeshFaceMaterialHandler<F,M>::setfaceMaterial(const FaceId& id, const Material& material)
+void MeshFaceMaterialHandler<F,M>::setFaceMaterial(const FaceId& id, const Material& material)
 {
-    setfaceMaterial(id, material.id());
+    setFaceMaterial(id, material.id());
 }
 
 template<class F, class M>
-void MeshFaceMaterialHandler<F,M>::unsetfaceMaterial(const FaceId& id)
+void MeshFaceMaterialHandler<F,M>::unsetFaceMaterial(const FaceId& id)
 {
     assert(id < vFaceMaterials.realSize() && "Face materials not enabled or not properly initialized.");
 
@@ -73,21 +73,21 @@ const typename MeshFaceMaterialHandler<F,M>::MaterialId& MeshFaceMaterialHandler
 }
 
 template<class F, class M>
-void MeshFaceMaterialHandler<F,M>::setfaceMaterial(const Face& face, const MaterialId& materialId)
+void MeshFaceMaterialHandler<F,M>::setFaceMaterial(const Face& face, const MaterialId& materialId)
 {
-    setfaceMaterial(face.id(), materialId);
+    setFaceMaterial(face.id(), materialId);
 }
 
 template<class F, class M>
-void MeshFaceMaterialHandler<F,M>::setfaceMaterial(const Face& face, const Material& material)
+void MeshFaceMaterialHandler<F,M>::setFaceMaterial(const Face& face, const Material& material)
 {
-    setfaceMaterial(face.id(), material.id());
+    setFaceMaterial(face.id(), material.id());
 }
 
 template<class F, class M>
-void MeshFaceMaterialHandler<F,M>::unsetfaceMaterial(const Face& face)
+void MeshFaceMaterialHandler<F,M>::unsetFaceMaterial(const Face& face)
 {
-    unsetfaceMaterial(face.id());
+    unsetFaceMaterial(face.id());
 }
 
 }

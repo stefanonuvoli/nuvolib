@@ -7,14 +7,11 @@
 namespace nvl {
 
 template<class T>
-bool skinningWeightsLoadDataFromSkw(
+bool skinningWeightsLoadDataFromSKW(
         const std::string& filename,
         IOSkinningWeightsData<T>& data,
-        IOSkinningWeightsError& error,
-        IOSkinningWeightsMode& mode)
+        IOSkinningWeightsError& error)
 {
-    NVL_SUPPRESS_UNUSEDVARIABLE(mode);
-
     //Use "." as decimal separator
     std::setlocale(LC_NUMERIC, "en_US.UTF-8");
 
@@ -40,7 +37,7 @@ bool skinningWeightsLoadDataFromSkw(
 
         iss >> j >> v >> w;
 
-        data.weights.push_back(std::make_tuple(j, v, w));
+        data.weights.push_back(std::make_tuple(v, j, w));
     }
 
     fSkw.close();
@@ -50,14 +47,11 @@ bool skinningWeightsLoadDataFromSkw(
 }
 
 template<class T>
-bool skinningWeightsSaveDataToSkw(
+bool skinningWeightsSaveDataToSKW(
         const std::string& filename,
         const IOSkinningWeightsData<T>& data,
-        IOSkinningWeightsError& error,
-        const IOSkinningWeightsMode& mode)
+        IOSkinningWeightsError& error)
 {
-    NVL_SUPPRESS_UNUSEDVARIABLE(mode);
-
     //Use "." as decimal separator
     std::setlocale(LC_NUMERIC, "en_US.UTF-8");
 
@@ -77,8 +71,8 @@ bool skinningWeightsSaveDataToSkw(
     fSkw.setf(std::ios::fixed, std:: ios::floatfield);
 
     for (const std::tuple<Index, Index, T>& tuple : data.weights) {
-        const Index& j = std::get<0>(tuple);
-        const Index& v = std::get<1>(tuple);
+        const Index& v = std::get<0>(tuple);
+        const Index& j = std::get<1>(tuple);
         const T& w = std::get<2>(tuple);
 
         fSkw << j << " " << v << " " << w << std::endl;

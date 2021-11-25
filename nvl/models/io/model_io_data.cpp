@@ -9,4 +9,20 @@ NVL_INLINE IOModelMode::IOModelMode() :
 
 }
 
+template<class M, class S, class W, class A>
+IOModelData<M,S,W,A>::IOModelData()
+{
+    clear();
+}
+
+template<class M, class S, class W, class A>
+void IOModelData<M,S,W,A>::clear()
+{
+    name.clear();
+    mesh.clear();
+    skeleton.clear();
+    skinningWeights.clear();
+    animations.clear();
+}
+
 }

@@ -12,176 +12,101 @@
 
 namespace nvl {
 
-template<class Mesh>
+template<class M>
 bool meshLoadFromFile(
         const std::string& filename,
-        Mesh& mesh,
+        M& mesh,
         IOMeshError& error = internal::dummyIOMeshError,
-        IOMeshMode& mode = internal::dummyIOMeshMode);
+        const IOMeshMode& mode = internal::dummyIOMeshMode);
 
-template<class Mesh>
+template<class M>
 bool meshSaveToFile(
         const std::string& filename,
-        const Mesh& mesh,
+        const M& mesh,
         IOMeshError& error = internal::dummyIOMeshError,
         const IOMeshMode& mode = internal::dummyIOMeshMode);
 
 
+/* Specialized load raw data IO */
+
+template<class VT, class MD>
+void meshLoadData(
+        VertexMesh<VT>& mesh,
+        const MD& meshData,
+        const IOMeshMode& mode);
+
+template<class VT, class PT, class MD>
+void meshLoadData(
+        PolylineMesh<VT,PT> mesh,
+        const MD& meshData,
+        const IOMeshMode& mode);
+
+template<class VT, class PT, class FT, class MD>
+void meshLoadData(
+        FaceMesh<VT,PT,FT>& mesh,
+        const MD& meshData,
+        const IOMeshMode& mode);
+
+/* Specialized save raw data IO */
+
+template<class VT, class MD>
+void meshSaveData(
+        const VertexMesh<VT>& mesh,
+        MD& meshData,
+        const IOMeshMode& mode);
+
+template<class VT, class PT, class MD>
+void meshSaveData(
+        const PolylineMesh<VT,PT> mesh,
+        MD& meshData,
+        const IOMeshMode& mode);
+
+template<class VT, class PT, class FT, class MD>
+void meshSaveData(
+        const FaceMesh<VT,PT,FT>& mesh,
+        MD& meshData,
+        const IOMeshMode& mode);
+
 /* Load raw data IO */
 
-
-template<class Mesh, class P, class N, class U, class C>
+template<class M, class MD>
 void meshLoadVertexData(
-        Mesh& mesh,
-        const std::vector<P>& vertices,
-        const std::vector<N>& vertexNormals,
-        const std::vector<U>& vertexUVs,
-        const std::vector<C>& vertexColors);
+        M& mesh,
+        const MD& meshData,
+        const IOMeshMode& mode);
 
-template<class VT, class P, class N, class U, class C>
-void meshLoadVertexData(
-        VertexMesh<VT>& mesh,
-        const std::vector<P>& vertices,
-        const std::vector<N>& vertexNormals,
-        const std::vector<U>& vertexUVs,
-        const std::vector<C>& vertexColors);
-
-template<class VT, class PT, class P, class N, class U, class C>
-void meshLoadVertexData(
-        PolylineMesh<VT,PT>& mesh,
-        const std::vector<P>& vertices,
-        const std::vector<N>& vertexNormals,
-        const std::vector<U>& vertexUVs,
-        const std::vector<C>& vertexColors);
-
-template<class VT, class PT, class FT, class P, class N, class U, class C>
-void meshLoadVertexData(
-        FaceMesh<VT,PT,FT>& mesh,
-        const std::vector<P>& vertices,
-        const std::vector<N>& vertexNormals,
-        const std::vector<U>& vertexUVs,
-        const std::vector<C>& vertexColors);
-
-template<class Mesh, class C>
+template<class M, class MD>
 void meshLoadPolylineData(
-        Mesh& mesh,
-        const std::vector<std::vector<Index>>& polylines,
-        const std::vector<C>& polylineColors);
+        M& mesh,
+        const MD& meshData,
+        const IOMeshMode& mode);
 
-template<class VT, class PT, class C>
-void meshLoadPolylineData(
-        PolylineMesh<VT,PT>& mesh,
-        const std::vector<std::vector<Index>>& polylines,
-        const std::vector<C>& polylineColors);
-
-template<class VT, class PT, class FT, class C>
-void meshLoadPolylineData(
-        FaceMesh<VT,PT,FT>& mesh,
-        const std::vector<std::vector<Index>>& polylines,
-        const std::vector<C>& polylineColors);
-
-template<class Mesh, class FN, class VN, class U, class M>
+template<class M, class MD>
 void meshLoadFaceData(
-        Mesh& mesh,
-        const std::vector<std::vector<Index>>& faces,
-        const std::vector<FN>& faceNormals,
-        const std::vector<M>& materials,
-        const std::vector<std::string>& faceMaterials,
-        const std::vector<VN>& vertexNormals,
-        const std::vector<U>& vertexUVs,
-        const std::vector<std::vector<Index>>& faceVertexNormals,
-        const std::vector<std::vector<Index>>& faceVertexUVs);
-
-template<class VT, class PT, class FT, class FN, class VN, class U, class M>
-void meshLoadFaceData(
-        FaceMesh<VT,PT,FT>& mesh,
-        const std::vector<std::vector<Index>>& faces,
-        const std::vector<FN>& faceNormals,
-        const std::vector<M>& materials,
-        const std::vector<std::string>& faceMaterials,
-        const std::vector<VN>& vertexNormals,
-        const std::vector<U>& vertexUVs,
-        const std::vector<std::vector<Index>>& faceVertexNormals,
-        const std::vector<std::vector<Index>>& faceVertexUVs);
-
+        M& mesh,
+        const MD& meshData,
+        const IOMeshMode& mode);
 
 
 /* Save raw data IO */
 
-
-template<class Mesh, class P, class N, class U, class C>
+template<class M, class MD>
 void meshSaveVertexData(
-        const Mesh& mesh,
-        std::vector<P>& vertices,
-        std::vector<N>& vertexNormals,
-        std::vector<U>& vertexUVs,
-        std::vector<C>& vertexColors);
+        M& mesh,
+        MD& meshData,
+        const IOMeshMode& mode);
 
-template<class VT, class P, class N, class U, class C>
-void meshSaveVertexData(
-        const VertexMesh<VT>& mesh,
-        std::vector<P>& vertices,
-        std::vector<N>& vertexNormals,
-        std::vector<U>& vertexUVs,
-        std::vector<C>& vertexColors);
-
-template<class VT, class PT, class P, class N, class U, class C>
-void meshSaveVertexData(
-        const PolylineMesh<VT,PT>& mesh,
-        std::vector<P>& vertices,
-        std::vector<N>& vertexNormals,
-        std::vector<U>& vertexUVs,
-        std::vector<C>& vertexColors);
-
-template<class VT, class PT, class FT, class P, class N, class U, class C>
-void meshSaveVertexData(
-        const FaceMesh<VT,PT,FT>& mesh,
-        std::vector<P>& vertices,
-        std::vector<N>& vertexNormals,
-        std::vector<U>& vertexUVs,
-        std::vector<C>& vertexColors);
-
-template<class Mesh, class C>
+template<class M, class MD>
 void meshSavePolylineData(
-        const Mesh& mesh,
-        std::vector<std::vector<Index>>& polylines,
-        std::vector<C>& polylineColors);
+        M& mesh,
+        MD& meshData,
+        const IOMeshMode& mode);
 
-template<class VT, class PT, class C>
-void meshSavePolylineData(
-        const PolylineMesh<VT,PT>& mesh,
-        std::vector<std::vector<Index>>& polylines,
-        std::vector<C>& polylineColors);
-
-template<class VT, class PT, class FT, class C>
-void meshSavePolylineData(
-        const FaceMesh<VT,PT,FT>& mesh,
-        std::vector<std::vector<Index>>& polylines,
-        std::vector<C>& polylineColors);
-
-template<class Mesh, class FN, class VN, class U, class M>
+template<class M, class MD>
 void meshSaveFaceData(
-        const Mesh& mesh,
-        std::vector<std::vector<Index>>& faces,
-        std::vector<FN>& faceNormals,
-        std::vector<M>& materials,
-        std::vector<std::string>& faceMaterials,
-        std::vector<VN>& vertexNormals,
-        std::vector<U>& vertexUVs,
-        std::vector<std::vector<Index>>& faceVertexNormals,
-        std::vector<std::vector<Index>>& faceVertexUVs);
-
-template<class VT, class PT, class FT, class FN, class VN, class U, class M>
-void meshSaveFaceData(
-        const FaceMesh<VT,PT,FT>& mesh,
-        std::vector<std::vector<Index>>& faces,
-        std::vector<FN>& faceNormals,
-        std::vector<M>& materials,
-        std::vector<std::string>& faceMaterials,
-        std::vector<VN>& vertexNormals,
-        std::vector<U>& vertexUVs,
-        std::vector<std::vector<Index>>& faceVertexNormals,
-        std::vector<std::vector<Index>>& faceVertexUVs);
+        M& mesh,
+        MD& meshData,
+        const IOMeshMode& mode);
 
 }
 

@@ -1,6 +1,7 @@
 #include "model_drawer.h"
 
 #include <nvl/models/algorithms/animation_algorithms.h>
+#include <nvl/models/algorithms/animation_blend.h>
 #include <nvl/models/algorithms/animation_skinning.h>
 
 #include <chrono>
@@ -218,7 +219,7 @@ void ModelDrawer<M>::loadAnimation(const Index& id)
     }
 
     //Compute final transformations
-    vAnimationFrames = animationComputeFinalTransformations(*(vSkeletonDrawer.skeleton()), vAnimationFrames);
+    animationComputeFinalFromLocalFrames(*(vSkeletonDrawer.skeleton()), vAnimationFrames);
 
     if (this->vAnimationSkinningMode == SkinningMode::SKINNING_DUAL_QUATERNIONS) {
         dualQuaternionTransformations.resize(vAnimationFrames.size());
@@ -315,7 +316,7 @@ void ModelDrawer<M>::renderLinearBlendingSkinning(const std::vector<T>& transfor
     for (Index jId = 0; jId < this->vModel->skeleton.jointNumber(); ++jId) {
         const T& t = transformations[jId];
 
-        const Point3d p = this->vModel->skeleton.joint(jId).restPose() * this->vModel->skeleton.originPoint();
+        const Point3d p = this->vModel->skeleton.joint(jId).bindPose() * this->vModel->skeleton.originPoint();
 
         vSkeletonDrawer.setRenderingJoint(jId, t * p);
     }
@@ -345,7 +346,7 @@ void ModelDrawer<M>::renderDualQuaternionSkinning(const std::vector<DualQuaterni
     for (Index jId = 0; jId < this->vModel->skeleton.jointNumber(); ++jId) {
         const DualQuaterniond& dq = transformations[jId];
 
-        const Point3d p = this->vModel->skeleton.joint(jId).restPose() * this->vModel->skeleton.originPoint();
+        const Point3d p = this->vModel->skeleton.joint(jId).bindPose() * this->vModel->skeleton.originPoint();
 
         vSkeletonDrawer.setRenderingJoint(jId, dq * p);
     }

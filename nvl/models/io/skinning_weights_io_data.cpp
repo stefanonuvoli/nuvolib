@@ -7,14 +7,14 @@ NVL_INLINE IOSkinningWeightsMode::IOSkinningWeightsMode()
 
 }
 
-template<class V>
-IOSkinningWeightsData<V>::IOSkinningWeightsData()
+template<class S>
+IOSkinningWeightsData<S>::IOSkinningWeightsData()
 {
     clear();
 }
 
-template<class V>
-void IOSkinningWeightsData<V>::clear()
+template<class S>
+void IOSkinningWeightsData<S>::clear()
 {
     weights.clear();
 }

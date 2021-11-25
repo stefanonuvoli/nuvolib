@@ -27,7 +27,6 @@ struct IOMeshMode {
     bool vertexUVs;
     bool vertexColors;
     bool polylineColors;
-    bool textures;
     bool faceNormals;
     bool materials;
 };
@@ -50,7 +49,7 @@ struct IOMeshData {
     std::vector<FN> faceNormals;
 
     std::vector<M> materials;
-    std::vector<std::string> faceMaterials;
+    std::vector<Index> faceMaterials;
 
     std::vector<std::vector<Index>> faceVertexNormals;
     std::vector<std::vector<Index>> faceVertexUVs;

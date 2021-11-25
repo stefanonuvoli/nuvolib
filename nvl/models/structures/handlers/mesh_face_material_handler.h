@@ -38,16 +38,16 @@ public:
     bool faceMaterialIsNull(const FaceId& id) const;
     MaterialId& faceMaterial(const FaceId& id);
     const MaterialId& faceMaterial(const FaceId& id) const;
-    void setfaceMaterial(const FaceId& id, const MaterialId& materialId);
-    void setfaceMaterial(const FaceId& id, const Material& material);
-    void unsetfaceMaterial(const FaceId& id);
+    void setFaceMaterial(const FaceId& id, const MaterialId& materialId);
+    void setFaceMaterial(const FaceId& id, const Material& material);
+    void unsetFaceMaterial(const FaceId& id);
 
     bool faceMaterialIsNull(const Face& face) const;
     MaterialId& faceMaterial(const Face& face);
     const MaterialId& faceMaterial(const Face& face) const;
-    void setfaceMaterial(const Face& face, const MaterialId& materialId);
-    void setfaceMaterial(const Face& face, const Material& material);
-    void unsetfaceMaterial(const Face& face);
+    void setFaceMaterial(const Face& face, const MaterialId& materialId);
+    void setFaceMaterial(const Face& face, const Material& material);
+    void unsetFaceMaterial(const Face& face);
 
 
 protected:

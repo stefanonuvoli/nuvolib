@@ -12,7 +12,7 @@ bool animationLoadFromFile(
         const std::string& filename,
         A& animation,
         IOAnimationError& error = internal::dummyIOAnimationError,
-        IOAnimationMode& mode = internal::dummyIOAnimationMode);
+        const IOAnimationMode& mode = internal::dummyIOAnimationMode);
 template<class A>
 bool animationSaveToFile(
         const std::string& filename,
@@ -22,18 +22,17 @@ bool animationSaveToFile(
 
 /* Raw data IO */
 
-template<class T>
+template<class A, class AD>
 void animationLoadData(
-        Animation<T>& animation,
-        const std::string& name,
-        const std::vector<double>& times,
-        const std::vector<std::vector<T>>& transformations);
-template<class T>
+        A& animation,
+        const AD& animationData,
+        const IOAnimationMode& mode);
+
+template<class A, class AD>
 void animationSaveData(
-        const Animation<T>& animation,
-        std::string& name,
-        std::vector<double>& times,
-        std::vector<std::vector<T>>& transformations);
+        const A& animation,
+        AD& animationData,
+        const IOAnimationMode& mode);
 
 
 }

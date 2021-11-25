@@ -10,17 +10,15 @@
 namespace nvl {
 
 template<class T>
-bool animationLoadDataFromSka(
+bool animationLoadDataFromSKA(
         const std::string& filename,
         IOAnimationData<T>& data,
-        IOAnimationError& error,
-        IOAnimationMode& mode);
+        IOAnimationError& error);
 template<class T>
-bool animationSaveDataToSka(
+bool animationSaveDataToSKA(
         const std::string& filename,
         const IOAnimationData<T>& data,
-        IOAnimationError& error,
-        const IOAnimationMode& mode);
+        IOAnimationError& error);
 
 }
 

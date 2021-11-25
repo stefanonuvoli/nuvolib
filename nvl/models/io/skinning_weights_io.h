@@ -7,30 +7,33 @@
 
 namespace nvl {
 
-template<class S>
+template<class W>
 bool skinningWeightsLoadFromFile(
         const std::string& filename,
-        S& skinningWeights,
+        W& skinningWeights,
         IOSkinningWeightsError& error = internal::dummyIOSkinningWeightsError,
-        IOSkinningWeightsMode& mode = internal::dummyIOSkinningWeightsMode);
-template<class S>
+        const IOSkinningWeightsMode& mode = internal::dummyIOSkinningWeightsMode);
+template<class W>
 bool skinningWeightsSaveToFile(
         const std::string& filename,
-        const S& skinningWeights,
+        const W& skinningWeights,
         IOSkinningWeightsError& error,
         const IOSkinningWeightsMode& mode);
 
 
 /* Raw data IO */
 
-template<class T, class J>
+template<class W>
 void skinningWeightsLoadData(
-        SkinningWeights<T>& skinningWeights,
-        const std::vector<std::vector<J>>& weights);
-template<class T, class J>
-void skinningWeightsLoadData(
-        const SkinningWeights<T>& skinningWeights,
-        std::vector<std::vector<J>>& weights);
+        SkinningWeights<W>& skinningWeights,
+        const IOSkinningWeightsData<W>& skinningWeightsData,
+        const IOSkinningWeightsMode& mode);
+
+template<class W>
+void skinningWeightsSaveData(
+        const SkinningWeights<W>& skinningWeights,
+        IOSkinningWeightsData<W>& skinningWeightsData,
+        const IOSkinningWeightsMode& mode);
 
 
 }

@@ -5,25 +5,32 @@
 
 namespace nvl {
 
-template<class Model>
+template<class M>
 bool modelLoadFromFile(
         const std::string& filename,
-        Model& model,
+        M& model,
         IOModelError& error = internal::dummyIOModelError,
-        IOModelMode& mode = internal::dummyIOModelMode);
-template<class Model>
+        const IOModelMode& mode = internal::dummyIOModelMode);
+template<class M>
 bool modelSaveToFile(
         const std::string& filename,
-        const Model& model,
+        const M& model,
         IOModelError& error = internal::dummyIOModelError,
         const IOModelMode& mode = internal::dummyIOModelMode);
 
-template<class Model>
-bool modelLoadFromFile(
-        const std::string& filename,
-        std::vector<Model>& models,
-        IOModelError& error,
-        IOModelMode& mode);
+/* Raw data IO */
+
+template<class M, class MD>
+void modelLoadData(
+        M& model,
+        const MD& modelData,
+        const IOModelMode& mode);
+
+template<class M, class MD>
+void modelSaveData(
+        const M& model,
+        MD& modelData,
+        const IOModelMode& mode);
 
 }
 

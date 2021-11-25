@@ -8,62 +8,55 @@
 namespace nvl {
 
 template<class S, class F>
-std::vector<F> animationComputeFinalTransformations(
+void animationComputeFinalFromLocalFrames(
         const S& skeleton,
-        const std::vector<F>& frames);
+        std::vector<F>& frames);
 
 template<class S, class F>
-void animationComputeGlobalFrames(
+void animationGlobalFromLocalFrames(
         const S& skeleton,
         std::vector<F>& frames);
 template<class S, class F>
-void animationComputeGlobalFrame(
+void animationGlobalFromLocalFrame(
         const S& skeleton,
         F& frame);
 template<class S, class F>
-void animationComputeGlobalFrame(
+void animationGlobalFromLocalFrame(
         const S& skeleton,
         const typename S::JointId& currentId,
         F& frame);
 template<class S, class T>
-void animationComputeGlobalTransformations(
+void animationGlobalFromLocalTransformations(
         const S& skeleton,
         std::vector<T>& transformations);
 template<class S, class T>
-void animationComputeGlobalTransformations(
+void animationGlobalFromLocalTransformations(
         const S& skeleton,
         const typename S::JointId& currentId,
         std::vector<T>& transformations);
 
 template<class S, class F>
-void animationComputeLocalFrames(
+void animationLocalFromGlobalFrames(
         const S& skeleton,
         std::vector<F>& frames);
 template<class S, class F>
-void animationComputeLocalFrame(
+void animationLocalFromGlobalFrame(
         const S& skeleton,
         F& frame);
 template<class S, class F>
-void animationComputeLocalFrame(
+void animationLocalFromGlobalFrame(
         const S& skeleton,
         const typename S::JointId& currentId,
         F& frame);
 template<class S, class T>
-void animationComputeLocalTransformations(
+void animationLocalFromGlobalTransformations(
         const S& skeleton,
         std::vector<T>& transformations);
 template<class S, class T>
-void animationComputeLocalTransformations(
+void animationLocalFromGlobalTransformations(
         const S& skeleton,
         const typename S::JointId& currentId,
         std::vector<T>& transformations);
-
-template<class F>
-void animationBlendFrameTransformations(
-        std::vector<F>& animationFrames,
-        const double& fps = 60,
-        const double& speed = 1,
-        const bool& keepKeyframes = true);
 
 }
 

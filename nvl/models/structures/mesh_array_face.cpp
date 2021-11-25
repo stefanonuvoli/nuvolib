@@ -20,17 +20,22 @@ template<class T, typename... Ts>
 void MeshArrayFace<V,D>::setVertexIds(const T& vertex, Ts... vertices)
 {
     static_assert(sizeof...(vertices) == D - 1, "Wrong number of elements in face array setter.");
-    assert(sizeof...(vertices) == D - 1 && "Wrong number of elements in face array setter.");
     setVertexIdsVariadicHelper(0, vertex, vertices...);
 }
 
 template<class V, Size D>
 void MeshArrayFace<V,D>::setVertexIds(const std::vector<VertexId>& vector)
 {
-    assert(vector.size() == D && "Vector contains a different number of coordinates for the face array setter.");
-    for (Index i = 0; i < vector.size(); ++i) {
-        this->vVertexIds[i] = vector[i];
+    assert(vector.size() == D && "Wrong number of elements in face array setter.");
+    for (Index pos = 0; pos < D; ++pos) {
+        this->vVertexIds[pos] = vector[pos];
     }
+}
+
+template<class V, Size D>
+void MeshArrayFace<V,D>::setVertexIds(const Container& container)
+{
+    MeshFace<V,Container>::setVertexIds(container);
 }
 
 template<class V, Size D>

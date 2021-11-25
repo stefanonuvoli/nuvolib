@@ -70,7 +70,7 @@ NVL_INLINE Index ModelLoaderWidget::loadDrawableFromFile(const std::string& file
 {
     std::string ext = filenameExtension(filename);
 
-    if (ext == "rig") {
+    if (ext == "rig" || ext == "fbx") {
         return loadModelFromFile(filename);
     }
     else if (ext == "obj") {
@@ -134,7 +134,7 @@ NVL_INLINE void ModelLoaderWidget::on_drawableLoadButton_clicked()
     dialog.setFileMode(QFileDialog::ExistingFiles);
     QStringList filters;
     filters
-            << "Model (*.rig *.obj *.ply *.stl)"
+            << "Model (*.rig *.obj)"
             << "Any files (*)";
     dialog.setNameFilters(filters);
 

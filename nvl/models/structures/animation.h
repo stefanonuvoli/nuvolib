@@ -26,6 +26,7 @@ public:
     Size keyframeNumber() const;
     FrameId addKeyframe(double time, const std::vector<T>& transformations);
     FrameId addKeyframe(AnimationFrame<T>& frame);
+    void setKeyframes(const std::vector<AnimationFrame<T>>& frames);
     void setKeyframe(const FrameId& id, AnimationFrame<T>& frame);
     const std::vector<AnimationFrame<T>>& keyframes() const;
     std::vector<AnimationFrame<T>>& keyframes();

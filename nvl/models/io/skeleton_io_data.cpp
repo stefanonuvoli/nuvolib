@@ -7,14 +7,14 @@ NVL_INLINE IOSkeletonMode::IOSkeletonMode()
 
 }
 
-template<class V>
-IOSkeletonData<V>::IOSkeletonData()
+template<class T>
+IOSkeletonData<T>::IOSkeletonData()
 {
     clear();
 }
 
-template<class V>
-void IOSkeletonData<V>::clear()
+template<class T>
+void IOSkeletonData<T>::clear()
 {
     joints.clear();
     parents.clear();

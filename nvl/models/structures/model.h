@@ -7,12 +7,12 @@
 
 namespace nvl {
 
-template<class M, class S, class SW, class A>
+template<class M, class S, class W, class A>
 struct Model
 {
     typedef M Mesh;
     typedef S Skeleton;
-    typedef SW SkinningWeights;
+    typedef W SkinningWeights;
     typedef A Animation;
     typedef Index AnimationId;
 
@@ -33,7 +33,7 @@ struct Model
 
     M mesh;
     S skeleton;
-    SW skinningWeights;
+    W skinningWeights;
     std::string vName;
 
 

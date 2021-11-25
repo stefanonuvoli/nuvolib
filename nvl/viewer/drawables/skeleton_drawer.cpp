@@ -306,7 +306,7 @@ void SkeletonDrawer<S>::resetRenderingJoint(const Index& id)
     typedef typename S::Joint Joint;
     const Joint& joint = this->vSkeleton->joint(id);
 
-    Point3d p = joint.restPose() * this->vSkeleton->originPoint();
+    Point3d p = joint.bindPose() * this->vSkeleton->originPoint();
 
     setRenderingJoint(id, p);
 }
@@ -427,7 +427,7 @@ void SkeletonDrawer<S>::updateBoundingBox()
     vBoundingBox.setNull();
 
     for (const Joint& joint : vSkeleton->joints()) {        
-        Point3d p = joint.restPose() * this->vSkeleton->originPoint();
+        Point3d p = joint.bindPose() * this->vSkeleton->originPoint();
 
         vBoundingBox.extend(p);
     }

@@ -17,14 +17,14 @@ void modelDeformLinearBlendingSkinning(
     for (Index jId = 0; jId < model.skeleton.jointNumber(); ++jId) {
         const T& t = transformations[jId];
 
-        Point3d p = model.skeleton.joint(jId).restPose() * Point3<Scalar>(0,0,0);
+        Point3d p = model.skeleton.joint(jId).bindPose() * Point3<Scalar>(0,0,0);
         p = t * p;
 
         Translation3d tra(p);
 
         const Transformation r = tra * Transformation::Identity();
 
-        model.skeleton.joint(jId).setRestPose(r);
+        model.skeleton.joint(jId).setBindPose(r);
     }
 
     #pragma omp parallel for
@@ -56,14 +56,14 @@ void modelDeformDualQuaternionSkinning(
     for (Index jId = 0; jId < model.skeleton.jointNumber(); ++jId) {
         const DualQuaterniond& dq = transformations[jId];
 
-        Point3d p = model.skeleton.joint(jId).restPose() * Point3<Scalar>(0,0,0);
+        Point3d p = model.skeleton.joint(jId).bindPose() * Point3<Scalar>(0,0,0);
         p = dq * p;
 
         Translation3d tra(p);
 
         const Transformation r = tra * Transformation::Identity();
 
-        model.skeleton.joint(jId).setRestPose(r);
+        model.skeleton.joint(jId).setBindPose(r);
     }
 
     #pragma omp parallel for

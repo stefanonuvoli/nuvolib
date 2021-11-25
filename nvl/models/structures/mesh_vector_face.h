@@ -35,7 +35,7 @@ public:
 
     template<class T, typename... Ts>
     void setVertexIds(const T& vertex, Ts... vertexIds);
-    void setVertexIds(const std::vector<VertexId>& vector);
+    void setVertexIds(const Container& container);
 
     void resizeVertexNumber(Size vertexNumber);
 

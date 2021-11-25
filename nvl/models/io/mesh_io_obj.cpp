@@ -5,6 +5,7 @@
 
 #include <fstream>
 #include <map>
+#include <unordered_map>
 
 namespace nvl {
 
@@ -12,11 +13,10 @@ template<class Material>
 void meshSaveObjMaterial(std::ofstream& fMtl, const Material& material, const std::string& path);
 
 template<class P, class VN, class UV, class VC, class PC, class FN, class M>
-bool meshLoadDataFromObj(
+bool meshLoadDataFromOBJ(
         const std::string& filename,
         IOMeshData<P,VN,UV,VC,PC,FN,M>& data,
-        IOMeshError& error,
-        IOMeshMode& mode)
+        IOMeshError& error)
 {
     //Use "." as decimal separator
     std::setlocale(LC_NUMERIC, "en_US.UTF-8");
@@ -40,7 +40,8 @@ bool meshLoadDataFromObj(
     std::string path = filenamePath(filename);
 
     //Material data
-    std::string currentMaterialString;
+    std::unordered_map<std::string, Index> materialMap;
+    Index currentMaterialId;
 
     bool materialLoaded = false;
 
@@ -52,7 +53,7 @@ bool meshLoadDataFromObj(
         const std::string& objKey = objSplitted[0];
 
         //Handle material library
-        if (mode.materials && objKey == "mtllib") {
+        if (objKey == "mtllib") {
             if (objSplitted.size() < 2) {
                 error = IO_MESH_FORMAT_NON_RECOGNISED;
                 continue;
@@ -90,18 +91,10 @@ bool meshLoadDataFromObj(
 
                         material.setName(mtlSplitted[1]);
 
+                        loadingMaterialId = data.materials.size();
                         data.materials.push_back(material);
 
-                        loadingMaterialId = data.materials.size() - 1;
-                    }
-                    else if (mtlKey == "Ka") {
-                        if (mtlSplitted.size() < 4) {
-                            error = IO_MESH_FORMAT_NON_RECOGNISED;
-                            continue;
-                        }
-
-                        typename M::Color color(std::stof(mtlSplitted[1]), std::stof(mtlSplitted[2]), std::stof(mtlSplitted[3]));
-                        data.materials[loadingMaterialId].setAmbientColor(color);
+                        materialMap.insert(std::make_pair(material.name(), loadingMaterialId));
                     }
                     else if (mtlKey == "Kd") {
                         if (mtlSplitted.size() < 4) {
@@ -111,6 +104,15 @@ bool meshLoadDataFromObj(
 
                         typename M::Color color(std::stof(mtlSplitted[1]), std::stof(mtlSplitted[2]), std::stof(mtlSplitted[3]));
                         data.materials[loadingMaterialId].setDiffuseColor(color);
+                    }
+                    else if (mtlKey == "Ka") {
+                        if (mtlSplitted.size() < 4) {
+                            error = IO_MESH_FORMAT_NON_RECOGNISED;
+                            continue;
+                        }
+
+                        typename M::Color color(std::stof(mtlSplitted[1]), std::stof(mtlSplitted[2]), std::stof(mtlSplitted[3]));
+                        data.materials[loadingMaterialId].setAmbientColor(color);
                     }
                     else if (mtlKey == "Ks") {
                         if (mtlSplitted.size() < 4) {
@@ -149,21 +151,6 @@ bool meshLoadDataFromObj(
                         float transparency = std::stof(mtlSplitted[1]);
                         data.materials[loadingMaterialId].setTransparency(transparency);
                     }
-                    else if (mtlKey == "map_Ka") {
-                        if (mtlSplitted.size() < 2) {
-                            error = IO_MESH_FORMAT_NON_RECOGNISED;
-                            continue;
-                        }
-
-                        std::string filenameMap = "";
-                        if (mtlSplitted[1].at(0) != '/') {
-                            filenameMap += path;
-                        }
-                        for (Index i = 1; i < mtlSplitted.size(); i++) {
-                            filenameMap += mtlSplitted[i];
-                        }
-                        data.materials[loadingMaterialId].setAmbientMap(filenameMap);
-                    }
                     else if (mtlKey == "map_Kd") {
                         if (mtlSplitted.size() < 2) {
                             error = IO_MESH_FORMAT_NON_RECOGNISED;
@@ -178,6 +165,21 @@ bool meshLoadDataFromObj(
                             filenameMap += mtlSplitted[i];
                         }
                         data.materials[loadingMaterialId].setDiffuseMap(filenameMap);
+                    }
+                    else if (mtlKey == "map_Ka") {
+                        if (mtlSplitted.size() < 2) {
+                            error = IO_MESH_FORMAT_NON_RECOGNISED;
+                            continue;
+                        }
+
+                        std::string filenameMap = "";
+                        if (mtlSplitted[1].at(0) != '/') {
+                            filenameMap += path;
+                        }
+                        for (Index i = 1; i < mtlSplitted.size(); i++) {
+                            filenameMap += mtlSplitted[i];
+                        }
+                        data.materials[loadingMaterialId].setAmbientMap(filenameMap);
                     }
                     else if (mtlKey == "map_Ks") {
                         if (mtlSplitted.size() < 2) {
@@ -194,22 +196,52 @@ bool meshLoadDataFromObj(
                         }
                         data.materials[loadingMaterialId].setSpecularMap(filenameMap);
                     }
+                    else if (mtlKey == "map_d") {
+                        if (mtlSplitted.size() < 2) {
+                            error = IO_MESH_FORMAT_NON_RECOGNISED;
+                            continue;
+                        }
+
+                        std::string filenameMap = "";
+                        if (mtlSplitted[1].at(0) != '/') {
+                            filenameMap += path;
+                        }
+                        for (Index i = 1; i < mtlSplitted.size(); i++) {
+                            filenameMap += mtlSplitted[i];
+                        }
+                        data.materials[loadingMaterialId].setTransparencyMap(filenameMap);
+                    }
+                    else if (mtlKey == "map_Bump" || mtlKey == "bump") {
+                        if (mtlSplitted.size() < 2) {
+                            error = IO_MESH_FORMAT_NON_RECOGNISED;
+                            continue;
+                        }
+
+                        std::string filenameMap = "";
+                        if (mtlSplitted[1].at(0) != '/') {
+                            filenameMap += path;
+                        }
+                        for (Index i = 1; i < mtlSplitted.size(); i++) {
+                            filenameMap += mtlSplitted[i];
+                        }
+                        data.materials[loadingMaterialId].setNormalMap(filenameMap);
+                    }
                 }
             }
         }
 
         //Handle materials
-        else if (mode.materials && objKey == "usemtl") {
+        else if (objKey == "usemtl") {
             if (objSplitted.size() != 2) {
                 error = IO_MESH_FORMAT_NON_RECOGNISED;
                 continue;
             }
 
-            currentMaterialString = objSplitted[1];
+            currentMaterialId = materialMap.at(objSplitted[1]);
         }
 
         //Handle vertex UV coords
-        else if (mode.vertexUVs && objKey == "vt") {
+        else if (objKey == "vt") {
             if (objSplitted.size() < 3) {
                 error = IO_MESH_FORMAT_NON_RECOGNISED;
                 continue;
@@ -219,7 +251,7 @@ bool meshLoadDataFromObj(
         }
 
         //Handle vertex normals
-        else if (mode.vertexNormals && objKey == "vn") {
+        else if (objKey == "vn") {
             if (objSplitted.size() != 4) {
                 error = IO_MESH_FORMAT_NON_RECOGNISED;
                 continue;
@@ -229,7 +261,7 @@ bool meshLoadDataFromObj(
         }
 
         //Handle vertices
-        else if (mode.vertices && objKey == "v") {
+        else if (objKey == "v") {
             if (objSplitted.size() < 4) {
                 error = IO_MESH_FORMAT_NON_RECOGNISED;
                 continue;
@@ -237,7 +269,7 @@ bool meshLoadDataFromObj(
 
             data.vertices.push_back(P(std::stof(objSplitted[1]), std::stof(objSplitted[2]), std::stof(objSplitted[3])));
 
-            if (mode.vertexColors && objSplitted.size() == 7) {
+            if (objSplitted.size() == 7) {
                 data.vertexColors.push_back(VC(std::stof(objSplitted[4]), std::stof(objSplitted[5]), std::stof(objSplitted[6])));
             }
             else {
@@ -246,7 +278,7 @@ bool meshLoadDataFromObj(
         }
 
         //Handle faces
-        else if (mode.faces && objKey == "f") {
+        else if (objKey == "f") {
             if (objSplitted.size() < 4) {
                 error = IO_MESH_FORMAT_NON_RECOGNISED;
                 continue;
@@ -271,50 +303,46 @@ bool meshLoadDataFromObj(
             data.faces.push_back(vertexIds);
 
             //Handle textures
-            if (mode.vertexUVs) {
-                std::vector<Index> faceVertexUVs;
+            std::vector<Index> faceVertexUVs;
 
-                for (Index i = 1; i < objSplitted.size(); ++i) {
-                    std::vector<std::string> faceSplitted = splitString(objSplitted[i], '/');
+            for (Index i = 1; i < objSplitted.size(); ++i) {
+                std::vector<std::string> faceSplitted = splitString(objSplitted[i], '/');
 
-                    if (faceSplitted.size() >= 2) {
-                        if (!faceSplitted[1].empty()) {
-                            Index uvId = std::stoul(faceSplitted[1]) - 1;
-                            faceVertexUVs.push_back(uvId);
-                        }
+                if (faceSplitted.size() >= 2) {
+                    if (!faceSplitted[1].empty()) {
+                        Index uvId = std::stoul(faceSplitted[1]) - 1;
+                        faceVertexUVs.push_back(uvId);
                     }
                 }
-
-                data.faceVertexUVs.push_back(faceVertexUVs);
             }
+
+            data.faceVertexUVs.push_back(faceVertexUVs);
 
             //Handle vertex normals
-            if (mode.vertexNormals) {
-                std::vector<Index> faceVertexNormals;
+            std::vector<Index> faceVertexNormals;
 
-                for (Index i = 1; i < objSplitted.size(); ++i) {
-                    std::vector<std::string> faceSplitted = splitString(objSplitted[i], '/');
+            for (Index i = 1; i < objSplitted.size(); ++i) {
+                std::vector<std::string> faceSplitted = splitString(objSplitted[i], '/');
 
-                    if (faceSplitted.size() == 3) {
-                        //Handling vertex normals
-                        if (!faceSplitted[2].empty()) {
-                            Index normalId = std::stoul(faceSplitted[2]) - 1;
-                            faceVertexNormals.push_back(normalId);
-                        }
+                if (faceSplitted.size() == 3) {
+                    //Handling vertex normals
+                    if (!faceSplitted[2].empty()) {
+                        Index normalId = std::stoul(faceSplitted[2]) - 1;
+                        faceVertexNormals.push_back(normalId);
                     }
                 }
-
-                data.faceVertexNormals.push_back(faceVertexNormals);
             }
 
-            if (mode.materials && materialLoaded) {
+            data.faceVertexNormals.push_back(faceVertexNormals);
+
+            if (materialLoaded) {
                 //Handling face materials
-                data.faceMaterials.push_back(currentMaterialString);
+                data.faceMaterials.push_back(currentMaterialId);
             }
         }
 
         //Handle polylines
-        else if (mode.polylines && objKey == "l") {
+        else if (objKey == "l") {
             if (objSplitted.size() < 3) {
                 error = IO_MESH_FORMAT_NON_RECOGNISED;
                 continue;
@@ -335,11 +363,10 @@ bool meshLoadDataFromObj(
 }
 
 template<class P, class VN, class UV, class VC, class PC, class FN, class M>
-bool meshSaveDataToObj(
+bool meshSaveDataToOBJ(
         const std::string& filename,
         const IOMeshData<P,VN,UV,VC,PC,FN,M> &data,
-        IOMeshError& error,
-        const IOMeshMode& mode)
+        IOMeshError& error)
 {
     //Use "." as decimal separator
     std::setlocale(LC_NUMERIC, "en_US.UTF-8");
@@ -364,7 +391,7 @@ bool meshSaveDataToObj(
     std::string path = filenamePath(filename);
     std::string name = filenameName(filename);
 
-    if (mode.materials && data.materials.size() > 0) {
+    if (!data.materials.empty()) {
         std::string filenameMtl = path + name + ".mtl";
 
         //Open mtl file
@@ -379,31 +406,34 @@ bool meshSaveDataToObj(
         fMtl.setf(std::ios::fixed, std:: ios::floatfield);
     }
 
+    //Create default material
+    M defaultMaterial;
+    defaultMaterial.setName("nvl_default_material");
 
     //Printing header
     fObj <<
             "###############################" << std::endl <<
             "# Generated by nuvolib (OBJ)" << std::endl <<
             "# Wavefront OBJ file" << std::endl;
-    if (mode.vertices)
+    if (!data.vertices.empty())
         fObj <<
             "# Vertices: " << data.vertices.size() << std::endl;
-    if (mode.faces)
+    if (!data.faces.empty())
         fObj <<
             "# Faces: " << data.faces.size() << std::endl;
-    if (mode.polylines)
+    if (!data.polylines.empty())
         fObj <<
             "# Lines: " << data.polylines.size() << std::endl;
-    if (mode.vertexUVs)
+    if (!data.vertexUVs.empty())
         fObj <<
             "# UV coords: " << data.vertexUVs.size() << std::endl;
-    if (mode.vertexNormals)
+    if (!data.vertexNormals.empty())
         fObj <<
             "# Vertex normals: " << data.vertexNormals.size() << std::endl;
     fObj <<
             "###############################" << std::endl;
 
-    if (mode.materials && data.materials.size() > 0) {
+    if (!data.materials.empty()) {
         //Printing header on mtl file
         fMtl <<
                 "###############################" << std::endl <<
@@ -416,7 +446,7 @@ bool meshSaveDataToObj(
     }
 
     //Vertex UV coordinates
-    if (mode.vertexUVs && !data.vertexUVs.empty()) {
+    if (!data.vertexUVs.empty()) {
         fObj << std::endl << "#Vertex UV coordinates:" << std::endl << std::endl;
 
         for (Index i = 0; i < data.vertexUVs.size(); ++i) {
@@ -426,7 +456,7 @@ bool meshSaveDataToObj(
     }
 
     //Vertex normals
-    if (mode.vertexNormals && !data.vertexNormals.empty()) {
+    if (!data.vertexNormals.empty()) {
         fObj << std::endl << "#Vertex normals:" << std::endl << std::endl;
 
         for (Index i = 0; i < data.vertexNormals.size(); ++i) {
@@ -436,7 +466,7 @@ bool meshSaveDataToObj(
     }
 
     //Vertices
-    if (mode.vertices && data.vertices.size() > 0) {
+    if (!data.vertices.empty()) {
         fObj << std::endl << "#Vertices:" << std::endl << std::endl;
 
         for (Index i = 0; i < data.vertices.size(); ++i) {
@@ -445,7 +475,7 @@ bool meshSaveDataToObj(
             fObj << "v " << vertex.x() << " " << vertex.y() << " " << vertex.z();
 
             //Vertex colors
-            if (mode.vertexColors && !data.vertexColors.empty()) {
+            if (!data.vertexColors.empty()) {
                 const VC& color = data.vertexColors[i];
                 fObj << " " << color.redF() << " " << color.greenF() << " " << color.blueF();
             }
@@ -455,7 +485,7 @@ bool meshSaveDataToObj(
     }
 
     //Materials
-    if (mode.materials && data.materials.size() > 0) {
+    if (!data.materials.empty()) {
         Index matUnnamedMaterialId = 1;
 
         for (const M& material : data.materials) {
@@ -467,50 +497,48 @@ bool meshSaveDataToObj(
                 ++matUnnamedMaterialId;
             }
 
+
+
             meshSaveObjMaterial(fMtl, materialCopy, path);
         }
     }
 
     //Faces
-    if (mode.faces && data.faces.size() > 0) {
+    if (!data.faces.empty()) {
         fObj << std::endl << "#Faces:" << std::endl;
-        if (!mode.materials || data.materials.size() == 0) {
+        if (data.materials.empty()) {
             fObj << std::endl;
         }
 
-        std::string currentMaterialName; //Current active material
+        //Current active material
+        Index currentMaterialId = NULL_ID;
         bool createdDefaultMaterial = false;
 
         //Save faces data
         for (Index fId = 0; fId < data.faces.size(); ++fId) {
+
             //Face Material
-            if (mode.materials && !data.faceMaterials.empty()) {
-                std::string faceMaterialName = data.faceMaterials[fId];
+            if (!data.materials.empty() && !data.faceMaterials.empty()) {
+                Index faceMaterialId = data.faceMaterials[fId];
 
-                //If faces has no material
-                if (faceMaterialName.empty()) {
-                    faceMaterialName = "nvl_default_material";
-
-                    //Create default material
-                    if (!createdDefaultMaterial) {
-                        M defaultMaterial;
-
-                        defaultMaterial.setName("nvl_default_material");
-
-                        meshSaveObjMaterial(fMtl, defaultMaterial, path);
-
-                        createdDefaultMaterial = true;
-                    }
-                }
-
-                if (currentMaterialName != faceMaterialName) {
-                    assert(!faceMaterialName.empty());
+                //If face has no material
+                if (faceMaterialId == nvl::NULL_ID && !createdDefaultMaterial) {
+                    meshSaveObjMaterial(fMtl, defaultMaterial, path);
+                    createdDefaultMaterial = true;
 
                     fObj << std::endl;
 
-                    fObj << "usemtl " << faceMaterialName << std::endl;
+                    fObj << "usemtl " << defaultMaterial.name() << std::endl;
 
-                    currentMaterialName = faceMaterialName;
+                    currentMaterialId = faceMaterialId;
+                }
+
+                if (currentMaterialId != faceMaterialId) {
+                    fObj << std::endl;
+
+                    fObj << "usemtl " << data.materials[faceMaterialId].name() << std::endl;
+
+                    currentMaterialId = faceMaterialId;
                 }
             }
 
@@ -522,18 +550,20 @@ bool meshSaveDataToObj(
 
                 fObj << " " << vId + 1;
 
-                if (mode.vertexNormals || mode.vertexUVs) {
+                if ((!data.faceVertexUVs.empty() && !data.faceVertexUVs[fId].empty()) ||
+                    (!data.faceVertexNormals.empty() && !data.faceVertexNormals[fId].empty()))
+                {
                     fObj << "/";
 
                     //Face UV coords
-                    if (mode.vertexUVs && !data.faceVertexUVs.empty() && !data.faceVertexUVs[fId].empty()) {
+                    if (!data.faceVertexUVs.empty() && !data.faceVertexUVs[fId].empty()) {
                         fObj << data.faceVertexUVs[fId][j] + 1;
                     }
 
                     fObj << "/";
 
                     //Face vertex normal
-                    if (mode.vertexNormals && !data.faceVertexNormals.empty() && !data.faceVertexNormals[fId].empty()) {
+                    if (!data.faceVertexNormals.empty() && !data.faceVertexNormals[fId].empty()) {
                         fObj << data.faceVertexNormals[fId][j] + 1;
                     }
                 }
@@ -544,7 +574,7 @@ bool meshSaveDataToObj(
     }
 
     //Polylines
-    if (mode.polylines && data.polylines.size() > 0) {
+    if (!data.polylines.empty()) {
         fObj << std::endl << "#Lines:" << std::endl << std::endl;
 
         //Save faces data
@@ -559,7 +589,7 @@ bool meshSaveDataToObj(
     }
 
     //Close material file
-    if (mode.materials && data.materials.size() > 0) {
+    if (!data.materials.empty()) {
         fMtl.close();
     }
 
@@ -594,22 +624,34 @@ void meshSaveObjMaterial(std::ofstream& fMtl, const Material& material, const st
     fMtl << "Tr " << material.transparency() << std::endl;
 
     //Maps
-    if (!material.ambientMap().empty()) {
-        std::string filename = material.ambientMap();
-        std::string file = filenameFile(filename);
-        fMtl << "map_Ka " << file << std::endl;
-        fileCopy(filename, path + file);
-    }
     if (!material.diffuseMap().empty()) {
         std::string filename = material.diffuseMap();
         std::string file = filenameFile(filename);
         fMtl << "map_Kd " << file << std::endl;
         fileCopy(filename, path + file);
     }
+    if (!material.ambientMap().empty()) {
+        std::string filename = material.ambientMap();
+        std::string file = filenameFile(filename);
+        fMtl << "map_Ka " << file << std::endl;
+        fileCopy(filename, path + file);
+    }
     if (!material.specularMap().empty()) {
         std::string filename = material.specularMap();
         std::string file = filenameFile(filename);
         fMtl << "map_Ks " << file << std::endl;
+        fileCopy(filename, path + file);
+    }
+    if (!material.normalMap().empty()) {
+        std::string filename = material.normalMap();
+        std::string file = filenameFile(filename);
+        fMtl << "map_Bump " << file << std::endl;
+        fileCopy(filename, path + file);
+    }
+    if (!material.transparencyMap().empty()) {
+        std::string filename = material.transparencyMap();
+        std::string file = filenameFile(filename);
+        fMtl << "map_d " << file << std::endl;
         fileCopy(filename, path + file);
     }
 }

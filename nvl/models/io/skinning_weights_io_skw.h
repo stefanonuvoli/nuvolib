@@ -8,17 +8,15 @@
 namespace nvl {
 
 template<class T>
-bool skinningWeightsLoadDataFromSkw(
+bool skinningWeightsLoadDataFromSKW(
         const std::string& filename,
         IOSkinningWeightsData<T>& data,
-        IOSkinningWeightsError& error,
-        IOSkinningWeightsMode& mode);
+        IOSkinningWeightsError& error);
 template<class T>
-bool skinningWeightsSaveDataToSkw(
+bool skinningWeightsSaveDataToSKW(
         const std::string& filename,
         const IOSkinningWeightsData<T>& data,
-        IOSkinningWeightsError& error,
-        const IOSkinningWeightsMode& mode);
+        IOSkinningWeightsError& error);
 
 }
 

@@ -9,15 +9,15 @@ bool animationLoadFromFile(
         const std::string& filename,
         A& animation,
         IOAnimationError& error,
-        IOAnimationMode& mode)
+        const IOAnimationMode& mode)
 {
-    IOAnimationData<typename A::Transformation> data;
+    IOAnimationData<typename A::Transformation> animationData;
 
     std::string ext = filenameExtension(filename);
 
     bool success;
     if (ext == "ska") {
-        success = animationLoadDataFromSka(filename, data, error, mode);
+        success = animationLoadDataFromSKA(filename, animationData, error);
     }
     else {
         error = IO_ANIMATION_EXTENSION_NON_SUPPORTED;
@@ -25,7 +25,7 @@ bool animationLoadFromFile(
     }
 
     if (success) {
-        animationLoadData(animation, data.name, data.times, data.transformations);
+        animationLoadData(animation, animationData, mode);
     }
 
     return success;
@@ -42,10 +42,11 @@ bool animationSaveToFile(
 
     bool success;
     if (ext == "ska") {
-        IOAnimationData<typename A::Transformation> data;
-        animationSaveData(animation, data.name, data.times, data.transformations);
+        IOAnimationData<typename A::Transformation> animationData;
 
-        success = animationSaveDataToSka(filename, data, error, mode);
+        animationSaveData(animation, animationData, mode);
+
+        success = animationSaveDataToSKA(filename, animationData, error);
     }
     else {
         error = IO_ANIMATION_EXTENSION_NON_SUPPORTED;
@@ -55,28 +56,36 @@ bool animationSaveToFile(
     return success;
 }
 
-template<class T>
+template<class A, class AD>
 void animationLoadData(
-        Animation<T>& animation,
-        const std::string& name,
-        const std::vector<double>& times,
-        const std::vector<std::vector<T>>& transformations)
+        A& animation,
+        const AD& animationData,
+        const IOAnimationMode& mode)
 {
-    animation.setName(name);
+    typedef typename A::Transformation Transformation;
 
+    const std::string& name = animationData.name;
+    const std::vector<double>& times = animationData.times;
+    const std::vector<std::vector<Transformation>>& transformations = animationData.transformations;
+
+    animation.setName(name);
     for (Index i = 0; i < times.size(); ++i) {
         animation.addKeyframe(times[i], transformations[i]);
     }
 }
 
-template<class T>
+template<class A, class AD>
 void animationSaveData(
-        const Animation<T>& animation,
-        std::string& name,
-        std::vector<double>& times,
-        std::vector<std::vector<T>>& transformations)
+        const A& animation,
+        AD& animationData,
+        const IOAnimationMode& mode)
 {
-    typedef typename Animation<T>::Frame Frame;
+    typedef typename A::Frame Frame;
+    typedef typename A::Transformation Transformation;
+
+    std::string& name = animationData.name;
+    std::vector<double>& times = animationData.times;
+    std::vector<std::vector<Transformation>>& transformations = animationData.transformations;
 
     name = animation.name();
 
@@ -88,6 +97,5 @@ void animationSaveData(
         transformations[i] = keyframe.transformations();
     }
 }
-
 
 }

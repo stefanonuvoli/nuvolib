@@ -2,16 +2,21 @@
 
 #include <nvl/utilities/file_utils.h>
 
+#include <nvl/models/io/mesh_io.h>
+#include <nvl/models/io/skeleton_io.h>
+#include <nvl/models/io/skinning_weights_io.h>
+#include <nvl/models/io/animation_io.h>
+
 #include <fstream>
 
 namespace nvl {
 
-template<class Model>
-bool modelLoadModelFromRig(
+template<class M, class S, class W, class A>
+bool modelLoadDataFromRIG(
         const std::string& filename,
-        Model& model,
+        IOModelData<M,S,W,A>& modelData,
         IOModelError& error,
-        IOModelMode& mode)
+        const IOModelMode& mode)
 {    
     //Get filename path
     std::string path = filenamePath(filename);
@@ -32,6 +37,7 @@ bool modelLoadModelFromRig(
     }
 
     std::string name;
+
     std::string meshFile;
     std::string skeletonFile;
     std::string skinningWeightsFile;
@@ -56,7 +62,7 @@ bool modelLoadModelFromRig(
                 first = false;
             }
         }
-        if (token == "m" && mode.mesh) {
+        if (token == "m") {
             if (!meshFile.empty()) {
                 error = IO_MODEL_FORMAT_NON_RECOGNISED;
                 return false;
@@ -75,7 +81,7 @@ bool modelLoadModelFromRig(
                 meshFile = path + meshFile;
             }
         }
-        else if (token == "s" && mode.skeleton) {
+        else if (token == "s") {
             if (!skeletonFile.empty()) {
                 error = IO_MODEL_FORMAT_NON_RECOGNISED;
                 return false;
@@ -94,7 +100,7 @@ bool modelLoadModelFromRig(
                 skeletonFile = path + skeletonFile;
             }
         }
-        else if (token == "w" && mode.skinningWeights) {
+        else if (token == "w") {
             if (!skinningWeightsFile.empty()) {
                 error = IO_MODEL_FORMAT_NON_RECOGNISED;
                 return false;
@@ -113,7 +119,7 @@ bool modelLoadModelFromRig(
                 skinningWeightsFile = path + skinningWeightsFile;
             }
         }
-        else if (token == "a" && mode.animations) {
+        else if (token == "a") {
             std::string animationFilename;
 
             bool first = true;
@@ -141,52 +147,53 @@ bool modelLoadModelFromRig(
 
     bool success = true;
     if (success) {
-        model.setName(name);
+        modelData.name = name;
 
-        if (mode.mesh && !meshFile.empty()) {
+        if (!meshFile.empty()) {
             IOMeshError meshError;
-            success &= meshLoadFromFile(meshFile, model.mesh, meshError, mode.meshMode);
+            success &= meshLoadFromFile(meshFile, modelData.mesh, meshError, mode.meshMode);
             if (!success) {
                 error = IO_MODEL_MESH_ERROR;
             }
         }
 
-        if (success && mode.skeleton && !skeletonFile.empty()) {
+        if (success && !skeletonFile.empty()) {
             IOSkeletonError skeletonError;
-            success &= skeletonLoadFromFile(skeletonFile, model.skeleton, skeletonError, mode.skeletonMode);
+            success &= skeletonLoadFromFile(skeletonFile, modelData.skeleton, skeletonError, mode.skeletonMode);
             if (!success) {
                 error = IO_MODEL_SKELETON_ERROR;
             }
         }
 
-        if (success && mode.skinningWeights && !skinningWeightsFile.empty()) {
-            model.initializeSkinningWeights();
+        if (success && !skinningWeightsFile.empty()) {
+            modelData.skinningWeights.initialize(modelData.mesh.nextVertexId(), modelData.skeleton.jointNumber());
 
             IOSkinningWeightsError skinningWeightsError;
-            success &= skinningWeightsLoadFromFile(skinningWeightsFile, model.skinningWeights, skinningWeightsError, mode.skinningWeightsMode);
+            success &= skinningWeightsLoadFromFile(skinningWeightsFile, modelData.skinningWeights, skinningWeightsError, mode.skinningWeightsMode);
+            if (!success) {
+                error = IO_MODEL_SKINNINGWEIGHTS_ERROR;
+            }
         }
 
-        if (success && mode.animations) {
-            for (const std::string& animationFile : animationFiles) {
-                typename Model::Animation animation;
-
+        if (success) {
+            modelData.animations.resize(animationFiles.size());
+            for (Index i = 0; i < animationFiles.size(); ++i) {
                 IOAnimationError animationError;
-                success &= animationLoadFromFile(animationFile, animation, animationError, mode.animationMode);
-
-                model.addAnimation(animation);
+                success &= animationLoadFromFile(animationFiles[i], modelData.animations[i], animationError, mode.animationMode);
+                if (!success) {
+                    error = IO_MODEL_ANIMATION_ERROR;
+                }
             }
         }
     }
 
-    //Successfully loaded
-    return success;
+    return true;
 }
 
-
-template<class Model>
-bool modelSaveModelToRig(
+template<class M, class S, class W, class A>
+bool modelSaveDataToRIG(
         const std::string& filename,
-        const Model& model,
+        const IOModelData<M,S,W,A>& modelData,
         IOModelError& error,
         const IOModelMode& mode)
 {
@@ -207,19 +214,19 @@ bool modelSaveModelToRig(
         return false;
     }
 
-    std::string name = model.name();
+    std::string name = filenameName(filename);
     std::string meshFile = name + ".obj";
     std::string skeletonFile = name + ".skt";
     std::string skinningWeightsFile = name + ".skw";
-    std::vector<std::string> animationFiles(model.animationNumber());
-    for (Index i = 0; i < model.animationNumber(); ++i) {
-        animationFiles[i] = model.animation(i).name() + ".ska";
+    std::vector<std::string> animationFiles(modelData.animations.size());
+    for (Index i = 0; i < modelData.animations.size(); ++i) {
+        animationFiles[i] = modelData.animations[i].name() + ".ska";
     }
 
     bool success = true;
     if (mode.mesh) {
         IOMeshError meshError;
-        success &= meshSaveToFile(path + meshFile, model.mesh, meshError, mode.meshMode);
+        success &= meshSaveToFile(path + meshFile, modelData.mesh, meshError, mode.meshMode);
         if (!success) {
             error = IO_MODEL_MESH_ERROR;
         }
@@ -227,7 +234,7 @@ bool modelSaveModelToRig(
 
     if (success && mode.skeleton) {
         IOSkeletonError skeletonError;
-        success &= skeletonSaveToFile(path + skeletonFile, model.skeleton, skeletonError, mode.skeletonMode);
+        success &= skeletonSaveToFile(path + skeletonFile, modelData.skeleton, skeletonError, mode.skeletonMode);
         if (!success) {
             error = IO_MODEL_SKELETON_ERROR;
         }
@@ -235,18 +242,16 @@ bool modelSaveModelToRig(
 
     if (success && mode.skinningWeights) {
         IOSkinningWeightsError skinningWeightsError;
-        success &= skinningWeightsSaveToFile(path + skinningWeightsFile, model.skinningWeights, skinningWeightsError, mode.skinningWeightsMode);
+        success &= skinningWeightsSaveToFile(path + skinningWeightsFile, modelData.skinningWeights, skinningWeightsError, mode.skinningWeightsMode);
         if (!success) {
             error = IO_MODEL_SKINNINGWEIGHTS_ERROR;
         }
     }
 
     if (success && mode.animations) {
-        for (Index i = 0; i < model.animationNumber(); ++i) {
-            const std::string& animationFile = animationFiles[i];
-
+        for (Index i = 0; i < modelData.animations.size(); ++i) {
             IOAnimationError animationError;
-            success &= animationSaveToFile(path + animationFile, model.animation(i), animationError, mode.animationMode);
+            success &= animationSaveToFile(path + animationFiles[i], modelData.animations[i], animationError, mode.animationMode);
             if (!success) {
                 error = IO_MODEL_ANIMATION_ERROR;
             }

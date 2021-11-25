@@ -9,15 +9,15 @@ SkeletonJoint<T>::SkeletonJoint() : SkeletonJoint(T::Identity(), "")
 }
 
 template<class T>
-SkeletonJoint<T>::SkeletonJoint(const T& restPose) : SkeletonJoint(restPose, "")
+SkeletonJoint<T>::SkeletonJoint(const T& bindPose) : SkeletonJoint(bindPose, "")
 {
 
 }
 
 template<class T>
-SkeletonJoint<T>::SkeletonJoint(const T& restPose, const std::string& name) :
+SkeletonJoint<T>::SkeletonJoint(const T& bindPose, const std::string& name) :
     vId(NULL_ID),
-    vRestPose(restPose),
+    vBindPose(bindPose),
     vName(name)
 {
 
@@ -36,21 +36,21 @@ void SkeletonJoint<T>::setName(const std::string& name)
 }
 
 template<class T>
-const T& SkeletonJoint<T>::restPose() const
+const T& SkeletonJoint<T>::bindPose() const
 {
-    return vRestPose;
+    return vBindPose;
 }
 
 template<class T>
-T& SkeletonJoint<T>::restPose()
+T& SkeletonJoint<T>::bindPose()
 {
-    return vRestPose;
+    return vBindPose;
 }
 
 template<class T>
-void SkeletonJoint<T>::setRestPose(const T& restPose)
+void SkeletonJoint<T>::setBindPose(const T& bindPose)
 {
-    vRestPose = restPose;
+    vBindPose = bindPose;
 }
 
 template<class T>

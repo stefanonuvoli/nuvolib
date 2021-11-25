@@ -17,12 +17,12 @@ void skeletonApplyTransformation(Skeleton& skeleton, const T& transformation, co
         for (JointId jId = 0; jId < skeleton.jointNumber(); ++jId) {
             Joint& joint = skeleton.joint(jId);
 
-            Vector3<Scalar> vec = joint.restPose() * Vector3<Scalar>(0,0,0);
+            Vector3<Scalar> vec = joint.bindPose() * Vector3<Scalar>(0,0,0);
             Translation3<Scalar> tra(transformation  * vec);
 
-            SkeletonTransformation newRestPose = tra * SkeletonTransformation::Identity();
+            SkeletonTransformation newBindPose = tra * SkeletonTransformation::Identity();
 
-            joint.setRestPose(newRestPose);
+            joint.setBindPose(newBindPose);
         }
     }
     else {
@@ -30,7 +30,7 @@ void skeletonApplyTransformation(Skeleton& skeleton, const T& transformation, co
         for (JointId jId = 0; jId < skeleton.jointNumber(); ++jId) {
             Joint& joint = skeleton.joint(jId);
 
-            joint.setRestPose(transformation * joint.restPose());
+            joint.setBindPose(transformation * joint.bindPose());
         }
     }
 }

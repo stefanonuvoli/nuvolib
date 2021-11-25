@@ -86,6 +86,8 @@ public:
     FaceContainer& faceVertexIds(const FaceId& id);
     const FaceContainer& faceVertexIds(const FaceId& id) const;
     void setFaceVertexIds(const FaceId& id, const FaceContainer& vertexIds);
+    template<class T>
+    void setFaceVertexIds(const FaceId& id, const T& vertexIds);
 
     VertexId faceVertexId(const FaceId& id, const Index& pos);
     const VertexId faceVertexId(const FaceId& id, const Index& pos) const;

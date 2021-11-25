@@ -19,11 +19,11 @@ struct IOSkeletonMode {
 };
 
 //Skeleton data
-template<class V = Affine3d>
+template<class T = Affine3d>
 struct IOSkeletonData {
     IOSkeletonData();
 
-    std::vector<V> joints;
+    std::vector<T> joints;
     std::vector<int> parents;
     std::vector<std::string> names;
 

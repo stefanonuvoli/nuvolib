@@ -70,6 +70,14 @@ void FaceMesh<VT,PT,FT>::setFaceVertexIds(const FaceId& id, const FaceContainer&
 }
 
 template<class VT, class PT, class FT>
+template<class T>
+void FaceMesh<VT,PT,FT>::setFaceVertexIds(const FaceId& id, const T& vertexIds)
+{
+    std::vector<VertexId> vector(vertexIds.begin(), vertexIds.end());
+    MeshFaceHandler<Face>::face(id).setVertexIds(vector);
+}
+
+template<class VT, class PT, class FT>
 typename FaceMesh<VT,PT,FT>::VertexId FaceMesh<VT,PT,FT>::faceVertexId(const FaceId& id, const Index& pos)
 {
     return MeshFaceHandler<Face>::face(id).vertexId(pos);
@@ -208,7 +216,7 @@ std::vector<typename FaceMesh<VT,PT,FT>::MaterialId> FaceMesh<VT,PT,FT>::compact
             MaterialId oldId = this->faceMaterial(face);
             if (oldId != NULL_ID) {
                 MaterialId newId = mMap.at(oldId);
-                this->setfaceMaterial(face, newId);
+                this->setFaceMaterial(face, newId);
             }
         }
     }

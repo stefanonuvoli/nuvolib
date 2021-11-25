@@ -13,14 +13,11 @@
 namespace nvl {
 
 template<class T>
-bool animationLoadDataFromSka(
+bool animationLoadDataFromSKA(
         const std::string& filename,
         IOAnimationData<T>& data,
-        IOAnimationError& error,
-        IOAnimationMode& mode)
+        IOAnimationError& error)
 {
-    NVL_SUPPRESS_UNUSEDVARIABLE(mode);
-
     //Use "." as decimal separator
     std::setlocale(LC_NUMERIC, "en_US.UTF-8");
 
@@ -114,14 +111,11 @@ bool animationLoadDataFromSka(
 }
 
 template<class T>
-bool animationSaveDataToSka(
+bool animationSaveDataToSKA(
         const std::string& filename,
         const IOAnimationData<T>& data,
-        IOAnimationError& error,
-        const IOAnimationMode& mode)
+        IOAnimationError& error)
 {
-    NVL_SUPPRESS_UNUSEDVARIABLE(mode);
-
     //Use "." as decimal separator
     std::setlocale(LC_NUMERIC, "en_US.UTF-8");
 

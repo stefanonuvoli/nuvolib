@@ -11,12 +11,12 @@
 
 namespace nvl {
 
-template<class Model>
-bool modelLoadModelsFromFBX(
+template<class M, class S, class W, class A>
+bool modelLoadDataFromFBX(
         const std::string& filename,
-        std::vector<Model>& models,
+        IOModelData<M,S,W,A>& modelData,
         IOModelError& error,
-        IOModelMode& mode);
+        const IOModelMode& mode);
 
 }
 

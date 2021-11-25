@@ -34,7 +34,7 @@ int main() {
     nvl::IOMeshError saveError;
 
     std::cout << " >>> Loading triangle mesh..." << std::endl;
-    success = meshLoadFromFile("../../data/cube.obj", triangleMesh, loadError);
+    success = nvl::meshLoadFromFile("../../data/cube.obj", triangleMesh, loadError);
 
     if (success) { //Mesh correctly loaded
         std::cout << " >>> Mesh loaded!" << std::endl;
@@ -190,25 +190,25 @@ nvl::TriangleMesh3d createTriangleCube() {
     MaterialId m6 = mesh.addMaterial(material6);
 
     //Set a material to a face
-    mesh.setFaceMaterialId(f0, m1);
-    mesh.setFaceMaterialId(f1, m1);
-    mesh.setFaceMaterialId(f2, m2);
-    mesh.setFaceMaterialId(f3, m2);
-    mesh.setFaceMaterialId(f4, m3);
-    mesh.setFaceMaterialId(f5, m3);
-    mesh.setFaceMaterialId(f6, m4);
-    mesh.setFaceMaterialId(f7, m4);
-    mesh.setFaceMaterialId(f8, m5);
-    mesh.setFaceMaterialId(f9, m5);
-    mesh.setFaceMaterialId(f10, m6);
-    mesh.setFaceMaterialId(f11, m6);
+    mesh.setFaceMaterial(f0, m1);
+    mesh.setFaceMaterial(f1, m1);
+    mesh.setFaceMaterial(f2, m2);
+    mesh.setFaceMaterial(f3, m2);
+    mesh.setFaceMaterial(f4, m3);
+    mesh.setFaceMaterial(f5, m3);
+    mesh.setFaceMaterial(f6, m4);
+    mesh.setFaceMaterial(f7, m4);
+    mesh.setFaceMaterial(f8, m5);
+    mesh.setFaceMaterial(f9, m5);
+    mesh.setFaceMaterial(f10, m6);
+    mesh.setFaceMaterial(f11, m6);
 
     //Delete a material
     mesh.deleteMaterial(m6);
 
     //Delete face material for faces who had the 6th material
-    mesh.unsetFaceMaterialId(f10);
-    mesh.setFaceMaterialId(f11, nvl::NULL_ID); //Equivalent to unset
+    mesh.unsetFaceMaterial(f10);
+    mesh.setFaceMaterial(f11, nvl::NULL_ID); //Equivalent to unset
 
     //We add custom wedge vertex normal for the two first vertices in a face
     WedgeNormalId wn1 = mesh.addWedgeNormal(WedgeNormal(1,0,0));

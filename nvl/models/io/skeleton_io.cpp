@@ -11,9 +11,9 @@ bool skeletonLoadFromFile(
         const std::string& filename,
         S& skeleton,
         IOSkeletonError& error,
-        IOSkeletonMode& mode)
+        const IOSkeletonMode& mode)
 {
-    IOSkeletonData<typename S::Transformation> data;
+    IOSkeletonData<typename S::Transformation> skeletonData;
 
     std::string ext = filenameExtension(filename);
 
@@ -21,7 +21,7 @@ bool skeletonLoadFromFile(
 
     bool success;
     if (ext == "skt") {
-        success = skeletonLoadDataFromSkt(filename, data, error, mode);
+        success = skeletonLoadDataFromSKT(filename, skeletonData, error);
     }
     else {
         error = IO_SKELETON_EXTENSION_NON_SUPPORTED;
@@ -29,7 +29,7 @@ bool skeletonLoadFromFile(
     }
 
     if (success) {
-        skeletonLoadData(skeleton, data.joints, data.parents, data.names);
+        skeletonLoadData(skeleton, skeletonData, mode);
     }
 
     return success;
@@ -46,10 +46,11 @@ bool skeletonSaveToFile(
 
     bool success;
     if (ext == "skt") {
-        IOSkeletonData<typename S::Transformation> data;
-        skeletonSaveData(skeleton, data.joints, data.parents, data.names);
+        IOSkeletonData<typename S::Transformation> skeletonData;
 
-        success = skeletonSaveDataToSkt(filename, data, error, mode);
+        skeletonSaveData(skeleton, skeletonData, mode);
+
+        success = skeletonSaveDataToSKT(filename, skeletonData, error);
     }
     else {
         error = IO_SKELETON_EXTENSION_NON_SUPPORTED;
@@ -59,14 +60,21 @@ bool skeletonSaveToFile(
     return success;
 }
 
-template<class V, class T>
+
+template<class S, class SD>
 void skeletonLoadData(
-        Skeleton<V>& skeleton,
-        const std::vector<T>& joints,
-        const std::vector<int>& parents,
-        const std::vector<std::string>& names)
+        S& skeleton,
+        const SD& skeletonData,
+        const IOSkeletonMode& mode)
 {
-    std::vector<typename Skeleton<V>::JointId> idMap(joints.size(), NULL_ID);
+    typedef typename S::JointId JointId;
+    typedef typename S::Transformation Transformation;
+
+    const std::vector<Transformation>& joints = skeletonData.joints;
+    const std::vector<int>& parents = skeletonData.parents;
+    const std::vector<std::string>& names = skeletonData.names;
+
+    std::vector<JointId> idMap(joints.size(), NULL_ID);
 
     for (Index i = 0; i < joints.size(); ++i) {
         if (parents[i] == -1) {
@@ -79,15 +87,19 @@ void skeletonLoadData(
     }
 }
 
-template<class V, class T>
+template<class S, class SD>
 void skeletonSaveData(
-        const Skeleton<V>& skeleton,
-        std::vector<T>& joints,
-        std::vector<int>& parents,
-        std::vector<std::string>& names)
+        const S& skeleton,
+        SD& skeletonData,
+        const IOSkeletonMode& mode)
 {
-    typedef typename Skeleton<V>::Joint Joint;
-    typedef typename Skeleton<V>::JointId JointId;
+    typedef typename S::JointId JointId;
+    typedef typename S::Joint Joint;
+    typedef typename S::Transformation Transformation;
+
+    std::vector<Transformation>& joints = skeletonData.joints;
+    std::vector<int>& parents = skeletonData.parents;
+    std::vector<std::string>& names = skeletonData.names;
 
     joints.resize(skeleton.jointNumber());
     parents.resize(skeleton.jointNumber());
@@ -95,7 +107,7 @@ void skeletonSaveData(
 
     for (JointId jId = 0; jId < skeleton.jointNumber(); ++jId) {
         const Joint& joint = skeleton.joint(jId);
-        joints[jId] = T(joint.restPose());
+        joints[jId] = Transformation(joint.bindPose());
         if (skeleton.isRoot(jId)) {
             parents[jId] = -1;
         }

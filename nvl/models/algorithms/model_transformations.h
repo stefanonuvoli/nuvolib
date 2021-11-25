@@ -13,7 +13,7 @@ template<class Model, class T>
 void modelApplyTransformation(Model& model, const Affine3<T>& transformation);
 
 template<class Model>
-void modelRemoveRotationInRestPose(Model& model);
+void modelRemoveRotationInBindPose(Model& model);
 
 }
 

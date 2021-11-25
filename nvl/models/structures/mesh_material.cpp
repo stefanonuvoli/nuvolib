@@ -5,14 +5,17 @@ namespace nvl {
 template<class C>
 MeshMaterial<C>::MeshMaterial() :
     vName(""),
-    vAmbientColor(Color(1.0, 1.0, 1.0)),
     vDiffuseColor(Color(1.0, 1.0, 1.0)),
+    vAmbientColor(Color(1.0, 1.0, 1.0)),
     vSpecularColor(Color(1.0, 1.0, 1.0)),
     vTransparency(0.0),
+    vDiffuseMap(""),
     vAmbientMap(""),
     vSpecularMap(""),
-    vDiffuseMap(""),
-    vIlluminationModel(HIGHLIGHT_ON)
+    vTransparencyMap(""),
+    vNormalMap(""),
+    vShadingModel(SHADING_STANDARD),
+    vIlluminationModel(ILLUMINATION_HIGHLIGHT_ON)
 {
 
 }
@@ -62,24 +65,6 @@ void MeshMaterial<C>::setColor(const Color& color)
 }
 
 template<class C>
-void MeshMaterial<C>::setAmbientColor(const Color& color)
-{
-    vAmbientColor = color;
-}
-
-template<class C>
-typename MeshMaterial<C>::Color& MeshMaterial<C>::ambientColor()
-{
-    return vAmbientColor;
-}
-
-template<class C>
-const typename MeshMaterial<C>::Color& MeshMaterial<C>::ambientColor() const
-{
-    return vAmbientColor;
-}
-
-template<class C>
 void MeshMaterial<C>::setDiffuseColor(const Color& color)
 {
     vDiffuseColor = color;
@@ -98,6 +83,24 @@ const typename MeshMaterial<C>::Color& MeshMaterial<C>::diffuseColor() const
 }
 
 template<class C>
+void MeshMaterial<C>::setAmbientColor(const Color& color)
+{
+    vAmbientColor = color;
+}
+
+template<class C>
+typename MeshMaterial<C>::Color& MeshMaterial<C>::ambientColor()
+{
+    return vAmbientColor;
+}
+
+template<class C>
+const typename MeshMaterial<C>::Color& MeshMaterial<C>::ambientColor() const
+{
+    return vAmbientColor;
+}
+
+template<class C>
 void MeshMaterial<C>::setSpecularColor(const Color& color)
 {
     vSpecularColor = color;
@@ -113,6 +116,24 @@ template<class C>
 const typename MeshMaterial<C>::Color& MeshMaterial<C>::specularColor() const
 {
     return vSpecularColor;
+}
+
+template<class C>
+void MeshMaterial<C>::setDiffuseMap(const std::string& diffuseMap)
+{
+    vDiffuseMap = diffuseMap;
+}
+
+template<class C>
+const std::string& MeshMaterial<C>::diffuseMap() const
+{
+    return vDiffuseMap;
+}
+
+template<class C>
+std::string& MeshMaterial<C>::diffuseMap()
+{
+    return vDiffuseMap;
 }
 
 template<class C>
@@ -152,21 +173,57 @@ std::string& MeshMaterial<C>::specularMap()
 }
 
 template<class C>
-void MeshMaterial<C>::setDiffuseMap(const std::string& diffuseMap)
+void MeshMaterial<C>::setTransparencyMap(const std::string& transparencyMap)
 {
-    vDiffuseMap = diffuseMap;
+    vTransparencyMap = transparencyMap;
 }
 
 template<class C>
-const std::string& MeshMaterial<C>::diffuseMap() const
+const std::string& MeshMaterial<C>::transparencyMap() const
 {
-    return vDiffuseMap;
+    return vTransparencyMap;
 }
 
 template<class C>
-std::string& MeshMaterial<C>::diffuseMap()
+std::string& MeshMaterial<C>::transparencyMap()
 {
-    return vDiffuseMap;
+    return vTransparencyMap;
+}
+
+template<class C>
+void MeshMaterial<C>::setNormalMap(const std::string& normalMap)
+{
+    vNormalMap = normalMap;
+}
+
+template<class C>
+const std::string& MeshMaterial<C>::normalMap() const
+{
+    return vNormalMap;
+}
+
+template<class C>
+std::string& MeshMaterial<C>::normalMap()
+{
+    return vNormalMap;
+}
+
+template<class C>
+void MeshMaterial<C>::setShadingModel(ShadingModel shadingModel)
+{
+    vShadingModel = shadingModel;
+}
+
+template<class C>
+typename MeshMaterial<C>::ShadingModel& MeshMaterial<C>::shadingModel()
+{
+    return vShadingModel;
+}
+
+template<class C>
+const typename MeshMaterial<C>::ShadingModel& MeshMaterial<C>::shadingModel() const
+{
+    return vShadingModel;
 }
 
 template<class C>

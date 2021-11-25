@@ -10,13 +10,19 @@
 
 namespace nvl {
 
-template<class Model>
+template<class M>
 bool modelLoadFromFile(
         const std::string& filename,
-        Model& model,
+        M& model,
         IOModelError& error,
-        IOModelMode& mode)
+        const IOModelMode& mode)
 {
+    IOModelData<
+            typename M::Mesh,
+            typename M::Skeleton,
+            typename M::SkinningWeights,
+            typename M::Animation> modelData;
+
     std::string ext = filenameExtension(filename);
     std::string path = filenamePath(filename);
 
@@ -24,22 +30,35 @@ bool modelLoadFromFile(
 
     bool success;
     if (ext == "rig") {
-        success = modelLoadModelFromRig(filename, model, error, mode);
+        success = modelLoadDataFromRIG(filename, modelData, error, mode);
     }
 #ifdef NVL_FBXSDK_LOADED
     else if (ext == "fbx") {
-        std::vector<Model> fbxModels;
-        success = modelLoadModelsFromFBX(filename, fbxModels, error, mode);
-        if (success && !fbxModels.empty()) {
-            model = fbxModels[0];
-        }
+        success = modelLoadDataFromFBX(filename, modelData, error, mode);
     }
 #endif
+    else if (ext == "obj") {
+        IOMeshError meshError;
+        success = meshLoadFromFile(filename, model.mesh, meshError, mode.meshMode);
+        if (meshError != IOMeshError::IO_MESH_SUCCESS) {
+            error = IOModelError::IO_MODEL_MESH_ERROR;
+        }
+    }
+    else if (ext == "skt") {
+        IOSkeletonError skeletonError;
+        success = skeletonLoadFromFile(filename, model.skeleton, skeletonError, mode.skeletonMode);
+        if (skeletonError != IOSkeletonError::IO_SKELETON_SUCCESS) {
+            error = IOModelError::IO_MODEL_SKELETON_ERROR;
+        }
+    }
     else {
         error = IO_MODEL_EXTENSION_NON_SUPPORTED;
         success = false;
     }
 
+    if (success) {
+        modelLoadData(model, modelData, mode);
+    }
     if (!success) {
         model.clear();
     }
@@ -47,20 +66,43 @@ bool modelLoadFromFile(
     return success;
 }
 
-template<class Model>
+template<class M>
 bool modelSaveToFile(
         const std::string& filename,
-        const Model& model,
+        const M& model,
         IOModelError& error,
         const IOModelMode& mode)
 {
+
     std::string ext = filenameExtension(filename);
     std::string path = filenamePath(filename);
     std::string name = filenameName(filename);
 
     bool success;
     if (ext == "rig") {
-        success = modelSaveModelToRig(filename, model, error, mode);
+        IOModelData<
+                typename M::Mesh,
+                typename M::Skeleton,
+                typename M::SkinningWeights,
+                typename M::Animation> modelData;
+
+        modelSaveData(model, modelData, mode);
+
+        success = modelSaveDataToRIG(filename, modelData, error, mode);
+    }
+    else if (ext == "obj") {
+        IOMeshError meshError;
+        success = meshSaveToFile(filename, model.mesh, meshError, mode.meshMode);
+        if (meshError != IOMeshError::IO_MESH_SUCCESS) {
+            error = IOModelError::IO_MODEL_MESH_ERROR;
+        }
+    }
+    else if (ext == "skt") {
+        IOSkeletonError skeletonError;
+        success = skeletonSaveToFile(filename, model.skeleton, skeletonError, mode.skeletonMode);
+        if (skeletonError != IOSkeletonError::IO_SKELETON_SUCCESS) {
+            error = IOModelError::IO_MODEL_SKELETON_ERROR;
+        }
     }
     else {
         error = IO_MODEL_EXTENSION_NON_SUPPORTED;
@@ -70,39 +112,54 @@ bool modelSaveToFile(
     return success;
 }
 
-template<class Model>
-bool modelLoadFromFile(
-        const std::string& filename,
-        std::vector<Model>& models,
-        IOModelError& error,
-        IOModelMode& mode)
+template<class M, class MD>
+void modelLoadData(
+        M& model,
+        const MD& modelData,
+        const IOModelMode& mode)
 {
-    std::vector<Model> modelData;
+    typedef typename M::Animation Animation;
 
-    std::string ext = filenameExtension(filename);
-
-    models.clear();
-
-    bool success;
-    if (ext == "rig") {
-        Model model;
-        success = modelLoadFromFile(filename, model, error, mode);
-        if (success) {
-            models.push_back(model);
+    model.setName(modelData.name);
+    if (mode.mesh) {
+        model.mesh = modelData.mesh;
+    }
+    if (mode.skeleton) {
+        model.skeleton = modelData.skeleton;
+    }
+    if (mode.mesh && mode.skeleton) {
+        model.skinningWeights = modelData.skinningWeights;
+    }
+    if (mode.animations && mode.skeleton) {
+        for (const Animation& animation : modelData.animations) {
+            model.addAnimation(animation);
         }
     }
-#ifdef NVL_FBXSDK_LOADED
-    else if (ext == "fbx") {
-        success = modelLoadDataFromFBX(filename, models, error, mode);
-    }
-#endif
-    else {
-        error = IO_MODEL_EXTENSION_NON_SUPPORTED;
-        success = false;
-    }
+}
 
+template<class M, class MD>
+void modelSaveData(
+        const M& model,
+        MD& modelData,
+        const IOModelMode& mode)
+{
+    typedef typename M::Animation Animation;
 
-    return success;
+    modelData.name = model.name();
+    if (mode.mesh) {
+        modelData.mesh = model.mesh;
+    }
+    if (mode.skeleton) {
+        modelData.skeleton = model.skeleton;
+    }
+    if (mode.mesh && mode.skeleton) {
+        modelData.skinningWeights = model.skinningWeights;
+    }
+    if (mode.animations && mode.skeleton) {
+        for (const Animation& animation : model.animations()) {
+            modelData.animations.push_back(animation);
+        }
+    }
 }
 
 

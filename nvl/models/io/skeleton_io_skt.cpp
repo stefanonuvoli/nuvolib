@@ -11,14 +11,11 @@
 namespace nvl {
 
 template<class V>
-bool skeletonLoadDataFromSkt(
+bool skeletonLoadDataFromSKT(
         const std::string& filename,
         IOSkeletonData<V>& data,
-        IOSkeletonError& error,
-        IOSkeletonMode& mode)
+        IOSkeletonError& error)
 {
-    NVL_SUPPRESS_UNUSEDVARIABLE(mode);
-
     //Use "." as decimal separator
     std::setlocale(LC_NUMERIC, "en_US.UTF-8");
 
@@ -99,14 +96,11 @@ bool skeletonLoadDataFromSkt(
 }
 
 template<class V>
-bool skeletonSaveDataToSkt(
+bool skeletonSaveDataToSKT(
         const std::string& filename,
         const IOSkeletonData<V>& data,
-        IOSkeletonError& error,
-        const IOSkeletonMode& mode)
+        IOSkeletonError& error)
 {
-    NVL_SUPPRESS_UNUSEDVARIABLE(mode);
-
     //Use "." as decimal separator
     std::setlocale(LC_NUMERIC, "en_US.UTF-8");
 

@@ -40,6 +40,7 @@ public:
 
     Container& vertexIds();
     const Container& vertexIds() const;
+    void setVertexIds(const Container& container);
 
     VertexId& vertexId(const Index& pos);
     const VertexId& vertexId(const Index& pos) const;
@@ -50,6 +51,7 @@ public:
     const VertexId& nextVertexId(const Index& pos) const;
     void setNextVertexId(const Index& pos, const VertexId& vId);
     void setNextVertex(const Index& pos, const Vertex& vId);
+
 
 
 protected:

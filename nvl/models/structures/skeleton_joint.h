@@ -25,8 +25,8 @@ public:
     /* Constructors */
 
     SkeletonJoint();
-    SkeletonJoint(const T& restPose);
-    SkeletonJoint(const T& restPose, const std::string& name);
+    SkeletonJoint(const T& bindPose);
+    SkeletonJoint(const T& bindPose, const std::string& name);
 
 
     /* Methods */
@@ -37,14 +37,14 @@ public:
     const std::string& name() const;
     void setName(const std::string &value);
 
-    const T& restPose() const;
-    T& restPose();
-    void setRestPose(const T& restPose);
+    const T& bindPose() const;
+    T& bindPose();
+    void setBindPose(const T& bindPose);
 
 protected:
 
     Id vId;
-    T vRestPose;
+    T vBindPose;
     std::string vName;
 };
 

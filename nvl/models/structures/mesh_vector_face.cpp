@@ -25,14 +25,9 @@ void MeshVectorFace<V>::setVertexIds(const T& vertex, Ts... vertices)
 }
 
 template<class V>
-void MeshVectorFace<V>::setVertexIds(const std::vector<VertexId>& vector)
+void MeshVectorFace<V>::setVertexIds(const Container& container)
 {
-    assert(vector.size() >= 3 && "Faces must be composed of at least 3 vertices.");
-
-    this->vVertexIds.resize(vector.size());
-    for (Index i = 0; i < vector.size(); ++i) {
-        this->vVertexIds[i] = vector[i];
-    }
+    MeshFace<V,Container>::setVertexIds(container);
 }
 
 template<class V>
@@ -52,7 +47,6 @@ template<class V>
 void MeshVectorFace<V>::insertVertex(const Index& pos, const VertexId& vId)
 {
     assert(pos <= this->vVertexIds.size() && "Index exceed the face dimension.");
-
     this->vVertexIds.insert(this->vVertexIds.begin() + pos, vId);
 }
 

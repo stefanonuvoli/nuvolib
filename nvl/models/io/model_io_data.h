@@ -33,6 +33,20 @@ struct IOModelMode {
     IOAnimationMode animationMode;
 };
 
+template<class M, class S, class W, class A>
+struct IOModelData {
+    IOModelData();
+
+    std::string name;
+
+    M mesh;
+    S skeleton;
+    W skinningWeights;
+    std::vector<A> animations;
+
+    void clear();
+};
+
 namespace internal {
 
 //Dummy variables for default arguments

@@ -10,15 +10,15 @@
 
 namespace nvl {
 
-template<class SW, class T>
+template<class W, class T>
 T animationLinearBlendingSkinningVertex(
-        const SW& skinningWeights,
+        const W& skinningWeights,
         const std::vector<T>& transformations,
         const Index& vId);
 
-template<class SW, class T>
+template<class W, class T>
 DualQuaternion<T> animationDualQuaternionSkinningVertex(
-        const SW& skinningWeights,
+        const W& skinningWeights,
         const std::vector<DualQuaternion<T>>& transformations,
         const Index& vId);
 

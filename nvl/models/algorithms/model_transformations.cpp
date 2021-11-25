@@ -20,8 +20,8 @@ void modelApplyTransformation(Model& model, const Affine3<T>& transformation)
     Skeleton& skeleton = model.skeleton;
     Mesh& mesh = model.mesh;
 
-    //Remove rotation in rest pose of the model
-    modelRemoveRotationInRestPose(model);
+    //Remove rotation in bind pose of the model
+    modelRemoveRotationInBindPose(model);
 
     //Apply to mesh
     meshApplyTransformation(mesh, transformation);
@@ -39,7 +39,7 @@ void modelApplyTransformation(Model& model, const Affine3<T>& transformation)
 
 
 template<class Model>
-void modelRemoveRotationInRestPose(Model& model)
+void modelRemoveRotationInBindPose(Model& model)
 {
     typedef typename Model::Skeleton Skeleton;
     typedef typename Model::Animation Animation;
@@ -56,14 +56,14 @@ void modelRemoveRotationInRestPose(Model& model)
     for (JointId jId = 0; jId < skeleton.jointNumber(); ++jId) {
         Joint& joint = skeleton.joint(jId);
 
-        Rotation3d jointRot(joint.restPose().rotation());
+        Rotation3d jointRot(joint.bindPose().rotation());
 
         if (jointRot.isApprox(Rotation3d::Identity()))
             continue;
 
-        Vector3<Scalar> vec = joint.restPose() * Vector3<Scalar>(0,0,0);
+        Vector3<Scalar> vec = joint.bindPose() * Vector3<Scalar>(0,0,0);
         Translation3<Scalar> tra(vec);
-        SkeletonTransformation newRestPose = tra * SkeletonTransformation::Identity();
+        SkeletonTransformation newBindPose = tra * SkeletonTransformation::Identity();
 
         //Apply to each animation
         for (Index aId = 0; aId < model.animationNumber(); ++aId) {
@@ -92,7 +92,7 @@ void modelRemoveRotationInRestPose(Model& model)
             }
         }
 
-        joint.setRestPose(newRestPose);
+        joint.setBindPose(newBindPose);
     }
 
 }

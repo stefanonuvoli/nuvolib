@@ -16,6 +16,7 @@ message(Module \"models\" loaded.)
 
 HEADERS += \
     $$PWD/algorithms/animation_algorithms.h \
+    $$PWD/algorithms/animation_blend.h \
     $$PWD/algorithms/animation_skinning.h \
     $$PWD/algorithms/animation_transformations.h \
     $$PWD/algorithms/mesh_adjacencies.h \
@@ -97,6 +98,7 @@ HEADERS += \
 
 SOURCES += \
     $$PWD/algorithms/animation_algorithms.cpp \
+    $$PWD/algorithms/animation_blend.cpp \
     $$PWD/algorithms/animation_skinning.cpp \
     $$PWD/algorithms/animation_transformations.cpp \
     $$PWD/algorithms/mesh_adjacencies.cpp \

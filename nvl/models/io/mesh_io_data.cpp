@@ -6,7 +6,7 @@ NVL_INLINE IOMeshMode::IOMeshMode()
     : vertices(true), polylines(true), faces(true),
       vertexNormals(true), vertexUVs(true), vertexColors(true),
       polylineColors(true),
-      textures(true), faceNormals(true), materials(true)
+      faceNormals(true), materials(true)
 {
 
 }

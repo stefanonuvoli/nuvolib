@@ -35,6 +35,12 @@ typename Animation<T>::FrameId Animation<T>::addKeyframe(AnimationFrame<T>& fram
 }
 
 template<class T>
+void Animation<T>::setKeyframes(const std::vector<AnimationFrame<T>>& frames)
+{
+    vKeyframes = frames;
+}
+
+template<class T>
 void Animation<T>::setKeyframe(const FrameId& id, AnimationFrame<T>& frame)
 {
     vKeyframes[id] = frame;
