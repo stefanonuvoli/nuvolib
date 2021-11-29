@@ -9,16 +9,37 @@
 
 namespace nvl {
 
+template<class M, class S, class W, class A, class T>
+void modelDeformLinearBlendingSkinning(
+        M& mesh,
+        S& skeleton,
+        const W& skinningWeights,
+        std::vector<A>& animations,
+        const std::vector<T>& transformations);
 template<class M, class T>
 void modelDeformLinearBlendingSkinning(
         M& model,
         const std::vector<T>& transformations);
 
+template<class M, class S, class W, class A, class T>
+void modelDeformDualQuaternionSkinning(
+        M& mesh,
+        S& skeleton,
+        const W& skinningWeights,
+        std::vector<A>& animations,
+        const std::vector<DualQuaternion<T>>& transformations);
 template<class M, class T>
 void modelDeformDualQuaternionSkinning(
         M& model,
         const std::vector<DualQuaternion<T>>& transformations);
 
+template<class M, class S, class W, class A, class T>
+void modelDeformDualQuaternionSkinning(
+        M& mesh,
+        S& skeleton,
+        const W& skinningWeights,
+        std::vector<A>& animations,
+        const std::vector<T>& transformations);
 template<class M, class T>
 void modelDeformDualQuaternionSkinning(
         M& model,

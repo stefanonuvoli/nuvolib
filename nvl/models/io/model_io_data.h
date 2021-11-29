@@ -31,6 +31,8 @@ struct IOModelMode {
     IOSkeletonMode skeletonMode;
     IOSkinningWeightsMode skinningWeightsMode;
     IOAnimationMode animationMode;
+
+    bool deformToBindPose;
 };
 
 template<class M, class S, class W, class A>

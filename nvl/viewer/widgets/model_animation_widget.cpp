@@ -125,7 +125,7 @@ NVL_INLINE void ModelAnimationWidget::updateAnimationList()
         item->setText(0, QString("None"));
         ui->animationTreeWidget->addTopLevelItem(item);
 
-        for (typename Model3d::Animation animation : selectedDrawer->model()->animations()) {
+        for (typename Model3d::Animation animation : selectedDrawer->model()->animations) {
             addTreeItem(animation);
         }
     }

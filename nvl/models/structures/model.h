@@ -9,7 +9,10 @@ namespace nvl {
 
 template<class M, class S, class W, class A>
 struct Model
-{
+{  
+
+public:
+
     typedef M Mesh;
     typedef S Skeleton;
     typedef W SkinningWeights;
@@ -28,22 +31,13 @@ struct Model
     Animation& animation(const AnimationId& id);
     const Animation& animation(const AnimationId& id) const;
     void setAnimation(const AnimationId& id, const Animation& animation);
-    const std::vector<A>& animations() const;
     void removeAnimation(const AnimationId& id);
 
     M mesh;
     S skeleton;
     W skinningWeights;
-    std::string vName;
-
-
-public:
-    const std::string& name() const;
-    void setName(const std::string &value);
-
-protected:
-
-    std::vector<A> vAnimations;
+    std::string name;
+    std::vector<A> animations;
 
 };
 

@@ -41,8 +41,14 @@ void modelApplyTransformation(Model& model, const Affine3<T>& transformation)
 template<class Model>
 void modelRemoveRotationInBindPose(Model& model)
 {
-    typedef typename Model::Skeleton Skeleton;
-    typedef typename Model::Animation Animation;
+    return modelRemoveRotationInBindPose(model.skeleton, model.animations);
+}
+
+template<class S, class A>
+void modelRemoveRotationInBindPose(S& skeleton, std::vector<A>& animations)
+{
+    typedef S Skeleton;
+    typedef A Animation;
     typedef typename Animation::Frame Frame;
     typedef typename Animation::FrameId FrameId;
     typedef typename Animation::Transformation AnimationTransformation;
@@ -50,8 +56,6 @@ void modelRemoveRotationInBindPose(Model& model)
     typedef typename Skeleton::JointId JointId;
     typedef typename Skeleton::Joint Joint;
     typedef typename Skeleton::Transformation SkeletonTransformation;
-
-    Skeleton& skeleton = model.skeleton;
 
     for (JointId jId = 0; jId < skeleton.jointNumber(); ++jId) {
         Joint& joint = skeleton.joint(jId);
@@ -66,8 +70,8 @@ void modelRemoveRotationInBindPose(Model& model)
         SkeletonTransformation newBindPose = tra * SkeletonTransformation::Identity();
 
         //Apply to each animation
-        for (Index aId = 0; aId < model.animationNumber(); ++aId) {
-            Animation& animation = model.animation(aId);
+        for (Index aId = 0; aId < animations.size(); ++aId) {
+            Animation& animation = animations[aId];
 
             for (FrameId fId = 0; fId < animation.keyframeNumber(); ++fId) {
                 Frame& frame = animation.keyframe(fId);

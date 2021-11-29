@@ -120,7 +120,7 @@ void modelLoadData(
 {
     typedef typename M::Animation Animation;
 
-    model.setName(modelData.name);
+    model.name = modelData.name;
     if (mode.mesh) {
         model.mesh = modelData.mesh;
     }
@@ -145,7 +145,7 @@ void modelSaveData(
 {
     typedef typename M::Animation Animation;
 
-    modelData.name = model.name();
+    modelData.name = model.name;
     if (mode.mesh) {
         modelData.mesh = model.mesh;
     }
@@ -156,7 +156,7 @@ void modelSaveData(
         modelData.skinningWeights = model.skinningWeights;
     }
     if (mode.animations && mode.skeleton) {
-        for (const Animation& animation : model.animations()) {
+        for (const Animation& animation : model.animations) {
             modelData.animations.push_back(animation);
         }
     }
