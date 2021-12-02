@@ -48,15 +48,15 @@ typename Skeleton<T>::JointId Skeleton<T>::addRoot(const T& transformation, cons
 }
 
 template<class T>
-typename Skeleton<T>::JointId Skeleton<T>::addChild(const Joint& child, const T& transformation, const std::string& name)
+typename Skeleton<T>::JointId Skeleton<T>::addChild(const Joint& parent, const T& transformation, const std::string& name)
 {
-    return addChild(child, Joint(transformation, name));
+    return addChild(parent, Joint(transformation, name));
 }
 
 template<class T>
-typename Skeleton<T>::JointId Skeleton<T>::addChild(const JointId& id, const T& transformation, const std::string& name)
+typename Skeleton<T>::JointId Skeleton<T>::addChild(const JointId& parentId, const T& transformation, const std::string& name)
 {
-    return addChild(id, Joint(transformation, name));
+    return addChild(parentId, Joint(transformation, name));
 }
 
 template<class T>
@@ -77,21 +77,21 @@ typename Skeleton<T>::JointId Skeleton<T>::addRoot(const Joint& joint)
 }
 
 template<class T>
-typename Skeleton<T>::JointId Skeleton<T>::addChild(const Joint& child, const Joint& joint)
+typename Skeleton<T>::JointId Skeleton<T>::addChild(const Joint& parent, const Joint& joint)
 {
-    return addChild(child.id(), joint);
+    return addChild(parent.id(), joint);
 }
 
 template<class T>
-typename Skeleton<T>::JointId Skeleton<T>::addChild(const JointId& id, const Joint& joint)
+typename Skeleton<T>::JointId Skeleton<T>::addChild(const JointId& parentId, const Joint& joint)
 {
     JointId newId = vJoints.size();
     vJoints.push_back(joint);
 
     vJoints[newId].setId(newId);
 
-    vParents.push_back(id);
-    vChildren[id].push_back(newId);
+    vParents.push_back(parentId);
+    vChildren[parentId].push_back(newId);
 
     vChildren.push_back(std::vector<JointId>());
 
@@ -183,9 +183,9 @@ typename Skeleton<T>::Joint& Skeleton<T>::parent(const Joint& joint)
 }
 
 template<class T>
-bool Skeleton<T>::isRoot(const Index& jId) const
+bool Skeleton<T>::isRoot(const Index& id) const
 {
-    return parentId(jId) == NULL_ID;
+    return parentId(id) == NULL_ID;
 }
 
 template<class T>
@@ -195,9 +195,9 @@ bool Skeleton<T>::isRoot(const Joint& joint) const
 }
 
 template<class T>
-bool Skeleton<T>::isLeaf(const Index& jId) const
+bool Skeleton<T>::isLeaf(const Index& id) const
 {
-    return children(jId).empty();
+    return children(id).empty();
 }
 
 template<class T>
@@ -219,21 +219,21 @@ void Skeleton<T>::setOriginPoint(const Point3<Scalar>& value)
 }
 
 template<class T>
-const typename Skeleton<T>::Transformation& Skeleton<T>::jointBindPose(const JointId& jId) const
+const typename Skeleton<T>::Transformation& Skeleton<T>::jointBindPose(const JointId& id) const
 {
-    return joint(jId).bindPose();
+    return joint(id).bindPose();
 }
 
 template<class T>
-typename Skeleton<T>::Transformation& Skeleton<T>::jointBindPose(const JointId& jId)
+typename Skeleton<T>::Transformation& Skeleton<T>::jointBindPose(const JointId& id)
 {
-    return joint(jId).bindPose();
+    return joint(id).bindPose();
 }
 
 template<class T>
-void Skeleton<T>::setJointBindPose(const JointId& jId, const Transformation& transformation)
+void Skeleton<T>::setJointBindPose(const JointId& id, const Transformation& transformation)
 {
-     joint(jId).setBindPose(transformation);
+     joint(id).setBindPose(transformation);
 }
 
 template<class T>
