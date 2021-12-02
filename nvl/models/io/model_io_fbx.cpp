@@ -267,7 +267,7 @@ bool modelLoadDataFromFBX(
 
     std::vector<SkeletonTransformation> localBindPoses(modelData.skeleton.jointNumber());
     for (JointId jId = 0; jId < modelData.skeleton.jointNumber(); ++jId) {
-        localBindPoses[jId] = modelData.skeleton.joint(jId).bindPose();
+        localBindPoses[jId] = modelData.skeleton.jointBindPose(jId);
     }
     nvl::animationLocalFromGlobalTransformations(modelData.skeleton, localBindPoses);
 

@@ -303,10 +303,7 @@ void SkeletonDrawer<S>::resetRenderingBoneColors()
 template<class S>
 void SkeletonDrawer<S>::resetRenderingJoint(const Index& id)
 {
-    typedef typename S::Joint Joint;
-    const Joint& joint = this->vSkeleton->joint(id);
-
-    Point3d p = joint.bindPose() * this->vSkeleton->originPoint();
+    Point3d p = this->vSkeleton->jointBindPose(id) * this->vSkeleton->originPoint();
 
     setRenderingJoint(id, p);
 }

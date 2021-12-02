@@ -21,7 +21,7 @@ Size Animation<T>::keyframeNumber() const
 }
 
 template<class T>
-typename Animation<T>::FrameId Animation<T>::addKeyframe(double time, const std::vector<T>& transformations)
+typename Animation<T>::FrameId Animation<T>::addKeyframe(const double& time, const std::vector<T>& transformations)
 {
     vKeyframes.push_back(AnimationFrame<T>(time, transformations));
     return vKeyframes.size() - 1;
@@ -68,6 +68,15 @@ template<class T>
 AnimationFrame<T>& Animation<T>::keyframe(const FrameId& id)
 {
     return vKeyframes[id];
+}
+
+template<class T>
+double Animation<T>::duration() const
+{
+    if (vKeyframes.empty())
+        return 0.0;
+
+    return vKeyframes[vKeyframes.size() - 1].time();
 }
 
 template<class T>

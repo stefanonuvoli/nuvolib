@@ -16,7 +16,7 @@ void animationComputeFinalFromLocalFrames(
     //Get local bind pose
     std::vector<Transformation> localBindPoses(skeleton.jointNumber());
     for (JointId jId = 0; jId < skeleton.jointNumber(); ++jId) {
-        localBindPoses[jId] = skeleton.joint(jId).bindPose();
+        localBindPoses[jId] = skeleton.jointBindPose(jId);
     }
     animationLocalFromGlobalTransformations(skeleton, localBindPoses);
 
@@ -37,7 +37,7 @@ void animationComputeFinalFromLocalFrames(
     for (Index fId = 0; fId < frames.size(); ++fId) {
         std::vector<Transformation>& transformations = frames[fId].transformations();
         for (JointId jId = 0; jId < skeleton.jointNumber(); ++jId) {
-            transformations[jId] = transformations[jId] * skeleton.joint(jId).bindPose().inverse();
+            transformations[jId] = transformations[jId] * skeleton.jointBindPose(jId);
         }
     }
 }

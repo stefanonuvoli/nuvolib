@@ -21,7 +21,7 @@ void modelDeformLinearBlendingSkinning(
     for (Index jId = 0; jId < skeleton.jointNumber(); ++jId) {
         const T& t = transformations[jId];
 
-        Point3d p = skeleton.joint(jId).bindPose() * Point3<SkeletonScalar>::Zero();
+        Point3d p = skeleton.jointBindPose(jId) * Point3<SkeletonScalar>::Zero();
         p = t * p;
 
         Translation3d jointTranslation(p);
@@ -103,7 +103,7 @@ void modelDeformDualQuaternionSkinning(
     for (Index jId = 0; jId < skeleton.jointNumber(); ++jId) {
         const DualQuaterniond& dq = transformations[jId];
 
-        Point3d p = skeleton.joint(jId).bindPose() * Point3<SkeletonScalar>::Zero();
+        Point3d p = skeleton.jointBindPose(jId) * Point3<SkeletonScalar>::Zero();
         p = dq * p;
 
         Translation3d jointTranslation(p);

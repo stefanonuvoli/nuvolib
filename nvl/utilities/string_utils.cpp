@@ -2,7 +2,31 @@
 
 namespace nvl {
 
-std::vector<std::string> splitString(const std::string& string, char separator)
+std::string stringToLower(const std::string& string) {
+    std::string result = string;
+
+    std::transform(result.begin(), result.end(), result.begin(),
+                   [](unsigned char c)
+    {
+        return std::tolower(c);
+    });
+
+    return result;
+}
+
+std::string stringToUpper(const std::string& string) {
+    std::string result = string;
+
+    std::transform(result.begin(), result.end(), result.begin(),
+                   [](unsigned char c)
+    {
+        return std::toupper(c);
+    });
+
+    return result;
+}
+
+std::vector<std::string> stringSplit(const std::string& string, char separator)
 {
     std::vector<std::string> result;
 
@@ -21,9 +45,9 @@ std::vector<std::string> splitString(const std::string& string, char separator)
     return result;
 }
 
-std::vector<std::string> splitString(const char* string, char separator)
+std::vector<std::string> stringSplit(const char* string, char separator)
 {
-    return splitString(std::string(string), separator);
+    return stringSplit(std::string(string), separator);
 }
 
 }

@@ -71,10 +71,12 @@ HEADERS += \
     $$PWD/barycentric_coordinates.h \
     $$PWD/barycentric_interpolation.h \
     $$PWD/euler_angles.h \
-    $$PWD/inside_test.h
+    $$PWD/inside_test.h \
+    $$PWD/statistics.h
 
 SOURCES += \
     $$PWD/barycentric_coordinates.cpp \
     $$PWD/barycentric_interpolation.cpp \
     $$PWD/euler_angles.cpp \
-    $$PWD/inside_test.cpp
+    $$PWD/inside_test.cpp \
+    $$PWD/statistics.cpp

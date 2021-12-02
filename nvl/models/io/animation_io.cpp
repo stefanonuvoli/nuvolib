@@ -2,6 +2,8 @@
 
 #include <nvl/models/io/animation_io_ska.h>
 
+#include <nvl/utilities/string_utils.h>
+
 namespace nvl {
 
 template<class A>
@@ -13,7 +15,7 @@ bool animationLoadFromFile(
 {
     IOAnimationData<typename A::Transformation> animationData;
 
-    std::string ext = filenameExtension(filename);
+    std::string ext = stringToLower(filenameExtension(filename));
 
     bool success;
     if (ext == "ska") {
@@ -38,7 +40,7 @@ bool animationSaveToFile(
         IOAnimationError& error,
         const IOAnimationMode& mode)
 {
-    std::string ext = filenameExtension(filename);
+    std::string ext = stringToLower(filenameExtension(filename));
 
     bool success;
     if (ext == "ska") {

@@ -218,4 +218,40 @@ void Skeleton<T>::setOriginPoint(const Point3<Scalar>& value)
     vOriginPoint = value;
 }
 
+template<class T>
+const typename Skeleton<T>::Transformation& Skeleton<T>::jointBindPose(const JointId& jId) const
+{
+    return joint(jId).bindPose();
+}
+
+template<class T>
+typename Skeleton<T>::Transformation& Skeleton<T>::jointBindPose(const JointId& jId)
+{
+    return joint(jId).bindPose();
+}
+
+template<class T>
+void Skeleton<T>::setJointBindPose(const JointId& jId, const Transformation& transformation)
+{
+     joint(jId).setBindPose(transformation);
+}
+
+template<class T>
+const typename Skeleton<T>::Transformation& Skeleton<T>::jointBindPose(const Joint& joint) const
+{
+    return jointBindPose(joint.id);
+}
+
+template<class T>
+typename Skeleton<T>::Transformation& Skeleton<T>::jointBindPose(const Joint& joint)
+{
+    return jointBindPose(joint.id);
+}
+
+template<class T>
+void Skeleton<T>::setJointBindPose(const Joint& joint, const Transformation& transformation)
+{
+    return setJointBindPose(joint.id, transformation);
+}
+
 }

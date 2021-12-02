@@ -316,7 +316,7 @@ void ModelDrawer<M>::renderLinearBlendingSkinning(const std::vector<T>& transfor
     for (Index jId = 0; jId < this->vModel->skeleton.jointNumber(); ++jId) {
         const T& t = transformations[jId];
 
-        const Point3d p = this->vModel->skeleton.joint(jId).bindPose() * this->vModel->skeleton.originPoint();
+        const Point3d p = this->vModel->skeleton.jointBindPose(jId) * this->vModel->skeleton.originPoint();
 
         vSkeletonDrawer.setRenderingJoint(jId, t * p);
     }
@@ -346,7 +346,7 @@ void ModelDrawer<M>::renderDualQuaternionSkinning(const std::vector<DualQuaterni
     for (Index jId = 0; jId < this->vModel->skeleton.jointNumber(); ++jId) {
         const DualQuaterniond& dq = transformations[jId];
 
-        const Point3d p = this->vModel->skeleton.joint(jId).bindPose() * this->vModel->skeleton.originPoint();
+        const Point3d p = this->vModel->skeleton.jointBindPose(jId) * this->vModel->skeleton.originPoint();
 
         vSkeletonDrawer.setRenderingJoint(jId, dq * p);
     }

@@ -178,8 +178,6 @@ protected:
     std::vector<std::string> vNames;
     std::vector<bool> vListable;
 
-    std::unordered_set<Index> vSelectedDrawables;
-
     Affine3d vMovableFrame;
 
     std::vector<PickingData> vPickingDataPool;

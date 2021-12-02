@@ -2,6 +2,8 @@
 
 #include <nvl/models/io/skinning_weights_io_skw.h>
 
+#include <nvl/utilities/string_utils.h>
+
 namespace nvl {
 
 template<class W>
@@ -13,7 +15,7 @@ bool skinningWeightsLoadFromFile(
 {
     IOSkinningWeightsData<typename W::Scalar> skinningWeightsData;
 
-    std::string ext = filenameExtension(filename);
+    std::string ext = stringToLower(filenameExtension(filename));
 
     bool success;
     if (ext == "skw") {
@@ -38,7 +40,7 @@ bool skinningWeightsSaveToFile(
         IOSkinningWeightsError& error,
         const IOSkinningWeightsMode& mode)
 {
-    std::string ext = filenameExtension(filename);
+    std::string ext = stringToLower(filenameExtension(filename));
 
     bool success;
     if (ext == "skw") {

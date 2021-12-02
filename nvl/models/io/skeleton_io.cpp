@@ -4,6 +4,8 @@
 
 #include <nvl/utilities/file_utils.h>
 
+#include <nvl/utilities/string_utils.h>
+
 namespace nvl {
 
 template<class S>
@@ -15,7 +17,7 @@ bool skeletonLoadFromFile(
 {
     IOSkeletonData<typename S::Transformation> skeletonData;
 
-    std::string ext = filenameExtension(filename);
+    std::string ext = stringToLower(filenameExtension(filename));
 
     skeleton.clear();
 
@@ -42,7 +44,7 @@ bool skeletonSaveToFile(
         IOSkeletonError& error,
         const IOSkeletonMode& mode)
 {
-    std::string ext = filenameExtension(filename);
+    std::string ext = stringToLower(filenameExtension(filename));
 
     bool success;
     if (ext == "skt") {

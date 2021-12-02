@@ -8,6 +8,8 @@
 #include <nvl/models/io/model_io_rig.h>
 #include <nvl/models/io/model_io_fbx.h>
 
+#include <nvl/utilities/string_utils.h>
+
 namespace nvl {
 
 template<class M>
@@ -23,7 +25,7 @@ bool modelLoadFromFile(
             typename M::SkinningWeights,
             typename M::Animation> modelData;
 
-    std::string ext = filenameExtension(filename);
+    std::string ext = stringToLower(filenameExtension(filename));
     std::string path = filenamePath(filename);
 
     model.clear();
@@ -74,7 +76,7 @@ bool modelSaveToFile(
         const IOModelMode& mode)
 {
 
-    std::string ext = filenameExtension(filename);
+    std::string ext = stringToLower(filenameExtension(filename));
     std::string path = filenamePath(filename);
     std::string name = filenameName(filename);
 

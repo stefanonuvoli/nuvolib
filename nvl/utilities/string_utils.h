@@ -8,8 +8,11 @@
 
 namespace nvl {
 
-std::vector<std::string> splitString(const std::string& string, char separator = ' ');
-std::vector<std::string> splitString(const char* string, char separator = ' ');
+std::string stringToLower(const std::string& string);
+std::string stringToUpper(const std::string& string);
+
+std::vector<std::string> stringSplit(const std::string& string, char separator = ' ');
+std::vector<std::string> stringSplit(const char* string, char separator = ' ');
 
 }
 

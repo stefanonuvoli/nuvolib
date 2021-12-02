@@ -69,6 +69,14 @@ public:
     const Point3<Scalar>& originPoint() const;
     void setOriginPoint(const Point3<Scalar> &value);
 
+    const Transformation& jointBindPose(const JointId& jId) const;
+    Transformation& jointBindPose(const JointId& jId);
+    void setJointBindPose(const JointId& jId, const Transformation& transformation);
+
+    const Transformation& jointBindPose(const Joint& joint) const;
+    Transformation& jointBindPose(const Joint& joint);
+    void setJointBindPose(const Joint& joint, const Transformation& transformation);
+
 protected:
 
     std::vector<SkeletonJoint<T>> vJoints;

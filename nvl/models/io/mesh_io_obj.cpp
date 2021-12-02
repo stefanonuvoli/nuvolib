@@ -36,7 +36,7 @@ bool meshLoadDataFromOBJ(
     }
 
     //File info descriptor
-    std::string ext = filenameExtension(filename);
+    std::string ext = stringToLower(filenameExtension(filename));
     std::string path = filenamePath(filename);
 
     //Material data
@@ -49,7 +49,7 @@ bool meshLoadDataFromOBJ(
         if (objLine.empty())
             continue;
 
-        std::vector<std::string> objSplitted = splitString(objLine, ' ');
+        std::vector<std::string> objSplitted = stringSplit(objLine, ' ');
         const std::string& objKey = objSplitted[0];
 
         //Handle material library
@@ -77,7 +77,7 @@ bool meshLoadDataFromOBJ(
                 Index loadingMaterialId = NULL_ID;
 
                 while (std::getline(fMtl, mtlLine)) {
-                    std::vector<std::string> mtlSplitted = splitString(mtlLine, ' ');
+                    std::vector<std::string> mtlSplitted = stringSplit(mtlLine, ' ');
 
                     const std::string& mtlKey = mtlSplitted[0];
 
@@ -87,9 +87,14 @@ bool meshLoadDataFromOBJ(
                             continue;
                         }
 
+                        std::string materialName = "";
+                        for (Index i = 1; i < mtlSplitted.size(); i++) {
+                            materialName += mtlSplitted[i];
+                        }
+
                         M material;
 
-                        material.setName(mtlSplitted[1]);
+                        material.setName(materialName);
 
                         loadingMaterialId = data.materials.size();
                         data.materials.push_back(material);
@@ -232,12 +237,17 @@ bool meshLoadDataFromOBJ(
 
         //Handle materials
         else if (objKey == "usemtl") {
-            if (objSplitted.size() != 2) {
+            if (objSplitted.size() < 2) {
                 error = IO_MESH_FORMAT_NON_RECOGNISED;
                 continue;
             }
 
-            currentMaterialId = materialMap.at(objSplitted[1]);
+            std::string materialName = "";
+            for (Index i = 1; i < objSplitted.size(); i++) {
+                materialName += objSplitted[i];
+            }
+
+            currentMaterialId = materialMap.at(materialName);
         }
 
         //Handle vertex UV coords
@@ -288,7 +298,7 @@ bool meshLoadDataFromOBJ(
 
             //Handling vertices
             for (Index i = 1; i < objSplitted.size(); ++i) {
-                std::vector<std::string> faceSplitted = splitString(objSplitted[i], '/');
+                std::vector<std::string> faceSplitted = stringSplit(objSplitted[i], '/');
 
                 if (faceSplitted[0].empty()) {
                     error = IO_MESH_FORMAT_NON_RECOGNISED;
@@ -306,7 +316,7 @@ bool meshLoadDataFromOBJ(
             std::vector<Index> faceVertexUVs;
 
             for (Index i = 1; i < objSplitted.size(); ++i) {
-                std::vector<std::string> faceSplitted = splitString(objSplitted[i], '/');
+                std::vector<std::string> faceSplitted = stringSplit(objSplitted[i], '/');
 
                 if (faceSplitted.size() >= 2) {
                     if (!faceSplitted[1].empty()) {
@@ -322,7 +332,7 @@ bool meshLoadDataFromOBJ(
             std::vector<Index> faceVertexNormals;
 
             for (Index i = 1; i < objSplitted.size(); ++i) {
-                std::vector<std::string> faceSplitted = splitString(objSplitted[i], '/');
+                std::vector<std::string> faceSplitted = stringSplit(objSplitted[i], '/');
 
                 if (faceSplitted.size() == 3) {
                     //Handling vertex normals
@@ -387,7 +397,7 @@ bool meshSaveDataToOBJ(
     fObj.setf(std::ios::fixed, std:: ios::floatfield);
 
     //File info descriptor
-    std::string ext = filenameExtension(filename);
+    std::string ext = stringToLower(filenameExtension(filename));
     std::string path = filenamePath(filename);
     std::string name = filenameName(filename);
 
