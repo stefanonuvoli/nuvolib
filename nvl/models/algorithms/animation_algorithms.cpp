@@ -37,7 +37,7 @@ void animationComputeFinalFromLocalFrames(
     for (Index fId = 0; fId < frames.size(); ++fId) {
         std::vector<Transformation>& transformations = frames[fId].transformations();
         for (JointId jId = 0; jId < skeleton.jointNumber(); ++jId) {
-            transformations[jId] = transformations[jId] * skeleton.jointBindPose(jId);
+            transformations[jId] = transformations[jId] * skeleton.jointBindPose(jId).inverse();
         }
     }
 }
