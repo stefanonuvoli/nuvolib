@@ -61,17 +61,17 @@ public:
     const JointId& parentId(const JointId& id) const;
     const JointId& parentId(const Joint& joint) const;
 
-    bool isRoot(const Index& jId) const;
+    bool isRoot(const Index& id) const;
     bool isRoot(const Joint& joint) const;
-    bool isLeaf(const Index& jId) const;
+    bool isLeaf(const Index& id) const;
     bool isLeaf(const Joint& joint) const;
 
     const Point3<Scalar>& originPoint() const;
     void setOriginPoint(const Point3<Scalar> &value);
 
-    const Transformation& jointBindPose(const JointId& jId) const;
-    Transformation& jointBindPose(const JointId& jId);
-    void setJointBindPose(const JointId& jId, const Transformation& transformation);
+    const Transformation& jointBindPose(const JointId& id) const;
+    Transformation& jointBindPose(const JointId& id);
+    void setJointBindPose(const JointId& id, const Transformation& transformation);
 
     const Transformation& jointBindPose(const Joint& joint) const;
     Transformation& jointBindPose(const Joint& joint);
