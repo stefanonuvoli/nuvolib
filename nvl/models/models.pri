@@ -18,6 +18,7 @@ HEADERS += \
     $$PWD/algorithms/animation_algorithms.h \
     $$PWD/algorithms/animation_blend.h \
     $$PWD/algorithms/animation_skinning.h \
+    $$PWD/algorithms/animation_split.h \
     $$PWD/algorithms/animation_transformations.h \
     $$PWD/algorithms/mesh_adjacencies.h \
     $$PWD/algorithms/mesh_borders.h \
@@ -100,6 +101,7 @@ SOURCES += \
     $$PWD/algorithms/animation_algorithms.cpp \
     $$PWD/algorithms/animation_blend.cpp \
     $$PWD/algorithms/animation_skinning.cpp \
+    $$PWD/algorithms/animation_split.cpp \
     $$PWD/algorithms/animation_transformations.cpp \
     $$PWD/algorithms/mesh_adjacencies.cpp \
     $$PWD/algorithms/mesh_borders.cpp \
