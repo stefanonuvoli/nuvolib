@@ -17,7 +17,7 @@ bool modelLoadDataFromRIG(
         IOModelData<M,S,W,A>& modelData,
         IOModelError& error,
         const IOModelMode& mode)
-{    
+{
     //Get filename path
     std::string path = filenamePath(filename);
 
@@ -131,7 +131,7 @@ bool modelLoadDataFromRIG(
                 animationFilename += tmpString;
                 first = false;
             }
-            
+
             if (animationFilename.at(0) != '/') {
                 animationFilename = path + animationFilename;
             }
@@ -219,15 +219,23 @@ bool modelSaveDataToRIG(
     const std::string animationRelPath("animations/");
     const std::string animationAbsPath(path + animationRelPath);
 
-    std::string name = filenameName(filename);
-    std::string meshFile = name + ".obj";
-    std::string skeletonFile = name + ".skt";
-    std::string skinningWeightsFile = name + ".skw";
+    std::string modelName = modelData.name;
+
+    std::string nameOfFile = filenameName(filename);
+
+    if (modelName.empty()) {
+        modelName = nameOfFile;
+    }
+
+    std::string meshFile = nameOfFile + ".obj";
+    std::string skeletonFile = nameOfFile + ".skt";
+    std::string skinningWeightsFile = nameOfFile + ".skw";
     std::vector<std::string> animationFiles(modelData.animations.size());
-    for (Index i = 0; i < modelData.animations.size(); ++i) {        
+
+    for (Index i = 0; i < modelData.animations.size(); ++i) {
         animationFiles[i] =
                 animationRelPath +
-                modelData.name + "@" +
+                modelName + "@" +
                 modelData.animations[i].name() +
                 ".ska";
     }
@@ -275,9 +283,10 @@ bool modelSaveDataToRIG(
         fRig.precision(6);
         fRig.setf(std::ios::fixed, std:: ios::floatfield);
 
-        if (!name.empty()) {
-            fRig << "n " << name << std::endl;
+        if (!modelName.empty()) {
+            fRig << "n " << modelName << std::endl;
         }
+
         if (mode.mesh) {
             fRig << "m " << meshFile << std::endl;
         }
