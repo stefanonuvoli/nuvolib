@@ -134,8 +134,11 @@ NVL_INLINE void ModelLoaderWidget::on_drawableLoadButton_clicked()
     dialog.setFileMode(QFileDialog::ExistingFiles);
     QStringList filters;
     filters
-            << "Model (*.obj *.rig *.fbx *.RIG *.FBX)"
-            << "Any files (*)";
+            << "Model (*.rig *.RIG *.obj *.OBJ *.fbx *.FBX)"
+            << "RIG (*.rig *.RIG)"
+            << "FBX (*.fbx *.FBX)"
+            << "OBJ (*.obj *.OBJ)"
+            << "Any file (*)";
     dialog.setNameFilters(filters);
 
     QStringList files;
@@ -187,7 +190,8 @@ NVL_INLINE void ModelLoaderWidget::on_drawableSaveButton_clicked()
 
             QString filename = QFileDialog::getSaveFileName(this,
                 tr("Save model"), QDir::homePath(),
-                tr("Model (*.obj *.rig *.fbx *.RIG *.FBX);;All Files (*)"));
+                tr("Model (*.rig *.RIG *.obj *.OBJ *.fbx *.FBX);;RIG (*.rig *.RIG);;FBX (*.fbx *.FBX);;OBJ (*.obj *.OBJ);;Any file (*)")
+            );
 
             if (!filename.isEmpty()) {
                 const Model3d& model = *(modelIt->second);
@@ -203,7 +207,8 @@ NVL_INLINE void ModelLoaderWidget::on_drawableSaveButton_clicked()
 
             QString filename = QFileDialog::getSaveFileName(this,
                 tr("Save model"), QDir::homePath(),
-                tr("Model (*.obj *.rig *.fbx *.RIG *.FBX);;All Files (*)"));
+                tr("Mesh (*.obj *.OBJ);;OBJ (*.obj *.OBJ);;Any file (*)")
+            );
 
             if (!filename.isEmpty()) {
                 const PolygonMesh3d& mesh = *(polygonMeshIt->second);
