@@ -105,7 +105,7 @@ bool animationLoadDataFromSKA(
         std::size_t prefixPos = name.find_last_of("@");
 
         if (prefixPos != std::string::npos) {
-            name.erase(0, prefixPos);
+            name.erase(0, prefixPos + 1);
         }
 
         data.name = name;
