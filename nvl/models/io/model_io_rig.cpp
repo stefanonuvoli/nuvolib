@@ -131,18 +131,7 @@ bool modelLoadDataFromRIG(
                 animationFilename += tmpString;
                 first = false;
             }
-
-            if (!name.empty()) {
-                std::string prefix = name + "@";
-
-                std::size_t slashPos = animationFilename.find_last_of("/\\");
-                std::size_t prefixPos = animationFilename.find_last_of(name + "@");
-
-                if (prefixPos != std::string::npos && prefixPos > slashPos) {
-                    animationFilename.replace(slashPos, prefix.length(), "");
-                }
-            }
-
+            
             if (animationFilename.at(0) != '/') {
                 animationFilename = path + animationFilename;
             }
