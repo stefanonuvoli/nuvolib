@@ -88,21 +88,21 @@ bool VertexMeshDrawer<M>::hasVertexTransparency() const
 template<class M>
 Point3d VertexMeshDrawer<M>::renderingVertex(const Index& id) const
 {
-    Index mappedId = vVertexMap[id];
+    const Index& mappedId = vVertexMap[id];
     return Point3d(this->vRenderingVertices[mappedId*3], this->vRenderingVertices[mappedId*3+1], this->vRenderingVertices[mappedId*3+2]);
 }
 
 template<class M>
 Vector3d VertexMeshDrawer<M>::renderingVertexNormal(const Index& id) const
 {
-    Index mappedId = vVertexMap[id];
+    const Index& mappedId = vVertexMap[id];
     return Vector3d(this->vRenderingVertexNormals[mappedId*3], this->vRenderingVertexNormals[mappedId*3+1], this->vRenderingVertexNormals[mappedId*3+2]);
 }
 
 template<class M>
 Color VertexMeshDrawer<M>::renderingVertexColor(const Index& id) const
 {
-    Index mappedId = vVertexMap[id];
+    const Index& mappedId = vVertexMap[id];
     return Color(this->vRenderingVertexColors[mappedId*4], this->vRenderingVertexColors[mappedId*4+1], this->vRenderingVertexColors[mappedId*4+2], this->vRenderingVertexColors[mappedId*4+3]);
 }
 
@@ -117,8 +117,9 @@ void VertexMeshDrawer<M>::resetRenderingVertexData()
 {
     typedef typename M::Vertex Vertex;
 
-    if (this->vMesh == nullptr)
+    if (this->vMesh == nullptr) {
         return;
+    }
 
     vVertexMap.resize(this->vMesh->nextVertexId(), NULL_ID);
 
@@ -234,7 +235,7 @@ void VertexMeshDrawer<M>::setRenderingVertexColors(const std::vector<float>& ren
 template<class M>
 void VertexMeshDrawer<M>::setRenderingVertex(const Index& id, const Point3d& p)
 {
-    Index mappedId = vVertexMap[id];
+    const Index& mappedId = vVertexMap[id];
     this->vRenderingVertices[mappedId*3] = p.x();
     this->vRenderingVertices[mappedId*3+1] = p.y();
     this->vRenderingVertices[mappedId*3+2] = p.z();
@@ -243,7 +244,7 @@ void VertexMeshDrawer<M>::setRenderingVertex(const Index& id, const Point3d& p)
 template<class M>
 void VertexMeshDrawer<M>::setRenderingVertexNormal(const Index& id, const Vector3d& n)
 {
-    Index mappedId = vVertexMap[id];
+    const Index& mappedId = vVertexMap[id];
     this->vRenderingVertexNormals[mappedId*3] = n.x();
     this->vRenderingVertexNormals[mappedId*3+1] = n.y();
     this->vRenderingVertexNormals[mappedId*3+2] = n.z();
@@ -252,7 +253,7 @@ void VertexMeshDrawer<M>::setRenderingVertexNormal(const Index& id, const Vector
 template<class M>
 void VertexMeshDrawer<M>::setRenderingVertexColor(const Index& id, const Color &c)
 {
-    Index mappedId = vVertexMap[id];
+    const Index& mappedId = vVertexMap[id];
     this->vRenderingVertexColors[mappedId*4] = c.redF();
     this->vRenderingVertexColors[mappedId*4+1] = c.greenF();
     this->vRenderingVertexColors[mappedId*4+2] = c.blueF();

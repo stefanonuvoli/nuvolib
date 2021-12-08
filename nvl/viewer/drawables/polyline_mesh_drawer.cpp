@@ -92,14 +92,14 @@ bool PolylineMeshDrawer<M>::hasVertexColors() const
 template<class M>
 const std::vector<unsigned int>& PolylineMeshDrawer<M>::renderingPolyline(const Index &id) const
 {
-    Index mappedId = vPolylineMap[id];
+    const Index& mappedId = vPolylineMap[id];
     return this->vRenderingPolylines[mappedId];
 }
 
 template<class M>
 Color PolylineMeshDrawer<M>::renderingPolylineColor(const Index& id) const
 {
-    Index mappedId = vPolylineMap[id];
+    const Index& mappedId = vPolylineMap[id];
     return Color(this->vRenderingPolylineColors[mappedId*3], this->vRenderingPolylineColors[mappedId*3+1], this->vRenderingPolylineColors[mappedId*3+2], this->vRenderingPolylineColors[mappedId*3+3]);
 }
 
@@ -184,7 +184,7 @@ void PolylineMeshDrawer<M>::resetRenderingPolylineColor(const Index& id)
 template<class M>
 void PolylineMeshDrawer<M>::setRenderingPolyline(const Index& id, const std::vector<unsigned int>& p)
 {
-    Index mappedId = vPolylineMap[id];
+    const Index& mappedId = vPolylineMap[id];
     this->vRenderingPolylines[mappedId] = p;
 }
 
@@ -214,7 +214,7 @@ void PolylineMeshDrawer<M>::resetRenderingPolyline(const Index& id)
 template<class M>
 void PolylineMeshDrawer<M>::setRenderingPolylineColor(const Index& id, const Color& c)
 {
-    Index mappedId = vPolylineMap[id];
+    const Index& mappedId = vPolylineMap[id];
     this->vRenderingPolylineColors[mappedId*4] = c.redF();
     this->vRenderingPolylineColors[mappedId*4+1] = c.greenF();
     this->vRenderingPolylineColors[mappedId*4+2] = c.blueF();

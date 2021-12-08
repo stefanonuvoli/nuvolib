@@ -55,7 +55,7 @@ public:
     void setRenderingBoneColors(const std::vector<float>& renderingBoneColors);
     void setRenderingJoint(const Index& id, const Point3d& p);
     void setRenderingJointColor(const Index& id, const Color& c);
-    void setRenderingBone(const Index& id, const std::vector<unsigned int>& bone);
+    void setRenderingBone(const Index& id, const std::array<Index, 2>& bone);
     void setRenderingBoneColor(const Index& id, const Color& c);
 
     void updateBoundingBox();
@@ -69,8 +69,11 @@ protected:
 
     std::vector<double> vRenderingJoints;
     std::vector<float> vRenderingJointColors;
-    std::vector<std::vector<unsigned int>> vRenderingBones;
+    std::vector<std::array<unsigned int, 2>> vRenderingBones;
     std::vector<float> vRenderingBoneColors;
+
+    Size vVisibleJointNumber;
+    std::vector<Index> vJointMap;
 };
 
 }

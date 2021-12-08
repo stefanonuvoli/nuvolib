@@ -45,6 +45,7 @@ bool skeletonLoadDataFromSKT(
         {
            int i, father;
            std::string name;
+           bool hidden = false;
 
            iss >> i;
 
@@ -65,25 +66,31 @@ bool skeletonLoadDataFromSKT(
 
            Affine3d transformation;
 
-           double x1, y1, z1;
-           iss >> x1 >> y1 >> z1;
-           if (iss.eof()) {
-               transformation = Translation3d(x1, y1, z1);
+           double t1, t2, t3;
+           double r1, r2, r3;
+           iss >> t1 >> t2 >> t3;
+           iss >> r1 >> r2 >> r3;
+
+           Vector3d ang(r1, r2, r3);
+           for (EigenId i = 0; i < ang.size(); ++i) {
+               ang[i] = ang[i] / 180.0 *  M_PI;
            }
-           else {
-               double x2, y2, z2;
-               iss >> x2 >> y2 >> z2;
 
-               Vector3d eulerAngles(x1, y1, z1);
-               for (EigenId i = 0; i < eulerAngles.size(); ++i) {
-                   eulerAngles[i] = eulerAngles[i] / 180.0 *  M_PI;
+           Rotation3d rot = eulerAnglesToRotationXYZ(ang);
+           Translation3d tra(t1, t2, t3);
+
+           transformation = tra * rot;
+
+           if (!iss.eof()) {
+               std::string hiddenString;
+               iss >> hiddenString;
+               if (hiddenString == "hidden") {
+                   hidden = true;
                }
-               Rotation3d rotation = eulerAnglesToRotationXYZ(eulerAngles);
-
-               transformation = Translation3d(x2, y2, z2) * rotation;
            }
 
            data.joints.push_back(transformation);
+           data.hidden.push_back(hidden);
            data.parents.push_back(father);
            data.names.push_back(name);
         }
@@ -121,25 +128,28 @@ bool skeletonSaveDataToSKT(
 
     for (Index i = 0; i < data.joints.size(); ++i) {
         const V& t = data.joints[i];
+        const bool& h = data.hidden[i];
         const int& p = data.parents[i];
         const std::string& n = data.names[i];
 
         Translation3d tra(t.translation());
         Rotation3d rot(t.rotation());
 
-        Vector3d eulerAngles = eulerAnglesFromRotationXYZ(rot);
+        Vector3d ang = eulerAnglesFromRotationXYZ(rot);
 
-        for (EigenId i = 0; i < eulerAngles.size(); ++i) {
-            eulerAngles[i] = eulerAngles[i] / M_PI * 180.0;
+        for (EigenId i = 0; i < ang.size(); ++i) {
+            ang[i] = ang[i] / M_PI * 180.0;
         }
 
         fSkt << "j " << i << " " << n << " " << p;
+        fSkt << " " << tra.x() << " " << tra.y() << " " << tra.z();
+        fSkt << " " << ang.x() << " " << ang.y() << " " << ang.z();
 
-        if (!epsEqual(eulerAngles, Vector3d(0,0,0))) {
-            fSkt << " " << eulerAngles.x() << " " << eulerAngles.y() << " " << eulerAngles.z();
+        if (h) {
+            fSkt << " " << "hidden";
         }
 
-        fSkt << " " << tra.x() << " " << tra.y() << " " << tra.z() << std::endl;
+        fSkt << std::endl;
     }
 
     //Successfully loaded

@@ -69,6 +69,14 @@ public:
     const Point3<Scalar>& originPoint() const;
     void setOriginPoint(const Point3<Scalar> &value);
 
+    const std::string& jointName(const JointId& id) const;
+    std::string& jointName(const JointId& id);
+    void setJointName(const JointId& id, const std::string& name);
+
+    const std::string& jointName(const Joint& joint) const;
+    std::string& jointName(const Joint& joint);
+    void setJointName(const Joint& joint, const std::string& name);
+
     const Transformation& jointBindPose(const JointId& id) const;
     Transformation& jointBindPose(const JointId& id);
     void setJointBindPose(const JointId& id, const Transformation& transformation);
@@ -76,6 +84,14 @@ public:
     const Transformation& jointBindPose(const Joint& joint) const;
     Transformation& jointBindPose(const Joint& joint);
     void setJointBindPose(const Joint& joint, const Transformation& transformation);
+
+    const bool& jointIsHidden(const JointId& id) const;
+    bool& jointIsHidden(const JointId& id);
+    void setJointHidden(const JointId& id, const bool& hidden);
+
+    const bool& jointIsHidden(const Joint& joint) const;
+    bool& jointIsHidden(const Joint& joint);
+    void setJointHidden(const Joint& joint, const bool& hidden);
 
 protected:
 

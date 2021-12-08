@@ -64,7 +64,16 @@ bool meshLoadDataFromOBJ(
             if (objSplitted[1].at(0) != '/') {
                 filenameMtl += path;
             }
+
+            bool first = true;
             for (Index i = 1; i < objSplitted.size(); i++) {
+                if (!first) {
+                    filenameMtl += " ";
+                }
+                else {
+                    first = false;
+                }
+
                 filenameMtl += objSplitted[i];
             }
 
@@ -88,7 +97,16 @@ bool meshLoadDataFromOBJ(
                         }
 
                         std::string materialName = "";
+
+                        bool first = true;
                         for (Index i = 1; i < mtlSplitted.size(); i++) {
+                            if (!first) {
+                                materialName += " ";
+                            }
+                            else {
+                                first = false;
+                            }
+
                             materialName += mtlSplitted[i];
                         }
 
@@ -166,9 +184,19 @@ bool meshLoadDataFromOBJ(
                         if (mtlSplitted[1].at(0) != '/') {
                             filenameMap += path;
                         }
+
+                        bool first = true;
                         for (Index i = 1; i < mtlSplitted.size(); i++) {
+                            if (!first) {
+                                filenameMap += " ";
+                            }
+                            else {
+                                first = false;
+                            }
+
                             filenameMap += mtlSplitted[i];
                         }
+
                         data.materials[loadingMaterialId].setDiffuseMap(filenameMap);
                     }
                     else if (mtlKey == "map_Ka") {
@@ -181,9 +209,19 @@ bool meshLoadDataFromOBJ(
                         if (mtlSplitted[1].at(0) != '/') {
                             filenameMap += path;
                         }
+
+                        bool first = true;
                         for (Index i = 1; i < mtlSplitted.size(); i++) {
+                            if (!first) {
+                                filenameMap += " ";
+                            }
+                            else {
+                                first = false;
+                            }
+
                             filenameMap += mtlSplitted[i];
                         }
+
                         data.materials[loadingMaterialId].setAmbientMap(filenameMap);
                     }
                     else if (mtlKey == "map_Ks") {
@@ -196,9 +234,19 @@ bool meshLoadDataFromOBJ(
                         if (mtlSplitted[1].at(0) != '/') {
                             filenameMap += path;
                         }
+
+                        bool first = true;
                         for (Index i = 1; i < mtlSplitted.size(); i++) {
+                            if (!first) {
+                                filenameMap += " ";
+                            }
+                            else {
+                                first = false;
+                            }
+
                             filenameMap += mtlSplitted[i];
                         }
+
                         data.materials[loadingMaterialId].setSpecularMap(filenameMap);
                     }
                     else if (mtlKey == "map_d") {
@@ -211,9 +259,19 @@ bool meshLoadDataFromOBJ(
                         if (mtlSplitted[1].at(0) != '/') {
                             filenameMap += path;
                         }
+
+                        bool first = true;
                         for (Index i = 1; i < mtlSplitted.size(); i++) {
+                            if (!first) {
+                                filenameMap += " ";
+                            }
+                            else {
+                                first = false;
+                            }
+
                             filenameMap += mtlSplitted[i];
                         }
+
                         data.materials[loadingMaterialId].setTransparencyMap(filenameMap);
                     }
                     else if (mtlKey == "map_Bump" || mtlKey == "bump") {
@@ -226,9 +284,19 @@ bool meshLoadDataFromOBJ(
                         if (mtlSplitted[1].at(0) != '/') {
                             filenameMap += path;
                         }
+
+                        bool first = true;
                         for (Index i = 1; i < mtlSplitted.size(); i++) {
+                            if (!first) {
+                                filenameMap += " ";
+                            }
+                            else {
+                                first = false;
+                            }
+
                             filenameMap += mtlSplitted[i];
                         }
+
                         data.materials[loadingMaterialId].setNormalMap(filenameMap);
                     }
                 }
@@ -243,7 +311,15 @@ bool meshLoadDataFromOBJ(
             }
 
             std::string materialName = "";
+            bool first = true;
             for (Index i = 1; i < objSplitted.size(); i++) {
+                if (!first) {
+                    materialName += " ";
+                }
+                else {
+                    first = false;
+                }
+
                 materialName += objSplitted[i];
             }
 
@@ -312,7 +388,7 @@ bool meshLoadDataFromOBJ(
 
             data.faces.push_back(vertexIds);
 
-            //Handle textures
+            //Handle UVs
             std::vector<Index> faceVertexUVs;
 
             for (Index i = 1; i < objSplitted.size(); ++i) {
@@ -507,8 +583,6 @@ bool meshSaveDataToOBJ(
                 ++matUnnamedMaterialId;
             }
 
-
-
             meshSaveObjMaterial(fMtl, materialCopy, path);
         }
     }
@@ -633,36 +707,50 @@ void meshSaveObjMaterial(std::ofstream& fMtl, const Material& material, const st
     fMtl << "d " << 1 - material.transparency() << std::endl;
     fMtl << "Tr " << material.transparency() << std::endl;
 
+    //Texture path
+    const std::string textureRelPath("textures/");
+    const std::string textureAbsPath(path + textureRelPath);
+
+    //Create directory
+    if (!material.diffuseMap().empty() ||
+        !material.ambientMap().empty() ||
+        !material.specularMap().empty() ||
+        !material.normalMap().empty() ||
+        !material.transparencyMap().empty())
+    {
+        nvl::createDirectory(textureAbsPath);
+    }
+
     //Maps
     if (!material.diffuseMap().empty()) {
         std::string filename = material.diffuseMap();
-        std::string file = filenameFile(filename);
-        fMtl << "map_Kd " << file << std::endl;
-        fileCopy(filename, path + file);
+        std::string name = filenameFile(filename);
+        fMtl << "map_Kd " << textureRelPath + name << std::endl;
+        fileCopy(filename, textureAbsPath + name);
     }
     if (!material.ambientMap().empty()) {
-        std::string filename = material.ambientMap();
-        std::string file = filenameFile(filename);
-        fMtl << "map_Ka " << file << std::endl;
-        fileCopy(filename, path + file);
+        const std::string& filename = material.ambientMap();
+        std::string name = filenameFile(filename);
+        fMtl << "map_Ka " << textureRelPath + name << std::endl;
+        fileCopy(filename, textureAbsPath + name);
     }
     if (!material.specularMap().empty()) {
         std::string filename = material.specularMap();
-        std::string file = filenameFile(filename);
-        fMtl << "map_Ks " << file << std::endl;
-        fileCopy(filename, path + file);
+        std::string name = filenameFile(filename);
+        fMtl << "map_Ks " << textureRelPath + name << std::endl;
+        fileCopy(filename, textureAbsPath + name);
     }
     if (!material.normalMap().empty()) {
         std::string filename = material.normalMap();
-        std::string file = filenameFile(filename);
-        fMtl << "map_Bump " << file << std::endl;
-        fileCopy(filename, path + file);
+        std::string name = filenameFile(filename);
+        fMtl << "map_Bump " << textureRelPath + name << std::endl;
+        fileCopy(filename, textureAbsPath + name);
     }
     if (!material.transparencyMap().empty()) {
         std::string filename = material.transparencyMap();
-        std::string file = filenameFile(filename);
-        fMtl << "map_d " << file << std::endl;
-        fileCopy(filename, path + file);
+        std::string name = filenameFile(filename);
+        fMtl << "map_d " << textureRelPath + name << std::endl;
+        fileCopy(filename, textureAbsPath + name);
     }
 }
 

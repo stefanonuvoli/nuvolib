@@ -309,20 +309,24 @@ template<class T>
 void ModelDrawer<M>::renderLinearBlendingSkinning(const std::vector<T>& transformations)
 {
     typedef typename Model::SkinningWeights SkinningWeights;
+    typedef typename Model::Skeleton::JointId JointId;
+    typedef typename Model::Mesh::VertexId VertexId;
 
     const SkinningWeights& skinningWeights = this->vModel->skinningWeights;
 
     #pragma omp parallel for
-    for (Index jId = 0; jId < this->vModel->skeleton.jointNumber(); ++jId) {
-        const T& t = transformations[jId];
+    for (JointId jId = 0; jId < this->vModel->skeleton.jointNumber(); ++jId) {
+        if (!this->vModel->skeleton.jointIsHidden(jId)) {
+            const T& t = transformations[jId];
 
-        const Point3d p = this->vModel->skeleton.jointBindPose(jId) * this->vModel->skeleton.originPoint();
+            const Point3d p = this->vModel->skeleton.jointBindPose(jId) * this->vModel->skeleton.originPoint();
 
-        vSkeletonDrawer.setRenderingJoint(jId, t * p);
+            vSkeletonDrawer.setRenderingJoint(jId, t * p);
+        }
     }
 
     #pragma omp parallel for
-    for (Index vId = 0; vId < this->vModel->mesh.nextVertexId(); ++vId) {
+    for (VertexId vId = 0; vId < this->vModel->mesh.nextVertexId(); ++vId) {
         if (!this->vModel->mesh.isVertexDeleted(vId)) {
             T t = animationLinearBlendingSkinningVertex(skinningWeights, transformations, vId);
 
@@ -339,20 +343,24 @@ template<class M>
 void ModelDrawer<M>::renderDualQuaternionSkinning(const std::vector<DualQuaterniond>& transformations)
 {
     typedef typename Model::SkinningWeights SkinningWeights;
+    typedef typename Model::Skeleton::JointId JointId;
+    typedef typename Model::Mesh::VertexId VertexId;
 
     const SkinningWeights& skinningWeights = this->vModel->skinningWeights;
 
     #pragma omp parallel for
-    for (Index jId = 0; jId < this->vModel->skeleton.jointNumber(); ++jId) {
-        const DualQuaterniond& dq = transformations[jId];
+    for (JointId jId = 0; jId < this->vModel->skeleton.jointNumber(); ++jId) {
+        if (!this->vModel->skeleton.jointIsHidden(jId)) {
+            const DualQuaterniond& dq = transformations[jId];
 
-        const Point3d p = this->vModel->skeleton.jointBindPose(jId) * this->vModel->skeleton.originPoint();
+            const Point3d p = this->vModel->skeleton.jointBindPose(jId) * this->vModel->skeleton.originPoint();
 
-        vSkeletonDrawer.setRenderingJoint(jId, dq * p);
+            vSkeletonDrawer.setRenderingJoint(jId, dq * p);
+        }
     }
 
     #pragma omp parallel for
-    for (Index vId = 0; vId < this->vModel->mesh.nextVertexId(); ++vId) {
+    for (VertexId vId = 0; vId < this->vModel->mesh.nextVertexId(); ++vId) {
         if (!this->vModel->mesh.isVertexDeleted(vId)) {
             DualQuaterniond dq = animationDualQuaternionSkinningVertex(skinningWeights, transformations, vId);
 

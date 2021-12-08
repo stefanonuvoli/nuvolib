@@ -141,28 +141,27 @@ bool FaceMeshDrawer<M>::hasVertexColors() const
 template<class M>
 const std::vector<unsigned int>& FaceMeshDrawer<M>::renderingFace(const Index &id) const
 {
-    Index mappedId = vFaceMap[id];
+    const Index& mappedId = vFaceMap[id];
     return this->vRenderingFaces[mappedId];
 }
 
 template<class M>
 Vector3d FaceMeshDrawer<M>::renderingFaceNormal(const Index& id) const
 {
-    Index mappedId = vFaceMap[id];
+    const Index& mappedId = vFaceMap[id];
     return Vector3d(this->vRenderingFaceNormals[mappedId*3], this->vRenderingFaceNormals[mappedId*3+1], this->vRenderingFaceNormals[mappedId*3+2]);
 }
 
 template<class M>
 Color FaceMeshDrawer<M>::renderingFaceColor(const Index& id) const
 {
-    Index mappedId = vFaceMap[id];
+    const Index& mappedId = vFaceMap[id];
     return Color(this->vRenderingFaceColors[mappedId*4], this->vRenderingFaceColors[mappedId*4+1], this->vRenderingFaceColors[mappedId*4+2], this->vRenderingFaceColors[mappedId*4+3]);
 }
-
 template<class M>
 Color FaceMeshDrawer<M>::renderingFaceWireframeColor(const Index& id) const
 {
-    Index mappedId = vFaceMap[id];
+    const Index& mappedId = vFaceMap[id];
     return Color(this->vRenderingFaceWireframeColors[mappedId*4], this->vRenderingFaceWireframeColors[mappedId*4+1], this->vRenderingFaceWireframeColors[mappedId*4+2], this->vRenderingFaceWireframeColors[mappedId*4+3]);
 }
 
@@ -438,14 +437,14 @@ void FaceMeshDrawer<M>::setRenderingFaceMaterials(const std::vector<Index>& rend
 template<class M>
 void FaceMeshDrawer<M>::setRenderingFace(const Index& id, const std::vector<unsigned int>& f)
 {
-    Index mappedId = vFaceMap[id];
+    const Index& mappedId = vFaceMap[id];
     this->vRenderingFaces[mappedId] = f;
 }
 
 template<class M>
 void FaceMeshDrawer<M>::setRenderingFaceNormal(const Index& id, const Vector3d& n)
 {
-    Index mappedId = vFaceMap[id];
+    const Index& mappedId = vFaceMap[id];
     this->vRenderingFaceNormals[mappedId*3] = n.x();
     this->vRenderingFaceNormals[mappedId*3+1] = n.y();
     this->vRenderingFaceNormals[mappedId*3+2] = n.z();
@@ -454,7 +453,7 @@ void FaceMeshDrawer<M>::setRenderingFaceNormal(const Index& id, const Vector3d& 
 template<class M>
 void FaceMeshDrawer<M>::setRenderingFaceColor(const Index& id, const Color& c)
 {
-    Index mappedId = vFaceMap[id];
+    const Index& mappedId = vFaceMap[id];
     this->vRenderingFaceColors[mappedId*4] = c.redF();
     this->vRenderingFaceColors[mappedId*4+1] = c.greenF();
     this->vRenderingFaceColors[mappedId*4+2] = c.blueF();
@@ -464,7 +463,7 @@ void FaceMeshDrawer<M>::setRenderingFaceColor(const Index& id, const Color& c)
 template<class M>
 void FaceMeshDrawer<M>::setRenderingFaceUV(const Index& id, const std::vector<Point2f>& uvs)
 {
-    Index mappedId = vFaceMap[id];
+    const Index& mappedId = vFaceMap[id];
 
     std::vector<float> uvsFloat(uvs.size() * 2);
     for (Index i = 0; i < uvs.size(); ++i) {
@@ -478,7 +477,7 @@ void FaceMeshDrawer<M>::setRenderingFaceUV(const Index& id, const std::vector<Po
 template<class M>
 void FaceMeshDrawer<M>::setRenderingFaceWireframeColor(const Index& id, const Color& c)
 {
-    Index mappedId = vFaceMap[id];
+    const Index& mappedId = vFaceMap[id];
     this->vRenderingFaceWireframeColors[mappedId*4] = c.redF();
     this->vRenderingFaceWireframeColors[mappedId*4+1] = c.greenF();
     this->vRenderingFaceWireframeColors[mappedId*4+2] = c.blueF();
@@ -489,7 +488,7 @@ void FaceMeshDrawer<M>::setRenderingFaceWireframeColor(const Index& id, const Co
 template<class M>
 void FaceMeshDrawer<M>::setRenderingFaceMaterial(const Index& id, const Index& m)
 {
-    Index mappedId = vFaceMap[id];
+    const Index& mappedId = vFaceMap[id];
     this->vRenderingFaceMaterials[mappedId] = m;
 }
 
@@ -521,12 +520,15 @@ void FaceMeshDrawer<M>::loadTextures()
 
 #ifdef NVL_STB_LOADED
             int width, height, nrChannels;
+
             stbi_set_flip_vertically_on_load(true);
+
             unsigned char *data = stbi_load(mat.diffuseMap().c_str(), &width, &height, &nrChannels, 0);
 
             if (data != nullptr) {
                 glEnable(GL_BLEND);
                 glEnable(GL_TEXTURE_2D);
+
                 unsigned int texture;
                 glGenTextures(1, &texture);
                 glBindTexture(GL_TEXTURE_2D, texture);

@@ -24,7 +24,31 @@ SkeletonJoint<T>::SkeletonJoint(const T& bindPose, const std::string& name) :
 }
 
 template<class T>
+const typename SkeletonJoint<T>::Id& SkeletonJoint<T>::id() const
+{
+    return vId;
+}
+
+template<class T>
+typename SkeletonJoint<T>::Id& SkeletonJoint<T>::id()
+{
+    return vId;
+}
+
+template<class T>
+void SkeletonJoint<T>::setId(const Id& value)
+{
+    vId = value;
+}
+
+template<class T>
 const std::string& SkeletonJoint<T>::name() const
+{
+    return vName;
+}
+
+template<class T>
+std::string& SkeletonJoint<T>::name()
 {
     return vName;
 }
@@ -54,15 +78,21 @@ void SkeletonJoint<T>::setBindPose(const T& bindPose)
 }
 
 template<class T>
-const typename SkeletonJoint<T>::Id& SkeletonJoint<T>::id() const
+const bool& SkeletonJoint<T>::isHidden() const
 {
-    return vId;
+    return vHidden;
 }
 
 template<class T>
-void SkeletonJoint<T>::setId(const Id& value)
+bool& SkeletonJoint<T>::isHidden()
 {
-    vId = value;
+    return vHidden;
+}
+
+template<class T>
+void SkeletonJoint<T>::setHidden(const bool& hidden)
+{
+    vHidden = hidden;
 }
 
 }

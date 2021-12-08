@@ -225,11 +225,17 @@ bool modelLoadDataFromFBX(
     //Fill data
     modelData.name = modelName;
 
+    //Load mesh and skeleton
     meshLoadData(modelData.mesh, fbxData.meshData, mode.meshMode);
     skeletonLoadData(modelData.skeleton, fbxData.skeletonData, mode.skeletonMode);
+
+    //Initialize skinning weights
     modelData.skinningWeights.initialize(modelData.mesh.nextVertexId(), modelData.skeleton.jointNumber());
+
+    //Load skinning weights
     skinningWeightsLoadData(modelData.skinningWeights, fbxData.skinningWeightsData, mode.skinningWeightsMode);
 
+    //Load animation bind pose if to compute
     bool computeBindPose = false;
     if (!fbxData.bindPoseTransformations.empty()) {
         for (JointId jId = 0; jId < fbxData.bindPoseTransformations.size() && !computeBindPose; ++jId) {
@@ -265,12 +271,14 @@ bool modelLoadDataFromFBX(
         }
     }
 
+    //Compute local bind poses
     std::vector<SkeletonTransformation> localBindPoses(modelData.skeleton.jointNumber());
     for (JointId jId = 0; jId < modelData.skeleton.jointNumber(); ++jId) {
         localBindPoses[jId] = modelData.skeleton.jointBindPose(jId);
     }
     nvl::animationLocalFromGlobalTransformations(modelData.skeleton, localBindPoses);
 
+    //Load animations
     for (AnimationData& animationData : fbxData.animationDataVector) {
         Animation animation;
 
@@ -329,6 +337,9 @@ void handleSkeletonInner(
 {
     typedef typename FBXData::SkeletonTransformation SkeletonTransformation;
 
+    FbxSkeleton* lSkeleton = lNode->GetSkeleton();
+    bool isSkeleton = lSkeleton != nullptr ? true : false;
+
     FbxAMatrix lJointGlobalTransform = lNode->EvaluateGlobalTransform();
     SkeletonTransformation jointTransformation = transformationFromFBXMatrix<SkeletonTransformation>(lJointGlobalTransform);
 
@@ -336,6 +347,7 @@ void handleSkeletonInner(
 
     Index jId = data.skeletonData.joints.size();
     data.skeletonData.joints.push_back(jointTransformation);
+    data.skeletonData.hidden.push_back(!isSkeleton);
     data.skeletonData.names.push_back(jointName);
     data.skeletonData.parents.push_back(parentJointId);
 
@@ -352,8 +364,6 @@ void handleSkeleton(
         FbxNode* lNode,
         FBXData& data)
 {
-    typedef typename FBXData::SkeletonTransformation SkeletonTransformation;
-
     FbxSkeleton* lSkeleton = lNode->GetSkeleton();
 
     if (lSkeleton->IsSkeletonRoot()) {
@@ -682,7 +692,6 @@ void handleMeshAndSkeletonRecursive(
         FbxNode* lNode,
         FBXData& data)
 {
-
     if (lNode->GetNodeAttribute()) {
         FbxNodeAttribute* lNodeAttribute = lNode->GetNodeAttribute();
 

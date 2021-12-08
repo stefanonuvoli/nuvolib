@@ -131,6 +131,18 @@ bool modelLoadDataFromRIG(
                 animationFilename += tmpString;
                 first = false;
             }
+
+            if (!name.empty()) {
+                std::string prefix = name + "@";
+
+                std::size_t slashPos = animationFilename.find_last_of("/\\");
+                std::size_t prefixPos = animationFilename.find_last_of(name + "@");
+
+                if (prefixPos != std::string::npos && prefixPos > slashPos) {
+                    animationFilename.replace(slashPos, prefix.length(), "");
+                }
+            }
+
             if (animationFilename.at(0) != '/') {
                 animationFilename = path + animationFilename;
             }
@@ -214,13 +226,21 @@ bool modelSaveDataToRIG(
         return false;
     }
 
+    //Animation path
+    const std::string animationRelPath("animations/");
+    const std::string animationAbsPath(path + animationRelPath);
+
     std::string name = filenameName(filename);
     std::string meshFile = name + ".obj";
     std::string skeletonFile = name + ".skt";
     std::string skinningWeightsFile = name + ".skw";
     std::vector<std::string> animationFiles(modelData.animations.size());
-    for (Index i = 0; i < modelData.animations.size(); ++i) {
-        animationFiles[i] = modelData.animations[i].name() + ".ska";
+    for (Index i = 0; i < modelData.animations.size(); ++i) {        
+        animationFiles[i] =
+                animationRelPath +
+                modelData.name + "@" +
+                modelData.animations[i].name() +
+                ".ska";
     }
 
     bool success = true;
@@ -249,6 +269,9 @@ bool modelSaveDataToRIG(
     }
 
     if (success && mode.animations) {
+        if (!modelData.animations.empty())
+            nvl::createDirectory(animationAbsPath);
+
         for (Index i = 0; i < modelData.animations.size(); ++i) {
             IOAnimationError animationError;
             success &= animationSaveToFile(path + animationFiles[i], modelData.animations[i], animationError, mode.animationMode);
@@ -276,8 +299,9 @@ bool modelSaveDataToRIG(
             fRig << "w " << skinningWeightsFile << std::endl;
         }
         if (mode.animations) {
-            for (const std::string& s : animationFiles)
-            fRig << "a " << s << std::endl;
+            for (const std::string& s : animationFiles) {
+                fRig << "a " << s << std::endl;
+            }
         }
     }
 

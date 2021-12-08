@@ -75,6 +75,7 @@ void skeletonLoadData(
     const std::vector<Transformation>& joints = skeletonData.joints;
     const std::vector<int>& parents = skeletonData.parents;
     const std::vector<std::string>& names = skeletonData.names;
+    const std::vector<bool>& hidden = skeletonData.hidden;
 
     std::vector<JointId> idMap(joints.size(), NULL_ID);
 
@@ -86,6 +87,8 @@ void skeletonLoadData(
             assert(idMap[parents[i]] != NULL_ID);
             idMap[i] = skeleton.addChild(idMap[parents[i]], joints[i], names[i]);
         }
+
+        skeleton.setJointHidden(idMap[i], hidden[i]);
     }
 }
 
@@ -100,10 +103,12 @@ void skeletonSaveData(
     typedef typename S::Transformation Transformation;
 
     std::vector<Transformation>& joints = skeletonData.joints;
+    std::vector<bool>& hidden = skeletonData.hidden;
     std::vector<int>& parents = skeletonData.parents;
     std::vector<std::string>& names = skeletonData.names;
 
     joints.resize(skeleton.jointNumber());
+    hidden.resize(skeleton.jointNumber());
     parents.resize(skeleton.jointNumber());
     names.resize(skeleton.jointNumber());
 
@@ -117,6 +122,7 @@ void skeletonSaveData(
             parents[jId] = skeleton.parentId(jId);
         }
         names[jId] = joint.name();
+        hidden[jId] = joint.isHidden();
     }
 }
 

@@ -19,8 +19,11 @@ std::string filenamePath(const char* string);
 std::string filenameExtension(const std::string& filename);
 std::string filenameExtension(const char* string);
 
-void fileCopy(const std::string& source, const std::string& dest);
-void fileCopy(const char* source, const char* dest);
+bool fileCopy(const std::string& source, const std::string& dest);
+bool fileCopy(const char* source, const char* dest);
+
+bool createDirectory(const std::string& dir);
+bool createDirectory(const char* dir);
 
 }
 

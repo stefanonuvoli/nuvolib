@@ -24,6 +24,7 @@ struct IOSkeletonData {
     IOSkeletonData();
 
     std::vector<T> joints;
+    std::vector<bool> hidden;
     std::vector<int> parents;
     std::vector<std::string> names;
 

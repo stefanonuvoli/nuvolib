@@ -219,6 +219,42 @@ void Skeleton<T>::setOriginPoint(const Point3<Scalar>& value)
 }
 
 template<class T>
+const std::string& Skeleton<T>::jointName(const JointId& id) const
+{
+    return joint(id).name();
+}
+
+template<class T>
+std::string& Skeleton<T>::jointName(const JointId& id)
+{
+    return joint(id).name();
+}
+
+template<class T>
+void Skeleton<T>::setJointName(const JointId& id, const std::string& name)
+{
+     joint(id).setName(name);
+}
+
+template<class T>
+const std::string& Skeleton<T>::jointName(const Joint& joint) const
+{
+    return jointName(joint.id);
+}
+
+template<class T>
+std::string& Skeleton<T>::jointName(const Joint& joint)
+{
+    return jointName(joint.id);
+}
+
+template<class T>
+void Skeleton<T>::setJointName(const Joint& joint, const std::string& name)
+{
+    return setJointName(joint.id, name);
+}
+
+template<class T>
 const typename Skeleton<T>::Transformation& Skeleton<T>::jointBindPose(const JointId& id) const
 {
     return joint(id).bindPose();
@@ -252,6 +288,42 @@ template<class T>
 void Skeleton<T>::setJointBindPose(const Joint& joint, const Transformation& transformation)
 {
     return setJointBindPose(joint.id, transformation);
+}
+
+template<class T>
+const bool& Skeleton<T>::jointIsHidden(const JointId& id) const
+{
+    return joint(id).isHidden();
+}
+
+template<class T>
+bool& Skeleton<T>::jointIsHidden(const JointId& id)
+{
+    return joint(id).isHidden();
+}
+
+template<class T>
+void Skeleton<T>::setJointHidden(const JointId& id, const bool& hidden)
+{
+     joint(id).setHidden(hidden);
+}
+
+template<class T>
+const bool& Skeleton<T>::jointIsHidden(const Joint& joint) const
+{
+    return jointIsHidden(joint.id);
+}
+
+template<class T>
+bool& Skeleton<T>::jointIsHidden(const Joint& joint)
+{
+    return jointIsHidden(joint.id);
+}
+
+template<class T>
+void Skeleton<T>::setJointHidden(const Joint& joint, const bool& hidden)
+{
+    return setJointHidden(joint.id, hidden);
 }
 
 }
