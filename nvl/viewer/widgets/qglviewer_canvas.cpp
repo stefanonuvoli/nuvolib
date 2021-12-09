@@ -48,16 +48,16 @@ NVL_INLINE void QGLViewerCanvas::startAnimations()
 {
     if (!vQGLViewerObject->animationIsStarted()) {
         vQGLViewerObject->startAnimation();
-        QCanvas::startAnimations();
     }
+    QCanvas::startAnimations();
 }
 
 NVL_INLINE void QGLViewerCanvas::stopAnimations()
 {
     if (vQGLViewerObject->animationIsStarted()) {
         vQGLViewerObject->stopAnimation();
-        QCanvas::stopAnimations();
     }
+    QCanvas::stopAnimations();
 }
 
 NVL_INLINE void QGLViewerCanvas::setTargetFPS(double fps)
