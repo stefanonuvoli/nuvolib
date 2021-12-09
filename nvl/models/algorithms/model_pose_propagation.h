@@ -127,10 +127,6 @@ template<class S>
 std::vector<typename S::Transformation> skeletonLocalBindPoseTransformations(
         const S& skeleton);
 
-template<class S>
-std::vector<typename S::Transformation> skeletonGlobalFromLocalBindPose(
-        const S& skeleton);
-
 }
 
 #include "model_pose_propagation.cpp"

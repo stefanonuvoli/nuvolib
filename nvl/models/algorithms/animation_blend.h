@@ -8,9 +8,9 @@
 namespace nvl {
 
 template<class F>
-void animationBlendFrameTransformations(
+void animationFrameBlend(
         std::vector<F>& animationFrames,
-        const double& fps = 60,
+        const double& fps = 30,
         const double& speed = 1,
         const bool& keepKeyframes = true);
 

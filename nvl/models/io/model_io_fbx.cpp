@@ -272,7 +272,7 @@ bool modelLoadDataFromFBX(
     }
 
     //Compute local bind poses
-    std::vector<SkeletonTransformation> localBindPose = skeletonLocalFromGlobalBindPose(modelData.skeleton);
+    std::vector<SkeletonTransformation> localBindPose = skeletonLocalBindPose(modelData.skeleton);
 
     //Load animations
     for (AnimationData& animationData : fbxData.animationDataVector) {
@@ -280,7 +280,7 @@ bool modelLoadDataFromFBX(
 
         animationLoadData(animation, animationData, mode.animationMode);
 
-        nvl::animationFrameLocalFromGlobal(modelData.skeleton, animation.keyframes());
+        nvl::animationLocalFromGlobal(modelData.skeleton, animation);
 
         bool isIdentity = true;
         for (nvl::Index frameId = 0; frameId < animation.keyframeNumber(); ++frameId) {

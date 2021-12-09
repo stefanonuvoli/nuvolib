@@ -215,7 +215,7 @@ void ModelDrawer<M>::loadAnimation(const Index& id)
     vAnimationFrames = animation.keyframes();
     if (this->animationBlend()) {
         double fps = this->animationTargetFPS() / this->animationSpeed();
-        animationBlendFrameTransformations(vAnimationFrames, fps, this->animationSpeed(), this->animationKeepKeyframes());
+        animationFrameBlend(vAnimationFrames, fps, this->animationSpeed(), this->animationKeepKeyframes());
     }
 
     //Compute final transformations

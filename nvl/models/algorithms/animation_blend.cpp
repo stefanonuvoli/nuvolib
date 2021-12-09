@@ -5,7 +5,7 @@
 namespace nvl {
 
 template<class F>
-void animationBlendFrameTransformations(
+void animationFrameBlend(
         std::vector<F>& animationFrames,
         const double& fps,
         const double& speed,

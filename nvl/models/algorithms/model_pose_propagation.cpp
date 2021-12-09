@@ -25,7 +25,7 @@ void animationDeformationFromLocal(
 {
     typedef S Skeleton;
 
-    animationFrameDeformationFromLocal(skeleton, animation, skeletonLocalFromGlobalBindPose(skeleton));
+    animationFrameDeformationFromLocal(skeleton, animation, skeletonLocalBindPose(skeleton));
 }
 
 template<class S, class A, class B>
@@ -44,7 +44,7 @@ void animationFrameDeformationFromLocal(
 {
     typedef S Skeleton;
 
-    animationFrameDeformationFromLocal(skeleton, frames, skeletonLocalFromGlobalBindPose(skeleton));
+    animationFrameDeformationFromLocal(skeleton, frames, skeletonLocalBindPose(skeleton));
 }
 
 template<class S, class F, class B>
@@ -68,7 +68,7 @@ void animationFrameDeformationFromLocal(
 {
     typedef S Skeleton;
 
-    animationFrameDeformationFromLocal(skeleton, frame, skeletonLocalFromGlobalBindPose(skeleton));
+    animationFrameDeformationFromLocal(skeleton, frame, skeletonLocalBindPose(skeleton));
 }
 
 template<class S, class F, class B>
@@ -89,7 +89,7 @@ void skeletonPoseDeformationFromLocal(
 {
     typedef S Skeleton;
 
-    animationFrameDeformationFromLocal(skeleton, transformations, skeletonLocalFromGlobalBindPose(skeleton));
+    animationFrameDeformationFromLocal(skeleton, transformations, skeletonLocalBindPose(skeleton));
 }
 
 template<class S, class T, class B>
@@ -285,7 +285,7 @@ void skeletonPoseGlobalFromLocal(
 /* ----------------------- SKELETON UTILS ----------------------- */
 
 template<class S>
-std::vector<typename S::Transformation> skeletonBindPose(
+std::vector<typename S::Transformation> skeletonGlobalBindPose(
         const S& skeleton)
 {
     typedef S Skeleton;
@@ -303,33 +303,18 @@ std::vector<typename S::Transformation> skeletonBindPose(
 }
 
 template<class S>
-std::vector<typename S::Transformation> skeletonLocalFromGlobalBindPose(
+std::vector<typename S::Transformation> skeletonLocalBindPose(
         const S& skeleton)
 {
     typedef S Skeleton;
     typedef typename Skeleton::Transformation Transformation;
 
     //Get bind pose transformations
-    std::vector<Transformation> localBindPose = skeletonBindPose(skeleton);
+    std::vector<Transformation> localBindPose = skeletonGlobalBindPose(skeleton);
 
     skeletonPoseLocalFromGlobal(skeleton, localBindPose);
 
     return localBindPose;
-}
-
-template<class S>
-std::vector<typename S::Transformation> skeletonGlobalFromLocalBindPose(
-        const S& skeleton)
-{
-    typedef S Skeleton;
-    typedef typename Skeleton::Transformation Transformation;
-
-    //Get bind pose transformations
-    std::vector<Transformation> globalBindPose = skeletonBindPose(skeleton);
-
-    skeletonPoseGlobalFromLocal(skeleton, globalBindPose);
-
-    return globalBindPose;
 }
 
 }
