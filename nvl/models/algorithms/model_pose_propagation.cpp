@@ -23,8 +23,6 @@ void animationDeformationFromLocal(
         const S& skeleton,
         A& animation)
 {
-    typedef S Skeleton;
-
     animationFrameDeformationFromLocal(skeleton, animation, skeletonLocalBindPose(skeleton));
 }
 
@@ -42,8 +40,6 @@ void animationFrameDeformationFromLocal(
         const S& skeleton,
         std::vector<F>& frames)
 {
-    typedef S Skeleton;
-
     animationFrameDeformationFromLocal(skeleton, frames, skeletonLocalBindPose(skeleton));
 }
 
@@ -53,8 +49,6 @@ void animationFrameDeformationFromLocal(
         std::vector<F>& frames,
         const std::vector<B>& localBindPose)
 {
-    typedef S Skeleton;
-
     #pragma omp parallel for
     for (Index fId = 0; fId < frames.size(); ++fId) {
         animationFrameDeformationFromLocal(skeleton, frames[fId], localBindPose);
@@ -66,8 +60,6 @@ void animationFrameDeformationFromLocal(
         const S& skeleton,
         F& frame)
 {
-    typedef S Skeleton;
-
     animationFrameDeformationFromLocal(skeleton, frame, skeletonLocalBindPose(skeleton));
 }
 
@@ -77,8 +69,6 @@ void animationFrameDeformationFromLocal(
         F& frame,
         const std::vector<B>& localBindPose)
 {
-    typedef S Skeleton;
-
     skeletonPoseDeformationFromLocal(skeleton, frame.transformations(), localBindPose);
 }
 
@@ -87,8 +77,6 @@ void skeletonPoseDeformationFromLocal(
         const S& skeleton,
         std::vector<T>& transformations)
 {
-    typedef S Skeleton;
-
     animationFrameDeformationFromLocal(skeleton, transformations, skeletonLocalBindPose(skeleton));
 }
 
@@ -128,7 +116,7 @@ void modelLocalFromGlobal(
     typedef typename Model::Animation Animation;
 
     for (Animation& a : model.animations) {
-        modelLocalFromGlobal(model, a);
+        animationLocalFromGlobal(model, a);
     }
 }
 
@@ -137,7 +125,7 @@ void animationLocalFromGlobal(
         const S& skeleton,
         A& animation)
 {
-    animationLocalFromGlobal(skeleton, animation.keyframes());
+    animationFrameLocalFromGlobal(skeleton, animation.keyframes());
 }
 
 template<class S, class F>
@@ -145,9 +133,6 @@ void animationFrameLocalFromGlobal(
         const S& skeleton,
         std::vector<F>& frames)
 {
-    typedef S Skeleton;
-    typedef typename F::Transformation Transformation;
-
     #pragma omp parallel for
     for (Index fId = 0; fId < frames.size(); ++fId) {
         animationFrameLocalFromGlobal(skeleton, frames[fId]);
@@ -159,8 +144,6 @@ void animationFrameLocalFromGlobal(
         const S& skeleton,
         F& frame)
 {
-    typedef S Skeleton;
-
     skeletonPoseLocalFromGlobal(skeleton, frame.transformations());
 }
 
@@ -209,7 +192,7 @@ void modelGlobalFromLocal(
     typedef typename Model::Animation Animation;
 
     for (Animation& a : model.animations) {
-        modelGlobalFromLocal(model, a);
+        animationGlobalFromLocal(model, a);
     }
 }
 
@@ -218,7 +201,7 @@ void animationGlobalFromLocal(
         const S& skeleton,
         A& animation)
 {
-    animationGlobalFromLocal(skeleton, animation.keyframes());
+    animationFrameGlobalFromLocal(skeleton, animation.keyframes());
 }
 
 
@@ -228,9 +211,6 @@ void animationFrameGlobalFromLocal(
         const S& skeleton,
         std::vector<F>& frames)
 {
-    typedef S Skeleton;
-    typedef typename F::Transformation Transformation;
-
     #pragma omp parallel for
     for (Index fId = 0; fId < frames.size(); ++fId) {
         animationFrameGlobalFromLocal(skeleton, frames[fId]);
@@ -242,7 +222,6 @@ void animationFrameGlobalFromLocal(
         const S& skeleton,
         F& frame)
 {
-    typedef S Skeleton;
     skeletonPoseGlobalFromLocal(skeleton, frame.transformations());
 }
 
