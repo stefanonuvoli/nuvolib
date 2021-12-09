@@ -6,8 +6,9 @@
 #include <nvl/viewer/widgets/canvas.h>
 #include <nvl/viewer/widgets/drawable_list_widget.h>
 #include <nvl/viewer/drawables/face_mesh_drawer.h>
-#include <nvl/viewer/gl/ramp_qglshader.h>
-#include <nvl/viewer/gl/contour_qglshader.h>
+
+#include <nvl/viewer/gl/qgl_ramp_shader.h>
+#include <nvl/viewer/gl/qgl_contour_shader.h>
 
 #include <QFrame>
 
@@ -73,8 +74,8 @@ private:
 
     std::vector<FaceMeshDrawerBase*> vFaceMeshDrawers;
 
-    ContourQGLShader contourQGLShader;
-    RampQGLShader rampQGLShader;
+    QGLContourShader contourQGLShader;
+    QGLRampShader rampQGLShader;
 
     bool vHandleUpdate;
 };

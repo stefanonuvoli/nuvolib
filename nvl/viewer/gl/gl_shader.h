@@ -1,5 +1,5 @@
-#ifndef NVL_VIEWER_GLSHADER_H
-#define NVL_VIEWER_GLSHADER_H
+#ifndef NVL_VIEWER_GL_SHADER_H
+#define NVL_VIEWER_GL_SHADER_H
 
 #include <nvl/nuvolib.h>
 
@@ -43,6 +43,6 @@ public:
 
 }
 
-#include "glshader.cpp"
+#include "gl_shader.cpp"
 
-#endif // NVL_VIEWER_GLSHADER_H
+#endif // NVL_VIEWER_GL_SHADER_H

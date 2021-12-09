@@ -1,6 +1,6 @@
 #include "skeleton_drawer_base.h"
 
-#include <nvl/viewer/gl/draw_primitives.h>
+#include <nvl/viewer/gl/gl_primitives.h>
 
 namespace nvl {
 

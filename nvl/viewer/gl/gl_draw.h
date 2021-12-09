@@ -1,5 +1,5 @@
-#ifndef NVL_VIEWER_DRAW_GL_H
-#define NVL_VIEWER_DRAW_GL_H
+#ifndef NVL_VIEWER_GL_DRAW_H
+#define NVL_VIEWER_GL_DRAW_H
 
 #include <nvl/nuvolib.h>
 
@@ -19,6 +19,6 @@ void glColor(const Color& c);
 
 }
 
-#include "draw_gl.cpp"
+#include "gl_draw.cpp"
 
-#endif // NVL_VIEWER_DRAW_GL_H
+#endif // NVL_VIEWER_GL_DRAW_H

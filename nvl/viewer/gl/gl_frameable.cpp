@@ -1,4 +1,4 @@
-#include "glframeable.h"
+#include "gl_frameable.h"
 
 namespace nvl {
 

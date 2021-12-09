@@ -1,21 +1,21 @@
-#include "ramp_qglshader.h"
+#include "qgl_ramp_shader.h"
 
-#include <nvl/viewer/gl/draw_gl.h>
+#include <nvl/viewer/gl/gl_draw.h>
 
 namespace nvl {
 
-NVL_INLINE RampQGLShader::RampQGLShader() :
+NVL_INLINE QGLRampShader::QGLRampShader() :
     vShaderProgram(nullptr)
 {
 
 }
 
-NVL_INLINE RampQGLShader::~RampQGLShader()
+NVL_INLINE QGLRampShader::~QGLRampShader()
 {
     unload();
 }
 
-NVL_INLINE bool RampQGLShader::load(QGLContext* context)
+NVL_INLINE bool QGLRampShader::load(QGLContext* context)
 {
     unload();
 
@@ -33,7 +33,7 @@ NVL_INLINE bool RampQGLShader::load(QGLContext* context)
     return ret;
 }
 
-NVL_INLINE void RampQGLShader::unload() {
+NVL_INLINE void QGLRampShader::unload() {
     if (!isLoaded())
         return;
 
@@ -41,24 +41,24 @@ NVL_INLINE void RampQGLShader::unload() {
     vShaderProgram = nullptr;
 }
 
-NVL_INLINE bool RampQGLShader::isLoaded() const
+NVL_INLINE bool QGLRampShader::isLoaded() const
 {
     return vShaderProgram != nullptr;
 }
 
-NVL_INLINE void RampQGLShader::bind()
+NVL_INLINE void QGLRampShader::bind()
 {
     assert(isLoaded());
     vShaderProgram->bind();
 }
 
-NVL_INLINE void RampQGLShader::release()
+NVL_INLINE void QGLRampShader::release()
 {
     assert(isLoaded());
     vShaderProgram->release();
 }
 
-NVL_INLINE void RampQGLShader::initGL()
+NVL_INLINE void QGLRampShader::initGL()
 {
     glDisable(GL_LIGHTING);
     glEnable(GL_BLEND);
@@ -71,71 +71,71 @@ NVL_INLINE void RampQGLShader::initGL()
     setUniform(uniformLocation("ramp_alpha"), 0.8f);
 }
 
-NVL_INLINE void RampQGLShader::postGL()
+NVL_INLINE void QGLRampShader::postGL()
 {
     glDisable(GL_BLEND);
     glDepthRange (0.0, 1.0);
 }
 
-NVL_INLINE void RampQGLShader::initFace(const Index& fId)
+NVL_INLINE void QGLRampShader::initFace(const Index& fId)
 {
     NVL_SUPPRESS_UNUSEDVARIABLE(fId);
     glBegin(GL_POLYGON);
 }
 
-NVL_INLINE void RampQGLShader::postFace(const Index& fId)
+NVL_INLINE void QGLRampShader::postFace(const Index& fId)
 {
     NVL_SUPPRESS_UNUSEDVARIABLE(fId);
     glEnd();
 }
 
-NVL_INLINE void RampQGLShader::initVertex(const Index& vId)
+NVL_INLINE void QGLRampShader::initVertex(const Index& vId)
 {
     NVL_SUPPRESS_UNUSEDVARIABLE(vId);
 }
 
-NVL_INLINE void RampQGLShader::postVertex(const Index& vId)
+NVL_INLINE void QGLRampShader::postVertex(const Index& vId)
 {
     NVL_SUPPRESS_UNUSEDVARIABLE(vId);
 }
 
-NVL_INLINE void RampQGLShader::addVertex(const Index& vId, const Point3d& p)
+NVL_INLINE void QGLRampShader::addVertex(const Index& vId, const Point3d& p)
 {
     NVL_SUPPRESS_UNUSEDVARIABLE(vId);
     glVertex(p);
 }
 
-NVL_INLINE void RampQGLShader::setAttribute(int location, double value)
+NVL_INLINE void QGLRampShader::setAttribute(int location, double value)
 {
     assert(isLoaded());
     vShaderProgram->setAttributeValue(location, value);
 }
 
-NVL_INLINE void RampQGLShader::setUniform(int location, double value)
+NVL_INLINE void QGLRampShader::setUniform(int location, double value)
 {
     assert(isLoaded());
     vShaderProgram->setUniformValue(location, static_cast<GLfloat>(value));
 }
 
-NVL_INLINE void RampQGLShader::setUniform(const std::string &name, double value)
+NVL_INLINE void QGLRampShader::setUniform(const std::string &name, double value)
 {
     assert(isLoaded());
     vShaderProgram->setUniformValue(name.c_str(), static_cast<GLfloat>(value));
 }
 
-NVL_INLINE void RampQGLShader::setAttribute(const std::string &name, double value)
+NVL_INLINE void QGLRampShader::setAttribute(const std::string &name, double value)
 {
     assert(isLoaded());
     vShaderProgram->setAttributeValue(name.c_str(), value);
 }
 
-NVL_INLINE int RampQGLShader::attributeLocation(const std::string& name) const
+NVL_INLINE int QGLRampShader::attributeLocation(const std::string& name) const
 {
     assert(isLoaded());
     return vShaderProgram->attributeLocation(name.c_str());
 }
 
-NVL_INLINE int RampQGLShader::uniformLocation(const std::string& name) const
+NVL_INLINE int QGLRampShader::uniformLocation(const std::string& name) const
 {
     assert(isLoaded());
     return vShaderProgram->uniformLocation(name.c_str());

@@ -1,5 +1,5 @@
-#ifndef NVL_VIEWER_GLFRAMEABLE_H
-#define NVL_VIEWER_GLFRAMEABLE_H
+#ifndef NVL_VIEWER_GL_FRAMEABLE_H
+#define NVL_VIEWER_GL_FRAMEABLE_H
 
 #include <nvl/nuvolib.h>
 
@@ -25,6 +25,6 @@ public:
 
 }
 
-#include "glframeable.cpp"
+#include "gl_frameable.cpp"
 
-#endif // NVL_VIEWER_GLFRAMEABLE_H
+#endif // NVL_VIEWER_GL_FRAMEABLE_H

@@ -4,7 +4,7 @@
 #include <nvl/models/algorithms/mesh_transformations.h>
 #include <nvl/models/algorithms/skeleton_transformations.h>
 #include <nvl/models/algorithms/animation_transformations.h>
-#include <nvl/models/algorithms/model_pose_propagation.h>
+#include <nvl/models/algorithms/model_poses.h>
 
 #include <nvl/math/rotation.h>
 

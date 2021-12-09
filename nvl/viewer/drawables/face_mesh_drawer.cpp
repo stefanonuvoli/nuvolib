@@ -1,24 +1,14 @@
 ﻿#include "face_mesh_drawer.h"
 
-#include <nvl/viewer/gl/draw_primitives.h>
-#include <nvl/viewer/gl/draw_gl.h>
+#include <nvl/viewer/gl/gl_primitives.h>
+#include <nvl/viewer/gl/gl_draw.h>
+#include <nvl/viewer/gl/gl_textures.h>
 
 #include <nvl/math/constants.h>
 #include <nvl/math/numeric_limits.h>
 
 #include <nvl/models/algorithms/mesh_geometric_information.h>
 
-//#ifdef NVL_QT
-//#include <QImage>
-//#else
-#ifdef NVL_STB_LOADED
-#define STB_IMAGE_STATIC
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb/std_image.h>
-#undef STB_IMAGE_STATIC
-#undef STB_IMAGE_IMPLEMENTATION
-#endif
-//#endif
 
 namespace nvl {
 
@@ -496,7 +486,6 @@ void FaceMeshDrawer<M>::setRenderingFaceMaterial(const Index& id, const Index& m
     this->vRenderingFaceMaterials[mappedId] = m;
 }
 
-
 template<class M>
 void FaceMeshDrawer<M>::loadTextures()
 {
@@ -522,93 +511,11 @@ void FaceMeshDrawer<M>::loadTextures()
         for (const MaterialId& mId : usedMaterials) {
             const Material& mat = this->vMesh->material(mId);
 
-#ifdef NVL_QT
-            QImage img;
-            bool imageLoaded = img.load(mat.diffuseMap().c_str());
-            if(imageLoaded) {
-                QImage GL_formatted_image;
-                GL_formatted_image = QGLWidget::convertToGLFormat(img);
-
-                glEnable(GL_BLEND);
-                glEnable(GL_TEXTURE_2D);
-
-                unsigned int texture;
-                glGenTextures(1, &texture);
-                glBindTexture(GL_TEXTURE_2D, texture);
-
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-
-                if (GL_formatted_image.hasAlphaChannel()) {
-                    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, GL_formatted_image.width(), GL_formatted_image.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, GL_formatted_image.bits());
-                }
-                else {
-                    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, GL_formatted_image.width(), GL_formatted_image.height(), 0, GL_RGB, GL_UNSIGNED_BYTE, GL_formatted_image.bits());
-                }
-
-                glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-
-                glBindTexture(GL_TEXTURE_2D, 0);
-
-                glDisable(GL_TEXTURE_2D);
-                glDisable(GL_BLEND);
-
-                vTextures[mId] = texture;
-
-                GL_formatted_image = QImage();
-                img = QImage();
+            int texture = nvl::maxLimitValue<unsigned int>();
+            if (!mat.diffuseMap().empty()) {
+                texture = glLoadTextureImage(mat.diffuseMap());
             }
-            else {
-                vTextures[mId] = maxLimitValue<unsigned int>();
-            }
-#else
-#ifdef NVL_STB_LOADED
-            int width, height, nrChannels;
-
-            stbi_set_flip_vertically_on_load(true);
-
-            unsigned char *data = stbi_load(mat.diffuseMap().c_str(), &width, &height, &nrChannels, 0);
-
-            if (data != nullptr) {
-                glEnable(GL_BLEND);
-                glEnable(GL_TEXTURE_2D);
-
-                unsigned int texture;
-                glGenTextures(1, &texture);
-                glBindTexture(GL_TEXTURE_2D, texture);
-
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-
-                if (nrChannels == 4) {
-                    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-                }
-                else {
-                    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-                }
-
-                glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-
-                glBindTexture(GL_TEXTURE_2D, 0);
-
-                glDisable(GL_TEXTURE_2D);
-                glDisable(GL_BLEND);
-
-                vTextures[mId] = texture;
-
-                stbi_image_free(data);
-            }
-            else {
-                vTextures[mId] = maxLimitValue<unsigned int>();
-            }
-#else
-            vTextures[mId] = maxLimitValue<unsigned int>();
-#endif
-#endif
+            vTextures[mId] = texture;
         }
     }
 }

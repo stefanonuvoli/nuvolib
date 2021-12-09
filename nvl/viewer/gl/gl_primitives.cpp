@@ -1,7 +1,7 @@
-#include "draw_primitives.h"
+#include "gl_primitives.h"
 
 #include <nvl/viewer/gl/opengl_headers.h>
-#include <nvl/viewer/gl/draw_gl.h>
+#include <nvl/viewer/gl/gl_draw.h>
 
 namespace nvl {
 

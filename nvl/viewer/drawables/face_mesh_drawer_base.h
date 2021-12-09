@@ -4,7 +4,7 @@
 #include <nvl/nuvolib.h>
 
 #include <nvl/viewer/drawables/polyline_mesh_drawer_base.h>
-#include <nvl/viewer/gl/glshader.h>
+#include <nvl/viewer/gl/gl_shader.h>
 
 #include <nvl/utilities/color.h>
 

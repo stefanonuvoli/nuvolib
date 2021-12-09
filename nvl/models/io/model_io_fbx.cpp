@@ -8,9 +8,9 @@
 #include <stack>
 
 #include <nvl/math/euler_angles.h>
-#include <nvl/models/algorithms/model_pose_propagation.h>
 #include <nvl/models/algorithms/model_deformation.h>
 #include <nvl/models/algorithms/model_transformations.h>
+#include <nvl/models/algorithms/animation_poses.h>
 
 #include <nvl/utilities/file_utils.h>
 

@@ -1,4 +1,4 @@
-#include "glshader.h"
+#include "gl_shader.h"
 
 namespace nvl {
 

@@ -114,12 +114,12 @@ NVL_INLINE void FaceMeshDrawerWidget::updateFaceView()
             else {
                 assert(meshDrawer->faceShaderMode() == FaceMeshDrawerBase::FaceShaderMode::FACE_SHADER_VERTEX_VALUE);
 
-                RampQGLShader* rampShader = dynamic_cast<RampQGLShader*>(meshDrawer->faceShader());
+                QGLRampShader* rampShader = dynamic_cast<QGLRampShader*>(meshDrawer->faceShader());
                 if (rampShader != nullptr) {
                     shaderSelected = (first || shaderSelected == ShaderOptions::SHADER_RAMP ? ShaderOptions::SHADER_RAMP : ShaderOptions::SHADER_NONE);
                 }
                 else {
-                    ContourQGLShader* rampShader = dynamic_cast<ContourQGLShader*>(meshDrawer->faceShader());
+                    QGLContourShader* rampShader = dynamic_cast<QGLContourShader*>(meshDrawer->faceShader());
                     if (rampShader != nullptr) {
                         shaderSelected = (first || shaderSelected == ShaderOptions::SHADER_CONTOUR ? ShaderOptions::SHADER_CONTOUR : ShaderOptions::SHADER_NONE);
                     }

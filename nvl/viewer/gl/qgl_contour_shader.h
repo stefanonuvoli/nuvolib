@@ -1,22 +1,22 @@
-#ifndef NVL_VIEWER_CONTOUR_QGLSHADER_H
-#define NVL_VIEWER_CONTOUR_QGLSHADER_H
+#ifndef NVL_VIEWER_QGL_CONTOUR_SHADER_H
+#define NVL_VIEWER_QGL_CONTOUR_SHADER_H
 
 #include <nvl/nuvolib.h>
 
-#include <nvl/viewer/gl/glshader.h>
+#include <nvl/viewer/gl/gl_shader.h>
 
 #include <QGLContext>
 #include <QGLShaderProgram>
 
 namespace nvl {
 
-class ContourQGLShader : public GLShader
+class QGLContourShader : public GLShader
 {
 
 public:
 
-    ContourQGLShader();
-    virtual ~ContourQGLShader();
+    QGLContourShader();
+    virtual ~QGLContourShader();
 
     bool load(QGLContext* context = nullptr);
     void unload();
@@ -52,6 +52,6 @@ protected:
 
 }
 
-#include "contour_qglshader.cpp"
+#include "qgl_contour_shader.cpp"
 
-#endif // NVL_VIEWER_CONTOUR_QGLSHADER_H
+#endif // NVL_VIEWER_QGL_CONTOUR_SHADER_H

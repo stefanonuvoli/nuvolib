@@ -1,22 +1,22 @@
-#ifndef NVL_VIEWER_RAMP_QGLSHADER_H
-#define NVL_VIEWER_RAMP_QGLSHADER_H
+#ifndef NVL_VIEWER_QGL_RAMP_SHADER_H
+#define NVL_VIEWER_QGL_RAMP_SHADER_H
 
 #include <nvl/nuvolib.h>
 
-#include <nvl/viewer/gl/glshader.h>
+#include <nvl/viewer/gl/gl_shader.h>
 
 #include <QGLContext>
 #include <QGLShaderProgram>
 
 namespace nvl {
 
-class RampQGLShader : public GLShader
+class QGLRampShader : public GLShader
 {
 
 public:
 
-    RampQGLShader();
-    virtual ~RampQGLShader();
+    QGLRampShader();
+    virtual ~QGLRampShader();
 
     bool load(QGLContext* context);
     void unload();
@@ -52,6 +52,6 @@ protected:
 
 }
 
-#include "ramp_qglshader.cpp"
+#include "qgl_ramp_shader.cpp"
 
-#endif // NVL_VIEWER_RAMP_QGLSHADER_H
+#endif // NVL_VIEWER_QGL_RAMP_SHADER_H

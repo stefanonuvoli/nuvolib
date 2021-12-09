@@ -6,7 +6,7 @@
 #include <nvl/viewer/interfaces/drawable.h>
 #include <nvl/viewer/interfaces/pickable.h>
 #include <nvl/viewer/interfaces/animable.h>
-#include <nvl/viewer/gl/glframeable.h>
+#include <nvl/viewer/gl/gl_frameable.h>
 
 #include <nvl/viewer/drawables/model_drawer_base.h>
 #include <nvl/viewer/drawables/face_mesh_drawer.h>

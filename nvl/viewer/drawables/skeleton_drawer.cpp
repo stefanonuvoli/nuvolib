@@ -1,6 +1,6 @@
 #include "skeleton_drawer.h"
 
-#include <nvl/viewer/gl/draw_primitives.h>
+#include <nvl/viewer/gl/gl_primitives.h>
 
 #include <nvl/math/constants.h>
 

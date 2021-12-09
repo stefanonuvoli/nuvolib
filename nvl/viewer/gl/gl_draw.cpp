@@ -1,4 +1,4 @@
-#include "draw_gl.h"
+#include "gl_draw.h"
 
 #include <nvl/viewer/gl/opengl_headers.h>
 

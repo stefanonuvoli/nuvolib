@@ -1,5 +1,5 @@
-#ifndef NVL_VIEWER_DRAW_PRIMITIVES_H
-#define NVL_VIEWER_DRAW_PRIMITIVES_H
+#ifndef NVL_VIEWER_GL_PRIMITIVES_H
+#define NVL_VIEWER_GL_PRIMITIVES_H
 
 #include <nvl/nuvolib.h>
 
@@ -46,6 +46,6 @@ void drawArrow(
 
 }
 
-#include "draw_primitives.cpp"
+#include "gl_primitives.cpp"
 
-#endif // NVL_VIEWER_DRAW_PRIMITIVES_H
+#endif // NVL_VIEWER_GL_PRIMITIVES_H
