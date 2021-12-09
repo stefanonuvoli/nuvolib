@@ -10,61 +10,18 @@ NVL_INLINE QGLContourShader::QGLContourShader() :
 
 }
 
-NVL_INLINE QGLContourShader::~QGLContourShader()
-{
-    unload();
-}
-
 NVL_INLINE bool QGLContourShader::load(QGLContext* context)
 {
-    unload();
-
-    vShaderProgram = new QGLShaderProgram(context);
-
-    bool ret = true;
-    ret &= vShaderProgram->addShaderFromSourceFile(QGLShader::Vertex,":/shaders/contour.vert");
-    ret &= vShaderProgram->addShaderFromSourceFile(QGLShader::Fragment,":/shaders/contour.frag");
-    ret &= vShaderProgram->link();
-    assert(ret && "Error compiling contour shader.");
-
-    if (!ret)
-        vShaderProgram = nullptr;
-
-    return ret;
-}
-
-NVL_INLINE void QGLContourShader::unload() {
-    if (isLoaded()) {
-        delete vShaderProgram;
-        vShaderProgram = nullptr;
-    }
-}
-
-NVL_INLINE bool QGLContourShader::isLoaded() const
-{
-    return vShaderProgram != nullptr;
-}
-
-NVL_INLINE void QGLContourShader::bind()
-{
-    assert(isLoaded());
-
-    vShaderProgram->bind();
-}
-
-NVL_INLINE void QGLContourShader::release()
-{
-    assert(isLoaded());
-    vShaderProgram->release();
+    return QGLBaseShader::load(context, ":/shaders/contour.vert", ":/shaders/contour.frag");
 }
 
 NVL_INLINE void QGLContourShader::initGL()
 {
-    setUniform(uniformLocation("value_min"), 0.0f);
-    setUniform(uniformLocation("value_max"), 1.0f);
-    setUniform(uniformLocation("stripe_num"), 10.f);
-    setUniform(uniformLocation("stripe_width"), 0.6f);
-    setUniform(uniformLocation("stripe_alpha"), 0.8f);
+    setUniform("value_min", 0.0f);
+    setUniform("value_max", 1.0f);
+    setUniform("stripe_num", 10.f);
+    setUniform("stripe_width", 0.6f);
+    setUniform("stripe_alpha", 0.8f);
 
     glDisable(GL_LIGHTING);
     glEnable(GL_BLEND);
@@ -105,39 +62,6 @@ NVL_INLINE void QGLContourShader::addVertex(const Index& vId, const Point3d& p)
 {
     NVL_SUPPRESS_UNUSEDVARIABLE(vId);
     glVertex(p);
-}
-
-NVL_INLINE void QGLContourShader::setAttribute(int location, double value)
-{
-    assert(isLoaded());
-    vShaderProgram->setAttributeValue(location, value);
-}
-
-NVL_INLINE void QGLContourShader::setUniform(int location, double value)
-{
-    assert(isLoaded());
-    vShaderProgram->setUniformValue(location, static_cast<GLfloat>(value));
-}
-
-NVL_INLINE void QGLContourShader::setUniform(const std::string &name, double value)
-{
-    vShaderProgram->setUniformValue(name.c_str(), static_cast<GLfloat>(value));
-}
-
-NVL_INLINE void QGLContourShader::setAttribute(const std::string &name, double value)
-{
-    vShaderProgram->setAttributeValue(name.c_str(), value);
-}
-
-NVL_INLINE int QGLContourShader::attributeLocation(const std::string& name) const
-{
-    assert(isLoaded());
-    return vShaderProgram->attributeLocation(name.c_str());
-}
-
-NVL_INLINE int QGLContourShader::uniformLocation(const std::string& name) const
-{
-    return vShaderProgram->uniformLocation(name.c_str());
 }
 
 }

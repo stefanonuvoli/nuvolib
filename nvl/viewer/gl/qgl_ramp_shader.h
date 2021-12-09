@@ -3,27 +3,19 @@
 
 #include <nvl/nuvolib.h>
 
-#include <nvl/viewer/gl/gl_shader.h>
-
-#include <QGLContext>
-#include <QGLShaderProgram>
+#include <nvl/viewer/gl/qgl_base_shader.h>
 
 namespace nvl {
 
-class QGLRampShader : public GLShader
+class QGLRampShader : public QGLBaseShader
 {
 
 public:
 
     QGLRampShader();
-    virtual ~QGLRampShader();
+    virtual ~QGLRampShader() = default;
 
     bool load(QGLContext* context);
-    void unload();
-    bool isLoaded() const;
-
-    void bind() override;
-    void release() override;
 
     void initGL() override;
     void postGL() override;
@@ -35,14 +27,6 @@ public:
     void postVertex(const Index& vId) override;
 
     void addVertex(const Index& vId, const Point3d& p) override;
-
-    void setUniform(int location, double value) override;
-    void setAttribute(int location, double value) override;
-    virtual void setUniform(const std::string& name, double value) override;
-    virtual void setAttribute(const std::string& name, double value) override;
-
-    int attributeLocation(const std::string& name) const override;
-    int uniformLocation(const std::string& name) const override;
 
 protected:
 

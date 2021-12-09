@@ -70,12 +70,14 @@ contains(DEFINES, NVL_QT) {
     contains(DEFINES, NVL_QGLVIEWER_LOADED) {
 
         HEADERS += \
+            $$PWD/gl/qgl_base_shader.h \
             $$PWD/gl/qgl_contour_shader.h \
             $$PWD/gl/qgl_ramp_shader.h \
             $$PWD/widgets/qglviewer_canvas.h \
             $$PWD/widgets/qglviewer_object.h
 
         SOURCES += \
+            $$PWD/gl/qgl_base_shader.cpp \
             $$PWD/gl/qgl_contour_shader.cpp \
             $$PWD/gl/qgl_ramp_shader.cpp \
             $$PWD/widgets/qglviewer_canvas.cpp \

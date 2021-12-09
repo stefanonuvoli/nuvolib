@@ -31,13 +31,21 @@ public:
 
     virtual void addVertex(const Index& vId, const Point3d& p) = 0;
 
-    virtual void setUniform(int location, double value) = 0;
-    virtual void setAttribute(int location, double value) = 0;
-    virtual void setUniform(const std::string& name, double value) = 0;
-    virtual void setAttribute(const std::string& name, double value) = 0;
+    virtual int uniformLocation(const std::string& name) const = 0;
+    virtual void setUniform(const int& location, const double& value) = 0;
+    virtual void setUniform(const int& location, const float& value) = 0;
+    virtual void setUniform(const int& location, const int& value) = 0;
+    virtual void setUniform(const std::string& name, const double& value) = 0;
+    virtual void setUniform(const std::string& name, const float& value) = 0;
+    virtual void setUniform(const std::string& name, const int& value) = 0;
 
     virtual int attributeLocation(const std::string& name) const = 0;
-    virtual int uniformLocation(const std::string& name) const = 0;
+    virtual void setAttribute(const int& location, const double& value) = 0;
+    virtual void setAttribute(const int& location, const float& value) = 0;
+    virtual void setAttribute(const int& location, const int& value) = 0;
+    virtual void setAttribute(const std::string& name, const double& value) = 0;
+    virtual void setAttribute(const std::string& name, const float& value) = 0;
+    virtual void setAttribute(const std::string& name, const int& value) = 0;
 
 };
 
