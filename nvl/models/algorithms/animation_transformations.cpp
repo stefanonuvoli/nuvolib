@@ -4,6 +4,8 @@
 
 namespace nvl {
 
+/* ----------------------- GEOMETRICAL TRANSFORMATIONS ----------------------- */
+
 template<class Skeleton, class Animation, class T>
 void animationApplyTransformation(Skeleton& skeleton, Animation& animation, const Affine3<T>& transformation)
 {
@@ -86,6 +88,33 @@ void animationApplyTransformation(Skeleton& skeleton, Animation& animation, cons
                         Rotation3<T>(angle, axis),
                         Vector3<T>(1.0, 1.0, 1.0));
         }
+    }
+}
+
+
+
+/* ----------------------- TIME TRANSFORMATIONS ----------------------- */
+
+template<class Animation>
+void animationChangeDuration(Animation& animation, const double& duration)
+{
+    animationChangeDuration(animation.keyframes(), duration);
+}
+
+template<class Frame>
+void animationFrameChangeDuration(std::vector<Frame>& frames, const double& duration)
+{
+    if (frames.empty())
+        return;
+
+    double oldDuration = frames[frames.size() - 1].time();
+
+    double scaleFactor = duration / oldDuration;
+
+    #pragma omp parallel for
+    for (Index fId = 0; fId < frames.size(); ++fId) {
+        Frame& frame = frames[fId];
+        frame.time() *= scaleFactor;
     }
 }
 

@@ -9,6 +9,8 @@
 
 namespace nvl {
 
+/* ----------------------- GEOMETRICAL TRANSFORMATIONS ----------------------- */
+
 template<class Skeleton, class Animation, class T>
 void animationApplyTransformation(Skeleton& skeleton, Animation& animation, const Affine3<T>& transformation);
 
@@ -20,6 +22,15 @@ void animationApplyTransformation(Skeleton& skeleton, Animation& animation, cons
 
 template<class Skeleton, class Animation, class T>
 void animationApplyTransformation(Skeleton& skeleton, Animation& animation, const Rotation3<T>& transformation);
+
+
+/* ----------------------- TIME TRANSFORMATIONS ----------------------- */
+
+template<class Animation>
+void animationChangeDuration(Animation& animation, const double& duration);
+
+template<class Frame>
+void animationFrameChangeDuration(std::vector<Frame>& frames, const double& duration);
 
 }
 
