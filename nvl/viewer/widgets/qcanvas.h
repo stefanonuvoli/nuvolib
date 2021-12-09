@@ -5,6 +5,8 @@
 
 #include <nvl/viewer/widgets/canvas.h>
 
+#include <nvl/viewer/gl/opengl_headers.h> //Needed to load glew
+
 #include <QWidget>
 #include <QGLContext>
 
