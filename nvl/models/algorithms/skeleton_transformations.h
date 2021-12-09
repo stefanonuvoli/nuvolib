@@ -3,9 +3,6 @@
 
 #include <nvl/nuvolib.h>
 
-#include <nvl/math/vector.h>
-#include <nvl/math/transformations.h>
-
 namespace nvl {
 
 template<class Skeleton, class T>

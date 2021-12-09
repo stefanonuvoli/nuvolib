@@ -2,6 +2,8 @@
 
 #include <vector>
 
+#include <nvl/math/transformations.h>
+
 namespace nvl {
 
 template<class Skeleton, class T>

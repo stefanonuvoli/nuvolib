@@ -15,7 +15,6 @@ DEFINES += NVL_MODELS_LOADED
 message(Module \"models\" loaded.)
 
 HEADERS += \
-    $$PWD/algorithms/animation_algorithms.h \
     $$PWD/algorithms/animation_blend.h \
     $$PWD/algorithms/animation_skinning.h \
     $$PWD/algorithms/animation_split.h \
@@ -39,6 +38,7 @@ HEADERS += \
     $$PWD/algorithms/mesh_triangulation.h \
     $$PWD/algorithms/model_deformation.h \
     $$PWD/algorithms/model_normalization.h \
+    $$PWD/algorithms/model_pose_propagation.h \
     $$PWD/algorithms/model_transfer.h \
     $$PWD/algorithms/model_transformations.h \
     $$PWD/algorithms/skeleton_adjacencies.h \
@@ -98,7 +98,6 @@ HEADERS += \
     $$PWD/structures/vertex_mesh.h
 
 SOURCES += \
-    $$PWD/algorithms/animation_algorithms.cpp \
     $$PWD/algorithms/animation_blend.cpp \
     $$PWD/algorithms/animation_skinning.cpp \
     $$PWD/algorithms/animation_split.cpp \
@@ -122,6 +121,7 @@ SOURCES += \
     $$PWD/algorithms/mesh_triangulation.cpp \
     $$PWD/algorithms/model_deformation.cpp \
     $$PWD/algorithms/model_normalization.cpp \
+    $$PWD/algorithms/model_pose_propagation.cpp \
     $$PWD/algorithms/model_transfer.cpp \
     $$PWD/algorithms/model_transformations.cpp \
     $$PWD/algorithms/skeleton_adjacencies.cpp \

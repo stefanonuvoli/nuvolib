@@ -8,7 +8,7 @@
 #include <stack>
 
 #include <nvl/math/euler_angles.h>
-#include <nvl/models/algorithms/animation_algorithms.h>
+#include <nvl/models/algorithms/model_pose_propagation.h>
 #include <nvl/models/algorithms/model_deformation.h>
 #include <nvl/models/algorithms/model_transformations.h>
 
@@ -272,11 +272,7 @@ bool modelLoadDataFromFBX(
     }
 
     //Compute local bind poses
-    std::vector<SkeletonTransformation> localBindPoses(modelData.skeleton.jointNumber());
-    for (JointId jId = 0; jId < modelData.skeleton.jointNumber(); ++jId) {
-        localBindPoses[jId] = modelData.skeleton.jointBindPose(jId);
-    }
-    nvl::animationLocalFromGlobalTransformations(modelData.skeleton, localBindPoses);
+    std::vector<SkeletonTransformation> localBindPose = skeletonLocalFromGlobalBindPose(modelData.skeleton);
 
     //Load animations
     for (AnimationData& animationData : fbxData.animationDataVector) {
@@ -284,14 +280,14 @@ bool modelLoadDataFromFBX(
 
         animationLoadData(animation, animationData, mode.animationMode);
 
-        nvl::animationLocalFromGlobalFrames(modelData.skeleton, animation.keyframes());
+        nvl::animationFrameLocalFromGlobal(modelData.skeleton, animation.keyframes());
 
         bool isIdentity = true;
         for (nvl::Index frameId = 0; frameId < animation.keyframeNumber(); ++frameId) {
             for (JointId jId = 0; jId < modelData.skeleton.jointNumber(); ++jId) {
                 AnimationTransformation& t = animation.keyframe(frameId).transformation(jId);
 
-                t = localBindPoses[jId].inverse() * t;
+                t = localBindPose[jId].inverse() * t;
 
                 if (isIdentity) {
                     Rotation3d rot(t.rotation());

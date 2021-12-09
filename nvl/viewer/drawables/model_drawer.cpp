@@ -1,6 +1,6 @@
 #include "model_drawer.h"
 
-#include <nvl/models/algorithms/animation_algorithms.h>
+#include <nvl/models/algorithms/model_pose_propagation.h>
 #include <nvl/models/algorithms/animation_blend.h>
 #include <nvl/models/algorithms/animation_skinning.h>
 
@@ -219,7 +219,7 @@ void ModelDrawer<M>::loadAnimation(const Index& id)
     }
 
     //Compute final transformations
-    animationComputeFinalFromLocalFrames(*(vSkeletonDrawer.skeleton()), vAnimationFrames);
+    animationFrameDeformationFromLocal(*(vSkeletonDrawer.skeleton()), vAnimationFrames);
 
     if (this->vAnimationSkinningMode == SkinningMode::SKINNING_DUAL_QUATERNIONS) {
         dualQuaternionTransformations.resize(vAnimationFrames.size());
