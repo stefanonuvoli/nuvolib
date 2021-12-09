@@ -984,9 +984,11 @@ void FaceMeshDrawer<M>::drawFaceWithNames(Canvas* canvas, const Index drawableId
         }
 
         Canvas::PickingData pickingData;
-        pickingData.value1 = drawableId;
         pickingData.identifier = Canvas::PICKING_MESH_FACE;
-        pickingData.value2 = fId;
+
+        pickingData.addValue(drawableId);
+        pickingData.addValue(fId);
+
         pickingNameMap.push_back(pickingData);
 
         glPushName(pickingNameMap.size() - 1);
@@ -1042,10 +1044,12 @@ void FaceMeshDrawer<M>::drawWireframeWithNames(Canvas* canvas, const Index drawa
             Point point2(this->vRenderingVertices[vId2*3], this->vRenderingVertices[vId2*3+1], this->vRenderingVertices[vId2*3+2]);
 
             Canvas::PickingData pickingData;
-            pickingData.value1 = drawableId;
             pickingData.identifier = Canvas::PICKING_MESH_FACE_EDGE;
-            pickingData.value2 = fId;
-            pickingData.value3 = j;
+
+            pickingData.addValue(drawableId);
+            pickingData.addValue(fId);
+            pickingData.addValue(j);
+
             pickingNameMap.push_back(pickingData);
 
             glPushName(pickingNameMap.size() - 1);

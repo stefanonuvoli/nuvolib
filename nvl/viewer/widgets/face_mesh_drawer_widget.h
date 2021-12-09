@@ -3,7 +3,7 @@
 
 #include <nvl/nuvolib.h>
 
-#include <nvl/viewer/widgets/canvas.h>
+#include <nvl/viewer/widgets/qcanvas.h>
 #include <nvl/viewer/widgets/drawable_list_widget.h>
 #include <nvl/viewer/drawables/face_mesh_drawer.h>
 
@@ -26,7 +26,7 @@ class FaceMeshDrawerWidget : public QFrame
 public:
 
     explicit FaceMeshDrawerWidget(
-            Canvas* canvas,
+            QCanvas* canvas,
             DrawableListWidget* drawableListWidget,
             QWidget *parent = nullptr);
     ~FaceMeshDrawerWidget();
@@ -69,7 +69,7 @@ private:
 
     Ui::FaceMeshDrawerWidget *ui;
 
-    Canvas* vCanvas;
+    QCanvas* vCanvas;
     DrawableListWidget* vDrawableListWidget;
 
     std::vector<FaceMeshDrawerBase*> vFaceMeshDrawers;

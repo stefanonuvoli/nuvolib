@@ -4,7 +4,7 @@
 namespace nvl {
 
 NVL_INLINE ModelDrawerWidget::ModelDrawerWidget(
-        Canvas* canvas,
+        QCanvas* canvas,
         DrawableListWidget* drawableListWidget,
         QWidget *parent) :
     QTabWidget(parent),

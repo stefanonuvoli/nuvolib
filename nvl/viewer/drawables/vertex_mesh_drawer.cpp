@@ -429,9 +429,11 @@ void VertexMeshDrawer<M>::drawVerticesPointWithNames(Canvas* canvas, const Index
         }
 
         Canvas::PickingData pickingData;
-        pickingData.value1 = drawableId;
         pickingData.identifier = Canvas::PICKING_MESH_VERTEX;
-        pickingData.value2 = vId;
+
+        pickingData.addValue(drawableId);
+        pickingData.addValue(vId);
+
         pickingNameMap.push_back(pickingData);
 
         glPushName(pickingNameMap.size() - 1);
@@ -472,9 +474,11 @@ void VertexMeshDrawer<M>::drawVerticesDotWithNames(Canvas* canvas, const Index d
         }
 
         Canvas::PickingData pickingData;
-        pickingData.value1 = drawableId;
         pickingData.identifier = Canvas::PICKING_MESH_VERTEX;
-        pickingData.value2 = vId;
+
+        pickingData.addValue(drawableId);
+        pickingData.addValue(vId);
+
         pickingNameMap.push_back(pickingData);
 
         glPushName(pickingNameMap.size() - 1);

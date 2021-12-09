@@ -4,8 +4,7 @@
 
 namespace nvl {
 
-NVL_INLINE Canvas::Canvas(QWidget* parent) :
-    QWidget(parent),
+NVL_INLINE Canvas::Canvas() :
     vMovableFrame(Affine3d::Identity()),
     vAnimationsRunning(false),
     vAnimationsPaused(false)
@@ -46,9 +45,6 @@ NVL_INLINE Index Canvas::addDrawable(Drawable* drawable, const std::string& name
 
     vListable.push_back(listable);
 
-    emit signal_drawableAdded(id, drawable);
-    emit signal_drawableListChanged(vDrawables);
-
     return id;
 }
 
@@ -57,16 +53,12 @@ NVL_INLINE bool Canvas::removeDrawable(const Index& id)
     if (id >= vDrawables.size())
         return false;
 
-    Drawable* drawable = vDrawables[id];
     std::vector<Index> map = vectorRemoveElement(vDrawables, id);
     vectorRemoveElement(vAnimables, id);
     vectorRemoveElement(vPickables, id);
     vectorRemoveElement(vFrameables, id);
     vectorRemoveElement(vNames, id);
     vectorRemoveElement(vListable, id);
-
-    emit signal_drawableRemoved(id, drawable);
-    emit signal_drawableListChanged(vDrawables);
 
     return true;
 }
@@ -90,8 +82,6 @@ NVL_INLINE const std::string& Canvas::drawableName(const Index& id) const
 NVL_INLINE void Canvas::setDrawableName(const Index& id, const std::string& name)
 {
     vNames[id] = name;
-
-    emit signal_drawableListChanged(vDrawables);
 }
 
 NVL_INLINE Animable* Canvas::animable(const Index& id)
@@ -156,8 +146,6 @@ NVL_INLINE void Canvas::startAnimations()
     vAnimationsPaused = false;
     vAnimationsRunning = true;
 
-    emit signal_animationStarted();
-
     this->updateGL();
 }
 
@@ -172,8 +160,6 @@ NVL_INLINE void Canvas::pauseAnimations()
         }
 
         vAnimationsPaused = true;
-
-        emit signal_animationPaused();
 
         this->updateGL();
     }
@@ -191,8 +177,6 @@ NVL_INLINE void Canvas::stopAnimations()
         vAnimationsPaused = false;
         vAnimationsRunning = false;
 
-        emit signal_animationStopped();
-
         this->updateGL();
     }
 }
@@ -205,28 +189,6 @@ NVL_INLINE bool Canvas::animationsPaused() const
 NVL_INLINE bool Canvas::animationsRunning() const
 {
     return vAnimationsRunning;
-}
-
-NVL_INLINE void Canvas::slot_canvasPicking(
-        const std::vector<int>& names,
-        const Point2d& point2D,
-        const bool& found,
-        const Point3d& point3D,
-        const Point3d& lineOrigin,
-        const Vector3d& lineDirection)
-{
-    std::vector<PickingData> data;
-    for (int name : names) {
-        if (name >= 0) {
-            assert(static_cast<Index>(name) < vPickingDataPool.size());
-
-            const PickingData& picked = vPickingDataPool[static_cast<Index>(name)];
-            data.push_back(picked);
-        }
-    }
-    vPickingDataPool.clear();
-
-    emit signal_canvasPicking(data, point2D, found, point3D, lineOrigin, lineDirection);
 }
 
 NVL_INLINE const std::vector<Canvas::PickingData>& Canvas::pickingDataPool() const
@@ -250,12 +212,24 @@ NVL_INLINE Canvas::PickingData& Canvas::pickingData(const int name)
 }
 
 NVL_INLINE Canvas::PickingData::PickingData():
-    identifier(PICKING_NONE),
-    value1(NULL_ID),
-    value2(NULL_ID),
-    value3(NULL_ID)
+    identifier(PICKING_NONE)
 {
 
+}
+
+NVL_INLINE Index Canvas::PickingData::value(const Index& pos)
+{
+    return values[pos];
+}
+
+NVL_INLINE Index Canvas::PickingData::setValue(const Index& pos, const Index& value)
+{
+    values[pos] = value;
+}
+
+NVL_INLINE void Canvas::PickingData::addValue(const Index& value)
+{
+    values.push_back(value);
 }
 
 NVL_INLINE bool Canvas::PickingData::isEmpty() const

@@ -3,7 +3,7 @@
 
 #include <QFrame>
 
-#include <nvl/viewer/widgets/canvas.h>
+#include <nvl/viewer/widgets/qcanvas.h>
 #include <nvl/viewer/widgets/drawable_list_widget.h>
 
 #include <nvl/models/model_3d.h>
@@ -25,7 +25,7 @@ class ModelLoaderWidget : public QFrame
 public:
 
     explicit ModelLoaderWidget(
-            Canvas* canvas,
+            QCanvas* canvas,
             DrawableListWidget* drawableListWidget,
             QWidget *parent = nullptr);
     ~ModelLoaderWidget();
@@ -67,7 +67,7 @@ private:
 
     Ui::ModelLoaderWidget *ui;
 
-    Canvas* vCanvas;
+    QCanvas* vCanvas;
     DrawableListWidget* vDrawableListWidget;
 
     std::unordered_set<Drawable*> vLoadedDrawables;

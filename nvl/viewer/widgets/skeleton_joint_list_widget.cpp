@@ -9,7 +9,7 @@
 namespace nvl {
 
 NVL_INLINE SkeletonJointListWidget::SkeletonJointListWidget(
-        Canvas* canvas,
+        QCanvas* canvas,
         DrawableListWidget* drawableListWidget,
         QWidget* parent) :
     QFrame(parent),

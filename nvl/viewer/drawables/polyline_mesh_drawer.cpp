@@ -412,9 +412,11 @@ void PolylineMeshDrawer<M>::drawPolylinesLinesWithNames(Canvas* canvas, const In
             Point point2(this->vRenderingVertices[vId2*3], this->vRenderingVertices[vId2*3+1], this->vRenderingVertices[vId2*3+2]);
 
             Canvas::PickingData pickingData;
-            pickingData.value1 = drawableId;
             pickingData.identifier = Canvas::PICKING_MESH_POLYLINE;
-            pickingData.value2 = pId;
+
+            pickingData.addValue(drawableId);
+            pickingData.addValue(pId);
+
             pickingNameMap.push_back(pickingData);
 
             glPushName(pickingNameMap.size() - 1);
@@ -483,9 +485,11 @@ void PolylineMeshDrawer<M>::drawPolylinesCylinderWithNames(Canvas* canvas, const
             Point point2(this->vRenderingVertices[vId2*3], this->vRenderingVertices[vId2*3+1], this->vRenderingVertices[vId2*3+2]);
 
             Canvas::PickingData pickingData;
-            pickingData.value1 = drawableId;
             pickingData.identifier = Canvas::PICKING_MESH_POLYLINE;
-            pickingData.value2 = pId;
+
+            pickingData.addValue(drawableId);
+            pickingData.addValue(pId);
+
             pickingNameMap.push_back(pickingData);
 
             glPushName(pickingNameMap.size() - 1);
@@ -518,9 +522,11 @@ void PolylineMeshDrawer<M>::drawPolylinesArrowWithNames(Canvas* canvas, const In
             Point point2(this->vRenderingVertices[vId2*3], this->vRenderingVertices[vId2*3+1], this->vRenderingVertices[vId2*3+2]);
 
             Canvas::PickingData pickingData;
-            pickingData.value1 = drawableId;
+
+            pickingData.addValue(drawableId);
+            pickingData.addValue(pId);
+
             pickingData.identifier = Canvas::PICKING_MESH_POLYLINE;
-            pickingData.value2 = pId;
             pickingNameMap.push_back(pickingData);
 
             glPushName(pickingNameMap.size() - 1);

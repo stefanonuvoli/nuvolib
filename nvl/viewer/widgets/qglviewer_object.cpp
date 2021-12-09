@@ -8,7 +8,7 @@
 
 namespace nvl {
 
-NVL_INLINE QGLViewerObject::QGLViewerObject(Canvas* canvas, QWidget* parent) :
+NVL_INLINE QGLViewerObject::QGLViewerObject(QCanvas* canvas, QWidget* parent) :
     QGLViewer(parent),
     vCanvas(canvas),
     vBackgroundColor(Color(255,255,255))

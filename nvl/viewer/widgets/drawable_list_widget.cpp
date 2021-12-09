@@ -7,7 +7,7 @@
 
 namespace nvl {
 
-NVL_INLINE DrawableListWidget::DrawableListWidget(Canvas* canvas, QWidget* parent) :
+NVL_INLINE DrawableListWidget::DrawableListWidget(QCanvas* canvas, QWidget* parent) :
     QFrame(parent),
     ui(new Ui::DrawableListWidget),
     vCanvas(canvas),
@@ -191,8 +191,8 @@ NVL_INLINE void DrawableListWidget::connectSignals()
 {
     if (vCanvas != nullptr) {
         //Connect signals from the viewer
-        connect(vCanvas, &Canvas::signal_drawableListChanged, this, &DrawableListWidget::slot_drawableListChanged);
-        connect(vCanvas, &Canvas::signal_drawableRemoved, this, &DrawableListWidget::slot_drawableRemoved);
+        connect(vCanvas, &QCanvas::signal_drawableListChanged, this, &DrawableListWidget::slot_drawableListChanged);
+        connect(vCanvas, &QCanvas::signal_drawableRemoved, this, &DrawableListWidget::slot_drawableRemoved);
     }
 }
 

@@ -8,7 +8,7 @@
 
 #include <nvl/viewer/interfaces/drawable.h>
 
-#include <nvl/viewer/widgets/canvas.h>
+#include <nvl/viewer/widgets/qcanvas.h>
 
 namespace Ui {
 class DrawableListWidget;
@@ -22,7 +22,7 @@ class DrawableListWidget : public QFrame
 
 public:
 
-    explicit DrawableListWidget(Canvas* canvas, QWidget* parent = nullptr);
+    explicit DrawableListWidget(QCanvas* canvas, QWidget* parent = nullptr);
     ~DrawableListWidget();
 
     Size selectedDrawableNumber() const;
@@ -63,7 +63,7 @@ private:
 
     Ui::DrawableListWidget *ui;
 
-    Canvas* vCanvas;
+    QCanvas* vCanvas;
 
     std::vector<Index> itemMap;
     std::unordered_set<Index> vSelectedDrawables;

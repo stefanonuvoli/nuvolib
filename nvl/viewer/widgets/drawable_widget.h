@@ -7,7 +7,7 @@
 
 #include <nvl/viewer/interfaces/drawable.h>
 
-#include <nvl/viewer/widgets/canvas.h>
+#include <nvl/viewer/widgets/qcanvas.h>
 #include <nvl/viewer/widgets/drawable_list_widget.h>
 
 namespace Ui {
@@ -23,7 +23,7 @@ class DrawableWidget : public QFrame
 public:
 
     explicit DrawableWidget(
-            Canvas* canvas,
+            QCanvas* canvas,
             DrawableListWidget* drawableListWidget,
             QWidget* parent = nullptr);
     ~DrawableWidget();
@@ -50,7 +50,7 @@ private:
 
     Ui::DrawableWidget *ui;
 
-    Canvas* vCanvas;
+    QCanvas* vCanvas;
     DrawableListWidget* vDrawableListWidget;
 
     bool vHandleUpdate;

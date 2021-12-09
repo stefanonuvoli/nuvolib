@@ -7,7 +7,7 @@
 namespace nvl {
 
 NVL_INLINE VertexMeshDrawerWidget::VertexMeshDrawerWidget(
-        Canvas* canvas,
+        QCanvas* canvas,
         DrawableListWidget* drawableListWidget,
         QWidget *parent) :
     QFrame(parent),

@@ -3,7 +3,7 @@
 
 #include <nvl/nuvolib.h>
 
-#include <nvl/viewer/widgets/canvas.h>
+#include <nvl/viewer/widgets/qcanvas.h>
 #include <nvl/viewer/widgets/drawable_list_widget.h>
 #include <nvl/viewer/drawables/vertex_mesh_drawer.h>
 
@@ -23,7 +23,7 @@ class VertexMeshDrawerWidget : public QFrame
 public:
 
     explicit VertexMeshDrawerWidget(
-            Canvas* canvas,
+            QCanvas* canvas,
             DrawableListWidget* drawableListWidget,
             QWidget *parent = nullptr);
     ~VertexMeshDrawerWidget();
@@ -61,7 +61,7 @@ private:
 
     Ui::VertexMeshDrawerWidget *ui;
 
-    Canvas* vCanvas;
+    QCanvas* vCanvas;
     DrawableListWidget* vDrawableListWidget;
 
     std::vector<VertexMeshDrawerBase*> vVertexMeshDrawers;

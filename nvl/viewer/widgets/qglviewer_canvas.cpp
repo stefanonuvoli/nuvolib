@@ -8,7 +8,7 @@
 namespace nvl {
 
 NVL_INLINE QGLViewerCanvas::QGLViewerCanvas(QWidget* parent) :
-    Canvas(parent),
+    QCanvas(parent),
     vLayout(new QVBoxLayout()),
     vQGLViewerObject(new QGLViewerObject(this, this)),
     scaleSensitivity(NVL_QGLCANVAS_DEFAULT_SCALING_SENSITIVITY)
@@ -39,7 +39,7 @@ NVL_INLINE void QGLViewerCanvas::updateGL()
 
 NVL_INLINE void QGLViewerCanvas::setMovableFrame(const Affine3d& frame)
 {
-    Canvas::setMovableFrame(frame);
+    QCanvas::setMovableFrame(frame);
 
     vQGLViewerObject->movableFrame().setFromMatrix(frame.matrix().data());
 }
@@ -48,16 +48,16 @@ NVL_INLINE void QGLViewerCanvas::startAnimations()
 {
     if (!vQGLViewerObject->animationIsStarted()) {
         vQGLViewerObject->startAnimation();
+        QCanvas::startAnimations();
     }
-    Canvas::startAnimations();
 }
 
 NVL_INLINE void QGLViewerCanvas::stopAnimations()
 {
     if (vQGLViewerObject->animationIsStarted()) {
         vQGLViewerObject->stopAnimation();
+        QCanvas::stopAnimations();
     }
-    Canvas::stopAnimations();
 }
 
 NVL_INLINE void QGLViewerCanvas::setTargetFPS(double fps)

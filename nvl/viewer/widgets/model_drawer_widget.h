@@ -3,7 +3,7 @@
 
 #include <nvl/nuvolib.h>
 
-#include <nvl/viewer/widgets/canvas.h>
+#include <nvl/viewer/widgets/qcanvas.h>
 #include <nvl/viewer/widgets/drawable_list_widget.h>
 #include <nvl/viewer/widgets/face_mesh_drawer_widget.h>
 #include <nvl/viewer/widgets/skeleton_drawer_widget.h>
@@ -26,7 +26,7 @@ class ModelDrawerWidget : public QTabWidget
 public:
 
     explicit ModelDrawerWidget(
-            Canvas* canvas,
+            QCanvas* canvas,
             DrawableListWidget* drawableListWidget,
             QWidget *parent = nullptr);
     ~ModelDrawerWidget();
@@ -35,7 +35,7 @@ private:
 
     Ui::ModelDrawerWidget *ui;
 
-    Canvas* vCanvas;
+    QCanvas* vCanvas;
     DrawableListWidget* vDrawableListWidget;
     FaceMeshDrawerWidget* vFaceMeshDrawerWidget;
     PolylineMeshDrawerWidget* vPolylineMeshDrawerWidget;

@@ -4,7 +4,7 @@
 namespace nvl {
 
 NVL_INLINE ModelAnimationWidget::ModelAnimationWidget(
-        Canvas* canvas,
+        QCanvas* canvas,
         DrawableListWidget* drawableListWidget,
         QWidget* parent) :
     QFrame(parent),
@@ -241,9 +241,9 @@ NVL_INLINE void ModelAnimationWidget::connectSignals()
     if (vCanvas != nullptr) {
         //Connect signals
         connect(vDrawableListWidget, &DrawableListWidget::signal_drawableSelectionChanged, this, &ModelAnimationWidget::slot_drawableSelectionChanged);
-        connect(vCanvas, &Canvas::signal_animationStarted, this, &ModelAnimationWidget::slot_animationStarted);
-        connect(vCanvas, &Canvas::signal_animationStopped, this, &ModelAnimationWidget::slot_animationStopped);
-        connect(vCanvas, &Canvas::signal_animationPaused, this, &ModelAnimationWidget::slot_animationPaused);
+        connect(vCanvas, &QCanvas::signal_animationStarted, this, &ModelAnimationWidget::slot_animationStarted);
+        connect(vCanvas, &QCanvas::signal_animationStopped, this, &ModelAnimationWidget::slot_animationStopped);
+        connect(vCanvas, &QCanvas::signal_animationPaused, this, &ModelAnimationWidget::slot_animationPaused);
     }
 }
 

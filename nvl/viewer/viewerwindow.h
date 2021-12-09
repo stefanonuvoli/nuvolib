@@ -3,7 +3,7 @@
 
 #include <nvl/nuvolib.h>
 
-#include <nvl/viewer/widgets/canvas.h>
+#include <nvl/viewer/widgets/qcanvas.h>
 
 #include <QMainWindow>
 
@@ -23,9 +23,9 @@ public:
     explicit ViewerWindow(QWidget* parent = nullptr);
     ~ViewerWindow();
 
-    void addCanvas(Canvas* canvas);
+    void addCanvas(QCanvas* canvas);
     void removeCanvas();
-    Canvas* canvas();
+    QCanvas* canvas();
 
     void showLeftDock();
     void showRightDock();
@@ -72,7 +72,7 @@ private:
 
     Ui::ViewerWindow *ui;
 
-    Canvas* vCanvas;
+    QCanvas* vCanvas;
 };
 
 }

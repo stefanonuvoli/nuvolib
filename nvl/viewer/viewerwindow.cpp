@@ -23,7 +23,7 @@ NVL_INLINE ViewerWindow::~ViewerWindow()
     delete ui;
 }
 
-NVL_INLINE void ViewerWindow::addCanvas(Canvas* canvas)
+NVL_INLINE void ViewerWindow::addCanvas(QCanvas* canvas)
 {
     removeCanvas();
     vCanvas = canvas;
@@ -36,16 +36,16 @@ NVL_INLINE void ViewerWindow::addCanvas(Canvas* canvas)
 NVL_INLINE void ViewerWindow::removeCanvas()
 {
     if (vCanvas != nullptr) {
-        disconnect(vCanvas, &Canvas::signal_fpsDisplayedChanged, this, &ViewerWindow::slot_fpsDisplayedChanged);
-        disconnect(vCanvas, &Canvas::signal_axisDisplayedChanged, this, &ViewerWindow::slot_axisDisplayedChanged);
-        disconnect(vCanvas, &Canvas::signal_backgroundColorChanged, this, &ViewerWindow::slot_backgroundColorChanged);
+        disconnect(vCanvas, &QCanvas::signal_fpsDisplayedChanged, this, &ViewerWindow::slot_fpsDisplayedChanged);
+        disconnect(vCanvas, &QCanvas::signal_axisDisplayedChanged, this, &ViewerWindow::slot_axisDisplayedChanged);
+        disconnect(vCanvas, &QCanvas::signal_backgroundColorChanged, this, &ViewerWindow::slot_backgroundColorChanged);
 
         ui->centralwidget->layout()->removeWidget(vCanvas);
         vCanvas = nullptr;
     }
 }
 
-NVL_INLINE Canvas *ViewerWindow::canvas()
+NVL_INLINE QCanvas* ViewerWindow::canvas()
 {
     return vCanvas;
 }
@@ -91,9 +91,9 @@ NVL_INLINE void ViewerWindow::initCanvas()
     vCanvas->setFPSDisplayed(ui->actionShowFPS->isChecked());
     vCanvas->setAxisDisplayed(ui->actionShowAxis->isChecked());
 
-    connect(vCanvas, &Canvas::signal_fpsDisplayedChanged, this, &ViewerWindow::slot_fpsDisplayedChanged);
-    connect(vCanvas, &Canvas::signal_axisDisplayedChanged, this, &ViewerWindow::slot_axisDisplayedChanged);
-    connect(vCanvas, &Canvas::signal_backgroundColorChanged, this, &ViewerWindow::slot_backgroundColorChanged);
+    connect(vCanvas, &QCanvas::signal_fpsDisplayedChanged, this, &ViewerWindow::slot_fpsDisplayedChanged);
+    connect(vCanvas, &QCanvas::signal_axisDisplayedChanged, this, &ViewerWindow::slot_axisDisplayedChanged);
+    connect(vCanvas, &QCanvas::signal_backgroundColorChanged, this, &ViewerWindow::slot_backgroundColorChanged);
 }
 
 NVL_INLINE void ViewerWindow::resizeEvent(QResizeEvent* event)

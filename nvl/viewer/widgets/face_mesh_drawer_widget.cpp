@@ -6,7 +6,7 @@
 namespace nvl {
 
 NVL_INLINE FaceMeshDrawerWidget::FaceMeshDrawerWidget(
-        Canvas* canvas,
+        QCanvas* canvas,
         DrawableListWidget* drawableListWidget,
         QWidget *parent) :
     QFrame(parent),

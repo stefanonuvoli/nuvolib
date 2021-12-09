@@ -6,7 +6,7 @@
 #include <QFrame>
 
 #include <nvl/viewer/widgets/drawable_list_widget.h>
-#include <nvl/viewer/widgets/canvas.h>
+#include <nvl/viewer/widgets/qcanvas.h>
 #include <nvl/viewer/interfaces/drawable.h>
 #include <nvl/viewer/drawables/skeleton_drawer.h>
 
@@ -25,7 +25,7 @@ class SkeletonJointListWidget : public QFrame
 public:
 
     explicit SkeletonJointListWidget(
-            Canvas* canvas,
+            QCanvas* canvas,
             DrawableListWidget* drawableListWidget,
             QWidget* parent = nullptr);
     ~SkeletonJointListWidget();
@@ -67,7 +67,7 @@ private:
 
     Ui::SkeletonJointListWidget *ui;
 
-    Canvas* vCanvas;
+    QCanvas* vCanvas;
     DrawableListWidget* vDrawableListWidget;
 
     std::unordered_set<Index> vSelectedJoints;

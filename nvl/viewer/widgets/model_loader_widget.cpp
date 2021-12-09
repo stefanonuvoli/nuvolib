@@ -11,7 +11,7 @@
 namespace nvl {
 
 NVL_INLINE ModelLoaderWidget::ModelLoaderWidget(
-        Canvas* canvas,
+        QCanvas* canvas,
         DrawableListWidget* drawableListWidget,
         QWidget *parent) :
     QFrame(parent),

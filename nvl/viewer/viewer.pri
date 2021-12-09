@@ -18,8 +18,8 @@ contains(DEFINES, NVL_QT) {
 
     HEADERS += \
         $$PWD/viewerwindow.h \
-        $$PWD/widgets/animation_widget.h \
-        $$PWD/widgets/canvas.h \
+        $$PWD/widgets/animation_widget.h \ \
+        $$PWD/widgets/qcanvas.h \
         $$PWD/widgets/colorpicker_button.h \
         $$PWD/widgets/drawable_list_widget.h \
         $$PWD/widgets/drawable_widget.h \
@@ -35,7 +35,7 @@ contains(DEFINES, NVL_QT) {
     SOURCES += \
         $$PWD/viewerwindow.cpp \
         $$PWD/widgets/animation_widget.cpp \
-        $$PWD/widgets/canvas.cpp \
+        $$PWD/widgets/qcanvas.cpp \
         $$PWD/widgets/colorpicker_button.cpp \
         $$PWD/widgets/drawable_list_widget.cpp \
         $$PWD/widgets/drawable_widget.cpp \
@@ -108,7 +108,8 @@ HEADERS +=  \
     $$PWD/interfaces/animable.h \
     $$PWD/interfaces/drawable.h \
     $$PWD/interfaces/frameable.h \
-    $$PWD/interfaces/pickable.h
+    $$PWD/interfaces/pickable.h \
+    $$PWD/widgets/canvas.h
 
 SOURCES += \
     $$PWD/drawables/face_mesh_drawer.cpp \
@@ -131,4 +132,5 @@ SOURCES += \
     $$PWD/interfaces/animable.cpp \
     $$PWD/interfaces/drawable.cpp \
     $$PWD/interfaces/frameable.cpp \
-    $$PWD/interfaces/pickable.cpp
+    $$PWD/interfaces/pickable.cpp \
+    $$PWD/widgets/canvas.cpp

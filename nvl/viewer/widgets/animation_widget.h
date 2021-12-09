@@ -5,7 +5,7 @@
 
 #include <QFrame>
 
-#include <nvl/viewer/widgets/canvas.h>
+#include <nvl/viewer/widgets/qcanvas.h>
 #include <nvl/viewer/interfaces/drawable.h>
 
 namespace Ui {
@@ -21,7 +21,7 @@ class AnimationWidget : public QFrame
 public:
 
     explicit AnimationWidget(
-            Canvas* canvas,
+            QCanvas* canvas,
             QWidget* parent = nullptr);
     ~AnimationWidget();
 
@@ -50,7 +50,7 @@ private:
 
     Ui::AnimationWidget *ui;
 
-    Canvas* vCanvas;
+    QCanvas* vCanvas;
 
     bool vHandleUpdate;
 

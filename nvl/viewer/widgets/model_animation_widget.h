@@ -5,7 +5,7 @@
 
 #include <QFrame>
 
-#include <nvl/viewer/widgets/canvas.h>
+#include <nvl/viewer/widgets/qcanvas.h>
 #include <nvl/viewer/widgets/drawable_list_widget.h>
 #include <nvl/viewer/drawables/model_drawer.h>
 
@@ -24,7 +24,7 @@ class ModelAnimationWidget : public QFrame
 public:
 
     explicit ModelAnimationWidget(
-            Canvas* canvas,
+            QCanvas* canvas,
             DrawableListWidget* drawableListWidget,
             QWidget* parent = nullptr);
     ~ModelAnimationWidget();
@@ -73,7 +73,7 @@ private:
 
     Ui::ModelAnimationWidget *ui;
 
-    Canvas* vCanvas;
+    QCanvas* vCanvas;
     DrawableListWidget* vDrawableListWidget;
 
     bool vHandleUpdate;

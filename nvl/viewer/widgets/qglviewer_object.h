@@ -21,7 +21,7 @@
 
 #include <nvl/utilities/color.h>
 
-#include <nvl/viewer/widgets/canvas.h>
+#include <nvl/viewer/widgets/qcanvas.h>
 
 namespace nvl {
 
@@ -31,7 +31,7 @@ class QGLViewerObject : public QGLViewer
 
 public:
 
-    QGLViewerObject(Canvas* canvas, QWidget* parent = nullptr);
+    QGLViewerObject(QCanvas* canvas, QWidget* parent = nullptr);
 
     virtual ~QGLViewerObject() = default;
 
@@ -62,7 +62,7 @@ Q_SIGNALS:
 
 private:
 
-    Canvas* vCanvas;
+    QCanvas* vCanvas;
 
     Color vBackgroundColor;
 

@@ -3,7 +3,7 @@
 
 #include <nvl/nuvolib.h>
 
-#include <nvl/viewer/widgets/canvas.h>
+#include <nvl/viewer/widgets/qcanvas.h>
 
 #include <QVBoxLayout>
 #include <QGLContext>
@@ -12,7 +12,7 @@ namespace nvl {
 
 class QGLViewerObject;
 
-class QGLViewerCanvas : public Canvas
+class QGLViewerCanvas : public QCanvas
 {
     Q_OBJECT
 

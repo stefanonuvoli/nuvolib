@@ -3,7 +3,7 @@
 
 #include <nvl/nuvolib.h>
 
-#include <nvl/viewer/widgets/canvas.h>
+#include <nvl/viewer/widgets/qcanvas.h>
 #include <nvl/viewer/widgets/drawable_list_widget.h>
 #include <nvl/viewer/drawables/skeleton_drawer.h>
 
@@ -23,7 +23,7 @@ class SkeletonDrawerWidget : public QFrame
 public:
 
     explicit SkeletonDrawerWidget(
-            Canvas* canvas,
+            QCanvas* canvas,
             DrawableListWidget* drawableListWidget,
             QWidget *parent = nullptr);
     ~SkeletonDrawerWidget();
@@ -58,7 +58,7 @@ private:
 
     Ui::SkeletonDrawerWidget *ui;
 
-    Canvas* vCanvas;
+    QCanvas* vCanvas;
     DrawableListWidget* vDrawableListWidget;
 
     std::vector<SkeletonDrawerBase*> vSkeletonDrawers;

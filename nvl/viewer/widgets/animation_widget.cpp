@@ -3,7 +3,7 @@
 
 namespace nvl {
 
-NVL_INLINE AnimationWidget::AnimationWidget(Canvas* canvas, QWidget* parent) :
+NVL_INLINE AnimationWidget::AnimationWidget(QCanvas* canvas, QWidget* parent) :
     QFrame(parent),
     ui(new Ui::AnimationWidget),
     vCanvas(canvas),
@@ -56,9 +56,9 @@ NVL_INLINE void AnimationWidget::connectSignals()
 {
     if (vCanvas != nullptr) {
         //Connect signals to the viewer
-        connect(vCanvas, &Canvas::signal_animationStarted, this, &AnimationWidget::slot_animationStarted);
-        connect(vCanvas, &Canvas::signal_animationStopped, this, &AnimationWidget::slot_animationStopped);
-        connect(vCanvas, &Canvas::signal_animationPaused, this, &AnimationWidget::slot_animationPaused);
+        connect(vCanvas, &QCanvas::signal_animationStarted, this, &AnimationWidget::slot_animationStarted);
+        connect(vCanvas, &QCanvas::signal_animationStopped, this, &AnimationWidget::slot_animationStopped);
+        connect(vCanvas, &QCanvas::signal_animationPaused, this, &AnimationWidget::slot_animationPaused);
     }
 }
 

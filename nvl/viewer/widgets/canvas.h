@@ -14,16 +14,12 @@
 #include <nvl/viewer/interfaces/pickable.h>
 #include <nvl/viewer/interfaces/frameable.h>
 
-#include <QWidget>
-#include <QGLContext>
-
 #include <unordered_set>
 
 namespace nvl {
 
-class Canvas : public QWidget
+class Canvas
 {
-    Q_OBJECT
 
 public:    
 
@@ -39,10 +35,13 @@ public:
     };
     struct PickingData {
         PickingData();
+
         PickingIdentifier identifier;
-        Index value1;
-        Index value2;
-        Index value3;
+        std::vector<Index> values;
+
+        Index value(const Index& pos);
+        Index setValue(const Index& pos, const Index& value);
+        void addValue(const Index& value);
 
         bool isEmpty() const;
     };
@@ -50,7 +49,7 @@ public:
 
     /* Constructors/destructors */
 
-    Canvas(QWidget* parent = nullptr);
+    Canvas();
     virtual ~Canvas() = default;
 
 
@@ -84,8 +83,6 @@ public:
 
 
     /* Abstract methods */
-
-    virtual QGLContext* qglContext() = 0;
 
     virtual void updateGL() = 0;
 
@@ -136,38 +133,6 @@ public:
     std::vector<PickingData>& pickingDataPool();
     const PickingData& pickingData(const int name) const;
     PickingData& pickingData(const int name);
-
-
-public Q_SLOTS:
-
-    void slot_canvasPicking(
-            const std::vector<int>& names,
-            const Point2d& point2D,
-            const bool& found,
-            const Point3d& point3D,
-            const Point3d& lineOrigin,
-            const Vector3d& lineDirection);
-
-
-Q_SIGNALS:
-
-    void signal_fpsDisplayedChanged(bool display);
-    void signal_axisDisplayedChanged(bool display);
-    void signal_backgroundColorChanged(const Color& color);
-    void signal_drawableListChanged(const std::vector<Drawable*>& list);
-    void signal_drawableAdded(const Index& id, Drawable* drawable);
-    void signal_drawableRemoved(const Index& id, Drawable* drawable);
-    void signal_movableFrameChanged(const Affine3d& affine);
-    void signal_animationStarted();
-    void signal_animationPaused();
-    void signal_animationStopped();
-    void signal_canvasPicking(
-            const std::vector<PickingData>& data,
-            const Point2d& point2D,
-            const bool& found,
-            const Point3d& point3D,
-            const Point3d& lineOrigin,
-            const Vector3d& lineDirection);
 
 protected:
 

@@ -127,10 +127,13 @@ void SkeletonDrawer<S>::drawWithNames(Canvas* canvas, const Index drawableId) co
             Point3d point2(this->vRenderingJoints[jId2*3], this->vRenderingJoints[jId2*3+1], this->vRenderingJoints[jId2*3+2]);
 
             Canvas::PickingData pickingData;
-            pickingData.value1 = drawableId;
+
             pickingData.identifier = Canvas::PICKING_SKELETON_BONE;
-            pickingData.value2 = jId1;
-            pickingData.value3 = jId2;
+
+            pickingData.addValue(drawableId);
+            pickingData.addValue(jId1);
+            pickingData.addValue(jId2);
+
             pickingNameMap.push_back(pickingData);
 
             glDisable(GL_LIGHTING);
@@ -154,9 +157,11 @@ void SkeletonDrawer<S>::drawWithNames(Canvas* canvas, const Index drawableId) co
                 }
 
                 Canvas::PickingData pickingData;
-                pickingData.value1 = drawableId;
                 pickingData.identifier = Canvas::PICKING_SKELETON_JOINT;
-                pickingData.value2 = jId;
+
+                pickingData.addValue(drawableId);
+                pickingData.addValue(jId);
+
                 pickingNameMap.push_back(pickingData);
 
                 glDisable(GL_LIGHTING);
