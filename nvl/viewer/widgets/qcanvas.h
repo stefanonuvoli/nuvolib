@@ -28,6 +28,7 @@ public:
 
     virtual Index addDrawable(Drawable* drawable, const std::string& name = "", bool listable = true) override;
     virtual bool removeDrawable(const Index& id) override;
+    virtual bool removeDrawable(Drawable* drawable) override;
 
     virtual void setDrawableName(const Index& id, const std::string& name) override;
 

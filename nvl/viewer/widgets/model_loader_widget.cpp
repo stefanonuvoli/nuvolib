@@ -68,7 +68,7 @@ NVL_INLINE Index ModelLoaderWidget::loadPolygonMesh(const PolygonMesh3d& mesh, c
 
 NVL_INLINE Index ModelLoaderWidget::loadDrawableFromFile(const std::string& filename)
 {
-    std::string ext = filenameExtension(filename);
+    std::string ext = stringToLower(filenameExtension(filename));
 
     if (ext == "rig" || ext == "fbx") {
         return loadModelFromFile(filename);

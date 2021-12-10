@@ -197,10 +197,8 @@ void meshLoadPolylineData(
         const MD& meshData,
         const IOMeshMode& mode)
 {
-    typedef typename M::VertexId VertexId;
     typedef typename M::PolylineId PolylineId;
     typedef typename M::PolylineColor PolylineColor;
-    typedef typename M::PolylineContainer PolylineContainer;
 
     if (mode.polylines) {
         const std::vector<std::vector<Index>>& polylines = meshData.polylines;
@@ -240,8 +238,6 @@ void meshLoadFaceData(
     typedef typename M::VertexId VertexId;
     typedef typename M::VertexNormal VertexNormal;
     typedef typename M::VertexUV VertexUV;
-    typedef typename M::FaceContainer FaceContainer;
-
     if (mode.materials) {
         const std::vector<Material>& materials = meshData.materials;
         for (Index i = 0; i < materials.size(); ++i) {
@@ -263,7 +259,7 @@ void meshLoadFaceData(
 
         bool faceNormalsEnabled = mode.faceNormals && !faces.empty() && faces.size() == faceNormals.size();
         bool faceMaterialEnabled = mode.materials && !faces.empty() && faces.size() == faceMaterials.size();
-        bool vertexNormalEnabled = false;
+        bool vertexNormalsEnabled = false;
         bool vertexUVsEnabled = false;
         bool wedgeNormalsEnabled = false;
         bool wedgeUVsEnabled = false;
@@ -279,19 +275,24 @@ void meshLoadFaceData(
                     const VertexId& vId = vertexIds[j];
                     const Index& nId = faceVertexNormals[i][j];
 
-                    Index& mappedNormal = vertexToNormal[vId];
-                    if (mappedNormal == NO_VALUE) {
-                        mappedNormal = nId;
+                    Index& mappedNormalId = vertexToNormal[vId];
+                    if (mappedNormalId == NO_VALUE) {
+                        mappedNormalId = nId;
                     }
-                    else if (mappedNormal != nId) {
-                        mappedNormal = MULTIPLE_VALUES;
+                    else if (mappedNormalId != nId) {
+                        const VertexNormal& mappedNormal = vertexNormals[mappedNormalId];
+                        const VertexNormal& normal = vertexNormals[nId];
+
+                        if (!nvl::epsEqual(mappedNormal, normal)) {
+                            mappedNormalId = MULTIPLE_VALUES;
+                        }
                     }
                 }
             }
 
-            for (VertexId vId = 0; vId < mesh.nextVertexId() && (!vertexNormalEnabled || !wedgeNormalsEnabled); ++vId) {
+            for (VertexId vId = 0; vId < mesh.nextVertexId() && (!vertexNormalsEnabled || !wedgeNormalsEnabled); ++vId) {
                 if (vertexToNormal[vId] != MULTIPLE_VALUES && vertexToNormal[vId] != NO_VALUE) {
-                    vertexNormalEnabled = true;
+                    vertexNormalsEnabled = true;
                 }
                 else if (vertexToNormal[vId] == MULTIPLE_VALUES) {
                     wedgeNormalsEnabled = true;
@@ -299,21 +300,25 @@ void meshLoadFaceData(
             }
         }
 
-
         if (mode.vertexUVs && !faceVertexUVs.empty()) {
             for (Index i = 0; i < faces.size(); ++i) {
                 const std::vector<Index>& vertexIds = faces[i];
 
                 for (Index j = 0; j < faceVertexUVs[i].size(); ++j) {
                     const VertexId& vId = vertexIds[j];
-                    const Index& uId = faceVertexUVs[i][j];
+                    const Index& nId = faceVertexUVs[i][j];
 
-                    Index& mappedUV = vertexToUV[vId];
-                    if (mappedUV == NO_VALUE) {
-                        mappedUV = uId;
+                    Index& mappedUVId = vertexToUV[vId];
+                    if (mappedUVId == NO_VALUE) {
+                        mappedUVId = nId;
                     }
-                    else if (mappedUV != uId) {
-                        mappedUV = MULTIPLE_VALUES;
+                    else if (mappedUVId != nId) {
+                        const VertexUV& mappedUV = vertexUVs[mappedUVId];
+                        const VertexUV& uv = vertexUVs[nId];
+
+                        if (!nvl::epsEqual(mappedUV, uv)) {
+                            mappedUVId = MULTIPLE_VALUES;
+                        }
                     }
                 }
             }
@@ -328,6 +333,7 @@ void meshLoadFaceData(
             }
         }
 
+
         if (faceMaterialEnabled) {
             mesh.enableFaceMaterials();
         }
@@ -336,7 +342,7 @@ void meshLoadFaceData(
             mesh.enableFaceNormals();
         }
 
-        if (vertexNormalEnabled) {
+        if (vertexNormalsEnabled) {
             mesh.enableVertexNormals();
 
             for (VertexId vId = 0; vId < mesh.nextVertexId(); ++vId) {
@@ -439,7 +445,6 @@ void meshSaveVertexData(
         MD& meshData,
         const IOMeshMode& mode)
 {
-    typedef typename M::VertexId VertexId;
     typedef typename M::Vertex Vertex;
     typedef typename M::Point Point;
     typedef typename M::VertexNormal VertexNormal;
@@ -534,12 +539,9 @@ void meshSaveFaceData(
         const IOMeshMode& mode)
 {
     typedef typename M::Face Face;
-    typedef typename M::FaceId FaceId;
     typedef typename M::FaceContainer FaceContainer;
     typedef typename M::FaceNormal FaceNormal;
     typedef typename M::Material Material;
-    typedef typename M::MaterialId MaterialId;
-    typedef typename M::VertexId VertexId;
     typedef typename M::VertexNormal VertexNormal;
     typedef typename M::VertexUV VertexUV;
 

@@ -53,6 +53,34 @@ NVL_INLINE std::string filenameExtension(const char* string)
     return filenameExtension(std::string(string));
 }
 
+NVL_INLINE std::string filenameRelativePath(
+        const std::string& path,
+        const std::string& parentPath)
+{
+    std::string result = path;
+
+    if (path.at(0) == '/') {
+        if (path.find(parentPath, 0) == 0) {
+            result.erase(0, parentPath.length());
+        }
+    }
+
+    return result;
+}
+
+NVL_INLINE std::string filenameAbsolutePath(
+        const std::string& path,
+        const std::string& parentPath)
+{
+    std::string result = path;
+
+    if (path.at(0) != '/') {
+        result = parentPath + path;
+    }
+
+    return result;
+}
+
 NVL_INLINE bool fileCopy(const std::string& source, const std::string& dest)
 {
     std::ifstream sourceStream(source, std::ios::binary);

@@ -19,6 +19,14 @@ std::string filenamePath(const char* string);
 std::string filenameExtension(const std::string& filename);
 std::string filenameExtension(const char* string);
 
+std::string filenameRelativePath(
+        const std::string& path,
+        const std::string& parentPath);
+
+std::string filenameAbsolutePath(
+        const std::string& path,
+        const std::string& parentPath);
+
 bool fileCopy(const std::string& source, const std::string& dest);
 bool fileCopy(const char* source, const char* dest);
 

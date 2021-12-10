@@ -7,6 +7,7 @@
 #include <nvl/math/comparisons.h>
 
 #include <nvl/utilities/file_utils.h>
+#include <nvl/utilities/string_utils.h>
 
 #include <fstream>
 
@@ -42,27 +43,7 @@ bool animationLoadDataFromSKA(
         iss >> token;
 
         if (token == "n") {
-            bool first = true;
-            while (!iss.eof()) {
-                std::string tmpString;
-                iss >> tmpString;
-                if (!first)
-                    data.name += " ";
-                data.name += tmpString;
-                first = false;
-            }
-        }
-        else if (token == "n") {
-            data.name.clear();
-            bool first = true;
-            while (!iss.eof()) {
-                std::string tmpString;
-                iss >> tmpString;
-                if (!first)
-                    data.name += " ";
-                data.name += tmpString;
-                first = false;
-            }
+            data.name = stringUnion(iss);
         }
         else if (token[0] == 'k') {
             double time;

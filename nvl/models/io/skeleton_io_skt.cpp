@@ -41,28 +41,28 @@ bool skeletonLoadDataFromSKT(
         if (token.size() > 1)
             continue;
 
-        if (token[0] == 'j')
-        {
+        if (token[0] == 'j') {
            int i, father;
            std::string name;
            bool hidden = false;
 
            iss >> i;
 
-           std::string fatherString;
+           std::string currentString;
            bool isNumeric;
            do {
-               iss >> fatherString;
-               isNumeric = std::regex_match(fatherString, std::regex("(\\+|-)?[[:digit:]]+"));
+               iss >> currentString;
+               isNumeric = std::regex_match(currentString, std::regex("(\\+|-)?[[:digit:]]+"));
+
                if (!isNumeric) {
                    if (!name.empty()) {
-                       name += " ";
+                       name += ' ';
                    }
-                   name += fatherString;
+                   name += currentString;
                }
            } while (!isNumeric);
 
-           father = std::stoi(fatherString);
+           father = std::stoi(currentString);
 
            Affine3d transformation;
 

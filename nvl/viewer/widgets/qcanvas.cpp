@@ -38,6 +38,17 @@ NVL_INLINE bool QCanvas::removeDrawable(const Index& id)
     return result;
 }
 
+NVL_INLINE bool QCanvas::removeDrawable(Drawable* drawable)
+{
+    std::vector<Drawable*>::iterator it = std::find(vDrawables.begin(), vDrawables.end(), drawable);
+    if (it != vDrawables.end()) {
+        return removeDrawable(std::distance(vDrawables.begin(), it));
+    }
+    else {
+        return false;
+    }
+}
+
 NVL_INLINE void QCanvas::setDrawableName(const Index& id, const std::string& name)
 {
     Canvas::setDrawableName(id, name);

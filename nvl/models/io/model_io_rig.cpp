@@ -44,42 +44,24 @@ bool modelLoadDataFromRIG(
     std::vector<std::string> animationFiles;
 
     while (std::getline(fRig, line)) {
-        std::istringstream iss(line);
+        if (line.empty())
+            continue;
 
-        std::string name;
+        std::vector<std::string> lineSplitted = stringSplit(line, ' ');
 
-        std::string token;
-        iss >> token;
+        const std::string& token = lineSplitted[0];
 
         if (token == "n") {
-            bool first = true;
-            while (!iss.eof()) {
-                std::string tmpString;
-                iss >> tmpString;
-                if (!first)
-                    name += " ";
-                name += tmpString;
-                first = false;
-            }
+            name = stringTrim(stringUnion(lineSplitted, 1));
         }
-        if (token == "m") {
+        else if (token == "m") {
             if (!meshFile.empty()) {
                 error = IO_MODEL_FORMAT_NON_RECOGNISED;
                 return false;
             }
 
-            bool first = true;
-            while (!iss.eof()) {
-                std::string tmpString;
-                iss >> tmpString;
-                if (!first)
-                    meshFile += " ";
-                meshFile += tmpString;
-                first = false;
-            }
-            if (meshFile.at(0) != '/') {
-                meshFile = path + meshFile;
-            }
+            meshFile = stringTrim(stringUnion(lineSplitted, 1));
+            meshFile = filenameAbsolutePath(meshFile, path);
         }
         else if (token == "s") {
             if (!skeletonFile.empty()) {
@@ -87,18 +69,8 @@ bool modelLoadDataFromRIG(
                 return false;
             }
 
-            bool first = true;
-            while (!iss.eof()) {
-                std::string tmpString;
-                iss >> tmpString;
-                if (!first)
-                    skeletonFile += " ";
-                skeletonFile += tmpString;
-                first = false;
-            }
-            if (skeletonFile.at(0) != '/') {
-                skeletonFile = path + skeletonFile;
-            }
+            skeletonFile = stringTrim(stringUnion(lineSplitted, 1));
+            skeletonFile = filenameAbsolutePath(skeletonFile, path);
         }
         else if (token == "w") {
             if (!skinningWeightsFile.empty()) {
@@ -106,35 +78,14 @@ bool modelLoadDataFromRIG(
                 return false;
             }
 
-            bool first = true;
-            while (!iss.eof()) {
-                std::string tmpString;
-                iss >> tmpString;
-                if (!first)
-                    skinningWeightsFile += " ";
-                skinningWeightsFile += tmpString;
-                first = false;
-            }
-            if (skinningWeightsFile.at(0) != '/') {
-                skinningWeightsFile = path + skinningWeightsFile;
-            }
+            skinningWeightsFile = stringTrim(stringUnion(lineSplitted, 1));
+            skinningWeightsFile = filenameAbsolutePath(skinningWeightsFile, path);
         }
         else if (token == "a") {
             std::string animationFilename;
 
-            bool first = true;
-            while (!iss.eof()) {
-                std::string tmpString;
-                iss >> tmpString;
-                if (!first)
-                    animationFilename += " ";
-                animationFilename += tmpString;
-                first = false;
-            }
-
-            if (animationFilename.at(0) != '/') {
-                animationFilename = path + animationFilename;
-            }
+            animationFilename = stringTrim(stringUnion(lineSplitted, 1));
+            animationFilename = filenameAbsolutePath(animationFilename, path);
 
             animationFiles.push_back(animationFilename);
         }
@@ -219,21 +170,20 @@ bool modelSaveDataToRIG(
     const std::string animationRelPath("animations/");
     const std::string animationAbsPath(path + animationRelPath);
 
+    std::string name = filenameName(filename);
+
     std::string modelName = modelData.name;
-
-    std::string nameOfFile = filenameName(filename);
-
     if (modelName.empty()) {
-        modelName = nameOfFile;
+        modelName = name;
     }
 
-    std::string meshFile = nameOfFile + ".obj";
-    std::string skeletonFile = nameOfFile + ".skt";
-    std::string skinningWeightsFile = nameOfFile + ".skw";
-    std::vector<std::string> animationFiles(modelData.animations.size());
+    std::string meshFileRel = name + ".obj";
+    std::string skeletonFileRel = name + ".skt";
+    std::string skinningWeightsFileRel = name + ".skw";
+    std::vector<std::string> animationFilesRel(modelData.animations.size());
 
     for (Index i = 0; i < modelData.animations.size(); ++i) {
-        animationFiles[i] =
+        animationFilesRel[i] =
                 animationRelPath +
                 modelName + "@" +
                 modelData.animations[i].name() +
@@ -243,7 +193,13 @@ bool modelSaveDataToRIG(
     bool success = true;
     if (mode.mesh) {
         IOMeshError meshError;
-        success &= meshSaveToFile(path + meshFile, modelData.mesh, meshError, mode.meshMode);
+
+        success &= meshSaveToFile(
+                filenameAbsolutePath(meshFileRel, path),
+                modelData.mesh,
+                meshError,
+                mode.meshMode);
+
         if (!success) {
             error = IO_MODEL_MESH_ERROR;
         }
@@ -251,7 +207,13 @@ bool modelSaveDataToRIG(
 
     if (success && mode.skeleton) {
         IOSkeletonError skeletonError;
-        success &= skeletonSaveToFile(path + skeletonFile, modelData.skeleton, skeletonError, mode.skeletonMode);
+
+        success &= skeletonSaveToFile(
+                filenameAbsolutePath(skeletonFileRel, path),
+                modelData.skeleton,
+                skeletonError,
+                mode.skeletonMode);
+
         if (!success) {
             error = IO_MODEL_SKELETON_ERROR;
         }
@@ -259,7 +221,13 @@ bool modelSaveDataToRIG(
 
     if (success && mode.skinningWeights) {
         IOSkinningWeightsError skinningWeightsError;
-        success &= skinningWeightsSaveToFile(path + skinningWeightsFile, modelData.skinningWeights, skinningWeightsError, mode.skinningWeightsMode);
+
+        success &= skinningWeightsSaveToFile(
+                    filenameAbsolutePath(skinningWeightsFileRel, path),
+                    modelData.skinningWeights,
+                    skinningWeightsError,
+                    mode.skinningWeightsMode);
+
         if (!success) {
             error = IO_MODEL_SKINNINGWEIGHTS_ERROR;
         }
@@ -271,7 +239,13 @@ bool modelSaveDataToRIG(
 
         for (Index i = 0; i < modelData.animations.size(); ++i) {
             IOAnimationError animationError;
-            success &= animationSaveToFile(path + animationFiles[i], modelData.animations[i], animationError, mode.animationMode);
+
+            success &= animationSaveToFile(
+                    filenameAbsolutePath(animationFilesRel[i], path),
+                    modelData.animations[i],
+                    animationError,
+                    mode.animationMode);
+
             if (!success) {
                 error = IO_MODEL_ANIMATION_ERROR;
             }
@@ -286,18 +260,17 @@ bool modelSaveDataToRIG(
         if (!modelName.empty()) {
             fRig << "n " << modelName << std::endl;
         }
-
         if (mode.mesh) {
-            fRig << "m " << meshFile << std::endl;
+            fRig << "m " << meshFileRel << std::endl;
         }
         if (mode.skeleton) {
-            fRig << "s " << skeletonFile << std::endl;
+            fRig << "s " << skeletonFileRel << std::endl;
         }
         if (mode.skinningWeights) {
-            fRig << "w " << skinningWeightsFile << std::endl;
+            fRig << "w " << skinningWeightsFileRel << std::endl;
         }
         if (mode.animations) {
-            for (const std::string& s : animationFiles) {
+            for (const std::string& s : animationFilesRel) {
                 fRig << "a " << s << std::endl;
             }
         }
