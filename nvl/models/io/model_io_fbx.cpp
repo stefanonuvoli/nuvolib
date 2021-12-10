@@ -197,7 +197,7 @@ bool modelLoadDataFromFBX(
 
         internal::handleDeformerAndAnimationsRecursive(lScene, lRootNode, fbxData);
 
-        if (mode.deformToBindPose) {
+        if (mode.FBXDeformToBindPose) {
             FbxPose* lBindPose = nullptr;
             const int lPoseCount = lScene->GetPoseCount();
             for (int i = 0; i < lPoseCount && lBindPose == nullptr; ++i) {
@@ -264,11 +264,7 @@ bool modelLoadDataFromFBX(
     }
 
     if (computeBindPose) {
-        modelDeformDualQuaternionSkinning(modelData.mesh, modelData.skeleton, modelData.skinningWeights, modelData.animations, fbxData.bindPoseTransformations);
-
-        for (JointId jId = 0; jId < modelData.skeleton.jointNumber(); ++jId) {
-            modelData.skeleton.joint(jId).setBindPose(fbxData.bindPoseTransformations[jId] * fbxData.skeletonData.joints[jId]);
-        }
+        modelDeformDualQuaternionSkinning(modelData.mesh, modelData.skeleton, modelData.skinningWeights, modelData.animations, fbxData.bindPoseTransformations, true);
     }
 
     //Compute local bind poses

@@ -32,7 +32,9 @@ struct IOModelMode {
     IOSkinningWeightsMode skinningWeightsMode;
     IOAnimationMode animationMode;
 
-    bool deformToBindPose;
+    bool FBXDeformToBindPose;
+
+    bool RIGComponentFolder;
 };
 
 template<class M, class S, class W, class A>

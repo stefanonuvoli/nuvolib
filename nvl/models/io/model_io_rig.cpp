@@ -166,9 +166,7 @@ bool modelSaveDataToRIG(
         return false;
     }
 
-    //Animation path
-    const std::string animationRelPath("animations/");
-    const std::string animationAbsPath(path + animationRelPath);
+    //Get name
 
     std::string name = filenameName(filename);
 
@@ -177,25 +175,45 @@ bool modelSaveDataToRIG(
         modelName = name;
     }
 
-    std::string meshFileRel = name + ".obj";
-    std::string skeletonFileRel = name + ".skt";
-    std::string skinningWeightsFileRel = name + ".skw";
-    std::vector<std::string> animationFilesRel(modelData.animations.size());
+    //Get paths of the files
 
+    std::string componentPath;
+    if (mode.RIGComponentFolder) {
+        componentPath = name + "_rig/";
+        nvl::createDirectory(filenameAbsolutePath(componentPath, path));
+    }
+
+    const std::string meshFileRel = componentPath + name + ".obj";
+    const std::string meshFileAbs = filenameAbsolutePath(meshFileRel, path);
+
+    const std::string skeletonFileRel = componentPath + name + ".skt";
+    const std::string skeletonFileAbs = filenameAbsolutePath(skeletonFileRel, path);
+
+    const std::string skinningWeightsFileRel = componentPath + name + ".skw";
+    const std::string skinningWeightsFileAbs = filenameAbsolutePath(skinningWeightsFileRel, path);
+
+    std::vector<std::string> animationFilesRel(modelData.animations.size());
+    std::vector<std::string> animationFilesAbs(modelData.animations.size());
+
+    const std::string animationFolderRel(componentPath + "animations/");
+    const std::string animationFolderAbs = filenameAbsolutePath(animationFolderRel, path);
     for (Index i = 0; i < modelData.animations.size(); ++i) {
         animationFilesRel[i] =
-                animationRelPath +
+                animationFolderRel +
                 modelName + "@" +
                 modelData.animations[i].name() +
                 ".ska";
+
+        animationFilesAbs[i] = filenameAbsolutePath(animationFilesRel[i], path);
     }
 
+    //Save components
     bool success = true;
     if (mode.mesh) {
         IOMeshError meshError;
 
         success &= meshSaveToFile(
-                filenameAbsolutePath(meshFileRel, path),
+                meshFileAbs,
                 modelData.mesh,
                 meshError,
                 mode.meshMode);
@@ -209,7 +227,7 @@ bool modelSaveDataToRIG(
         IOSkeletonError skeletonError;
 
         success &= skeletonSaveToFile(
-                filenameAbsolutePath(skeletonFileRel, path),
+                skeletonFileAbs,
                 modelData.skeleton,
                 skeletonError,
                 mode.skeletonMode);
@@ -223,7 +241,7 @@ bool modelSaveDataToRIG(
         IOSkinningWeightsError skinningWeightsError;
 
         success &= skinningWeightsSaveToFile(
-                    filenameAbsolutePath(skinningWeightsFileRel, path),
+                    skinningWeightsFileAbs,
                     modelData.skinningWeights,
                     skinningWeightsError,
                     mode.skinningWeightsMode);
@@ -235,13 +253,13 @@ bool modelSaveDataToRIG(
 
     if (success && mode.animations) {
         if (!modelData.animations.empty())
-            nvl::createDirectory(animationAbsPath);
+            nvl::createDirectory(animationFolderAbs);
 
         for (Index i = 0; i < modelData.animations.size(); ++i) {
             IOAnimationError animationError;
 
             success &= animationSaveToFile(
-                    filenameAbsolutePath(animationFilesRel[i], path),
+                    animationFilesAbs[i],
                     modelData.animations[i],
                     animationError,
                     mode.animationMode);
@@ -252,10 +270,11 @@ bool modelSaveDataToRIG(
         }
     }
 
+    //Create RIG
     if (success) {
         //Set precision
         fRig.precision(6);
-        fRig.setf(std::ios::fixed, std:: ios::floatfield);
+        fRig.setf(std::ios::fixed, std::ios::floatfield);
 
         if (!modelName.empty()) {
             fRig << "n " << modelName << std::endl;

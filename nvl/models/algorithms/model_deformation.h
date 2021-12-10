@@ -15,11 +15,13 @@ void modelDeformLinearBlendingSkinning(
         S& skeleton,
         const W& skinningWeights,
         std::vector<A>& animations,
-        const std::vector<T>& transformations);
+        const std::vector<T>& transformations,
+        const bool useBindPoseRotation = false);
 template<class M, class T>
 void modelDeformLinearBlendingSkinning(
         M& model,
-        const std::vector<T>& transformations);
+        const std::vector<T>& transformationss,
+        const bool useBindPoseRotation = false);
 
 template<class M, class S, class W, class A, class T>
 void modelDeformDualQuaternionSkinning(
@@ -27,11 +29,13 @@ void modelDeformDualQuaternionSkinning(
         S& skeleton,
         const W& skinningWeights,
         std::vector<A>& animations,
-        const std::vector<DualQuaternion<T>>& transformations);
+        const std::vector<DualQuaternion<T>>& transformations,
+        const bool useBindPoseRotation = false);
 template<class M, class T>
 void modelDeformDualQuaternionSkinning(
         M& model,
-        const std::vector<DualQuaternion<T>>& transformations);
+        const std::vector<DualQuaternion<T>>& transformations,
+        const bool useBindPoseRotation = false);
 
 template<class M, class S, class W, class A, class T>
 void modelDeformDualQuaternionSkinning(
@@ -39,11 +43,13 @@ void modelDeformDualQuaternionSkinning(
         S& skeleton,
         const W& skinningWeights,
         std::vector<A>& animations,
-        const std::vector<T>& transformations);
+        const std::vector<T>& transformations,
+        const bool useBindPoseRotation = false);
 template<class M, class T>
 void modelDeformDualQuaternionSkinning(
         M& model,
-        const std::vector<T>& transformations);
+        const std::vector<T>& transformations,
+        const bool useBindPoseRotation = false);
 
 }
 

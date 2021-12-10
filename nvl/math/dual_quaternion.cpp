@@ -147,13 +147,13 @@ Translation3<T> DualQuaternion<T>::translation() const
 template<class T>
 Matrix33<T> DualQuaternion<T>::matrix() const
 {
-    return rotation() * translation() * Matrix33<T>::Identity();
+    return translation() * rotation() * Matrix33<T>::Identity();
 }
 
 template<class T>
 Affine3<T> DualQuaternion<T>::affineTransformation() const
 {
-    return rotation() * translation() * Affine3<T>::Identity();
+    return translation() * rotation() * Affine3<T>::Identity();
 }
 
 template<class T>

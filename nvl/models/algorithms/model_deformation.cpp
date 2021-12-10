@@ -8,7 +8,8 @@ void modelDeformLinearBlendingSkinning(
         S& skeleton,
         const W& skinningWeights,
         std::vector<A>& animations,
-        const std::vector<T>& transformations)
+        const std::vector<T>& transformations,
+        const bool useBindPoseRotation)
 {
     typedef typename S::Scalar SkeletonScalar;
     typedef typename S::Transformation SkeletonTransformation;
@@ -21,39 +22,46 @@ void modelDeformLinearBlendingSkinning(
     for (Index jId = 0; jId < skeleton.jointNumber(); ++jId) {
         const T& t = transformations[jId];
 
-        Point3d p = skeleton.jointBindPose(jId) * Point3<SkeletonScalar>::Zero();
-        p = t * p;
+        SkeletonTransformation r;
 
-        Translation3d jointTranslation(p);
+        if (useBindPoseRotation) {
+            r = t * skeleton.jointBindPose(jId);
+        }
+        else {
+            Point3d p = skeleton.jointBindPose(jId) * Point3<SkeletonScalar>::Zero();
+            p = t * p;
 
-        const SkeletonTransformation r = jointTranslation * SkeletonTransformation::Identity();
+            Translation3d jointTranslation(p);
 
-        Matrix33<T> rotMatrix, scalMatrix;
-        t.computeScalingRotation(&scalMatrix, &rotMatrix);
+            r = jointTranslation * SkeletonTransformation::Identity();
 
-        const Quaternion<T> tRotation(rotMatrix);
-        const Scaling3<T> tScaling(scalMatrix.diagonal());
+            Matrix33<SkeletonScalar> rotMatrix, scalMatrix;
+            t.computeScalingRotation(&scalMatrix, &rotMatrix);
 
-        for (A& animation : animations) {
-            std::vector<Frame>& frames = animation.keyframes();
-            for (FrameId fId = 0; fId < frames.size(); ++fId) {
-                AnimationTransformation& animationTransformation = frames[fId].transformation(jId);
+            const Quaternion<SkeletonScalar> tRotation(rotMatrix);
+            const Scaling3<SkeletonScalar> tScaling(scalMatrix.diagonal());
 
-                //Get rotation transformation informations
-                Rotation3<T> animationRot(animationTransformation.rotation());
-                T angle = animationRot.angle();
-                Vector3<T> axis = animationRot.axis();
-                axis = tRotation * axis;
+            for (A& animation : animations) {
+                std::vector<Frame>& frames = animation.keyframes();
+                for (FrameId fId = 0; fId < frames.size(); ++fId) {
+                    AnimationTransformation& animationTransformation = frames[fId].transformation(jId);
 
-                //Get translation transformation informations
-                Vector3<T> animationTra(animationTransformation.translation());
-                animationTra = tScaling * tRotation * animationTra;
+                    //Get rotation transformation informations
+                    Rotation3<SkeletonScalar> animationRot(animationTransformation.rotation());
+                    SkeletonScalar angle = animationRot.angle();
+                    Vector3<SkeletonScalar> axis = animationRot.axis();
+                    axis = tRotation * axis;
 
-                //Set new transformation
-                animationTransformation.fromPositionOrientationScale(
-                            animationTra,
-                            Rotation3<T>(angle, axis),
-                            Vector3<T>(1.0, 1.0, 1.0));
+                    //Get translation transformation informations
+                    Vector3<SkeletonScalar> animationTra(animationTransformation.translation());
+                    animationTra = tScaling * tRotation * animationTra;
+
+                    //Set new transformation
+                    animationTransformation.fromPositionOrientationScale(
+                                animationTra,
+                                Rotation3<SkeletonScalar>(angle, axis),
+                                Vector3<SkeletonScalar>(1.0, 1.0, 1.0));
+                }
             }
         }
 
@@ -79,9 +87,10 @@ void modelDeformLinearBlendingSkinning(
 template<class M, class T>
 void modelDeformLinearBlendingSkinning(
         M& model,
-        const std::vector<T>& transformations)
+        const std::vector<T>& transformations,
+        const bool useBindPoseRotation)
 {
-    return modelDeformLinearBlendingSkinning(model.mesh, model.skeleton, model.skinningWeights, model.animations, transformations);
+    return modelDeformLinearBlendingSkinning(model.mesh, model.skeleton, model.skinningWeights, model.animations, transformations, useBindPoseRotation);
 }
 
 template<class M, class S, class W, class A, class T>
@@ -90,7 +99,8 @@ void modelDeformDualQuaternionSkinning(
         S& skeleton,
         const W& skinningWeights,
         std::vector<A>& animations,
-        const std::vector<DualQuaternion<T>>& transformations)
+        const std::vector<DualQuaternion<T>>& transformations,
+        const bool useBindPoseRotation)
 {
     typedef typename S::Scalar SkeletonScalar;
     typedef typename S::Transformation SkeletonTransformation;
@@ -103,34 +113,41 @@ void modelDeformDualQuaternionSkinning(
     for (Index jId = 0; jId < skeleton.jointNumber(); ++jId) {
         const DualQuaterniond& dq = transformations[jId];
 
-        Point3d p = skeleton.jointBindPose(jId) * Point3<SkeletonScalar>::Zero();
-        p = dq * p;
+        SkeletonTransformation r;
 
-        Translation3d jointTranslation(p);
+        if (useBindPoseRotation) {
+            r = dq.affineTransformation() * skeleton.jointBindPose(jId);
+        }
+        else {
+            Point3d p = skeleton.jointBindPose(jId) * Point3<SkeletonScalar>::Zero();
+            p = dq * p;
 
-        const SkeletonTransformation r = jointTranslation * SkeletonTransformation::Identity();
+            Translation3d jointTranslation(p);
 
-        const Quaternion<T> dqRotation(dq.rotation());
-        for (A& animation : animations) {
-            std::vector<Frame>& frames = animation.keyframes();
-            for (FrameId fId = 0; fId < frames.size(); ++fId) {
-                AnimationTransformation& animationTransformation = frames[fId].transformation(jId);
+            r = jointTranslation * SkeletonTransformation::Identity();
 
-                //Get rotation transformation informations
-                Rotation3<T> animationRot(animationTransformation.rotation());
-                T angle = animationRot.angle();
-                Vector3<T> axis = animationRot.axis();
-                axis = dqRotation * axis;
+            const Quaternion<T> dqRotation(dq.rotation());
+            for (A& animation : animations) {
+                std::vector<Frame>& frames = animation.keyframes();
+                for (FrameId fId = 0; fId < frames.size(); ++fId) {
+                    AnimationTransformation& animationTransformation = frames[fId].transformation(jId);
 
-                //Get translation transformation informations
-                Vector3<T> animationTra(animationTransformation.translation());
-                animationTra = dqRotation * animationTra;
+                    //Get rotation transformation informations
+                    Rotation3<T> animationRot(animationTransformation.rotation());
+                    T angle = animationRot.angle();
+                    Vector3<T> axis = animationRot.axis();
+                    axis = dqRotation * axis;
 
-                //Set new transformation
-                animationTransformation.fromPositionOrientationScale(
-                            animationTra,
-                            Rotation3<T>(angle, axis),
-                            Vector3<T>(1.0, 1.0, 1.0));
+                    //Get translation transformation informations
+                    Vector3<T> animationTra(animationTransformation.translation());
+                    animationTra = dqRotation * animationTra;
+
+                    //Set new transformation
+                    animationTransformation.fromPositionOrientationScale(
+                                animationTra,
+                                Rotation3<T>(angle, axis),
+                                Vector3<T>(1.0, 1.0, 1.0));
+                }
             }
         }
 
@@ -156,9 +173,10 @@ void modelDeformDualQuaternionSkinning(
 template<class M, class T>
 void modelDeformDualQuaternionSkinning(
         M& model,
-        const std::vector<DualQuaternion<T>>& transformations)
+        const std::vector<DualQuaternion<T>>& transformations,
+        const bool useBindPoseRotation)
 {
-    return modelDeformDualQuaternionSkinning(model.mesh, model.skeleton, model.skinningWeights, model.animations, transformations);
+    return modelDeformDualQuaternionSkinning(model.mesh, model.skeleton, model.skinningWeights, model.animations, transformations, useBindPoseRotation);
 }
 
 template<class M, class S, class W, class A, class T>
@@ -167,7 +185,8 @@ void modelDeformDualQuaternionSkinning(
         S& skeleton,
         const W& skinningWeights,
         std::vector<A>& animations,
-        const std::vector<T>& transformations)
+        const std::vector<T>& transformations,
+        const bool useBindPoseRotation)
 {
 
     typedef typename T::Scalar Scalar;
@@ -179,15 +198,16 @@ void modelDeformDualQuaternionSkinning(
         dualQuaternionTransformations[i] = DualQuaternion<Scalar>(Quaternion<Scalar>(transformations[i].rotation()), transformations[i].translation());
     }
 
-    modelDeformDualQuaternionSkinning(mesh, skeleton, skinningWeights, animations, dualQuaternionTransformations);
+    modelDeformDualQuaternionSkinning(mesh, skeleton, skinningWeights, animations, dualQuaternionTransformations, useBindPoseRotation);
 }
 
 template<class M, class T>
 void modelDeformDualQuaternionSkinning(
         M& model,
-        const std::vector<T>& transformations)
+        const std::vector<T>& transformations,
+        const bool useBindPoseRotation)
 {
-    return modelDeformDualQuaternionSkinning(model.mesh, model.skeleton, model.skinningWeights, model.animations, transformations);
+    return modelDeformDualQuaternionSkinning(model.mesh, model.skeleton, model.skinningWeights, model.animations, transformations, useBindPoseRotation);
 }
 
 }

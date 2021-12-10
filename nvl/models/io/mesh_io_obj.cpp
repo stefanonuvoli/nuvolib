@@ -363,7 +363,7 @@ bool meshSaveDataToOBJ(
 
     //Set precision
     fObj.precision(6);
-    fObj.setf(std::ios::fixed, std:: ios::floatfield);
+    fObj.setf(std::ios::fixed, std::ios::floatfield);
 
     //File info descriptor
     std::string path = filenamePath(filename);
@@ -381,7 +381,7 @@ bool meshSaveDataToOBJ(
 
         //Set precision
         fMtl.precision(4);
-        fMtl.setf(std::ios::fixed, std:: ios::floatfield);
+        fMtl.setf(std::ios::fixed, std::ios::floatfield);
     }
 
     //Create default material
