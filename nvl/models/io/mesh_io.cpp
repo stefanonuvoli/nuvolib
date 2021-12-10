@@ -279,7 +279,7 @@ void meshLoadFaceData(
                     if (mappedNormalId == NO_VALUE) {
                         mappedNormalId = nId;
                     }
-                    else if (mappedNormalId != nId) {
+                    else if (mappedNormalId != nId && mappedNormalId != MULTIPLE_VALUES) {
                         const VertexNormal& mappedNormal = vertexNormals[mappedNormalId];
                         const VertexNormal& normal = vertexNormals[nId];
 
@@ -312,7 +312,7 @@ void meshLoadFaceData(
                     if (mappedUVId == NO_VALUE) {
                         mappedUVId = nId;
                     }
-                    else if (mappedUVId != nId) {
+                    else if (mappedUVId != nId && mappedUVId != MULTIPLE_VALUES) {
                         const VertexUV& mappedUV = vertexUVs[mappedUVId];
                         const VertexUV& uv = vertexUVs[nId];
 
