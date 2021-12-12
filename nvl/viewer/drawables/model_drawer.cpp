@@ -4,6 +4,8 @@
 #include <nvl/models/algorithms/animation_skinning.h>
 #include <nvl/models/algorithms/animation_poses.h>
 
+#include <nvl/math/constants.h>
+
 #include <chrono>
 
 namespace nvl {
@@ -29,6 +31,8 @@ ModelDrawer<M>::ModelDrawer(M* model, const bool visible, const bool pickable, c
     vMeshDrawer.setFaceShadingMode(FaceMeshDrawer<typename M::Mesh>::FACE_SHADING_SMOOTH);
     vMeshDrawer.setFaceColorMode(FaceMeshDrawer<typename M::Mesh>::FACE_COLOR_PER_VERTEX);
     vSkeletonDrawer.setVisible(false);
+
+    update();
 }
 
 template<class M>
@@ -147,12 +151,21 @@ Point3d ModelDrawer<M>::sceneCenter() const
 template<class M>
 double ModelDrawer<M>::sceneRadius() const
 {
-    Point3d min = this->vFrame * vMeshDrawer.boundingBox().min();
-    Point3d max = this->vFrame * vMeshDrawer.boundingBox().max();
+    if (this->vModel == nullptr || this->boundingBox().isNull()) {
+        return 0.0;
+    }
+
+    Point3d min = this->vFrame * this->boundingBox().min();
+    Point3d max = this->vFrame * this->boundingBox().max();
 
     Vector3d vec = max - min;
 
-    return vec.norm() / 2;
+    double radius = vec.norm() / 2;
+    if (radius <= 0) {
+        radius = EPSILON;
+    }
+
+    return radius;
 }
 
 template<class M>
@@ -170,6 +183,10 @@ void ModelDrawer<M>::update()
 
     vMeshDrawer.update();
     vSkeletonDrawer.update();
+
+    vBoundingBox.setNull();
+    vBoundingBox.extend(vMeshDrawer.boundingBox());
+    vBoundingBox.extend(vSkeletonDrawer.boundingBox());
 
     if (isAnimationLoaded()) {
         loadAnimation(vAnimationLoaded);
@@ -394,6 +411,29 @@ void ModelDrawer<M>::processKeyframePose(const Index& frameId)
 
         this->renderDualQuaternionSkinning(transformations);
     }
+}
+
+template<class M>
+AlignedBox3d ModelDrawer<M>::boundingBox() const
+{
+    return vBoundingBox;
+}
+
+template<class M>
+void ModelDrawer<M>::setBoundingBox(const AlignedBox3d& boundingBox)
+{
+    vBoundingBox = boundingBox;
+}
+
+template<class M>
+void ModelDrawer<M>::updateBoundingBox()
+{
+    vMeshDrawer.updateBoundingBox();
+    vSkeletonDrawer.updateBoundingBox();
+
+    vBoundingBox.setNull();
+    vBoundingBox.extend(vMeshDrawer.boundingBox());
+    vBoundingBox.extend(vSkeletonDrawer.boundingBox());
 }
 
 }

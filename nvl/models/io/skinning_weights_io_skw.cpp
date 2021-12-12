@@ -1,6 +1,7 @@
 #include "skinning_weights_io_skw.h"
 
 #include <nvl/utilities/file_utils.h>
+#include <nvl/utilities/locale_utils.h>
 
 #include <fstream>
 
@@ -12,12 +13,12 @@ bool skinningWeightsLoadDataFromSKW(
         IOSkinningWeightsData<T>& data,
         IOSkinningWeightsError& error)
 {
-    //Use "." as decimal separator
-    std::setlocale(LC_NUMERIC, "en_US.UTF-8");
-
     data.clear();
 
     std::ifstream fSkw; //File streams
+
+    fSkw.imbue(streamDefaultLocale());
+
     std::string line;
 
     error = IO_SKINNINGWEIGHTS_SUCCESS;
@@ -30,6 +31,9 @@ bool skinningWeightsLoadDataFromSKW(
     }
 
     while (std::getline(fSkw, line)) {
+        if (line.empty() || line.at(0) == '#')
+            continue;
+
         std::istringstream iss(line);
 
         int j, v;
@@ -52,10 +56,9 @@ bool skinningWeightsSaveDataToSKW(
         const IOSkinningWeightsData<T>& data,
         IOSkinningWeightsError& error)
 {
-    //Use "." as decimal separator
-    std::setlocale(LC_NUMERIC, "en_US.UTF-8");
-
     std::ofstream fSkw;
+
+    fSkw.imbue(streamDefaultLocale());
 
     error = IO_SKINNINGWEIGHTS_SUCCESS;
 

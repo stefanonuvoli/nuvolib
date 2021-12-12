@@ -18,6 +18,9 @@ namespace nvl {
 enum IOModelError { IO_MODEL_SUCCESS, IO_MODEL_FILE_ERROR, IO_MODEL_FORMAT_NON_RECOGNISED, IO_MODEL_EXTENSION_NON_SUPPORTED,
                     IO_MODEL_MESH_ERROR, IO_MODEL_SKELETON_ERROR, IO_MODEL_SKINNINGWEIGHTS_ERROR, IO_MODEL_ANIMATION_ERROR };
 
+//FBX pose mode
+enum IOModelFBXPose { IO_FBX_POSE_NONE, IO_FBX_POSE_DEFAULT, IO_FBX_POSE_BIND, IO_FBX_POSE_ZERO };
+
 //IO mode
 struct IOModelMode {
     IOModelMode();
@@ -32,7 +35,8 @@ struct IOModelMode {
     IOSkinningWeightsMode skinningWeightsMode;
     IOAnimationMode animationMode;
 
-    bool FBXDeformToBindPose;
+    IOModelFBXPose FBXDeformToPose;
+    bool FBXSavePoses;
 
     bool RIGComponentFolder;
 };

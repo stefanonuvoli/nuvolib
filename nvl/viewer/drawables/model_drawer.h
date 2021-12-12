@@ -75,6 +75,10 @@ public:
     void renderLinearBlendingSkinning(const std::vector<T>& transformations);
     void renderDualQuaternionSkinning(const std::vector<DualQuaterniond>& transformations);
 
+    void updateBoundingBox();
+    AlignedBox3d boundingBox() const;
+    void setBoundingBox(const AlignedBox3d& boundingBox);
+
 private:
 
     void resetAnimation();
@@ -84,6 +88,7 @@ private:
 protected:
 
     M* vModel;
+    AlignedBox3d vBoundingBox;
 
     FaceMeshDrawer<typename M::Mesh> vMeshDrawer;
     SkeletonDrawer<typename M::Skeleton> vSkeletonDrawer;

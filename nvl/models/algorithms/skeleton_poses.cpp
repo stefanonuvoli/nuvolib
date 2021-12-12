@@ -1,4 +1,4 @@
-#include "model_poses.h"
+#include "skeleton_poses.h"
 
 namespace nvl {
 
@@ -47,7 +47,7 @@ void skeletonPoseDeformationFromLocal(
         const S& skeleton,
         std::vector<T>& transformations)
 {
-    animationFrameDeformationFromLocal(skeleton, transformations, skeletonLocalBindPose(skeleton));
+    skeletonPoseDeformationFromLocal(skeleton, transformations, skeletonLocalBindPose(skeleton));
 }
 
 template<class S, class T, class B>

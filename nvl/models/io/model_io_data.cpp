@@ -5,7 +5,8 @@ namespace nvl {
 NVL_INLINE IOModelMode::IOModelMode() :
     mesh(true), skeleton(true), skinningWeights(true), animations(true),
     meshMode(IOMeshMode()), skeletonMode(IOSkeletonMode()),
-    FBXDeformToBindPose(false), RIGComponentFolder(true)
+    FBXDeformToPose(IOModelFBXPose::IO_FBX_POSE_DEFAULT), FBXSavePoses(false),
+    RIGComponentFolder(true)
 {
 
 }

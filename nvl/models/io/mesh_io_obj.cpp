@@ -2,6 +2,7 @@
 
 #include <nvl/utilities/string_utils.h>
 #include <nvl/utilities/file_utils.h>
+#include <nvl/utilities/locale_utils.h>
 
 #include <fstream>
 #include <map>
@@ -18,12 +19,13 @@ bool meshLoadDataFromOBJ(
         IOMeshData<P,VN,UV,VC,PC,FN,M>& data,
         IOMeshError& error)
 {
-    //Use "." as decimal separator
-    std::setlocale(LC_NUMERIC, "en_US.UTF-8");
-
     data.clear();
 
     std::ifstream fObj, fMtl; //File streams
+
+    fObj.imbue(streamDefaultLocale());
+    fMtl.imbue(streamDefaultLocale());
+
     std::string line, mtlLine;
 
     error = IO_MESH_SUCCESS;
@@ -347,10 +349,10 @@ bool meshSaveDataToOBJ(
         const IOMeshData<P,VN,UV,VC,PC,FN,M> &data,
         IOMeshError& error)
 {
-    //Use "." as decimal separator
-    std::setlocale(LC_NUMERIC, "en_US.UTF-8");
-
     std::ofstream fObj, fMtl; //File streams
+
+    fObj.imbue(streamDefaultLocale());
+    fMtl.imbue(streamDefaultLocale());
 
     error = IO_MESH_SUCCESS;
 

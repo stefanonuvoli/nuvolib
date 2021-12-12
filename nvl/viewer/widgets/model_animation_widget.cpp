@@ -33,6 +33,16 @@ NVL_INLINE Index ModelAnimationWidget::selectedAnimation() const
     return NULL_ID;
 }
 
+NVL_INLINE Index ModelAnimationWidget::currentAnimationFrame() const
+{
+    ModelDrawer<Model3d>* selectedDrawer = getSelectedModelDrawer();
+
+    if (vCanvas != nullptr && selectedDrawer != nullptr && selectedDrawer->loadedAnimation() != NULL_ID) {
+        return selectedDrawer->currentFrameId();
+    }
+    return NULL_ID;
+}
+
 NVL_INLINE void ModelAnimationWidget::selectAnimation(const Index& id)
 {
     ModelDrawer<Model3d>* selectedDrawer = getSelectedModelDrawer();
@@ -273,6 +283,8 @@ NVL_INLINE void ModelAnimationWidget::on_animationTreeWidget_itemSelectionChange
 
         vCanvas->updateGL();
         updateOptions();
+
+        emit signal_animationSelectionChanged(vSelectedAnimation);
     }
 }
 

@@ -30,11 +30,16 @@ public:
     ~ModelAnimationWidget();
 
     Index selectedAnimation() const;
+    Index currentAnimationFrame() const;
     void selectAnimation(const Index& id);
     void unselectAnimation();
     void updateView();
 
     ModelDrawer<Model3d>* getSelectedModelDrawer() const;
+
+Q_SIGNALS:
+
+    void signal_animationSelectionChanged(const Index& value);
 
 
 public Q_SLOTS:

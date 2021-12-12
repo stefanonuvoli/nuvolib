@@ -8,6 +8,7 @@ HEADERS += \
     $$PWD/comparators.h \
     $$PWD/file_utils.h \
     $$PWD/iterator_wrapper.h \
+    $$PWD/locale_utils.h \
     $$PWD/random.h \
     $$PWD/string_utils.h \
     $$PWD/timer.h \
@@ -19,6 +20,7 @@ SOURCES += \
     $$PWD/comparators.cpp \
     $$PWD/file_utils.cpp \
     $$PWD/iterator_wrapper.cpp \
+    $$PWD/locale_utils.cpp \
     $$PWD/random.cpp \
     $$PWD/string_utils.cpp \
     $$PWD/timer.cpp \

@@ -9,8 +9,8 @@ namespace nvl {
 template<class Skeleton, class Animation, class T>
 void animationApplyTransformation(Skeleton& skeleton, Animation& animation, const Affine3<T>& transformation)
 {
-    Matrix33<T> rotMatrix, scalMatrix;
-    transformation.computeScalingRotation(&scalMatrix, &rotMatrix);
+    typename Affine3<T>::LinearMatrixType rotMatrix, scalMatrix;
+    transformation.computeRotationScaling(&rotMatrix, &scalMatrix);
 
     const Quaternion<T> rot(rotMatrix);
     const Scaling3<T> sca(scalMatrix.diagonal());
@@ -36,13 +36,19 @@ void animationApplyTransformation(Skeleton& skeleton, Animation& animation, cons
 
         #pragma omp parallel for
         for (JointId jId = 0; jId < skeleton.jointNumber(); ++jId) {
-            Vector3<T> jointTranslation(transformations[jId].translation());
-            jointTranslation = transformation * jointTranslation;
+            //Get data
+            typename Affine3<T>::LinearMatrixType rotMatrix, scalMatrix;
+            transformations[jId].computeRotationScaling(&rotMatrix, &scalMatrix);
+            Vector3<T> jointTraVec(transformations[jId].translation());
+            Rotation3<T> jointRot(rotMatrix);
+            Vector3<T> jointScaVec(scalMatrix.diagonal());
+
+            jointTraVec = transformation * jointTraVec;
 
             transformations[jId].fromPositionOrientationScale(
-                jointTranslation,
-                transformations[jId].rotation(),
-                Vector3<T>(1.0, 1.0, 1.0));
+                jointTraVec,
+                jointRot,
+                jointScaVec);
         }
     }
 }
@@ -72,21 +78,26 @@ void animationApplyTransformation(Skeleton& skeleton, Animation& animation, cons
         for (Index jId = 0; jId < skeleton.jointNumber(); ++jId) {
             Transformation& animationTransformation = transformations[jId];
 
+            //Get data
+            typename Affine3<T>::LinearMatrixType rotMatrix, scalMatrix;
+            animationTransformation.computeRotationScaling(&rotMatrix, &scalMatrix);
+            Vector3<T> animationTraVec(animationTransformation.translation());
+            Rotation3<T> animationRot(rotMatrix);
+            Vector3<T> animationScaVec(scalMatrix.diagonal());
+
             //Get rotation transformation informations
-            Rotation3<T> animationRot(animationTransformation.rotation());
             T angle = animationRot.angle();
             Vector3<T> axis = animationRot.axis();
             axis = transformation * axis;
 
             //Get translation transformation informations
-            Vector3<T> animationTra(animationTransformation.translation());
-            animationTra = transformation * animationTra;
+            animationTraVec = transformation * animationTraVec;
 
             //Set new transformation
             animationTransformation.fromPositionOrientationScale(
-                        animationTra,
+                        animationTraVec,
                         Rotation3<T>(angle, axis),
-                        Vector3<T>(1.0, 1.0, 1.0));
+                        animationScaVec);
         }
     }
 }

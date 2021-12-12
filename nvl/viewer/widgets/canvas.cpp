@@ -217,7 +217,7 @@ NVL_INLINE Canvas::PickingData::PickingData():
 
 }
 
-NVL_INLINE Index Canvas::PickingData::value(const Index& pos)
+NVL_INLINE Index Canvas::PickingData::value(const Index& pos) const
 {
     return values[pos];
 }

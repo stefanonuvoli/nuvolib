@@ -194,14 +194,19 @@ template<class S>
 double SkeletonDrawer<S>::sceneRadius() const
 {
     if (vSkeleton == nullptr || vBoundingBox.isNull())
-        return 1.0;
+        return 0.0;
 
     Point3d min = this->vFrame * vBoundingBox.min();
     Point3d max = this->vFrame * vBoundingBox.max();
 
     Vector3d vec = max - min;
 
-    return vec.norm() / 2;
+    double radius = vec.norm() / 2;
+    if (radius <= 0) {
+        radius = EPSILON;
+    }
+
+    return radius;
 }
 
 template<class S>

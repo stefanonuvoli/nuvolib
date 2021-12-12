@@ -8,7 +8,7 @@
     error(Module "models" requires the module "structures".)
 }
 
-include(fbxsdk.pri)
+include(io/fbxsdk.pri)
 
 DEFINES += NVL_MODELS_LOADED
 

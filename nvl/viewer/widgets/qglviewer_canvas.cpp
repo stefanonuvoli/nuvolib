@@ -1,6 +1,7 @@
 #include "qglviewer_canvas.h"
 
 #include <nvl/math/quaternion.h>
+#include <nvl/math/constants.h>
 
 #define NVL_QGLCANVAS_DEFAULT_SCALING_SENSITIVITY 1.05
 #define NVL_QGLCANVAS_SCALING_DEGREE 120.0
@@ -125,6 +126,10 @@ NVL_INLINE void QGLViewerCanvas::fitScene(bool visibleObjects)
     else {
         sceneCenter = boundingBox.center();
         sceneRadius = boundingBox.diagonal().norm() / 2.0;
+    }
+
+    if (sceneRadius <= 0) {
+        sceneRadius = EPSILON;
     }
 
     vQGLViewerObject->setSceneCenter(qglviewer::Vec(sceneCenter.x(), sceneCenter.y(), sceneCenter.z()));

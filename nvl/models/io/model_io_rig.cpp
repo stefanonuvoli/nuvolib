@@ -1,6 +1,7 @@
 #include "model_io_rig.h"
 
 #include <nvl/utilities/file_utils.h>
+#include <nvl/utilities/locale_utils.h>
 
 #include <nvl/models/io/mesh_io.h>
 #include <nvl/models/io/skeleton_io.h>
@@ -21,10 +22,10 @@ bool modelLoadDataFromRIG(
     //Get filename path
     std::string path = filenamePath(filename);
 
-    //Use "." as decimal separator
-    std::setlocale(LC_NUMERIC, "en_US.UTF-8");
-
     std::ifstream fRig; //File streams
+
+    fRig.imbue(streamDefaultLocale());
+
     std::string line;
 
     error = IO_MODEL_SUCCESS;
@@ -129,6 +130,7 @@ bool modelLoadDataFromRIG(
 
         if (success) {
             modelData.animations.resize(animationFiles.size());
+            #pragma omp parallel for
             for (Index i = 0; i < animationFiles.size(); ++i) {
                 IOAnimationError animationError;
                 success &= animationLoadFromFile(animationFiles[i], modelData.animations[i], animationError, mode.animationMode);
@@ -152,10 +154,9 @@ bool modelSaveDataToRIG(
     //Get filename path
     std::string path = filenamePath(filename);
 
-    //Use "." as decimal separator
-    std::setlocale(LC_NUMERIC, "en_US.UTF-8");
-
     std::ofstream fRig;
+
+    fRig.imbue(streamDefaultLocale());
 
     error = IO_MODEL_SUCCESS;
 

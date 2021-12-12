@@ -1,5 +1,7 @@
 #include "skeleton_io_skt.h"
 
+#include <nvl/utilities/locale_utils.h>
+
 #include <nvl/math/translation.h>
 #include <nvl/math/rotation.h>
 #include <nvl/math/euler_angles.h>
@@ -16,12 +18,12 @@ bool skeletonLoadDataFromSKT(
         IOSkeletonData<V>& data,
         IOSkeletonError& error)
 {
-    //Use "." as decimal separator
-    std::setlocale(LC_NUMERIC, "en_US.UTF-8");
-
     data.clear();
 
     std::ifstream fSkt; //File streams
+
+    fSkt.imbue(streamDefaultLocale());
+
     std::string line;
 
     error = IO_SKELETON_SUCCESS;
@@ -108,10 +110,9 @@ bool skeletonSaveDataToSKT(
         const IOSkeletonData<V>& data,
         IOSkeletonError& error)
 {
-    //Use "." as decimal separator
-    std::setlocale(LC_NUMERIC, "en_US.UTF-8");
-
     std::ofstream fSkt;
+
+    fSkt.imbue(streamDefaultLocale());
 
     error = IO_SKELETON_SUCCESS;
 

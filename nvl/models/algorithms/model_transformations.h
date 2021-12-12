@@ -20,6 +20,9 @@ void modelRemoveRotationInBindPose(Model& model);
 template<class S, class A>
 void modelRemoveRotationInBindPose(S& skeleton, std::vector<A>& animations);
 
+template<class S, class A>
+void modelRemoveRotationInBindPose(S& skeleton, A& animation);
+
 }
 
 #include "model_transformations.cpp"

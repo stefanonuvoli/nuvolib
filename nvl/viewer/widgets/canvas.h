@@ -39,7 +39,7 @@ public:
         PickingIdentifier identifier;
         std::vector<Index> values;
 
-        Index value(const Index& pos);
+        Index value(const Index& pos) const;
         Index setValue(const Index& pos, const Index& value);
         void addValue(const Index& value);
 

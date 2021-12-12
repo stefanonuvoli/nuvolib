@@ -76,7 +76,9 @@ void animationFrameBlend(
     }
 
     //Add last frame
-    blendedAnimationFrames.push_back(animationFrames[animationFrames.size() - 1]);
+    if (animationFrames.size() > 1) {
+        blendedAnimationFrames.push_back(animationFrames[animationFrames.size() - 1]);
+    }
 
     animationFrames = blendedAnimationFrames;
 }

@@ -1,6 +1,7 @@
 #include "mesh_drawer.h"
 
 #include <nvl/math/point.h>
+#include <nvl/math/constants.h>
 
 #include <nvl/models/algorithms/mesh_geometric_information.h>
 
@@ -36,16 +37,21 @@ Point3d MeshDrawer<M>::sceneCenter() const
 template<class M>
 double MeshDrawer<M>::sceneRadius() const
 {
-    if (this->vMesh == nullptr || vBoundingBox.isNull()) {
-        return 1.0;
+    if (this->vMesh == nullptr || this->boundingBox().isNull()) {
+        return 0.0;
     }
 
-    Point3d min = this->vFrame * vBoundingBox.min();
-    Point3d max = this->vFrame * vBoundingBox.max();
+    Point3d min = this->vFrame * this->boundingBox().min();
+    Point3d max = this->vFrame * this->boundingBox().max();
 
     Vector3d vec = max - min;
 
-    return vec.norm() / 2;
+    double radius = vec.norm() / 2;
+    if (radius <= 0) {
+        radius = EPSILON;
+    }
+
+    return radius;
 }
 
 template<class M>

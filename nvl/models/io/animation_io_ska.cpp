@@ -8,6 +8,7 @@
 
 #include <nvl/utilities/file_utils.h>
 #include <nvl/utilities/string_utils.h>
+#include <nvl/utilities/locale_utils.h>
 
 #include <fstream>
 
@@ -19,12 +20,12 @@ bool animationLoadDataFromSKA(
         IOAnimationData<T>& data,
         IOAnimationError& error)
 {
-    //Use "." as decimal separator
-    std::setlocale(LC_NUMERIC, "en_US.UTF-8");
-
     data.clear();
 
     std::ifstream fSka; //File streams
+
+    fSka.imbue(streamDefaultLocale());
+
     std::string line;
 
     error = IO_ANIMATION_SUCCESS;
@@ -104,10 +105,9 @@ bool animationSaveDataToSKA(
         const IOAnimationData<T>& data,
         IOAnimationError& error)
 {
-    //Use "." as decimal separator
-    std::setlocale(LC_NUMERIC, "en_US.UTF-8");
-
     std::ofstream fSka;
+
+    fSka.imbue(streamDefaultLocale());
 
     error = IO_ANIMATION_SUCCESS;
 
@@ -128,8 +128,10 @@ bool animationSaveDataToSKA(
             "# Animation SKA file" << std::endl <<
             "# Keyframes: " << data.transformations.size() << std::endl <<
             "# Duration: " << (data.times.empty() ? 0.0 : data.times[data.times.size() - 1]) << " seconds" << std::endl <<
-            "###############################" << std::endl;
+            "###############################" << std::endl
+            << std::endl;
 
+    fSka << "n " << data.name << std::endl;
 
     for (Index i = 0; i < data.transformations.size(); ++i) {
         fSka << std::endl;
