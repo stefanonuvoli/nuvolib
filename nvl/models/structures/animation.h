@@ -15,9 +15,10 @@ class Animation
 
 public:
 
-    typedef T Transformation;
     typedef AnimationFrame<T> Frame;
     typedef Index FrameId;
+    typedef typename Frame::Scalar Scalar;
+    typedef typename Frame::Transformation Transformation;
 
     Animation();
 

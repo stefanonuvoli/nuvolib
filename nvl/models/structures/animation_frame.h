@@ -14,6 +14,7 @@ class AnimationFrame
 public:
 
     typedef T Transformation;
+    typedef typename Transformation::Scalar Scalar;
 
     AnimationFrame();
     AnimationFrame(double time, const std::vector<T>& transformations);

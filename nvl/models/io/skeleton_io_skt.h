@@ -9,16 +9,16 @@
 
 namespace nvl {
 
-template<class V>
+template<class T>
 bool skeletonLoadDataFromSKT(
         const std::string& filename,
-        IOSkeletonData<V>& data,
+        IOSkeletonData<T>& data,
         IOSkeletonError& error);
 
-template<class V>
+template<class T>
 bool skeletonSaveDataToSKT(
         const std::string& filename,
-        const IOSkeletonData<V>& data,
+        const IOSkeletonData<T>& data,
         IOSkeletonError& error);
 
 }

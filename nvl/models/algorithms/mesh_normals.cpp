@@ -141,9 +141,10 @@ void meshComputeFaceNormalFromVertexNormals(Mesh& mesh, typename Mesh::FaceId& f
 {
     typedef typename Mesh::VertexId VertexId;
     typedef typename Mesh::Face Face;
+    typedef typename Mesh::FaceNormal FaceNormal;
 
     Face& face = mesh.face(fId);
-    Vector3d normal(0, 0, 0);
+    FaceNormal normal(0, 0, 0);
 
     for (const VertexId& vId : face.vertexIds()) {
         normal += mesh.vertexNormal(vId);
@@ -196,9 +197,10 @@ void meshComputeVertexNormalFromFaceNormals(
 {
     typedef typename Mesh::VertexId FaceId;
     typedef typename Mesh::Vertex Vertex;
+    typedef typename Mesh::VertexNormal VertexNormal;
 
     Vertex& vertex = mesh.vertex(vId);
-    Vector3d normal(0, 0, 0);
+    VertexNormal normal(0, 0, 0);
 
     if (!vfAdj[vertex.id()].empty()) {
         for (const FaceId& fId : vfAdj[vertex.id()]) {

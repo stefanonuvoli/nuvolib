@@ -4,7 +4,19 @@
 
 namespace nvl {
 
-/* ----------------------- DEFORMATION FROM LOCAL ----------------------- */
+/* ----------------------- DEFORMATION FROM LOCAL AND GLOBAL ----------------------- */
+
+template<class M>
+void modelDeformationFromGlobal(
+        M& model)
+{
+    typedef M Model;
+    typedef typename Model::Animation Animation;
+
+    for (Animation& a : model.animations) {
+        animationDeformationFromGlobal(model->skeleton, a);
+    }
+}
 
 template<class M>
 void modelDeformationFromLocal(

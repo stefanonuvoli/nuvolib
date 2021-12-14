@@ -35,6 +35,7 @@ public:
     typedef typename FaceMeshDrawerBase::FaceShadingMode FaceShadingMode;
     typedef typename FaceMeshDrawerBase::FaceColorMode FaceColorMode;
     typedef typename FaceMeshDrawerBase::FaceShaderMode VertexValueShaderMode;
+    typedef typename Animation3d::Frame Frame;
     typedef ModelDrawerBase::SkinningMode SkinningMode;
 
     ModelDrawer();
@@ -68,8 +69,12 @@ public:
 
     void setCurrentFrameId(const Index& keyframeId);
     const Index& currentFrameId();
-    const typename Animation3d::Frame& currentFrame();
-    Size keyframeNumber();
+    const Frame& currentFrame() const;
+    Frame& currentFrame();
+    const std::vector<Frame>& animationFrames() const;
+    std::vector<Frame>& animationFrames();
+    void setAnimationFrames(const std::vector<Frame>& animationFrames);
+    Size frameNumber();
 
     template<class T>
     void renderLinearBlendingSkinning(const std::vector<T>& transformations);
@@ -95,7 +100,7 @@ protected:
 
     Index vAnimationLoaded;
 
-    std::vector<typename Animation3d::Frame> vAnimationFrames;
+    std::vector<Frame> vAnimationFrames;
     std::vector<std::vector<DualQuaterniond>> dualQuaternionTransformations;
 
     Index vAnimationCurrentFrameId;

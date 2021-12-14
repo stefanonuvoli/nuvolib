@@ -6,7 +6,10 @@
 namespace nvl {
 
 template<class Skeleton, class T>
-void skeletonApplyTransformation(Skeleton& skeleton, const T& transformation, const bool onlyTranslation = true);
+void skeletonApplyTransformation(Skeleton& skeleton, const T& transformation);
+
+template<class Skeleton, class T>
+void skeletonApplyTransformation(Skeleton& skeleton, const std::vector<T>& transformations);
 
 }
 

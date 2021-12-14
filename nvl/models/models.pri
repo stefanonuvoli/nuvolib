@@ -16,6 +16,7 @@ message(Module \"models\" loaded.)
 
 HEADERS += \
     $$PWD/algorithms/animation_blend.h \
+    $$PWD/algorithms/animation_clean.h \
     $$PWD/algorithms/animation_poses.h \
     $$PWD/algorithms/animation_skinning.h \
     $$PWD/algorithms/animation_split.h \
@@ -37,12 +38,15 @@ HEADERS += \
     $$PWD/algorithms/mesh_transfer.h \
     $$PWD/algorithms/mesh_transformations.h \
     $$PWD/algorithms/mesh_triangulation.h \
+    $$PWD/algorithms/model_clean.h \
     $$PWD/algorithms/model_deformation.h \
     $$PWD/algorithms/model_normalization.h \
     $$PWD/algorithms/model_poses.h \
     $$PWD/algorithms/model_transfer.h \
     $$PWD/algorithms/model_transformations.h \
     $$PWD/algorithms/skeleton_adjacencies.h \
+    $$PWD/algorithms/skeleton_bind_pose.h \
+    $$PWD/algorithms/skeleton_clean.h \
     $$PWD/algorithms/skeleton_poses.h \
     $$PWD/algorithms/skeleton_transfer.h \
     $$PWD/algorithms/skeleton_transformations.h \
@@ -101,6 +105,7 @@ HEADERS += \
 
 SOURCES += \
     $$PWD/algorithms/animation_blend.cpp \
+    $$PWD/algorithms/animation_clean.cpp \
     $$PWD/algorithms/animation_poses.cpp \
     $$PWD/algorithms/animation_skinning.cpp \
     $$PWD/algorithms/animation_split.cpp \
@@ -122,12 +127,15 @@ SOURCES += \
     $$PWD/algorithms/mesh_transfer.cpp \
     $$PWD/algorithms/mesh_transformations.cpp \
     $$PWD/algorithms/mesh_triangulation.cpp \
+    $$PWD/algorithms/model_clean.cpp \
     $$PWD/algorithms/model_deformation.cpp \
     $$PWD/algorithms/model_normalization.cpp \
     $$PWD/algorithms/model_poses.cpp \
     $$PWD/algorithms/model_transfer.cpp \
     $$PWD/algorithms/model_transformations.cpp \
     $$PWD/algorithms/skeleton_adjacencies.cpp \
+    $$PWD/algorithms/skeleton_bind_pose.cpp \
+    $$PWD/algorithms/skeleton_clean.cpp \
     $$PWD/algorithms/skeleton_poses.cpp \
     $$PWD/algorithms/skeleton_transfer.cpp \
     $$PWD/algorithms/skeleton_transformations.cpp \

@@ -20,6 +20,8 @@ bool animationLoadDataFromSKA(
         IOAnimationData<T>& data,
         IOAnimationError& error)
 {
+    typedef typename T::Scalar Scalar;
+
     data.clear();
 
     std::ifstream fSka; //File streams
@@ -56,26 +58,29 @@ bool animationLoadDataFromSKA(
         else if (token[0] == 's') {
             int index;
 
-            Vector3d eulerAngles;
-            Vector3d translateVector;
+            iss >> index;            
 
-            iss >>
-                  index >>
-                  eulerAngles(0) >>
-                  eulerAngles(1) >>
-                  eulerAngles(2) >>
-                  translateVector(0) >>
-                  translateVector(1) >>
-                  translateVector(2);
+            double t1, t2, t3;
+            double r1, r2, r3;
+            double s1 = 1.0, s2 = 1.0, s3 = 1.0;
 
-            for (EigenId i = 0; i < eulerAngles.size(); ++i) {
-                eulerAngles[i] = eulerAngles[i] / 180.0 *  M_PI;
+            iss >> t1 >> t2 >> t3;
+            iss >> r1 >> r2 >> r3;
+
+            if (!iss.eof()) {
+                iss >> s1 >> s2 >> s3;
             }
 
-            Translation3d translation(translateVector);
-            Rotation3d rotation = eulerAnglesToRotationXYZ(eulerAngles);
+            Vector3<Scalar> ang(r1, r2, r3);
+            for (EigenId i = 0; i < ang.size(); ++i) {
+                ang[i] = ang[i] / 180.0 *  M_PI;
+            }
 
-            T transformation(translation * rotation);
+            Rotation3<Scalar> rot = eulerAnglesToRotationXYZ(ang);
+            Translation3<Scalar> tra(t1, t2, t3);
+            Scaling3<Scalar> sca(s1, s2, s3);
+
+            T transformation = tra * rot * sca;
 
             data.transformations[index].push_back(transformation);
         }
@@ -105,6 +110,9 @@ bool animationSaveDataToSKA(
         const IOAnimationData<T>& data,
         IOAnimationError& error)
 {
+    typedef typename T::LinearMatrixType LinearMatrixType;
+    typedef typename T::Scalar Scalar;
+
     std::ofstream fSka;
 
     fSka.imbue(streamDefaultLocale());
@@ -141,27 +149,51 @@ bool animationSaveDataToSKA(
 
         const std::vector<T>& frameTransformations = data.transformations[i];
         for (const T& t : frameTransformations) {
-            Rotation3d rot(t.rotation());
-            Vector3d tra(t.translation());
+            //Get data
+            LinearMatrixType rotMatrix, scalMatrix;
+            t.computeRotationScaling(&rotMatrix, &scalMatrix);
+            Vector3<Scalar> traVec(t.translation());
+            Rotation3<Scalar> rot(rotMatrix);
+            Vector3<Scalar> scaVec(scalMatrix.diagonal());
 
-            const double eps = 1e-5;
+            constexpr double eps = 1e-5;
 
-            Vector3d eulerAngles = eulerAnglesFromRotationXYZ(rot);
-            for (EigenId i = 0; i < eulerAngles.size(); ++i) {
-                eulerAngles[i] = eulerAngles[i] / M_PI * 180.0;
+            Vector3<Scalar> ang = eulerAnglesFromRotationXYZ(rot);
+            for (EigenId i = 0; i < ang.size(); ++i) {
+                ang[i] = ang[i] / M_PI * 180.0;
 
-                if (epsEqual(eulerAngles[i], 0.0, eps)) {
-                    eulerAngles[i] = 0.0;
+                if (epsEqual(ang[i], 0.0, eps)) {
+                    ang[i] = 0.0;
                 }
             }
 
-            for (EigenId i = 0; i < tra.size(); ++i) {
-                if (epsEqual(tra[i], 0.0, eps)) {
-                    tra[i] = 0.0;
+            for (EigenId i = 0; i < traVec.size(); ++i) {
+                if (epsEqual(traVec[i], 0.0, eps)) {
+                    traVec[i] = 0.0;
                 }
             }
 
-            fSka << "s " << i << " " << eulerAngles.x() << " " << eulerAngles.y() << " " << eulerAngles.z() << " " << tra.x() << " " << tra.y() << " " << tra.z() << std::endl;
+            bool scaling = false;
+            for (EigenId i = 0; i < scaVec.size(); ++i) {
+                if (epsEqual(scaVec[i], 1.0, eps)) {
+                    scaVec[i] = 1.0;
+                }
+                else {
+                    scaling = true;
+                }
+            }
+
+            fSka << "s " << i;
+
+            fSka << " " << traVec.x() << " " << traVec.y() << " " << traVec.z();
+
+            fSka << " " << ang.x() << " " << ang.y() << " " << ang.z();
+
+            if (scaling) {
+                fSka << " " << scaVec.x() << " " << scaVec.y() << " " << scaVec.z();
+            }
+
+            fSka << std::endl;
         }
     }
 

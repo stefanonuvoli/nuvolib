@@ -6,98 +6,80 @@ namespace nvl {
 
 /* ----------------------- GEOMETRICAL TRANSFORMATIONS ----------------------- */
 
-template<class Skeleton, class Animation, class T>
-void animationApplyTransformation(Skeleton& skeleton, Animation& animation, const Affine3<T>& transformation)
+template<class A, class T>
+void animationApplyTransformation(std::vector<A>& animations, const T& transformation)
 {
-    typename Affine3<T>::LinearMatrixType rotMatrix, scalMatrix;
-    transformation.computeRotationScaling(&rotMatrix, &scalMatrix);
-
-    const Quaternion<T> rot(rotMatrix);
-    const Scaling3<T> sca(scalMatrix.diagonal());
-
-    animationApplyTransformation(skeleton, animation, sca);
-    animationApplyTransformation(skeleton, animation, rot);
+    #pragma omp parallel for
+    for (Index aId = 0; aId < animations.size(); ++aId) {
+        animationApplyTransformation(animations[aId], transformation);
+    }
 }
 
-template<class Skeleton, class Animation, class T>
-void animationApplyTransformation(Skeleton& skeleton, Animation& animation, const Scaling3<T>& transformation)
+template<class A, class T>
+void animationApplyTransformation(A& animation, const T& transformation)
 {
-    typedef typename Animation::Frame Frame;
-    typedef typename Animation::FrameId FrameId;
-    typedef typename Animation::Transformation Transformation;
-    typedef typename Skeleton::JointId JointId;
+    animationFrameApplyTransformation(animation.keyframes(), transformation);
+}
 
+template<class F, class T>
+void animationFrameApplyTransformation(std::vector<F>& frames, const T& transformation)
+{
     #pragma omp parallel for
-    for (FrameId fId = 0; fId < animation.keyframeNumber(); ++fId) {
-        Frame& frame = animation.keyframe(fId);
+    for (Index fId = 0; fId < frames.size(); ++fId) {
+        animationFrameApplyTransformation(frames[fId], transformation);
+    }
+}
 
-        std::vector<Transformation>& transformations = frame.transformations();
-        assert(!transformations.empty());
+template<class F, class T>
+void animationFrameApplyTransformation(F& frame, const T& transformation)
+{
+    typedef typename F::Transformation Transformation;
 
+    std::vector<Transformation>& frameTransformations = frame.transformations();
+
+    if (!frameTransformations.empty()) {
         #pragma omp parallel for
-        for (JointId jId = 0; jId < skeleton.jointNumber(); ++jId) {
-            //Get data
-            typename Affine3<T>::LinearMatrixType rotMatrix, scalMatrix;
-            transformations[jId].computeRotationScaling(&rotMatrix, &scalMatrix);
-            Vector3<T> jointTraVec(transformations[jId].translation());
-            Rotation3<T> jointRot(rotMatrix);
-            Vector3<T> jointScaVec(scalMatrix.diagonal());
-
-            jointTraVec = transformation * jointTraVec;
-
-            transformations[jId].fromPositionOrientationScale(
-                jointTraVec,
-                jointRot,
-                jointScaVec);
+        for (Index jId = 0; jId < frameTransformations.size(); ++jId) {
+            frameTransformations[jId] = transformation * frameTransformations[jId];
         }
     }
 }
 
-template<class Skeleton, class Animation, class T>
-void animationApplyTransformation(Skeleton& skeleton, Animation& animation, const Rotation3<T>& transformation)
+template<class A, class T>
+void animationApplyTransformation(std::vector<A>& animations, const std::vector<T>& transformations)
 {
-    Quaternion<T> quaternion(transformation);
-    return animationApplyTransformation(skeleton, animation, quaternion);
+    #pragma omp parallel for
+    for (Index aId = 0; aId < animations.size(); ++aId) {
+        animationApplyTransformation(animations[aId], transformations);
+    }
 }
 
-template<class Skeleton, class Animation, class T>
-void animationApplyTransformation(Skeleton& skeleton, Animation& animation, const Quaternion<T>& transformation)
+template<class A, class T>
+void animationApplyTransformation(A& animation, const std::vector<T>& transformations)
 {
-    typedef typename Animation::Frame Frame;
-    typedef typename Animation::FrameId FrameId;
-    typedef typename Animation::Transformation Transformation;
+    animationFrameApplyTransformation(animation.keyframes(), transformations);
+}
 
+template<class F, class T>
+void animationFrameApplyTransformation(std::vector<F>& frames, const std::vector<T>& transformations)
+{
     #pragma omp parallel for
-    for (FrameId fId = 0; fId < animation.keyframeNumber(); ++fId) {
-        Frame& frame = animation.keyframe(fId);
+    for (Index fId = 0; fId < frames.size(); ++fId) {
+        animationFrameApplyTransformation(frames[fId], transformations);
+    }
+}
 
-        std::vector<Transformation>& transformations = frame.transformations();
-        assert(!transformations.empty());
+template<class F, class T>
+void animationFrameApplyTransformation(F& frame, const std::vector<T>& transformations)
+{
+    typedef typename F::Transformation Transformation;
 
+    std::vector<Transformation>& frameTransformations = frame.transformations();
+
+    if (!frameTransformations.empty()) {
         #pragma omp parallel for
-        for (Index jId = 0; jId < skeleton.jointNumber(); ++jId) {
-            Transformation& animationTransformation = transformations[jId];
-
-            //Get data
-            typename Affine3<T>::LinearMatrixType rotMatrix, scalMatrix;
-            animationTransformation.computeRotationScaling(&rotMatrix, &scalMatrix);
-            Vector3<T> animationTraVec(animationTransformation.translation());
-            Rotation3<T> animationRot(rotMatrix);
-            Vector3<T> animationScaVec(scalMatrix.diagonal());
-
-            //Get rotation transformation informations
-            T angle = animationRot.angle();
-            Vector3<T> axis = animationRot.axis();
-            axis = transformation * axis;
-
-            //Get translation transformation informations
-            animationTraVec = transformation * animationTraVec;
-
-            //Set new transformation
-            animationTransformation.fromPositionOrientationScale(
-                        animationTraVec,
-                        Rotation3<T>(angle, axis),
-                        animationScaVec);
+        for (Index jId = 0; jId < frameTransformations.size(); ++jId) {
+            frameTransformations[jId] = transformations[jId] * frameTransformations[jId];
         }
     }
 }
@@ -106,14 +88,14 @@ void animationApplyTransformation(Skeleton& skeleton, Animation& animation, cons
 
 /* ----------------------- TIME TRANSFORMATIONS ----------------------- */
 
-template<class Animation>
-void animationChangeDuration(Animation& animation, const double& duration)
+template<class A>
+void animationChangeDuration(A& animation, const double& duration)
 {
     animationChangeDuration(animation.keyframes(), duration);
 }
 
-template<class Frame>
-void animationFrameChangeDuration(std::vector<Frame>& frames, const double& duration)
+template<class F>
+void animationFrameChangeDuration(std::vector<F>& frames, const double& duration)
 {
     if (frames.empty())
         return;
@@ -124,7 +106,7 @@ void animationFrameChangeDuration(std::vector<Frame>& frames, const double& dura
 
     #pragma omp parallel for
     for (Index fId = 0; fId < frames.size(); ++fId) {
-        Frame& frame = frames[fId];
+        F& frame = frames[fId];
         frame.time() *= scaleFactor;
     }
 }

@@ -1,5 +1,7 @@
 #include "string_utils.h"
 
+#include <regex>
+
 namespace nvl {
 
 /**
@@ -232,6 +234,36 @@ NVL_INLINE void stringRightTrimInPlace(std::string& string)
     if (end == std::string::npos) {
         string.erase(end + 1, string.size());
     }
+}
+
+/**
+ * @brief Check if the string contrains a numeric value
+ * @param string Input string
+ * @return True if string is numeric, false otherwise
+ */
+NVL_INLINE bool stringIsNumeric(std::string& string)
+{
+    return std::regex_match(string, std::regex("((\\+|-)?[[:digit:]]+)(\\.(([[:digit:]]+)?))?"));
+}
+
+/**
+ * @brief Check if the string contrains a integer value
+ * @param string Input string
+ * @return True if string is integer, false otherwise
+ */
+NVL_INLINE bool stringIsInteger(std::string& string)
+{
+    return std::regex_match(string, std::regex("[+-]?[0-9][0-9]*"));
+}
+
+/**
+ * @brief Check if the string contrains a float value
+ * @param string Input string
+ * @return True if string is numeric, false otherwise
+ */
+NVL_INLINE bool stringIsFloat(std::string& string)
+{
+    return std::regex_match(string, std::regex("[+-]?[0-9]+(\\.[0-9]+)?([Ee][+-]?[0-9]+)?"));
 }
 
 }

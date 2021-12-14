@@ -10,34 +10,34 @@ namespace nvl {
 /* ----------------------- DEFORMATION FROM LOCAL ----------------------- */
 
 template<class S, class A>
+void animationDeformationFromGlobal(
+        const S& skeleton,
+        A& animation);
+
+template<class S, class F>
+void animationFrameDeformationFromGlobal(
+        const S& skeleton,
+        std::vector<F>& frames);
+
+template<class S, class F>
+void animationFrameDeformationFromGlobal(
+        const S& skeleton,
+        F& frame);
+
+template<class S, class A>
 void animationDeformationFromLocal(
         const S& skeleton,
         A& animation);
-template<class S, class A, class B>
-void animationDeformationFromLocal(
-        const S& skeleton,
-        A& animation,
-        const std::vector<B>& localBindPose);
 
 template<class S, class F>
 void animationFrameDeformationFromLocal(
         const S& skeleton,
         std::vector<F>& frames);
-template<class S, class F, class B>
-void animationFrameDeformationFromLocal(
-        const S& skeleton,
-        std::vector<F>& frames,
-        const std::vector<B>& localBindPose);
 
 template<class S, class F>
 void animationFrameDeformationFromLocal(
         const S& skeleton,
         F& frame);
-template<class S, class F, class B>
-void animationFrameDeformationFromLocal(
-        const S& skeleton,
-        F& frame,
-        const std::vector<B>& localBindPose);
 
 
 /* ----------------------- LOCAL FROM GLOBAL ----------------------- */

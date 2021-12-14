@@ -16,14 +16,14 @@ void modelDeformLinearBlendingSkinning(
         const W& skinningWeights,
         std::vector<A>& animations,
         const std::vector<T>& transformations,
-        const bool keepRotationInBindPose = false,
-        const bool preserveAnimations = false);
+        const bool preserveAnimations,
+        const bool removeNonStandardTransformations);
 template<class M, class T>
 void modelDeformLinearBlendingSkinning(
         M& model,
         const std::vector<T>& transformationss,
-        const bool keepRotationInBindPose = false,
-        const bool preserveAnimations = false);
+        const bool preserveAnimations,
+        const bool removeNonStandardTransformations);
 
 template<class M, class S, class W, class A, class T>
 void modelDeformDualQuaternionSkinning(
@@ -32,14 +32,14 @@ void modelDeformDualQuaternionSkinning(
         const W& skinningWeights,
         std::vector<A>& animations,
         const std::vector<DualQuaternion<T>>& transformations,
-        const bool keepRotationInBindPose = false,
-        const bool preserveAnimations = false);
+        const bool preserveAnimations,
+        const bool removeNonStandardTransformations);
 template<class M, class T>
 void modelDeformDualQuaternionSkinning(
         M& model,
         const std::vector<DualQuaternion<T>>& transformations,
-        const bool keepRotationInBindPose = false,
-        const bool preserveAnimations = false);
+        const bool preserveAnimations,
+        const bool removeNonStandardTransformations);
 
 template<class M, class S, class W, class A, class T>
 void modelDeformDualQuaternionSkinning(
@@ -48,14 +48,14 @@ void modelDeformDualQuaternionSkinning(
         const W& skinningWeights,
         std::vector<A>& animations,
         const std::vector<T>& transformations,
-        const bool keepRotationInBindPose = false,
-        const bool preserveAnimations = false);
+        const bool preserveAnimations,
+        const bool removeNonStandardTransformations);
 template<class M, class T>
 void modelDeformDualQuaternionSkinning(
         M& model,
         const std::vector<T>& transformations,
-        const bool keepRotationInBindPose = false,
-        const bool preserveAnimations = false);
+        const bool preserveAnimations,
+        const bool removeNonStandardTransformations);
 
 }
 

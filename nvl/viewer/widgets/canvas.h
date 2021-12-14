@@ -40,7 +40,7 @@ public:
         std::vector<Index> values;
 
         Index value(const Index& pos) const;
-        Index setValue(const Index& pos, const Index& value);
+        void setValue(const Index& pos, const Index& value);
         void addValue(const Index& value);
 
         bool isEmpty() const;

@@ -4,23 +4,41 @@
 
 namespace nvl {
 
-/* ----------------------- DEFORMATION FROM LOCAL ----------------------- */
+/* ----------------------- DEFORMATION FROM LOCAL AND GLOBAL ----------------------- */
+
+template<class S, class A>
+void animationDeformationFromGlobal(
+        const S& skeleton,
+        A& animation)
+{
+    animationFrameDeformationFromGlobal(skeleton, animation);
+}
+
+template<class S, class F>
+void animationFrameDeformationFromGlobal(
+        const S& skeleton,
+        std::vector<F>& frames)
+{
+    #pragma omp parallel for
+    for (Index fId = 0; fId < frames.size(); ++fId) {
+        animationFrameDeformationFromGlobal(skeleton, frames[fId]);
+    }
+}
+
+template<class S, class F>
+void animationFrameDeformationFromGlobal(
+        const S& skeleton,
+        F& frame)
+{
+    skeletonPoseDeformationFromGlobal(skeleton, frame.transformations());
+}
 
 template<class S, class A>
 void animationDeformationFromLocal(
         const S& skeleton,
         A& animation)
 {
-    animationFrameDeformationFromLocal(skeleton, animation, skeletonLocalBindPose(skeleton));
-}
-
-template<class S, class A, class B>
-void animationDeformationFromLocal(
-        const S& skeleton,
-        A& animation,
-        const std::vector<B>& localBindPose)
-{
-    animationFrameDeformationFromLocal(skeleton, animation, localBindPose);
+    animationFrameDeformationFromLocal(skeleton, animation);
 }
 
 template<class S, class F>
@@ -28,18 +46,9 @@ void animationFrameDeformationFromLocal(
         const S& skeleton,
         std::vector<F>& frames)
 {
-    animationFrameDeformationFromLocal(skeleton, frames, skeletonLocalBindPose(skeleton));
-}
-
-template<class S, class F, class B>
-void animationFrameDeformationFromLocal(
-        const S& skeleton,
-        std::vector<F>& frames,
-        const std::vector<B>& localBindPose)
-{
     #pragma omp parallel for
     for (Index fId = 0; fId < frames.size(); ++fId) {
-        animationFrameDeformationFromLocal(skeleton, frames[fId], localBindPose);
+        animationFrameDeformationFromLocal(skeleton, frames[fId]);
     }
 }
 
@@ -48,18 +57,8 @@ void animationFrameDeformationFromLocal(
         const S& skeleton,
         F& frame)
 {
-    animationFrameDeformationFromLocal(skeleton, frame, skeletonLocalBindPose(skeleton));
+    skeletonPoseDeformationFromLocal(skeleton, frame.transformations());
 }
-
-template<class S, class F, class B>
-void animationFrameDeformationFromLocal(
-        const S& skeleton,
-        F& frame,
-        const std::vector<B>& localBindPose)
-{
-    skeletonPoseDeformationFromLocal(skeleton, frame.transformations(), localBindPose);
-}
-
 
 
 /* ----------------------- LOCAL FROM GLOBAL ----------------------- */

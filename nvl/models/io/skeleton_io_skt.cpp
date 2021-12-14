@@ -1,9 +1,9 @@
 #include "skeleton_io_skt.h"
 
 #include <nvl/utilities/locale_utils.h>
+#include <nvl/utilities/string_utils.h>
 
-#include <nvl/math/translation.h>
-#include <nvl/math/rotation.h>
+#include <nvl/math/transformations.h>
 #include <nvl/math/euler_angles.h>
 #include <nvl/math/comparisons.h>
 
@@ -12,12 +12,14 @@
 
 namespace nvl {
 
-template<class V>
+template<class T>
 bool skeletonLoadDataFromSKT(
         const std::string& filename,
-        IOSkeletonData<V>& data,
+        IOSkeletonData<T>& data,
         IOSkeletonError& error)
 {
+    typedef typename T::Scalar Scalar;
+
     data.clear();
 
     std::ifstream fSkt; //File streams
@@ -54,7 +56,7 @@ bool skeletonLoadDataFromSKT(
            bool isNumeric;
            do {
                iss >> currentString;
-               isNumeric = std::regex_match(currentString, std::regex("(\\+|-)?[[:digit:]]+"));
+               isNumeric = stringIsNumeric(currentString);
 
                if (!isNumeric) {
                    if (!name.empty()) {
@@ -66,30 +68,58 @@ bool skeletonLoadDataFromSKT(
 
            father = std::stoi(currentString);
 
-           Affine3d transformation;
-
            double t1, t2, t3;
-           double r1, r2, r3;
-           iss >> t1 >> t2 >> t3;
-           iss >> r1 >> r2 >> r3;
+           double r1 = 0.0, r2 = 0.0, r3 = 0.0;
+           double s1 = 1.0, s2 = 1.0, s3 = 1.0;
 
-           Vector3d ang(r1, r2, r3);
+           iss >> t1 >> t2 >> t3;
+
+           if (!iss.eof()) {
+               iss >> currentString;
+
+               bool isFloat = stringIsFloat(currentString);
+
+               if (isFloat) {
+                   r1 = std::stod(currentString);
+                   iss >> r2 >> r3;
+               }
+               else if (currentString == "hidden") {
+                   hidden = true;
+               }
+           }
+
+           if (!iss.eof()) {
+               iss >> currentString;
+
+               bool isFloat = stringIsFloat(currentString);
+
+               if (isFloat) {
+                   s1 = std::stod(currentString);
+                   iss >> s2 >> s3;
+               }
+               else if (currentString == "hidden") {
+                   hidden = true;
+               }
+           }
+
+           if (!iss.eof()) {
+               iss >> currentString;
+
+               if (currentString == "hidden") {
+                   hidden = true;
+               }
+           }
+
+           Vector3<Scalar> ang(r1, r2, r3);
            for (EigenId i = 0; i < ang.size(); ++i) {
                ang[i] = ang[i] / 180.0 *  M_PI;
            }
 
-           Rotation3d rot = eulerAnglesToRotationXYZ(ang);
-           Translation3d tra(t1, t2, t3);
+           Rotation3<Scalar> rot = eulerAnglesToRotationXYZ(ang);
+           Translation3<Scalar> tra(t1, t2, t3);
+           Scaling3<Scalar> sca(s1, s2, s3);
 
-           transformation = tra * rot;
-
-           if (!iss.eof()) {
-               std::string hiddenString;
-               iss >> hiddenString;
-               if (hiddenString == "hidden") {
-                   hidden = true;
-               }
-           }
+           T transformation = tra * rot * sca;
 
            data.joints.push_back(transformation);
            data.hidden.push_back(hidden);
@@ -104,12 +134,15 @@ bool skeletonLoadDataFromSKT(
     return true;
 }
 
-template<class V>
+template<class T>
 bool skeletonSaveDataToSKT(
         const std::string& filename,
-        const IOSkeletonData<V>& data,
+        const IOSkeletonData<T>& data,
         IOSkeletonError& error)
 {
+    typedef typename T::LinearMatrixType LinearMatrixType;
+    typedef typename T::Scalar Scalar;
+
     std::ofstream fSkt;
 
     fSkt.imbue(streamDefaultLocale());
@@ -135,23 +168,60 @@ bool skeletonSaveDataToSKT(
     fSkt.setf(std::ios::fixed, std::ios::floatfield);
 
     for (Index i = 0; i < data.joints.size(); ++i) {
-        const V& t = data.joints[i];
+        const T& t = data.joints[i];
         const bool& h = data.hidden[i];
         const int& p = data.parents[i];
         const std::string& n = data.names[i];
 
-        Translation3d tra(t.translation());
-        Rotation3d rot(t.rotation());
+        //Get data
+        LinearMatrixType rotMatrix, scalMatrix;
+        t.computeRotationScaling(&rotMatrix, &scalMatrix);
+        Vector3<Scalar> traVec(t.translation());
+        Rotation3<Scalar> rot(rotMatrix);
+        Vector3<Scalar> scaVec(scalMatrix.diagonal());
 
-        Vector3d ang = eulerAnglesFromRotationXYZ(rot);
+        constexpr double eps = 1e-5;
 
+        bool rotation = false;
+        Vector3<Scalar> ang = eulerAnglesFromRotationXYZ(rot);
         for (EigenId i = 0; i < ang.size(); ++i) {
             ang[i] = ang[i] / M_PI * 180.0;
+
+            if (epsEqual(ang[i], 0.0, eps)) {
+                ang[i] = 0.0;
+            }
+            else {
+                rotation = true;
+            }
+        }
+
+        for (EigenId i = 0; i < traVec.size(); ++i) {
+            if (epsEqual(traVec[i], 0.0, eps)) {
+                traVec[i] = 0.0;
+            }
+        }
+
+        bool scaling = false;
+        for (EigenId i = 0; i < scaVec.size(); ++i) {
+            if (epsEqual(scaVec[i], 1.0, eps)) {
+                scaVec[i] = 1.0;
+            }
+            else {
+                scaling = true;
+            }
         }
 
         fSkt << "j " << i << " " << n << " " << p;
-        fSkt << " " << tra.x() << " " << tra.y() << " " << tra.z();
-        fSkt << " " << ang.x() << " " << ang.y() << " " << ang.z();
+
+        fSkt << " " << traVec.x() << " " << traVec.y() << " " << traVec.z();
+
+        if (rotation || scaling) {
+            fSkt << " " << ang.x() << " " << ang.y() << " " << ang.z();
+        }
+
+        if (scaling) {
+            fSkt << " " << scaVec.x() << " " << scaVec.y() << " " << scaVec.z();
+        }
 
         if (h) {
             fSkt << " " << "hidden";

@@ -47,6 +47,10 @@ void stringLeftTrimInPlace(std::string& string);
 std::string stringRightTrim(const std::string& string);
 void stringRightTrimInPlace(std::string& string);
 
+bool stringIsNumeric(std::string& string);
+bool stringIsInteger(std::string& string);
+bool stringIsFloat(std::string& string);
+
 }
 
 #include "string_utils.cpp"

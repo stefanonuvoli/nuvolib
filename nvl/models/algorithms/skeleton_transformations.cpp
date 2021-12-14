@@ -7,33 +7,30 @@
 namespace nvl {
 
 template<class Skeleton, class T>
-void skeletonApplyTransformation(Skeleton& skeleton, const T& transformation, const bool onlyTranslation)
+void skeletonApplyTransformation(Skeleton& skeleton, const T& transformation)
 {
-    typedef typename Skeleton::Scalar Scalar;
     typedef typename Skeleton::JointId JointId;
     typedef typename Skeleton::Joint Joint;
-    typedef typename Skeleton::Transformation SkeletonTransformation;
 
-    if (onlyTranslation) {
-        #pragma omp parallel for
-        for (JointId jId = 0; jId < skeleton.jointNumber(); ++jId) {
-            Joint& joint = skeleton.joint(jId);
+    #pragma omp parallel for
+    for (JointId jId = 0; jId < skeleton.jointNumber(); ++jId) {
+        Joint& joint = skeleton.joint(jId);
 
-            Vector3<Scalar> vec = joint.bindPose() * Vector3<Scalar>(0,0,0);
-            Translation3<Scalar> tra(transformation  * vec);
-
-            SkeletonTransformation newBindPose = tra * SkeletonTransformation::Identity();
-
-            joint.setBindPose(newBindPose);
-        }
+        joint.setBindPose(transformation * joint.bindPose());
     }
-    else {
-        #pragma omp parallel for
-        for (JointId jId = 0; jId < skeleton.jointNumber(); ++jId) {
-            Joint& joint = skeleton.joint(jId);
+}
 
-            joint.setBindPose(transformation * joint.bindPose());
-        }
+template<class Skeleton, class T>
+void skeletonApplyTransformation(Skeleton& skeleton, const std::vector<T>& transformations)
+{
+    typedef typename Skeleton::JointId JointId;
+    typedef typename Skeleton::Joint Joint;
+
+    #pragma omp parallel for
+    for (JointId jId = 0; jId < skeleton.jointNumber(); ++jId) {
+        Joint& joint = skeleton.joint(jId);
+
+        joint.setBindPose(transformations[jId] * joint.bindPose());
     }
 }
 

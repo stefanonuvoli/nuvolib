@@ -102,12 +102,10 @@ FbxAMatrix nodeGlobalPosition(
        FbxNode* lNode,
        FbxPose* lPose);
 FbxAMatrix nodePoseMatrix(FbxPose* lPose, int lNodeIndex);
-//FbxAMatrix nodeGeometryOffset(FbxNode* lNode);
+FbxAMatrix nodeGeometryOffset(FbxNode* lNode);
 
 template<class T>
 T transformationFromFBXMatrix(const FbxAMatrix& fbxT);
-template<class T>
-T transformationFromFBXMatrixNoScaling(const FbxAMatrix& fbxT);
 inline Translation3d transformationFromFBXTranslation(const FbxVector4& fbxT);
 inline Scaling3d transformationFromFBXScaling(const FbxVector4& fbxS);
 inline Rotation3d transformationFromFBXRotation(const FbxVector4& fbxR);
@@ -124,12 +122,9 @@ bool modelLoadDataFromFBX(
 
     typedef typename FBXData::AnimationData AnimationData;
 
-    typedef typename FBXData::JointId JointId;
     typedef typename FBXData::SkeletonTransformation SkeletonTransformation;
-    typedef typename FBXData::SkeletonScalar SkeletonScalar;
 
     typedef typename FBXData::Animation Animation;
-    typedef typename FBXData::AnimationTransformation AnimationTransformation;
 
     error = IO_MODEL_SUCCESS;
 
@@ -214,11 +209,8 @@ bool modelLoadDataFromFBX(
             AnimationData animationDataDefault;
             animationDataDefault.name = "Pose default";
 
-            animationDataDefault.times.resize(1);
-            animationDataDefault.times[0] = 0.0;
-
-            animationDataDefault.transformations.resize(1);
-            animationDataDefault.transformations[0] = fbxData.defaultPoseTransformations;
+            animationDataDefault.times.push_back(0.0);
+            animationDataDefault.transformations.push_back(fbxData.defaultPoseTransformations);
 
             fbxData.animationDataVector.push_back(animationDataDefault);
         }
@@ -233,11 +225,8 @@ bool modelLoadDataFromFBX(
                 AnimationData animationDataZero;
                 animationDataZero.name = "Pose zero";
 
-                animationDataZero.times.resize(1);
-                animationDataZero.times[0] = 0.0;
-
-                animationDataZero.transformations.resize(1);
-                animationDataZero.transformations[0] = fbxData.zeroPoseTransformations;
+                animationDataZero.times.push_back(0.0);
+                animationDataZero.transformations.push_back(fbxData.zeroPoseTransformations);
 
                 fbxData.animationDataVector.push_back(animationDataZero);
             }
@@ -264,11 +253,8 @@ bool modelLoadDataFromFBX(
                             AnimationData animationDataBind;
                             animationDataBind.name = "Bind pose " + animStackName;
 
-                            animationDataBind.times.resize(1);
-                            animationDataBind.times[0] = 0.0;
-
-                            animationDataBind.transformations.resize(1);
-                            animationDataBind.transformations[0] = fbxData.bindPoseTransformations[poseId];
+                            animationDataBind.times.push_back(0.0);
+                            animationDataBind.transformations.push_back(fbxData.bindPoseTransformations[poseId]);
 
                             fbxData.animationDataVector.push_back(animationDataBind);
                         }
@@ -276,11 +262,8 @@ bool modelLoadDataFromFBX(
                             AnimationData animationDataBind;
                             animationDataBind.name = "Rest pose " + animStackName;
 
-                            animationDataBind.times.resize(1);
-                            animationDataBind.times[0] = 0.0;
-
-                            animationDataBind.transformations.resize(1);
-                            animationDataBind.transformations[0] = fbxData.bindPoseTransformations[poseId];
+                            animationDataBind.times.push_back(0.0);
+                            animationDataBind.transformations.push_back(fbxData.bindPoseTransformations[poseId]);
 
                             fbxData.animationDataVector.push_back(animationDataBind);
                         }
@@ -307,9 +290,6 @@ bool modelLoadDataFromFBX(
     //Load skinning weights
     skinningWeightsLoadData(modelData.skinningWeights, fbxData.skinningWeightsData, mode.skinningWeightsMode);
 
-    //Compute the local bind pose
-    std::vector<SkeletonTransformation> localBindPose = skeletonLocalBindPose(modelData.skeleton);
-
     //Load animations
     for (Index aId = 0; aId < fbxData.animationDataVector.size(); ++aId) {
         AnimationData& animationData = fbxData.animationDataVector[aId];
@@ -317,21 +297,11 @@ bool modelLoadDataFromFBX(
 
         animationLoadData(animation, animationData, mode.animationMode);
 
-        nvl::animationLocalFromGlobal(modelData.skeleton, animation);
-
-        for (nvl::Index frameId = 0; frameId < animation.keyframeNumber(); ++frameId) {
-            for (JointId jId = 0; jId < modelData.skeleton.jointNumber(); ++jId) {
-                AnimationTransformation& t = animation.keyframe(frameId).transformation(jId);
-                t = localBindPose[jId].inverse() * t;
-            }
-        }
-
         modelData.animations.push_back(animation);
     }
 
     //Get the pose deformation
     std::vector<SkeletonTransformation> poseDeformation;
-
     if (mode.FBXDeformToPose == IOModelFBXPose::IO_FBX_POSE_DEFAULT) {
         //Deformation with default pose
         poseDeformation = fbxData.defaultPoseTransformations;
@@ -345,70 +315,10 @@ bool modelLoadDataFromFBX(
         poseDeformation = fbxData.bindPoseTransformations[fbxData.bindPoseTransformations.size() - 1];
     }
 
-    //Deform model to get bind pose
-    bool deformModel = false;
+    //Deform the model
     if (!poseDeformation.empty()) {
-        nvl::skeletonPoseLocalFromGlobal(modelData.skeleton, poseDeformation);
-
-        for (JointId jId = 0; jId < poseDeformation.size(); ++jId) {
-            SkeletonTransformation& t = poseDeformation[jId];
-            t = localBindPose[jId].inverse() * t;
-
-            //Adapt pose to handle no rotation in bind pose (without changing the skeleton)
-            const SkeletonTransformation& bPose = modelData.skeleton.jointBindPose(jId);
-            Rotation3d bRot(bPose.rotation());
-
-            if (!bRot.isApprox(Rotation3<SkeletonScalar>::Identity())) {
-                Vector3<SkeletonScalar> bVec = bPose * Vector3<SkeletonScalar>(0,0,0);
-                Translation3<SkeletonScalar> bTra(bVec);
-
-                //Get rotation transformation informations
-                Rotation3<SkeletonScalar> tRot(poseDeformation[jId].rotation());
-                SkeletonScalar tAngle = tRot.angle();
-                Vector3<SkeletonScalar> tAxis = tRot.axis();
-                tAxis = bRot * tAxis;
-
-                //Get translation transformation informations
-                Vector3<SkeletonScalar> tTra(poseDeformation[jId].translation());
-                tTra = bRot * tTra;
-
-                //Set new transformation
-                poseDeformation[jId].fromPositionOrientationScale(
-                    tTra,
-                    Rotation3<SkeletonScalar>(tAngle, tAxis),
-                    Vector3<SkeletonScalar>(1.0, 1.0, 1.0));
-            }
-
-            Rotation3<SkeletonScalar> rot(t.rotation());
-            Vector3<SkeletonScalar> tra(t.translation());
-
-            if (!deformModel) {
-                const double eps = 1e-3;
-                Vector3<SkeletonScalar> eulerAngles = eulerAnglesFromRotationXYZ(rot);
-                for (EigenId i = 0; i < eulerAngles.size(); ++i) {
-                    eulerAngles[i] = eulerAngles[i] / M_PI * 180.0;
-
-                    if (!epsEqual(eulerAngles[i], 0.0, eps)) {
-                        deformModel = true;
-                    }
-                }
-
-                for (EigenId i = 0; i < tra.size(); ++i) {
-                    if (!epsEqual(tra[i], 0.0, eps)) {
-                        deformModel = true;
-                    }
-                }
-            }
-        }
-    }
-
-    //Remove rotation in bind pose
-    nvl::modelRemoveRotationInBindPose(modelData.skeleton, modelData.animations);
-
-    //Model deformation to pose
-    if (deformModel) {
-        nvl::skeletonPoseDeformationFromLocal(modelData.skeleton, poseDeformation);
-        modelDeformDualQuaternionSkinning(modelData.mesh, modelData.skeleton, modelData.skinningWeights, modelData.animations, poseDeformation, false, true);
+        nvl::skeletonPoseDeformationFromGlobal(modelData.skeleton, poseDeformation);
+        modelDeformDualQuaternionSkinning(modelData.mesh, modelData.skeleton, modelData.skinningWeights, modelData.animations, poseDeformation, true, false);
     }
 
     return true;
@@ -427,9 +337,9 @@ void handleSkeletonInner(
     FbxSkeleton* lSkeleton = lNode->GetSkeleton();
     bool isSkeleton = lSkeleton != nullptr ? true : false;
 
-//    FbxAMatrix geometryOffset = nodeGeometryOffset(lNode);
-    FbxAMatrix lJointGlobalTransform = lNode->EvaluateGlobalTransform();// * geometryOffset;
-    SkeletonTransformation jointTransformation = transformationFromFBXMatrixNoScaling<SkeletonTransformation>(lJointGlobalTransform);
+    FbxAMatrix geometryOffset = nodeGeometryOffset(lNode);
+    FbxAMatrix lJointGlobalTransform = lNode->EvaluateGlobalTransform() * geometryOffset;
+    SkeletonTransformation jointTransformation = transformationFromFBXMatrix<SkeletonTransformation>(lJointGlobalTransform);
 
     const std::string jointName = lNode->GetName();
 
@@ -497,8 +407,8 @@ void handleMesh(
 
     FbxVector4* lControlPoints = lMesh->GetControlPoints();
 
-//    FbxAMatrix geometryOffset = nodeGeometryOffset(lNode);
-    FbxAMatrix lGlobalTransform = lNode->EvaluateGlobalTransform();// * geometryOffset;
+    FbxAMatrix geometryOffset = nodeGeometryOffset(lNode);
+    FbxAMatrix lGlobalTransform = lNode->EvaluateGlobalTransform() * geometryOffset;
 
     for (int i = 0; i < lVertexCount; i++) {
         FbxVector4 controlPoint = lGlobalTransform.MultT(lControlPoints[i]);
@@ -848,7 +758,7 @@ void handleDeformerAndAnimationsRecursive(
 
                     FbxAMatrix transformLinkMatrix;
                     lCluster->GetTransformLinkMatrix(transformLinkMatrix);
-                    SkeletonTransformation linkTransformation = transformationFromFBXMatrixNoScaling<SkeletonTransformation>(transformLinkMatrix);
+                    SkeletonTransformation linkTransformation = transformationFromFBXMatrix<SkeletonTransformation>(transformLinkMatrix);
 
                     data.skeletonData.joints[jId] = linkTransformation;
 
@@ -898,14 +808,14 @@ void handleDeformerAndAnimationsRecursive(
             FbxAnimStack* lAnimStack = data.animationStacks[i];
             lScene->SetCurrentAnimationStack(lAnimStack);
 
-            for (Index frameId = 0; frameId < animationData.times.size(); ++frameId) {
-                FbxTime time = data.animationTimes[i][frameId];
+            for (Index fId = 0; fId < animationData.times.size(); ++fId) {
+                FbxTime time = data.animationTimes[i][fId];
 
-//                FbxAMatrix geometryOffset = nodeGeometryOffset(lNode);
-                FbxAMatrix lAnimGlobalTransform = lNode->EvaluateGlobalTransform(time);// * geometryOffset;
-                AnimationTransformation animTransformation = transformationFromFBXMatrixNoScaling<AnimationTransformation>(lAnimGlobalTransform);
+                FbxAMatrix geometryOffset = nodeGeometryOffset(lNode);
+                FbxAMatrix lAnimGlobalTransform = lNode->EvaluateGlobalTransform(time) * geometryOffset;
+                AnimationTransformation animTransformation = transformationFromFBXMatrix<AnimationTransformation>(lAnimGlobalTransform);
 
-                animationData.transformations[frameId][jId] = animTransformation;
+                animationData.transformations[fId][jId] = animTransformation;
             }
         }
     }
@@ -931,10 +841,10 @@ void handleBindPoseRecursive(
     if (it != data.skeletonMap.end()) {
         Index jId = it->second;
 
-//        FbxAMatrix geometryOffset = nodeGeometryOffset(lNode);
-        FbxAMatrix posePosition = nodeGlobalPosition(lNode, lPose);// * geometryOffset;
+        FbxAMatrix geometryOffset = nodeGeometryOffset(lNode);
+        FbxAMatrix posePosition = nodeGlobalPosition(lNode, lPose) * geometryOffset;
 
-        SkeletonTransformation poseTransformation = transformationFromFBXMatrixNoScaling<SkeletonTransformation>(posePosition);
+        SkeletonTransformation poseTransformation = transformationFromFBXMatrix<SkeletonTransformation>(posePosition);
 
         data.bindPoseTransformations[poseId][jId] = poseTransformation;
     }
@@ -957,9 +867,9 @@ void handleZeroPoseRecursive(
     if (it != data.skeletonMap.end()) {
         Index jId = it->second;
 
-//        FbxAMatrix geometryOffset = nodeGeometryOffset(lNode);
-        FbxAMatrix lAnimGlobalTransform = lNode->EvaluateGlobalTransform(0.0);// * nodeGeometryOffset(lNode);
-        AnimationTransformation animTransformation = transformationFromFBXMatrixNoScaling<AnimationTransformation>(lAnimGlobalTransform);
+        FbxAMatrix geometryOffset = nodeGeometryOffset(lNode);
+        FbxAMatrix lAnimGlobalTransform = lNode->EvaluateGlobalTransform(0.0) * geometryOffset;
+        AnimationTransformation animTransformation = transformationFromFBXMatrix<AnimationTransformation>(lAnimGlobalTransform);
 
         data.zeroPoseTransformations[jId] = animTransformation;
     }
@@ -1025,15 +935,15 @@ inline FbxAMatrix nodePoseMatrix(FbxPose* lPose, int lNodeIndex)
     return lPoseMatrix;
 }
 
-////Get the geometry offset to a node. It is never inherited by the children.
-//inline FbxAMatrix nodeGeometryOffset(FbxNode* lNode)
-//{
-//    const FbxVector4 lT = lNode->GetGeometricTranslation(FbxNode::eSourcePivot);
-//    const FbxVector4 lR = lNode->GetGeometricRotation(FbxNode::eSourcePivot);
-//    const FbxVector4 lS = lNode->GetGeometricScaling(FbxNode::eSourcePivot);
+//Get the geometry offset to a node. It is never inherited by the children.
+inline FbxAMatrix nodeGeometryOffset(FbxNode* lNode)
+{
+    const FbxVector4 lT = lNode->GetGeometricTranslation(FbxNode::eSourcePivot);
+    const FbxVector4 lR = lNode->GetGeometricRotation(FbxNode::eSourcePivot);
+    const FbxVector4 lS = lNode->GetGeometricScaling(FbxNode::eSourcePivot);
 
-//    return FbxAMatrix(lT, lR, lS);
-//}
+    return FbxAMatrix(lT, lR, lS);
+}
 
 template<class T>
 T transformationFromFBXMatrix(const FbxAMatrix& fbxT)
@@ -1047,20 +957,6 @@ T transformationFromFBXMatrix(const FbxAMatrix& fbxT)
     Scaling3d sca = transformationFromFBXScaling(fbxScaling);
 
     T t(tra * rot * sca);
-
-    return t;
-}
-
-template<class T>
-T transformationFromFBXMatrixNoScaling(const FbxAMatrix& fbxT)
-{
-    FbxVector4 fbxTranslation = fbxT.GetT();
-    FbxVector4 fbxRotation = fbxT.GetR();
-
-    Rotation3d rot = transformationFromFBXRotation(fbxRotation);
-    Translation3d tra = transformationFromFBXTranslation(fbxTranslation);
-
-    T t(tra * rot);
 
     return t;
 }

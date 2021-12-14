@@ -11,26 +11,32 @@ namespace nvl {
 
 /* ----------------------- GEOMETRICAL TRANSFORMATIONS ----------------------- */
 
-template<class Skeleton, class Animation, class T>
-void animationApplyTransformation(Skeleton& skeleton, Animation& animation, const Affine3<T>& transformation);
+template<class A, class T>
+void animationApplyTransformation(std::vector<A>& animations, const T& transformation);
+template<class A, class T>
+void animationApplyTransformation(A& animation, const T& transformation);
+template<class F, class T>
+void animationFrameApplyTransformation(std::vector<F>& frame, const T& transformation);
+template<class F, class T>
+void animationFrameApplyTransformation(F& frame, const T& transformation);
 
-template<class Skeleton, class Animation, class T>
-void animationApplyTransformation(Skeleton& skeleton, Animation& animation, const Scaling3<T>& transformation);
-
-template<class Skeleton, class Animation, class T>
-void animationApplyTransformation(Skeleton& skeleton, Animation& animation, const Quaternion<T>& transformation);
-
-template<class Skeleton, class Animation, class T>
-void animationApplyTransformation(Skeleton& skeleton, Animation& animation, const Rotation3<T>& transformation);
+template<class A, class T>
+void animationApplyTransformation(std::vector<A>& animations, const std::vector<T>& transformations);
+template<class A, class T>
+void animationApplyTransformation(A& animation, const std::vector<T>& transformations);
+template<class F, class T>
+void animationFrameApplyTransformation(std::vector<F>& frame, const std::vector<T>& transformations);
+template<class F, class T>
+void animationFrameApplyTransformation(F& frame, const std::vector<T>& transformations);
 
 
 /* ----------------------- TIME TRANSFORMATIONS ----------------------- */
 
-template<class Animation>
-void animationChangeDuration(Animation& animation, const double& duration);
+template<class A>
+void animationChangeDuration(A& animation, const double& duration);
 
-template<class Frame>
-void animationFrameChangeDuration(std::vector<Frame>& frames, const double& duration);
+template<class F>
+void animationFChangeDuration(std::vector<F>& frames, const double& duration);
 
 }
 

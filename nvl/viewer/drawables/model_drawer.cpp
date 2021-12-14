@@ -236,7 +236,7 @@ void ModelDrawer<M>::loadAnimation(const Index& id)
     }
 
     //Compute final transformations
-    animationFrameDeformationFromLocal(*(vSkeletonDrawer.skeleton()), vAnimationFrames);
+    animationFrameDeformationFromGlobal(*(vSkeletonDrawer.skeleton()), vAnimationFrames);
 
     if (this->vAnimationSkinningMode == SkinningMode::SKINNING_DUAL_QUATERNIONS) {
         dualQuaternionTransformations.resize(vAnimationFrames.size());
@@ -310,13 +310,37 @@ const Index& ModelDrawer<M>::currentFrameId()
 }
 
 template<class M>
-const typename Animation3d::Frame& ModelDrawer<M>::currentFrame()
+const typename Animation3d::Frame& ModelDrawer<M>::currentFrame() const
 {
     return vAnimationFrames[vAnimationCurrentFrameId];
 }
 
 template<class M>
-Size ModelDrawer<M>::keyframeNumber()
+typename Animation3d::Frame& ModelDrawer<M>::currentFrame()
+{
+    return vAnimationFrames[vAnimationCurrentFrameId];
+}
+
+template<class M>
+const std::vector<typename Animation3d::Frame>& ModelDrawer<M>::animationFrames() const
+{
+    return vAnimationFrames;
+}
+
+template<class M>
+std::vector<typename Animation3d::Frame>& ModelDrawer<M>::animationFrames()
+{
+    return vAnimationFrames;
+}
+
+template<class M>
+void ModelDrawer<M>::setAnimationFrames(const std::vector<typename Animation3d::Frame>& animationFrames)
+{
+    vAnimationFrames = animationFrames;
+}
+
+template<class M>
+Size ModelDrawer<M>::frameNumber()
 {
     return vAnimationFrames.size();
 }

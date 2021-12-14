@@ -2,6 +2,8 @@
 
 #include <nvl/models/algorithms/animation_poses.h>
 #include <nvl/models/algorithms/model_transformations.h>
+#include <nvl/models/algorithms/animation_transformations.h>
+#include <nvl/models/algorithms/model_clean.h>
 
 namespace nvl {
 
@@ -12,132 +14,39 @@ void modelDeformLinearBlendingSkinning(
         const W& skinningWeights,
         std::vector<A>& animations,
         const std::vector<T>& transformations,
-        const bool keepRotationInBindPose,
-        const bool preserveAnimations)
+        const bool preserveAnimations,
+        const bool removeNonStandardTransformations)
 {
-    typedef typename S::JointId JointId;
-    typedef typename S::Scalar SkeletonScalar;
-    typedef typename S::Transformation SkeletonTransformation;
+    typedef typename M::Point Point;
+    typedef typename M::VertexNormal VertexNormal;
 
-    typedef typename A::Transformation AnimationTransformation;
-    typedef typename A::Frame Frame;
-    typedef typename A::FrameId FrameId;
+    //Apply transformations to skeleton
+    skeletonApplyTransformation(skeleton, transformations);
 
-    std::vector<A> globalAnimations;
-
-    if (preserveAnimations) {
-        std::vector<SkeletonTransformation> localBindPose = skeletonLocalBindPose(skeleton);
-
-        globalAnimations.resize(animations.size());
-        for (Index i = 0; i < animations.size(); ++i) {
-            globalAnimations[i] = animations[i];
-
-            #pragma omp parallel for
-            for (nvl::Index fId = 0; fId < globalAnimations[i].keyframeNumber(); ++fId) {
-                for (JointId jId = 0; jId < skeleton.jointNumber(); ++jId) {
-                    AnimationTransformation& t = globalAnimations[i].keyframe(fId).transformation(jId);
-
-                    t = localBindPose[jId] * t;
-                }
-            }
-
-            animationGlobalFromLocal(skeleton, globalAnimations[i]);
-        }
-    }
-
-    #pragma omp parallel for
-    for (Index jId = 0; jId < skeleton.jointNumber(); ++jId) {
-        const T& t = transformations[jId];
-
-        SkeletonTransformation r;
-
-        if (keepRotationInBindPose || preserveAnimations) {
-            r = t * skeleton.jointBindPose(jId);
-        }
-        else {
-            Point3d p = skeleton.jointBindPose(jId) * Point3<SkeletonScalar>::Zero();
-            p = t * p;
-
-            Translation3d jointTranslation(p);
-
-            r = jointTranslation * SkeletonTransformation::Identity();
-
-            Matrix33<SkeletonScalar> rotMatrix, scalMatrix;
-            t.computeRotationScaling(&rotMatrix, &scalMatrix);
-
-            const Quaternion<SkeletonScalar> tRotation(rotMatrix);
-            const Scaling3<SkeletonScalar> tScaling(scalMatrix.diagonal());
-
-            for (A& animation : animations) {
-                std::vector<Frame>& frames = animation.keyframes();
-                for (FrameId fId = 0; fId < frames.size(); ++fId) {
-                    AnimationTransformation& animationTransformation = frames[fId].transformation(jId);
-
-                    //Get data
-                    typename Affine3<T>::LinearMatrixType rotMatrix, scalMatrix;
-                    animationTransformation.computeRotationScaling(&rotMatrix, &scalMatrix);
-                    Vector3<T> animationTraVec(animationTransformation.translation());
-                    Rotation3<T> animationRot(rotMatrix);
-                    Vector3<T> animationScaVec(scalMatrix.diagonal());
-
-                    //Get rotation transformation informations
-                    SkeletonScalar angle = animationRot.angle();
-                    Vector3<SkeletonScalar> axis = animationRot.axis();
-                    axis = tRotation * axis;
-
-                    //Get translation transformation informations
-                    animationTraVec = tScaling * tRotation * animationTraVec;
-
-                    //Set new transformation
-                    animationTransformation.fromPositionOrientationScale(
-                                animationTraVec,
-                                Rotation3<SkeletonScalar>(angle, axis),
-                                animationScaVec);
-                }
-            }
-        }
-
-        skeleton.setJointBindPose(jId, r);
-    }
-
+    //Skinning on vertices
     #pragma omp parallel for
     for (Index vId = 0; vId < mesh.nextVertexId(); ++vId) {
         if (!mesh.isVertexDeleted(vId)) {
             T t = animationLinearBlendingSkinningVertex(skinningWeights, transformations, vId);
 
-            const Point3d& p = mesh.vertexPoint(vId);
+            const Point& p = mesh.vertexPoint(vId);
             mesh.setVertexPoint(vId, t * p);
 
             if (mesh.hasVertexNormals()) {
-                const Vector3d& n = mesh.vertexNormal(vId);
+                const VertexNormal& n = mesh.vertexNormal(vId);
                 mesh.setVertexNormal(vId, t.rotation() * n);
             }
         }
     }
 
-    if (preserveAnimations) {
-        std::vector<SkeletonTransformation> newLocalBindPose = skeletonLocalBindPose(skeleton);
+    //Preserve animations
+    if (!preserveAnimations) {
+        animationApplyTransformation(animations, transformations);
+    }
 
-        animations = globalAnimations;
-
-        for (Index i = 0; i < animations.size(); ++i) {
-            A& animation = animations[i];
-
-            animationLocalFromGlobal(skeleton, animation);
-
-            #pragma omp parallel for
-            for (nvl::Index fId = 0; fId < animation.keyframeNumber(); ++fId) {
-                for (JointId jId = 0; jId < skeleton.jointNumber(); ++jId) {
-                    AnimationTransformation& t = animation.keyframe(fId).transformation(jId);
-
-                    t = newLocalBindPose[jId].inverse() * t;
-                }
-            }
-        }
-
-        if (!keepRotationInBindPose) {
-            modelRemoveRotationInBindPose(skeleton, animations);
-        }
+    //Remove scaling and rotation in bind pose
+    if (!removeNonStandardTransformations) {
+        modelRemoveNonStandardTransformations(skeleton, animations);
     }
 }
 
@@ -145,10 +54,10 @@ template<class M, class T>
 void modelDeformLinearBlendingSkinning(
         M& model,
         const std::vector<T>& transformations,
-        const bool keepRotationInBindPose,
-        const bool preserveAnimations)
+        const bool preserveAnimations,
+        const bool removeNonStandardTransformations)
 {
-    return modelDeformLinearBlendingSkinning(model.mesh, model.skeleton, model.skinningWeights, model.animations, transformations, keepRotationInBindPose, preserveAnimations);
+    return modelDeformLinearBlendingSkinning(model.mesh, model.skeleton, model.skinningWeights, model.animations, transformations, preserveAnimations, removeNonStandardTransformations);
 }
 
 template<class M, class S, class W, class A, class T>
@@ -158,127 +67,116 @@ void modelDeformDualQuaternionSkinning(
         const W& skinningWeights,
         std::vector<A>& animations,
         const std::vector<DualQuaternion<T>>& transformations,
-        const bool keepRotationInBindPose,
-        const bool preserveAnimations)
+        const bool preserveAnimations,
+        const bool removeNonStandardTransformations)
 {
+    typedef typename M::Point Point;
+    typedef typename M::VertexNormal VertexNormal;
     typedef typename S::JointId JointId;
-    typedef typename S::Scalar SkeletonScalar;
     typedef typename S::Transformation SkeletonTransformation;
 
-    typedef typename A::Transformation AnimationTransformation;
-    typedef typename A::Frame Frame;
-    typedef typename A::FrameId FrameId;
+    typedef S Skeleton;
+    typedef A Animation;
+    typedef typename Animation::FrameId FrameId;
+    typedef typename Animation::Transformation AnimationTransformation;
+    typedef typename Skeleton::JointId JointId;
+    typedef typename Skeleton::Transformation SkeletonTransformation;
+    typedef typename AnimationTransformation::LinearMatrixType AnimationLinearMatrixType;
+    typedef typename Animation::Scalar AnimationScalar;
 
-    std::vector<A> globalAnimations;
-
-    if (preserveAnimations) {
-        std::vector<SkeletonTransformation> localBindPose = skeletonLocalBindPose(skeleton);
-
-        globalAnimations.resize(animations.size());
-        for (Index i = 0; i < animations.size(); ++i) {
-            globalAnimations[i] = animations[i];
-
-            #pragma omp parallel for
-            for (nvl::Index fId = 0; fId < globalAnimations[i].keyframeNumber(); ++fId) {
-                for (JointId jId = 0; jId < skeleton.jointNumber(); ++jId) {
-                    AnimationTransformation& t = globalAnimations[i].keyframe(fId).transformation(jId);
-
-                    t = localBindPose[jId] * t;
-                }
-            }
-
-            animationGlobalFromLocal(skeleton, globalAnimations[i]);
-        }
+    //Compute local bind pose removing the local bind pose
+    std::vector<SkeletonTransformation> oldLocalInverseBindPose;
+    if (!preserveAnimations) {
+        oldLocalInverseBindPose = skeletonLocalInverseBindPose(skeleton);
     }
 
+    //Apply transformations to skeleton
     #pragma omp parallel for
-    for (Index jId = 0; jId < skeleton.jointNumber(); ++jId) {
-        const DualQuaterniond& dq = transformations[jId];
+    for (JointId jId = 0; jId < skeleton.jointNumber(); ++jId) {
+        const DualQuaternion<T>& dq = transformations[jId];
 
-        SkeletonTransformation r;
-
-        if (keepRotationInBindPose || preserveAnimations) {
-            r = dq.affineTransformation() * skeleton.jointBindPose(jId);
-        }
-        else {
-            Point3d p = skeleton.jointBindPose(jId) * Point3<SkeletonScalar>::Zero();
-            p = dq * p;
-
-            Translation3d jointTranslation(p);
-
-            r = jointTranslation * SkeletonTransformation::Identity();
-
-            const Quaternion<T> dqRotation(dq.rotation());
-            for (A& animation : animations) {
-                std::vector<Frame>& frames = animation.keyframes();
-                for (FrameId fId = 0; fId < frames.size(); ++fId) {
-                    AnimationTransformation& animationTransformation = frames[fId].transformation(jId);
-
-                    //Get data
-                    typename Affine3<T>::LinearMatrixType rotMatrix, scalMatrix;
-                    animationTransformation.computeRotationScaling(&rotMatrix, &scalMatrix);
-                    Vector3<T> animationTraVec(animationTransformation.translation());
-                    Rotation3<T> animationRot(rotMatrix);
-                    Vector3<T> animationScaVec(scalMatrix.diagonal());
-
-                    //Get rotation transformation informations
-                    T angle = animationRot.angle();
-                    Vector3<T> axis = animationRot.axis();
-                    axis = dqRotation * axis;
-
-                    //Get translation transformation informations
-                    animationTraVec = dqRotation * animationTraVec;
-
-                    //Set new transformation
-                    animationTransformation.fromPositionOrientationScale(
-                                animationTraVec,
-                                Rotation3<T>(angle, axis),
-                                animationScaVec);
-                }
-            }
-        }
-
+        SkeletonTransformation r = dq.affineTransformation() * skeleton.jointBindPose(jId);
         skeleton.setJointBindPose(jId, r);
     }
 
+    //Skinning on vertices
     #pragma omp parallel for
     for (Index vId = 0; vId < mesh.nextVertexId(); ++vId) {
         if (!mesh.isVertexDeleted(vId)) {
-            DualQuaterniond dq = animationDualQuaternionSkinningVertex(skinningWeights, transformations, vId);
+            DualQuaternion<T> dq = animationDualQuaternionSkinningVertex(skinningWeights, transformations, vId);
 
-            const Point3d& p = mesh.vertexPoint(vId);
+            const Point& p = mesh.vertexPoint(vId);
             mesh.setVertexPoint(vId, dq * p);
 
             if (mesh.hasVertexNormals()) {
-                const Vector3d& n = mesh.vertexNormal(vId);
+                const VertexNormal& n = mesh.vertexNormal(vId);
                 mesh.setVertexNormal(vId, dq.rotation() * n);
             }
         }
     }
 
-    if (preserveAnimations) {
+    //Preserve animations
+    if (!preserveAnimations) {
+        //Compute new local bind pose
         std::vector<SkeletonTransformation> newLocalBindPose = skeletonLocalBindPose(skeleton);
 
-        animations = globalAnimations;
-
-        for (Index i = 0; i < animations.size(); ++i) {
-            A& animation = animations[i];
+        #pragma omp parallel for
+        for (Index aId = 0; aId < animations.size(); ++aId) {
+            Animation& animation = animations[aId];
 
             animationLocalFromGlobal(skeleton, animation);
+            animationApplyTransformation(animation, oldLocalInverseBindPose);
+        }
 
-            #pragma omp parallel for
-            for (nvl::Index fId = 0; fId < animation.keyframeNumber(); ++fId) {
+        //Adjust rotation for each animation
+        #pragma omp parallel for
+        for (Index aId = 0; aId < animations.size(); ++aId) {
+            Animation& animation = animations[aId];
+
+            for (FrameId fId = 0; fId < animation.keyframeNumber(); ++fId) {
                 for (JointId jId = 0; jId < skeleton.jointNumber(); ++jId) {
                     AnimationTransformation& t = animation.keyframe(fId).transformation(jId);
+                    const DualQuaternion<T>& dq = transformations[jId];
 
-                    t = newLocalBindPose[jId].inverse() * t;
+                    Quaternion<T> dqRot(dq.rotation());
+                    if (dqRot.isApprox(Quaternion<AnimationScalar>::Identity()))
+                        continue;
+
+                    //Get data
+                    AnimationLinearMatrixType rotMatrix, scalMatrix;
+                    t.computeRotationScaling(&rotMatrix, &scalMatrix);
+                    Vector3<AnimationScalar> animTraVec(t.translation());
+                    Rotation3<AnimationScalar> animRot(rotMatrix);
+                    Vector3<AnimationScalar> animScaVec(scalMatrix.diagonal());
+
+                    //Get rotation transformation informations
+                    AnimationScalar angle = animRot.angle();
+                    Vector3<AnimationScalar> axis = animRot.axis();
+                    axis = dqRot * axis;
+
+                    animTraVec = dqRot * animTraVec;
+
+                    //Set new transformation
+                    t.fromPositionOrientationScale(
+                        animTraVec,
+                        Rotation3<AnimationScalar>(angle, axis),
+                        animScaVec);
                 }
             }
         }
 
-        if (!keepRotationInBindPose) {
-            modelRemoveRotationInBindPose(skeleton, animations);
+        #pragma omp parallel for
+        for (Index aId = 0; aId < animations.size(); ++aId) {
+            Animation& animation = animations[aId];
+
+            animationApplyTransformation(animation, newLocalBindPose);
+            animationGlobalFromLocal(skeleton, animation);
         }
+    }
+
+    //Remove scaling and rotation in bind pose
+    if (!removeNonStandardTransformations) {
+        modelRemoveNonStandardTransformations(skeleton, animations);
     }
 }
 
@@ -286,10 +184,10 @@ template<class M, class T>
 void modelDeformDualQuaternionSkinning(
         M& model,
         const std::vector<DualQuaternion<T>>& transformations,
-        const bool keepRotationInBindPose,
-        const bool preserveAnimations)
+        const bool preserveAnimations,
+        const bool removeNonStandardTransformations)
 {
-    return modelDeformDualQuaternionSkinning(model.mesh, model.skeleton, model.skinningWeights, model.animations, transformations, keepRotationInBindPose, preserveAnimations);
+    return modelDeformDualQuaternionSkinning(model.mesh, model.skeleton, model.skinningWeights, model.animations, transformations, preserveAnimations, removeNonStandardTransformations);
 }
 
 template<class M, class S, class W, class A, class T>
@@ -299,8 +197,8 @@ void modelDeformDualQuaternionSkinning(
         const W& skinningWeights,
         std::vector<A>& animations,
         const std::vector<T>& transformations,
-        const bool keepRotationInBindPose,
-        const bool preserveAnimations)
+        const bool preserveAnimations,
+        const bool removeNonStandardTransformations)
 {
 
     typedef typename T::Scalar Scalar;
@@ -312,17 +210,17 @@ void modelDeformDualQuaternionSkinning(
         dualQuaternionTransformations[i] = DualQuaternion<Scalar>(Quaternion<Scalar>(transformations[i].rotation()), transformations[i].translation());
     }
 
-    modelDeformDualQuaternionSkinning(mesh, skeleton, skinningWeights, animations, dualQuaternionTransformations, keepRotationInBindPose, preserveAnimations);
+    modelDeformDualQuaternionSkinning(mesh, skeleton, skinningWeights, animations, dualQuaternionTransformations, preserveAnimations, removeNonStandardTransformations);
 }
 
 template<class M, class T>
 void modelDeformDualQuaternionSkinning(
         M& model,
         const std::vector<T>& transformations,
-        const bool keepRotationInBindPose,
-        const bool preserveAnimations)
+        const bool preserveAnimations,
+        const bool removeNonStandardTransformations)
 {
-    return modelDeformDualQuaternionSkinning(model.mesh, model.skeleton, model.skinningWeights, model.animations, transformations, keepRotationInBindPose, preserveAnimations);
+    return modelDeformDualQuaternionSkinning(model.mesh, model.skeleton, model.skinningWeights, model.animations, transformations, preserveAnimations, removeNonStandardTransformations);
 }
 
 }

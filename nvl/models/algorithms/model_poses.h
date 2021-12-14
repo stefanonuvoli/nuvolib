@@ -7,7 +7,11 @@
 
 namespace nvl {
 
-/* ----------------------- DEFORMATION FROM LOCAL ----------------------- */
+/* ----------------------- DEFORMATION FROM LOCAL AND GLOBAL ----------------------- */
+
+template<class M>
+void modelDeformationFromGlobal(
+        M& model);
 
 template<class M>
 void modelDeformationFromLocal(

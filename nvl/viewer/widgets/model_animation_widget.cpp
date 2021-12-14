@@ -199,7 +199,7 @@ NVL_INLINE void ModelAnimationWidget::updateOptions()
     ui->keyframeSlider->setEnabled(loadedAnimation && !animationRunning);
     ui->keyframeSlider->setMinimum(0);
     if (drawableSelected) {
-        ui->keyframeSlider->setMaximum(selectedDrawer->keyframeNumber() - 1);
+        ui->keyframeSlider->setMaximum(selectedDrawer->frameNumber() - 1);
     }
     else {
         ui->keyframeSlider->setMaximum(0);
