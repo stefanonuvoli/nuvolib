@@ -36,7 +36,7 @@ template<class A>
 void animationChangeDuration(A& animation, const double& duration);
 
 template<class F>
-void animationFChangeDuration(std::vector<F>& frames, const double& duration);
+void animationFrameChangeDuration(std::vector<F>& frames, const double& duration);
 
 }
 

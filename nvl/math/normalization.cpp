@@ -8,9 +8,11 @@ template<class T>
 void normalize(std::vector<T>& vector)
 {
     T sum = 0;
+
     for (const T& v : vector) {
         sum += v;
     }
+
     if (!epsEqual(sum, 0)) {
         for (T& v : vector) {
             v /= sum;

@@ -7,19 +7,28 @@
 
 namespace nvl {
 
-template<class T, class R = double>
+template<class T, class R = T>
 R mean(const std::vector<T>& values);
 
-template<class T, class R = double>
+template<class T, class R = T>
 R variance(const std::vector<T>& values);
-template<class T, class R = double>
+template<class T, class R = T>
 R variance(const std::vector<T>& values, const T& mean);
 
-template<class T, class R = double>
+template<class T, class R = T>
 R stddev(const std::vector<T>& values);
-template<class T, class R = double>
+template<class T, class R = T>
 R stddev(const std::vector<T>& values, const T& mean);
 
+template<class T, class R = unsigned int>
+std::vector<R> frequencyBins(const std::vector<T>& values, const unsigned int nBins);
+template<class T, class R = unsigned int>
+std::vector<R> frequencyBins(const std::vector<T>& values, const T& minValue, const T& maxValue, const unsigned int nBins);
+
+template<class T, class R = double>
+R sampleUniformlyDistributedScore(const std::vector<T>& values, const unsigned int nBins);
+template<class T, class R = double>
+R sampleUniformlyDistributedScore(const std::vector<T>& values, const T& minValue, const T& maxValue, const unsigned int nBins);
 
 }
 

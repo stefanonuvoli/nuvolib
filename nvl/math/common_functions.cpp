@@ -3,6 +3,8 @@
 #include <math.h>
 #include <algorithm>
 
+#include <nvl/math/numeric_limits.h>
+
 namespace nvl {
 
 template<class T, class R>
@@ -78,9 +80,33 @@ T max(const T& value1, const T& value2)
 }
 
 template<class T>
+T max(const std::vector<T>& vector)
+{
+    T maxValue = minLimitValue<T>();
+
+    for (const T& value : vector) {
+        maxValue = max(value, maxValue);
+    }
+
+    return maxValue;
+}
+
+template<class T>
 T min(const T& value1, const T& value2)
 {
     return std::min(value1, value2);
+}
+
+template<class T>
+T min(const std::vector<T>& vector)
+{
+    T minValue = maxLimitValue<T>();
+
+    for (const T& value : vector) {
+        minValue = min(value, minValue);
+    }
+
+    return minValue;
 }
 
 template<class T, class R>
@@ -91,6 +117,21 @@ R sign(const T& value)
     else if (value > T(0))
         return R(1);
     return 0;
+}
+
+template<class T>
+T sum(const std::vector<T>& vector)
+{
+    if (vector.empty())
+        return 0;
+
+    T sum = vector[0];
+
+    for (Index i = 1; i < vector.size(); ++i) {
+        sum += vector[i];
+    }
+
+    return sum;
 }
 
 }

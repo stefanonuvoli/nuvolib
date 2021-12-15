@@ -1,6 +1,8 @@
 #ifndef NVL_MATH_COMMON_FUNCTIONS_H
 #define NVL_MATH_COMMON_FUNCTIONS_H
 
+#include <vector>
+
 namespace nvl {
 
 template<class T, class R = T>
@@ -40,10 +42,19 @@ template<class T>
 T max(const T& value1, const T& value2);
 
 template<class T>
+T max(const std::vector<T>& vector);
+
+template<class T>
 T min(const T& value1, const T& value2);
+
+template<class T>
+T min(const std::vector<T>& vector);
 
 template<class T, class R = int>
 R sign(const T& value);
+
+template<class T>
+T sum(const std::vector<T>& vector);
 
 }
 
