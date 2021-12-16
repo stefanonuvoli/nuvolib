@@ -21,35 +21,41 @@ void meshDilateFaceSelection(
 template<class Mesh, class Set>
 void meshErodeFaceSelection(
         const Mesh& mesh,
-        Set& selectedFaces);
+        Set& selectedFaces,
+        const bool fixBorders = false);
 
 template<class Mesh, class Set>
 void meshErodeFaceSelection(
         const Mesh& mesh,
         Set& selectedFaces,
-        const std::vector<std::vector<typename Mesh::FaceId>>& ffAdj);
-
-template<class Mesh, class Set>
-void meshOpenFaceSelection(
-        const Mesh& mesh,
-        Set& selectedFaces);
+        const std::vector<std::vector<typename Mesh::FaceId>>& ffAdj,
+        const bool fixBorders = false);
 
 template<class Mesh, class Set>
 void meshOpenFaceSelection(
         const Mesh& mesh,
         Set& selectedFaces,
-        const std::vector<std::vector<typename Mesh::FaceId>>& ffAdj);
+        const bool fixBorders = false);
 
 template<class Mesh, class Set>
-void meshCloseFaceSelection(
+void meshOpenFaceSelection(
         const Mesh& mesh,
-        Set& selectedFaces);
+        Set& selectedFaces,
+        const std::vector<std::vector<typename Mesh::FaceId>>& ffAdj,
+        const bool fixBorders = false);
 
 template<class Mesh, class Set>
 void meshCloseFaceSelection(
         const Mesh& mesh,
         Set& selectedFaces,
-        const std::vector<std::vector<typename Mesh::FaceId>>& ffAdj);
+        const bool fixBorders = false);
+
+template<class Mesh, class Set>
+void meshCloseFaceSelection(
+        const Mesh& mesh,
+        Set& selectedFaces,
+        const std::vector<std::vector<typename Mesh::FaceId>>& ffAdj,
+        const bool fixBorders = false);
 
 }
 

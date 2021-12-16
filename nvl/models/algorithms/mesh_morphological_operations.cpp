@@ -60,19 +60,21 @@ void meshDilateFaceSelection(
 template<class Mesh, class Set>
 void meshErodeFaceSelection(
         const Mesh& mesh,
-        Set& selectedFaces)
+        Set& selectedFaces,
+        const bool fixBorders)
 {
     typedef typename Mesh::FaceId FaceId;
 
     const std::vector<std::vector<FaceId>> ffAdj = meshFaceFaceAdjacencies(mesh);
-    return meshErodeFaceSelection(mesh, selectedFaces, ffAdj);
+    return meshErodeFaceSelection(mesh, selectedFaces, ffAdj, fixBorders);
 }
 
 template<class Mesh, class Set>
 void meshErodeFaceSelection(
         const Mesh& mesh,
         Set& selectedFaces,
-        const std::vector<std::vector<typename Mesh::FaceId>>& ffAdj)
+        const std::vector<std::vector<typename Mesh::FaceId>>& ffAdj,
+        const bool fixBorders)
 {
     typedef typename Mesh::FaceId FaceId;
     typedef typename Mesh::Face Face;
@@ -84,7 +86,13 @@ void meshErodeFaceSelection(
 
         const Face& face = mesh.face(fId);
         for (Index fePos = 0; fePos < face.vertexNumber(); ++fePos) {
-            if (meshIsBorderFaceEdge(mesh, fId, fePos, ffAdj) || selectedFaces.find(ffAdj[fId][fePos]) == selectedFaces.end()) {
+            if (fixBorders) {
+                if (!meshIsBorderFaceEdge(mesh, fId, fePos, ffAdj) && selectedFaces.find(ffAdj[fId][fePos]) == selectedFaces.end()) {
+                    verticesNonSurrounded.insert(face.vertexId(fePos));
+                    verticesNonSurrounded.insert(face.nextVertexId(fePos));
+                }
+            }
+            else if (meshIsBorderFaceEdge(mesh, fId, fePos, ffAdj) || selectedFaces.find(ffAdj[fId][fePos]) == selectedFaces.end()) {
                 verticesNonSurrounded.insert(face.vertexId(fePos));
                 verticesNonSurrounded.insert(face.nextVertexId(fePos));
             }
@@ -115,43 +123,47 @@ void meshErodeFaceSelection(
 template<class Mesh, class Set>
 void meshOpenFaceSelection(
         const Mesh& mesh,
-        Set& selectedFaces)
+        Set& selectedFaces,
+        const bool fixBorders)
 {
     typedef typename Mesh::FaceId FaceId;
 
     const std::vector<std::vector<FaceId>> ffAdj = meshFaceFaceAdjacencies(mesh);
-    return meshOpenFaceSelection(mesh, selectedFaces, ffAdj);
+    return meshOpenFaceSelection(mesh, selectedFaces, ffAdj, fixBorders);
 }
 
 template<class Mesh, class Set>
 void meshOpenFaceSelection(
         const Mesh& mesh,
         Set& selectedFaces,
-        const std::vector<std::vector<typename Mesh::FaceId>>& ffAdj)
+        const std::vector<std::vector<typename Mesh::FaceId>>& ffAdj,
+        const bool fixBorders)
 {
-    meshErodeFaceSelection(mesh, selectedFaces, ffAdj);
+    meshErodeFaceSelection(mesh, selectedFaces, ffAdj, fixBorders);
     meshDilateFaceSelection(mesh, selectedFaces, ffAdj);
-}
-
-template<class Mesh, class Set>
-void meshCloseFaceSelection(
-        const Mesh& mesh,
-        Set& selectedFaces)
-{
-    typedef typename Mesh::FaceId FaceId;
-
-    const std::vector<std::vector<FaceId>> ffAdj = meshFaceFaceAdjacencies(mesh);
-    return meshCloseFaceSelection(mesh, selectedFaces, ffAdj);
 }
 
 template<class Mesh, class Set>
 void meshCloseFaceSelection(
         const Mesh& mesh,
         Set& selectedFaces,
-        const std::vector<std::vector<typename Mesh::FaceId>>& ffAdj)
+        const bool fixBorders)
+{
+    typedef typename Mesh::FaceId FaceId;
+
+    const std::vector<std::vector<FaceId>> ffAdj = meshFaceFaceAdjacencies(mesh);
+    return meshCloseFaceSelection(mesh, selectedFaces, ffAdj, fixBorders);
+}
+
+template<class Mesh, class Set>
+void meshCloseFaceSelection(
+        const Mesh& mesh,
+        Set& selectedFaces,
+        const std::vector<std::vector<typename Mesh::FaceId>>& ffAdj,
+        const bool fixBorders)
 {
     meshDilateFaceSelection(mesh, selectedFaces, ffAdj);
-    meshErodeFaceSelection(mesh, selectedFaces, ffAdj);
+    meshErodeFaceSelection(mesh, selectedFaces, ffAdj, fixBorders);
 }
 
 }
