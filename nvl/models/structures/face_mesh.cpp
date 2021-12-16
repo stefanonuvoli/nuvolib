@@ -48,7 +48,7 @@ typename FaceMesh<VT,PT,FT>::FaceId FaceMesh<VT,PT,FT>::allocateFaces(const Size
 template<class VT, class PT, class FT>
 Size FaceMesh<VT,PT,FT>::faceVertexNumber(const FaceId& id) const
 {
-    MeshFaceHandler<Face>::face(id).vertexNumber();
+    return MeshFaceHandler<Face>::face(id).vertexNumber();
 }
 
 template<class VT, class PT, class FT>

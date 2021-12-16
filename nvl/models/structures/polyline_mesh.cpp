@@ -49,7 +49,7 @@ typename PolylineMesh<VT,PT>::PolylineContainer& PolylineMesh<VT,PT>::polylineVe
 template<class VT, class PT>
 Size PolylineMesh<VT,PT>::polylineVertexNumber(const PolylineId& id) const
 {
-    MeshPolylineHandler<Polyline>::polyline(id).vertexNumber();
+    return MeshPolylineHandler<Polyline>::polyline(id).vertexNumber();
 }
 
 template<class VT, class PT>

@@ -156,6 +156,7 @@ std::vector<size_t> vcgCollapseBorders(
             nonCollapsed.push_back(i);
         }
     }
+
     return nonCollapsed;
 }
 

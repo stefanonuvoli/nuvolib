@@ -72,6 +72,8 @@ void skeletonLoadData(
     typedef typename S::JointId JointId;
     typedef typename S::Transformation Transformation;
 
+    NVL_SUPPRESS_UNUSEDVARIABLE(mode);
+
     const std::vector<Transformation>& joints = skeletonData.joints;
     const std::vector<int>& parents = skeletonData.parents;
     const std::vector<std::string>& names = skeletonData.names;
@@ -101,6 +103,8 @@ void skeletonSaveData(
     typedef typename S::JointId JointId;
     typedef typename S::Joint Joint;
     typedef typename S::Transformation Transformation;
+
+    NVL_SUPPRESS_UNUSEDVARIABLE(mode);
 
     std::vector<Transformation>& joints = skeletonData.joints;
     std::vector<bool>& hidden = skeletonData.hidden;

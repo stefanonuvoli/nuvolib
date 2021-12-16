@@ -119,14 +119,6 @@ void modelRemoveScaling(S& skeleton, std::vector<A>& animations)
 {
     typedef S Skeleton;
     typedef A Animation;
-    typedef typename Animation::FrameId FrameId;
-    typedef typename Animation::Transformation AnimationTransformation;
-    typedef typename Skeleton::JointId JointId;
-    typedef typename Skeleton::Transformation SkeletonTransformation;
-    typedef typename Skeleton::Scalar SkeletonScalar;
-    typedef typename SkeletonTransformation::LinearMatrixType SkeletonLinearMatrixType;
-    typedef typename AnimationTransformation::LinearMatrixType AnimationLinearMatrixType;
-    typedef typename Animation::Scalar AnimationScalar;
 
     skeletonRemoveScaling(skeleton);
     animationRemoveScaling(skeleton, animations);

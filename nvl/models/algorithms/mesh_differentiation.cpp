@@ -53,7 +53,7 @@ Vector3<R> meshDifferentialCoordinates(
     //Calculate delta
     Vector3<R> delta = Vector3<R>::Zero();
     const std::vector<VertexId>& neighbors = vvAdj[vId];
-    for(const int& neighborId : neighbors) {
+    for(const VertexId& neighborId : neighbors) {
         const Point& neighborPoint = mesh.vertexPoint(neighborId);
         delta += neighborPoint;
     }

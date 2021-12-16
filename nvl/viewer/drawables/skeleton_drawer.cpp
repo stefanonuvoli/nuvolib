@@ -431,8 +431,8 @@ void SkeletonDrawer<S>::setRenderingBone(const Index& id, const std::array<Index
     const Index& boneMappedId1 = vJointMap[bone[0]];
     const Index& boneMappedId2 = vJointMap[bone[1]];
     std::array<unsigned int, 2> values = {
-        static_cast<int>(boneMappedId1),
-        static_cast<int>(boneMappedId2)
+        static_cast<unsigned int>(boneMappedId1),
+        static_cast<unsigned int>(boneMappedId2)
     };
 
     this->vRenderingBones[mappedId] = values;

@@ -65,6 +65,8 @@ void skinningWeightsLoadData(
         const IOSkinningWeightsData<W>& skinningWeightsData,
         const IOSkinningWeightsMode& mode)
 {
+    NVL_SUPPRESS_UNUSEDVARIABLE(mode);
+
     for (const std::tuple<Index, Index, W>& tuple : skinningWeightsData.weights) {
         skinningWeights.setWeight(std::get<0>(tuple), std::get<1>(tuple), std::get<2>(tuple));
     }
@@ -77,7 +79,9 @@ void skinningWeightsSaveData(
         const SkinningWeights<W>& skinningWeights,
         IOSkinningWeightsData<W>& skinningWeightsData,
         const IOSkinningWeightsMode& mode)
-{
+{    
+    NVL_SUPPRESS_UNUSEDVARIABLE(mode);
+
     const std::vector<std::vector<Index>>& nonZeros = skinningWeights.nonZeroWeights();
 
     for (Index v = 0; v < nonZeros.size(); v++) {

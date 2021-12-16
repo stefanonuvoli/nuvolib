@@ -66,6 +66,8 @@ void animationLoadData(
 {
     typedef typename A::Transformation Transformation;
 
+    NVL_SUPPRESS_UNUSEDVARIABLE(mode);
+
     const std::string& name = animationData.name;
     const std::vector<double>& times = animationData.times;
     const std::vector<std::vector<Transformation>>& transformations = animationData.transformations;
@@ -84,6 +86,8 @@ void animationSaveData(
 {
     typedef typename A::Frame Frame;
     typedef typename A::Transformation Transformation;
+
+    NVL_SUPPRESS_UNUSEDVARIABLE(mode);
 
     std::string& name = animationData.name;
     std::vector<double>& times = animationData.times;

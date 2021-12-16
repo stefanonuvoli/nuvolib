@@ -23,17 +23,17 @@ NVL_INLINE void QGLViewerObject::init()
 
     QGLViewer::setMouseBinding(Qt::NoModifier, Qt::LeftButton, QGLViewer::CAMERA, QGLViewer::ROTATE);
     QGLViewer::setMouseBinding(Qt::NoModifier, Qt::RightButton, QGLViewer::CAMERA, QGLViewer::TRANSLATE);
-    QGLViewer::setMouseBinding(Qt::NoModifier, Qt::MidButton, QGLViewer::CAMERA, QGLViewer::ZOOM);
+    QGLViewer::setMouseBinding(Qt::NoModifier, Qt::MiddleButton, QGLViewer::CAMERA, QGLViewer::ZOOM);
     QGLViewer::setWheelBinding(Qt::NoModifier, QGLViewer::CAMERA, QGLViewer::ZOOM);
 
     QGLViewer::setMouseBinding(Qt::AltModifier, Qt::LeftButton, QGLViewer::FRAME, QGLViewer::ROTATE);
     QGLViewer::setMouseBinding(Qt::AltModifier, Qt::RightButton, QGLViewer::FRAME, QGLViewer::TRANSLATE);
-    QGLViewer::setMouseBinding(Qt::AltModifier, Qt::MidButton, QGLViewer::FRAME, QGLViewer::NO_MOUSE_ACTION);
+    QGLViewer::setMouseBinding(Qt::AltModifier, Qt::MiddleButton, QGLViewer::FRAME, QGLViewer::NO_MOUSE_ACTION);
     QGLViewer::setWheelBinding(Qt::AltModifier, QGLViewer::CAMERA, QGLViewer::NO_MOUSE_ACTION);
 
     QGLViewer::setMouseBinding(Qt::ControlModifier, Qt::LeftButton, QGLViewer::FRAME, QGLViewer::NO_MOUSE_ACTION);
     QGLViewer::setMouseBinding(Qt::ControlModifier, Qt::RightButton, QGLViewer::FRAME, QGLViewer::NO_MOUSE_ACTION);
-    QGLViewer::setMouseBinding(Qt::ControlModifier, Qt::MidButton, QGLViewer::FRAME, QGLViewer::NO_MOUSE_ACTION);
+    QGLViewer::setMouseBinding(Qt::ControlModifier, Qt::MiddleButton, QGLViewer::FRAME, QGLViewer::NO_MOUSE_ACTION);
     QGLViewer::setWheelBinding(Qt::ControlModifier, QGLViewer::CAMERA, QGLViewer::NO_MOUSE_ACTION);
 
     QGLViewer::setMouseBinding(Qt::ControlModifier, Qt::LeftButton, SELECT);

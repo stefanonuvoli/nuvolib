@@ -47,7 +47,7 @@ void vcgIsotropicRemeshing(
 
     if (fixBorders) {
         for (size_t i=0;i<vcgMesh.face.size();i++) {
-            for (size_t j=0;j<vcgMesh.face[i].VN();j++)
+            for (int j=0;j<vcgMesh.face[i].VN();j++)
             {
                 if (!vcg::face::IsBorder(vcgMesh.face[i],j))continue;
                 vcgMesh.face[i].SetS();

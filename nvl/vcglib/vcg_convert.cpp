@@ -287,6 +287,7 @@ void convertVCGMeshToMesh(
             }
 
             VertexId newId = mesh.addVertex(p);
+            NVL_SUPPRESS_UNUSEDVARIABLE(newId);
             assert(birthVertex.size() == newId);
             birthVertex.push_back(vId);
         }
@@ -300,6 +301,7 @@ void convertVCGMeshToMesh(
             }
 
             FaceId newId = mesh.addFace(faceVertices);
+            NVL_SUPPRESS_UNUSEDVARIABLE(newId);
             assert(birthFace.size() == newId);
             birthFace.push_back(fId);
         }
