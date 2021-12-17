@@ -17,7 +17,7 @@ std::vector<typename Mesh::VertexId> collapseBorders(
     Mesh& mesh,
     const std::vector<typename Mesh::VertexId>& verticesToKeep,
     std::vector<typename Mesh::VertexId>& birthVertex,
-    std::vector<typename Mesh::VertexId>& birthFace)
+    std::vector<typename Mesh::FaceId>& birthFace)
 {
     typedef typename Mesh::VertexId VertexId;
     typedef typename Mesh::FaceId FaceId;
@@ -38,11 +38,13 @@ std::vector<typename Mesh::VertexId> collapseBorders(
         vcgVerticesToKeep[i] = meshVertexMap[vId];
     }
 
-    std::vector<size_t> vcgNonCollapsed = vcgCollapseBorders(vcgMesh, vcgVerticesToKeep);
+    std::vector<Index> vcgCollapseBirthVertex;
+    std::vector<Index> vcgCollapseBirthFace;
+    std::vector<size_t> vcgNonCollapsed = vcgCollapseBorders(vcgMesh, vcgVerticesToKeep, vcgCollapseBirthVertex, vcgCollapseBirthFace);
 
     mesh.clear();
-    std::vector<VertexId> vcgBirthVertex;
-    std::vector<FaceId> vcgBirthFace;
+    std::vector<Index> vcgBirthVertex;
+    std::vector<Index> vcgBirthFace;
     convertVCGMeshToMesh(vcgMesh, mesh, vcgBirthVertex, vcgBirthFace);
 
     std::vector<Index> vcgVertexMap = inverseMap(vcgBirthVertex, vcgMesh.vert.size());
@@ -58,8 +60,8 @@ std::vector<typename Mesh::VertexId> collapseBorders(
         if (mesh.isVertexDeleted(vId))
             continue;
 
-        assert(vcgBirthVertex[vId] != NULL_ID);
-        birthVertex[vId] = meshBirthVertex[vcgBirthVertex[vId]];
+        assert(meshBirthVertex[vcgCollapseBirthVertex[vcgBirthVertex[vId]]] != NULL_ID);
+        birthVertex[vId] = meshBirthVertex[vcgCollapseBirthVertex[vcgBirthVertex[vId]]];
     }
 
     birthFace.resize(mesh.nextFaceId(), NULL_ID);
@@ -67,8 +69,8 @@ std::vector<typename Mesh::VertexId> collapseBorders(
         if (mesh.isFaceDeleted(fId))
             continue;
 
-        assert(vcgBirthFace[fId] != NULL_ID);
-        birthFace[fId] = meshBirthFace[vcgBirthFace[fId]];
+        assert(meshBirthFace[vcgCollapseBirthFace[vcgBirthFace[fId]]] != NULL_ID);
+        birthFace[fId] = meshBirthFace[vcgCollapseBirthFace[vcgBirthFace[fId]]];
     }
 
     return nonCollapsed;
@@ -78,7 +80,9 @@ std::vector<typename Mesh::VertexId> collapseBorders(
 template<class VCGMesh>
 std::vector<size_t> vcgCollapseBorders(
     VCGMesh& vcgMesh,
-    const std::vector<size_t>& verticesToKeep)
+    const std::vector<size_t>& verticesToKeep,
+    std::vector<Index>& vcgCollapseBirthVertex,
+    std::vector<Index>& vcgCollapseBirthFace)
 {
     typedef typename VCGTriangleMesh::VertexType VCGVertexType;
     typedef typename VCGTriangleMesh::CoordType VCGCoordType;
@@ -93,6 +97,19 @@ std::vector<size_t> vcgCollapseBorders(
     #pragma omp parallel for
     for (Index i = 0; i < verticesToKeep.size(); ++i) {
         vcgMesh.vert[verticesToKeep[i]].SetS();
+    }
+
+    for (size_t i = 0; i < vcgMesh.vert.size(); i++) {
+        if (vcgMesh.vert[i].IsD())
+            continue;
+
+        vcgMesh.vert[i].Q() = i;
+    }
+    for (size_t i = 0; i < vcgMesh.face.size(); i++) {
+        if (vcgMesh.face[i].IsD())
+            continue;
+
+        vcgMesh.face[i].Q() = i;
     }
 
     bool collapsed;
@@ -175,6 +192,18 @@ std::vector<size_t> vcgCollapseBorders(
         if (vcgMesh.vert[i].IsB() && !vcgMesh.vert[i].IsS()) {
             nonCollapsed.push_back(i);
         }
+    }
+
+    vcgCollapseBirthVertex.resize(vcgMesh.vert.size());
+    for (size_t i = 0; i < vcgMesh.vert.size(); i++) {
+        assert(!vcgMesh.vert[i].IsD());
+        vcgCollapseBirthVertex[i] = vcgMesh.vert[i].Q();
+    }
+
+    vcgCollapseBirthFace.resize(vcgMesh.face.size());
+    for (size_t i = 0; i < vcgMesh.face.size(); i++) {
+        assert(!vcgMesh.face[i].IsD());
+        vcgCollapseBirthFace[i] = vcgMesh.face[i].Q();
     }
 
     return nonCollapsed;

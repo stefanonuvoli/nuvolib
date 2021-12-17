@@ -13,12 +13,14 @@ std::vector<typename Mesh::VertexId> collapseBorders(
     Mesh& mesh,
     const std::vector<typename Mesh::VertexId>& verticesToKeep,
     std::vector<typename Mesh::VertexId>& birthVertex,
-    std::vector<typename Mesh::VertexId>& birthFace);
+    std::vector<typename Mesh::FaceId>& birthFace);
 
 template<class VCGMesh>
 std::vector<size_t> vcgCollapseBorders(
     VCGMesh& vcgMesh,
-    const std::vector<size_t>& verticesToKeep);
+    const std::vector<size_t>& verticesToKeep,
+    std::vector<Index>& vcgCollapseBirthVertex,
+    std::vector<Index>& vcgCollapseBirthFace);
 
 }
 
