@@ -45,10 +45,12 @@ std::vector<typename Mesh::VertexId> collapseBorders(
     std::vector<FaceId> vcgBirthFace;
     convertVCGMeshToMesh(vcgMesh, mesh, vcgBirthVertex, vcgBirthFace);
 
+    std::vector<Index> vcgVertexMap = inverseMap(vcgBirthVertex, vcgMesh.vert.size());
+
     std::vector<VertexId> nonCollapsed(vcgNonCollapsed.size());
     for (Index i = 0; i < vcgNonCollapsed.size(); ++i) {
-        assert(meshBirthVertex[vcgBirthVertex[vcgNonCollapsed[i]]] != NULL_ID);
-        nonCollapsed[i] = meshBirthVertex[vcgBirthVertex[vcgNonCollapsed[i]]];
+        assert(vcgVertexMap[vcgNonCollapsed[i]] != NULL_ID);
+        nonCollapsed[i] = vcgVertexMap[vcgNonCollapsed[i]];
     }
 
     birthVertex.resize(mesh.nextVertexId(), NULL_ID);
