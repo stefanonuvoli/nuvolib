@@ -15,7 +15,9 @@ namespace nvl {
 template<class Mesh>
 std::vector<typename Mesh::VertexId> collapseBorders(
     Mesh& mesh,
-    const std::vector<typename Mesh::VertexId>& verticesToKeep)
+    const std::vector<typename Mesh::VertexId>& verticesToKeep,
+    std::vector<typename Mesh::VertexId>& birthVertex,
+    std::vector<typename Mesh::VertexId>& birthFace)
 {
     typedef typename Mesh::VertexId VertexId;
     typedef typename Mesh::FaceId FaceId;
@@ -49,6 +51,26 @@ std::vector<typename Mesh::VertexId> collapseBorders(
     for (Index i = 0; i < vcgNonCollapsed.size(); ++i) {
         assert(meshVertexMap[vcgNonCollapsed[i]] != NULL_ID);
         nonCollapsed[i] = meshVertexMap[vcgNonCollapsed[i]];
+    }
+
+    birthVertex.resize(mesh.nextVertexId(), NULL_ID);
+    for (VertexId vId = 0; vId < mesh.nextVertexId(); ++vId) {
+        if (mesh.isVertexDeleted(vId))
+            continue;
+
+        if (vcgBirthVertex[vId] != NULL_ID) {
+            birthVertex[vId] = meshBirthVertex[vcgBirthVertex[vId]];
+        }
+    }
+
+    birthFace.resize(mesh.nextFaceId(), NULL_ID);
+    for (FaceId fId = 0; fId < mesh.nextFaceId(); ++fId) {
+        if (mesh.isFaceDeleted(fId))
+            continue;
+
+        if (vcgBirthFace[fId] != NULL_ID) {
+            birthFace[fId] = meshBirthFace[vcgBirthFace[fId]];
+        }
     }
 
     return nonCollapsed;

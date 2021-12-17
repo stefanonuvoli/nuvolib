@@ -11,7 +11,9 @@ namespace nvl {
 template<class Mesh>
 std::vector<typename Mesh::VertexId> collapseBorders(
     Mesh& mesh,
-    const std::vector<typename Mesh::VertexId>& verticesToKeep);
+    const std::vector<typename Mesh::VertexId>& verticesToKeep,
+    std::vector<typename Mesh::VertexId>& birthVertex,
+    std::vector<typename Mesh::VertexId>& birthFace);
 
 template<class VCGMesh>
 std::vector<size_t> vcgCollapseBorders(
