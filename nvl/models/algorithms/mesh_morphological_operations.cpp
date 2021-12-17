@@ -107,7 +107,7 @@ void meshErodeFaceSelection(
         const Face& face = mesh.face(fId);
 
         bool toDelete = false;
-        for (Index fePos = 0; fePos < face.vertexNumber() && !toDelete; ++fePos) {
+        for (nvl::Index fePos = 0; fePos < face.vertexNumber() && !toDelete; ++fePos) {
             if (verticesNonSurrounded.find(face.vertexId(fePos)) != verticesNonSurrounded.end()) {
                 toDelete = true;
             }
