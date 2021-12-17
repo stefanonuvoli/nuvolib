@@ -27,15 +27,15 @@ std::vector<typename Mesh::VertexId> collapseBorders(
     std::vector<FaceId> meshBirthFace;
     convertMeshToVCGMesh(mesh, vcgMesh, meshBirthVertex, meshBirthFace);
 
-    std::vector<Index> vcgVertexMap = inverseMap(meshBirthVertex, mesh.nextVertexId());
+    std::vector<Index> meshVertexMap = inverseMap(meshBirthVertex, mesh.nextVertexId());
 
     std::vector<typename Mesh::VertexId> vcgVerticesToKeep(verticesToKeep.size());
 
     #pragma omp parallel for
     for (Index i = 0; i < verticesToKeep.size(); ++i) {
         const VertexId& vId = verticesToKeep[i];
-        assert(vcgVertexMap[vId] != NULL_ID);
-        vcgVerticesToKeep[i] = vcgVertexMap[vId];
+        assert(meshVertexMap[vId] != NULL_ID);
+        vcgVerticesToKeep[i] = meshVertexMap[vId];
     }
 
     std::vector<size_t> vcgNonCollapsed = vcgCollapseBorders(vcgMesh, vcgVerticesToKeep);
@@ -45,12 +45,10 @@ std::vector<typename Mesh::VertexId> collapseBorders(
     std::vector<FaceId> vcgBirthFace;
     convertVCGMeshToMesh(vcgMesh, mesh, vcgBirthVertex, vcgBirthFace);
 
-    std::vector<Index> meshVertexMap = inverseMap(vcgBirthVertex, vcgMesh.vert.size());
-    
     std::vector<VertexId> nonCollapsed(vcgNonCollapsed.size());
     for (Index i = 0; i < vcgNonCollapsed.size(); ++i) {
-        assert(meshVertexMap[vcgNonCollapsed[i]] != NULL_ID);
-        nonCollapsed[i] = meshVertexMap[vcgNonCollapsed[i]];
+        assert(meshBirthVertex[vcgBirthVertex[vcgNonCollapsed[i]]] != NULL_ID);
+        nonCollapsed[i] = meshBirthVertex[vcgBirthVertex[vcgNonCollapsed[i]]];
     }
 
     birthVertex.resize(mesh.nextVertexId(), NULL_ID);
@@ -58,9 +56,8 @@ std::vector<typename Mesh::VertexId> collapseBorders(
         if (mesh.isVertexDeleted(vId))
             continue;
 
-        if (vcgBirthVertex[vId] != NULL_ID) {
-            birthVertex[vId] = meshBirthVertex[vcgBirthVertex[vId]];
-        }
+        assert(vcgBirthVertex[vId] != NULL_ID);
+        birthVertex[vId] = meshBirthVertex[vcgBirthVertex[vId]];
     }
 
     birthFace.resize(mesh.nextFaceId(), NULL_ID);
@@ -68,9 +65,8 @@ std::vector<typename Mesh::VertexId> collapseBorders(
         if (mesh.isFaceDeleted(fId))
             continue;
 
-        if (vcgBirthFace[fId] != NULL_ID) {
-            birthFace[fId] = meshBirthFace[vcgBirthFace[fId]];
-        }
+        assert(vcgBirthFace[fId] != NULL_ID);
+        birthFace[fId] = meshBirthFace[vcgBirthFace[fId]];
     }
 
     return nonCollapsed;
