@@ -189,6 +189,7 @@ std::vector<size_t> vcgCollapseBorders(
 
     std::vector<size_t> nonCollapsed;
     for (size_t i = 0; i < vcgMesh.vert.size(); i++) {
+        assert(!vcgMesh.vert[i].IsD());
         if (vcgMesh.vert[i].IsB() && !vcgMesh.vert[i].IsS()) {
             nonCollapsed.push_back(i);
         }
