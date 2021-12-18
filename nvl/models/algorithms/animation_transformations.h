@@ -38,6 +38,12 @@ void animationChangeDuration(A& animation, const double& duration);
 template<class F>
 void animationFrameChangeDuration(std::vector<F>& frames, const double& duration);
 
+template<class A>
+void animationChangeSpeed(A& animation, const double& speed);
+
+template<class F>
+void animationFrameChangeSpeed(std::vector<F>& frames, const double& speed);
+
 }
 
 #include "animation_transformations.cpp"

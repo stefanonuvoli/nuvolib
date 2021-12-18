@@ -1,6 +1,7 @@
 #include "animation_blend.h"
 
 #include <nvl/math/interpolation.h>
+#include <nvl/models/algorithms/animation_transformations.h>
 
 namespace nvl {
 
@@ -19,7 +20,9 @@ void animationFrameBlend(
     if (animationFrames.empty())
         return;
 
-    const double timeStep = 1.0 / (fps / speed);
+    animationFrameChangeSpeed(animationFrames, speed);
+
+    const double timeStep = 1.0 / fps;
 
     //Blending
     std::vector<Frame> blendedAnimationFrames;

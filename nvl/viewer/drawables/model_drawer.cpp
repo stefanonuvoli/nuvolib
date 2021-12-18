@@ -119,13 +119,13 @@ bool ModelDrawer<M>::animate()
                 }
             }
 
-            const double microsecondConversion = this->vAnimationSpeed / 1000000.0;
             std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
-            double elapsed = std::chrono::duration_cast<std::chrono::microseconds>(now - vAnimationStartTime).count() * microsecondConversion;
+            const double elapsed = std::chrono::duration_cast<std::chrono::microseconds>(now - vAnimationStartTime).count() / 1000000.0;
 
             while (vAnimationCurrentFrameId < lastFrameId && vAnimationFrames[vAnimationCurrentFrameId + 1].time() <= elapsed) {
                 ++vAnimationCurrentFrameId;
             }
+
             processKeyframePose(vAnimationCurrentFrameId);
         }
 

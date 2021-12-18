@@ -2,6 +2,8 @@
 
 #include <vector>
 
+#include <nvl/math/comparisons.h>
+
 namespace nvl {
 
 /* ----------------------- GEOMETRICAL TRANSFORMATIONS ----------------------- */
@@ -100,14 +102,28 @@ void animationFrameChangeDuration(std::vector<F>& frames, const double& duration
     if (frames.empty())
         return;
 
-    double oldDuration = frames[frames.size() - 1].time();
+    const double oldDuration = frames[frames.size() - 1].time();
+    const double speed = oldDuration / duration;
 
-    double scaleFactor = duration / oldDuration;
+    animationFrameChangeSpeed(frames, speed);
+}
+
+template<class A>
+void animationChangeSpeed(A& animation, const double& speed)
+{
+    animationChangeSpeed(animation.keyframes(), speed);
+}
+
+template<class F>
+void animationFrameChangeSpeed(std::vector<F>& frames, const double& speed)
+{
+    if (frames.empty() || epsEqual(speed, 1.0))
+        return;
 
     #pragma omp parallel for
     for (Index fId = 0; fId < frames.size(); ++fId) {
         F& frame = frames[fId];
-        frame.time() *= scaleFactor;
+        frame.setTime(frame.time() / speed);
     }
 }
 

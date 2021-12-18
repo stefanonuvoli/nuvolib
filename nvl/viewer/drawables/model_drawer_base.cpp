@@ -8,7 +8,7 @@ NVL_INLINE ModelDrawerBase::ModelDrawerBase() :
     vAnimationSkinningMode(SKINNING_DUAL_QUATERNIONS),
     vAnimationBlend(true),
     vAnimationKeepKeyframes(true),
-    vAnimationTargetFPS(60)
+    vAnimationTargetFPS(30)
 {
 
 }

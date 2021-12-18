@@ -17,7 +17,7 @@ NVL_INLINE QGLViewerCanvas::QGLViewerCanvas(QWidget* parent) :
     this->setLayout(vLayout);
     vLayout->addWidget(vQGLViewerObject);
 
-    setTargetFPS(60);
+    setTargetFPS(30);
 
     connectSignals();
 }

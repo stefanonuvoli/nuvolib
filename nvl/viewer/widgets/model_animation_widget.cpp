@@ -164,7 +164,7 @@ NVL_INLINE void ModelAnimationWidget::updateOptions()
     bool skinningLB = false;
     bool loop = false;
     Index currentKeyframe = NULL_ID;
-    int fps = 60;
+    int fps = 30;
     bool blend = true;
     bool keepKeyframe = true;
     double currentTime = 0.0;
