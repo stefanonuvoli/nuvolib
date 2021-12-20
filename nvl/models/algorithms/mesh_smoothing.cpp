@@ -16,7 +16,7 @@ namespace nvl {
 template<class Mesh>
 void meshLaplacianSmoothing(
         Mesh& mesh,
-        const Index iterations,
+        const unsigned int iterations,
         const double alpha)
 {
     const std::vector<std::vector<Index>> vvAdj = meshVertexVertexAdjacencies(mesh);
@@ -34,7 +34,7 @@ void meshLaplacianSmoothing(
 template<class Mesh>
 void meshLaplacianSmoothing(
         Mesh& mesh,
-        const Index iterations,
+        const unsigned int iterations,
         const double alpha,
         const std::vector<std::vector<typename Mesh::VertexId>>& vvAdj)
 {
@@ -56,7 +56,7 @@ void meshLaplacianSmoothing(
         pointVector[vId] = mesh.vertexPoint(vId);
     }
 
-    for (Index it = 0; it < iterations; ++it) {
+    for (unsigned int it = 0; it < iterations; ++it) {
         std::vector<Point> tmpVector = pointVector;
 
         #pragma omp parallel for
@@ -93,7 +93,7 @@ void meshLaplacianSmoothing(
 template<class Mesh>
 void meshLaplacianSmoothing(
         Mesh& mesh,
-        const Index iterations,
+        const unsigned int iterations,
         const std::vector<double>& alphas)
 {
     const std::vector<std::vector<Index>> vvAdj = meshVertexVertexAdjacencies(mesh);
@@ -111,7 +111,7 @@ void meshLaplacianSmoothing(
 template<class Mesh>
 void meshLaplacianSmoothing(
         Mesh& mesh,
-        const Index iterations,
+        const unsigned int iterations,
         const std::vector<double>& alphas,
         const std::vector<std::vector<typename Mesh::VertexId>>& vvAdj)
 {
@@ -130,7 +130,7 @@ void meshLaplacianSmoothing(
         pointVector[vId] = mesh.vertexPoint(vId);
     }
 
-    for (Index it = 0; it < iterations; ++it) {
+    for (unsigned int it = 0; it < iterations; ++it) {
         std::vector<Point> tmpVector = pointVector;
 
         #pragma omp parallel for
@@ -177,7 +177,7 @@ template<class Mesh>
 void meshLaplacianSmoothing(
         Mesh& mesh,
         const std::vector<typename Mesh::VertexId>& vertices,
-        const Index iterations,
+        const unsigned int iterations,
         const double alpha)
 {
     const std::vector<std::vector<Index>> vvAdj = meshVertexVertexAdjacencies(mesh);
@@ -197,7 +197,7 @@ template<class Mesh>
 void meshLaplacianSmoothing(
         Mesh& mesh,
         const std::vector<typename Mesh::VertexId>& vertices,
-        const Index iterations,
+        const unsigned int iterations,
         const double alpha,
         const std::vector<std::vector<typename Mesh::VertexId>>& vvAdj)
 {
@@ -219,7 +219,7 @@ void meshLaplacianSmoothing(
         pointVector[vId] = mesh.vertexPoint(vId);
     }
 
-    for (Index it = 0; it < iterations; ++it) {
+    for (unsigned int it = 0; it < iterations; ++it) {
         std::vector<Point> tmpVector = pointVector;
 
         #pragma omp parallel for
@@ -255,7 +255,7 @@ template<class Mesh>
 void meshLaplacianSmoothing(
         Mesh& mesh,
         const std::vector<typename Mesh::VertexId>& vertices,
-        const Index iterations,
+        const unsigned int iterations,
         const std::vector<double>& alphas)
 {
     const std::vector<std::vector<Index>> vvAdj = meshVertexVertexAdjacencies(mesh);
@@ -275,7 +275,7 @@ template<class Mesh>
 void meshLaplacianSmoothing(
         Mesh& mesh,
         const std::vector<typename Mesh::VertexId>& vertices,        
-        const Index iterations,
+        const unsigned int iterations,
         const std::vector<double>& alphas,
         const std::vector<std::vector<typename Mesh::VertexId>>& vvAdj)
 {
@@ -293,7 +293,7 @@ void meshLaplacianSmoothing(
         pointVector[vId] = mesh.vertexPoint(vId);
     }
 
-    for (Index it = 0; it < iterations; ++it) {
+    for (unsigned int it = 0; it < iterations; ++it) {
         std::vector<Point> tmpVector = pointVector;
 
         #pragma omp parallel for

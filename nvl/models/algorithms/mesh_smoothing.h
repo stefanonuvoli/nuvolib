@@ -12,50 +12,50 @@ namespace nvl {
 template<class Mesh>
 void meshLaplacianSmoothing(
         Mesh& mesh,
-        const Index iterations,
+        const unsigned int iterations,
         const double alpha);
 template<class Mesh>
 void meshLaplacianSmoothing(
         Mesh& mesh,
-        const Index iterations,
+        const unsigned int iterations,
         const double alpha,
         const std::vector<std::vector<typename Mesh::VertexId>>& vvAdj);
 template<class Mesh>
 void meshLaplacianSmoothing(
         Mesh& mesh,
         const std::vector<double>& alphas,
-        const Index iterations);
+        const unsigned int iterations);
 template<class Mesh>
 void meshLaplacianSmoothing(
         Mesh& mesh,
         const std::vector<double>& alphas,
-        const Index iterations,
+        const unsigned int iterations,
         const std::vector<std::vector<typename Mesh::VertexId>>& vvAdj);
 
 template<class Mesh>
 void meshLaplacianSmoothing(
         Mesh& mesh,
         const std::vector<typename Mesh::VertexId>& vertices,
-        const Index iterations,
+        const unsigned int iterations,
         const double alpha);
 template<class Mesh>
 void meshLaplacianSmoothing(
         Mesh& mesh,
         const std::vector<typename Mesh::VertexId>& vertices,
-        const Index iterations,
+        const unsigned int iterations,
         const double alpha,
         const std::vector<std::vector<typename Mesh::VertexId>>& vvAdj);
 template<class Mesh>
 void meshLaplacianSmoothing(
         Mesh& mesh,
         const std::vector<typename Mesh::VertexId>& vertices,
-        const Index iterations,
+        const unsigned int iterations,
         const std::vector<double>& alphas);
 template<class Mesh>
 void meshLaplacianSmoothing(
         Mesh& mesh,
         const std::vector<typename Mesh::VertexId>& vertices,
-        const Index iterations,
+        const unsigned int iterations,
         const std::vector<double>& alphas,
         const std::vector<std::vector<typename Mesh::VertexId>>& vvAdj);
 }

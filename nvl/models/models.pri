@@ -19,6 +19,7 @@ HEADERS += \
     $$PWD/algorithms/animation_clean.h \
     $$PWD/algorithms/animation_poses.h \
     $$PWD/algorithms/animation_skinning.h \
+    $$PWD/algorithms/animation_smoothing.h \
     $$PWD/algorithms/animation_split.h \
     $$PWD/algorithms/animation_transformations.h \
     $$PWD/algorithms/mesh_adjacencies.h \
@@ -108,6 +109,7 @@ SOURCES += \
     $$PWD/algorithms/animation_clean.cpp \
     $$PWD/algorithms/animation_poses.cpp \
     $$PWD/algorithms/animation_skinning.cpp \
+    $$PWD/algorithms/animation_smoothing.cpp \
     $$PWD/algorithms/animation_split.cpp \
     $$PWD/algorithms/animation_transformations.cpp \
     $$PWD/algorithms/mesh_adjacencies.cpp \

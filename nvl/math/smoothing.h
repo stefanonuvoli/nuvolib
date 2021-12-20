@@ -11,26 +11,26 @@ template<class T>
 void laplacianSmoothing(
         std::vector<T>& vector,
         const std::vector<std::vector<Index>>& adjacencies,
-        const Index iterations,
+        const unsigned int iterations,
         const double alpha);
 
 template<class T>
 void laplacianSmoothing(
         std::vector<T>& vector,
         const std::vector<std::vector<Index>>& adjacencies,
-        const Index iterations,
+        const unsigned int iterations,
         const std::vector<double>& alphas);
 
 template<class T>
 void laplacianSmoothing(
         std::vector<T>& line,
-        const Index iterations,
+        const unsigned int iterations,
         const double alpha);
 
 template<class T>
 void laplacianSmoothing(
         std::vector<T>& line,
-        const Index iterations,
+        const unsigned int iterations,
         const std::vector<double>& alphas);
 
 }
