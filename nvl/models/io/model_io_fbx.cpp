@@ -466,7 +466,7 @@ void handleMesh(
             material.setAmbientColor(ambientColor);
 
             FbxDouble transparencyFactor = lLambert->TransparencyFactor;
-            material.setTransparency(static_cast<float>(transparencyFactor));
+            material.setTransparency(static_cast<float>(1.0 - transparencyFactor));
 
             material.setShadingModel(Material::SHADING_LAMBERTIAN);
         }
@@ -487,7 +487,7 @@ void handleMesh(
             material.setSpecularColor(specularColor);
 
             FbxDouble transparencyFactor = lPhong->TransparencyFactor;
-            material.setTransparency(static_cast<float>(transparencyFactor));
+            material.setTransparency(static_cast<float>(1.0 - transparencyFactor));
 
             material.setShadingModel(Material::SHADING_PHONG);
         }
