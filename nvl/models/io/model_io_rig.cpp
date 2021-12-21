@@ -201,7 +201,7 @@ bool modelSaveDataToRIG(
     for (Index i = 0; i < modelData.animations.size(); ++i) {
         animationFilesRel[i] =
                 animationFolderRel +
-                modelName + "@" +
+                name + "@" +
                 modelData.animations[i].name() +
                 ".ska";
 
