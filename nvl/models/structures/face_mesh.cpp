@@ -363,8 +363,7 @@ template<class VT, class PT, class FT>
 void FaceMesh<VT,PT,FT>::clearFaces()
 {
     MeshFaceHandler<Face>::clearFaces();
-    this->vFaceMaterials.clear();
-    this->vFaceNormals.clear();
+    updateComponents();
 }
 
 template<class VT, class PT, class FT>
@@ -373,6 +372,8 @@ void FaceMesh<VT,PT,FT>::clear()
     PolylineMesh<VT,PT>::clear();
     this->clearFaces();
     this->clearMaterials();
+    this->clearWedgeNormals();
+    this->clearWedgeUVs();
 }
 
 template<class VT, class PT, class FT>
