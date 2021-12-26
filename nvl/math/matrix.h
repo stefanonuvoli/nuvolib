@@ -3,6 +3,8 @@
 
 #include <nvl/nuvolib.h>
 
+#ifdef NVL_EIGEN_LOADED
+
 #include <Eigen/Dense>
 
 namespace nvl {
@@ -46,5 +48,7 @@ typedef MatrixXX<int> MatrixXXi;
 typedef MatrixXX<long> MatrixXXl;
 
 }
+
+#endif
 
 #endif // NVL_MATH_MATRIX_H

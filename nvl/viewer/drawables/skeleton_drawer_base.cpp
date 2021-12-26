@@ -1,7 +1,5 @@
 #include "skeleton_drawer_base.h"
 
-#include <nvl/viewer/gl/gl_primitives.h>
-
 namespace nvl {
 
 NVL_INLINE SkeletonDrawerBase::SkeletonDrawerBase() :

@@ -6,7 +6,7 @@
 #include <stddef.h>
 #include <limits>
 
-#ifdef NVL_MATH_LOADED
+#ifdef NVL_EIGEN_LOADED
 #include <Eigen/Core>
 #endif
 
@@ -41,7 +41,7 @@ typedef size_t Index;
  */
 const Size NULL_ID = std::numeric_limits<Index>::max();
 
-#ifdef NVL_MATH_LOADED
+#ifdef NVL_EIGEN_LOADED
 /**
  * @brief Default index type of Eigen.
  */

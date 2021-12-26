@@ -1,5 +1,7 @@
 #include "qglviewer_canvas.h"
 
+#ifdef NVL_QGLVIEWER_LOADED
+
 #include <nvl/math/alignedbox.h>
 
 #include <nvl/utilities/vector_utils.h>
@@ -156,3 +158,5 @@ NVL_INLINE void QGLViewerObject::endSelection(const QPoint& qglPoint2D)
 }
 
 }
+
+#endif

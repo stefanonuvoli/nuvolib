@@ -24,8 +24,11 @@ NVL_INLINE FaceMeshDrawerWidget::FaceMeshDrawerWidget(
 
 NVL_INLINE FaceMeshDrawerWidget::~FaceMeshDrawerWidget()
 {
+
+#ifdef NVL_QGLVIEWER_LOADED
     rampQGLShader.unload();
     contourQGLShader.unload();
+#endif
 
     delete ui;
 }
@@ -114,6 +117,7 @@ NVL_INLINE void FaceMeshDrawerWidget::updateFaceView()
             else {
                 assert(meshDrawer->faceShaderMode() == FaceMeshDrawerBase::FaceShaderMode::FACE_SHADER_VERTEX_VALUE);
 
+#ifdef NVL_QGLVIEWER_LOADED
                 QGLRampShader* rampShader = dynamic_cast<QGLRampShader*>(meshDrawer->faceShader());
                 if (rampShader != nullptr) {
                     shaderSelected = (first || shaderSelected == ShaderOptions::SHADER_RAMP ? ShaderOptions::SHADER_RAMP : ShaderOptions::SHADER_NONE);
@@ -124,6 +128,8 @@ NVL_INLINE void FaceMeshDrawerWidget::updateFaceView()
                         shaderSelected = (first || shaderSelected == ShaderOptions::SHADER_CONTOUR ? ShaderOptions::SHADER_CONTOUR : ShaderOptions::SHADER_NONE);
                     }
                 }
+
+#endif
             }
 
             first = false;
@@ -366,15 +372,21 @@ NVL_INLINE void FaceMeshDrawerWidget::on_faceShaderComboBox_currentIndexChanged(
         for (FaceMeshDrawerBase* meshDrawer : vFaceMeshDrawers) {
             switch (index) {
                 case ShaderOptions::SHADER_RAMP:
+
+#ifdef NVL_QGLVIEWER_LOADED
                     rampQGLShader.load(vCanvas->qglContext());
                     meshDrawer->setFaceShader(&rampQGLShader);
                     meshDrawer->setFaceShaderMode(FaceMeshDrawerBase::FaceShaderMode::FACE_SHADER_VERTEX_VALUE);
+#endif
                     break;
 
                 case ShaderOptions::SHADER_CONTOUR:
+
+#ifdef NVL_QGLVIEWER_LOADED
                     contourQGLShader.load(vCanvas->qglContext());
                     meshDrawer->setFaceShader(&contourQGLShader);
                     meshDrawer->setFaceShaderMode(FaceMeshDrawerBase::FaceShaderMode::FACE_SHADER_VERTEX_VALUE);
+#endif
                     break;
 
                 default:

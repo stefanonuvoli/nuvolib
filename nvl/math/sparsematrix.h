@@ -3,6 +3,8 @@
 
 #include <nvl/nuvolib.h>
 
+#ifdef NVL_EIGEN_LOADED
+
 #include <Eigen/Sparse>
 
 namespace nvl {
@@ -17,5 +19,7 @@ typedef SparseMatrix<int> SparseMatrixi;
 typedef SparseMatrix<long> SparseMatrixl;
 
 }
+
+#endif
 
 #endif // NVL_MATH_SPARSE_MATRIX_H

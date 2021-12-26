@@ -1,5 +1,3 @@
-DEFINES += NVL_UTILITIES_LOADED
-
 #Utilities
 
 HEADERS += \
@@ -25,5 +23,3 @@ SOURCES += \
     $$PWD/string_utils.cpp \
     $$PWD/timer.cpp \
     $$PWD/vector_utils.cpp
-
-message(Module \"utilities\" loaded.)

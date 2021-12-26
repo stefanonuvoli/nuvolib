@@ -1,5 +1,7 @@
-#ifndef NVL_VCGLIB_VCG_TRIANGLE_MESH_H
-#define NVL_VCGLIB_VCG_TRIANGLE_MESH_H
+#ifndef NVL_MODELS_MESH_TRIANGLE_MESH_H
+#define NVL_MODELS_MESH_TRIANGLE_MESH_H
+
+#ifdef NVL_VCGLIB_LOADED
 
 #include <vcg/complex/complex.h>
 
@@ -57,4 +59,6 @@ class VCGTriangleMesh : public vcg::tri::TriMesh<
 
 }
 
-#endif // NVL_VCGLIB_VCG_TRIANGLE_MESH_H
+#endif
+
+#endif // NVL_MODELS_MESH_TRIANGLE_MESH_H

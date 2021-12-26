@@ -1,5 +1,7 @@
 #include "gl_draw.h"
 
+#ifdef NVL_OPENGL_LOADED
+
 #include <nvl/viewer/gl/opengl_headers.h>
 
 namespace nvl {
@@ -29,3 +31,5 @@ NVL_INLINE void glColor(const Color& c)
 }
 
 }
+
+#endif

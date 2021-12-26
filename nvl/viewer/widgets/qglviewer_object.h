@@ -3,6 +3,8 @@
 
 #include <nvl/nuvolib.h>
 
+#ifdef NVL_QGLVIEWER_LOADED
+
 #include <nvl/viewer/gl/opengl_headers.h>
 #ifdef WIN32
 #include "windows.h"
@@ -83,6 +85,8 @@ private:
 };
 
 }
+
+#endif
 
 #include "qglviewer_object.cpp"
 

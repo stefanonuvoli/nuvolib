@@ -1,5 +1,7 @@
 #include "qgl_ramp_shader.h"
 
+#ifdef NVL_QGLVIEWER_LOADED
+
 #include <nvl/viewer/gl/gl_draw.h>
 
 namespace nvl {
@@ -63,3 +65,5 @@ NVL_INLINE void QGLRampShader::addVertex(const Index& vId, const Point3d& p)
 }
 
 }
+
+#endif

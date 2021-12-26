@@ -1,5 +1,7 @@
 #include "mesh_drawer.h"
 
+#ifdef NVL_OPENGL_LOADED
+
 #include <nvl/math/point.h>
 #include <nvl/math/constants.h>
 
@@ -95,3 +97,5 @@ void MeshDrawer<M>::updateBoundingBox()
 }
 
 }
+
+#endif

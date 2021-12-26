@@ -3,6 +3,8 @@
 
 #include <nvl/nuvolib.h>
 
+#ifdef NVL_EIGEN_LOADED
+
 #include <Eigen/Dense>
 
 namespace nvl {
@@ -38,6 +40,8 @@ template<class T>
 Quaternion<T> operator/(const T& s, const Quaternion<T>& q);
 
 }
+
+#endif
 
 #include "quaternion.cpp"
 

@@ -1,7 +1,9 @@
-#ifndef NVL_VCGLIB_VCG_CONVERT_H
-#define NVL_VCGLIB_VCG_CONVERT_H
+#ifndef NVL_MODELS_MESH_CONVERT_H
+#define NVL_MODELS_MESH_CONVERT_H
 
 #include <nvl/nuvolib.h>
+
+#ifdef NVL_VCGLIB_LOADED
 
 #include <Eigen/Core>
 
@@ -13,6 +15,8 @@ template<class VCGMesh, class Segment>
 void convertSegmentsToVCGEdgeMesh(
         const std::vector<Segment>& segments,
         VCGMesh& vcgMesh);
+
+#ifdef NVL_EIGEN_LOADED
 
 template<class VCGMesh>
 void convertVCGMeshToEigen(
@@ -30,6 +34,8 @@ void convertEigenToVCGMesh(
         const Eigen::MatrixXd& V,
         const Eigen::MatrixXi& F,
         VCGMesh& vcgMesh);
+
+#endif
 
 template<class Mesh, class VCGMesh>
 void convertMeshToVCGMesh(
@@ -63,6 +69,8 @@ void convertVCGMeshToMesh(
 
 }
 
-#include "vcg_convert.cpp"
+#endif
 
-#endif // NVL_VCGLIB_VCG_CONVERT_H
+#include "mesh_vcg_convert.cpp"
+
+#endif // NVL_MODELS_MESH_CONVERT_H

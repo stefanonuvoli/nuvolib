@@ -3,6 +3,8 @@
 
 #include <nvl/nuvolib.h>
 
+#ifdef NVL_EIGEN_LOADED
+
 #include <Eigen/Core>
 
 #include <vector>
@@ -40,6 +42,8 @@ void convertEigenMeshToMesh(
         std::vector<Index>& birthFace);
 
 }
+
+#endif
 
 #include "mesh_eigen_convert.cpp"
 

@@ -1,5 +1,7 @@
-#ifndef NVL_VCGLIB_VCG_POLYGON_MESH_H
-#define NVL_VCGLIB_VCG_POLYGON_MESH_H
+#ifndef NVL_MODELS_MESH_POLYGON_MESH_H
+#define NVL_MODELS_MESH_POLYGON_MESH_H
+
+#ifdef NVL_VCGLIB_LOADED
 
 #include <vcg/complex/complex.h>
 
@@ -54,4 +56,6 @@ class VCGPolygonMesh : public vcg::tri::TriMesh<
 
 }
 
-#endif // NVL_VCGLIB_VCG_POLYGON_MESH_H
+#endif
+
+#endif // NVL_MODELS_MESH_POLYGON_MESH_H

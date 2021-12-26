@@ -1,5 +1,7 @@
 #include "model_drawer.h"
 
+#ifdef NVL_OPENGL_LOADED
+
 #include <nvl/models/algorithms/animation_blend.h>
 #include <nvl/models/algorithms/animation_skinning.h>
 #include <nvl/models/algorithms/animation_poses.h>
@@ -461,3 +463,5 @@ void ModelDrawer<M>::updateBoundingBox()
 }
 
 }
+
+#endif

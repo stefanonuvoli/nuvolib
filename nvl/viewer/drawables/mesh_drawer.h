@@ -3,6 +3,8 @@
 
 #include <nvl/nuvolib.h>
 
+#ifdef NVL_OPENGL_LOADED
+
 #include <nvl/viewer/interfaces/drawable.h>
 #include <nvl/viewer/interfaces/pickable.h>
 #include <nvl/viewer/drawables/mesh_drawer_base.h>
@@ -43,6 +45,8 @@ protected:
 };
 
 }
+
+#endif
 
 #include "mesh_drawer.cpp"
 

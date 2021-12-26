@@ -1,9 +1,3 @@
-!contains(DEFINES, NVL_UTILITIES_LOADED){
-    error(Module "structures" requires the module "utilities".)
-}
-
-DEFINES += NVL_STRUCTURES_LOADED
-
 #Containers
 
 HEADERS += \
@@ -86,6 +80,3 @@ SOURCES += \
     $$PWD/trees/internal/rangetree_types.cpp \
     $$PWD/trees/aabbtree.cpp \
     $$PWD/trees/internal/nodes/aabb_node.cpp
-
-
-message(Module \"structures\" loaded.)

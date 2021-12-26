@@ -1,5 +1,7 @@
 #include "polyline_mesh_drawer.h"
 
+#ifdef NVL_OPENGL_LOADED
+
 #include <nvl/viewer/gl/gl_primitives.h>
 #include <nvl/viewer/gl/gl_draw.h>
 
@@ -551,3 +553,5 @@ double PolylineMeshDrawer<M>::getPolylineRadius()  const
 }
 
 }
+
+#endif

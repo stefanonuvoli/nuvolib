@@ -1,19 +1,3 @@
-!contains(DEFINES, NVL_MATH_LOADED){
-    error(Module "models" requires the module "math".)
-}
-!contains(DEFINES, NVL_UTILITIES_LOADED){
-    error(Module "models" requires the module "utilities".)
-}
-!contains(DEFINES, NVL_STRUCTURES_LOADED){
-    error(Module "models" requires the module "structures".)
-}
-
-include(io/fbxsdk.pri)
-
-DEFINES += NVL_MODELS_LOADED
-
-message(Module \"models\" loaded.)
-
 HEADERS += \
     $$PWD/algorithms/animation_blend.h \
     $$PWD/algorithms/animation_clean.h \
@@ -25,21 +9,27 @@ HEADERS += \
     $$PWD/algorithms/mesh_adjacencies.h \
     $$PWD/algorithms/mesh_borders.h \
     $$PWD/algorithms/mesh_cleaning.h \
+    $$PWD/algorithms/mesh_collapse_borders.h \
     $$PWD/algorithms/mesh_consistency.h \
+    $$PWD/algorithms/mesh_curve_on_manifold.h \
     $$PWD/algorithms/mesh_differentiation.h \
     $$PWD/algorithms/mesh_eigen_convert.h \
     $$PWD/algorithms/mesh_geodesics.h \
     $$PWD/algorithms/mesh_geometric_information.h \
     $$PWD/algorithms/mesh_graph.h \
+    $$PWD/algorithms/mesh_grid.h \
     $$PWD/algorithms/mesh_implicit_function.h \
     $$PWD/algorithms/mesh_morphological_operations.h \
     $$PWD/algorithms/mesh_normals.h \
+    $$PWD/algorithms/mesh_refine.h \
+    $$PWD/algorithms/mesh_remeshing.h \
     $$PWD/algorithms/mesh_smoothing.h \
     $$PWD/algorithms/mesh_split.h \
     $$PWD/algorithms/mesh_subdivision.h \
     $$PWD/algorithms/mesh_transfer.h \
     $$PWD/algorithms/mesh_transformations.h \
     $$PWD/algorithms/mesh_triangulation.h \
+    $$PWD/algorithms/mesh_vcg_convert.h \
     $$PWD/algorithms/model_clean.h \
     $$PWD/algorithms/model_deformation.h \
     $$PWD/algorithms/model_normalization.h \
@@ -52,6 +42,8 @@ HEADERS += \
     $$PWD/algorithms/skeleton_poses.h \
     $$PWD/algorithms/skeleton_transfer.h \
     $$PWD/algorithms/skeleton_transformations.h \
+    $$PWD/structures/vcg_polygon_mesh.h \
+    $$PWD/structures/vcg_triangle_mesh.h \
     $$PWD/animation_3d.h \
     $$PWD/io/model_io_fbx.h \
     $$PWD/structures/handlers/mesh_face_handler.h \
@@ -116,21 +108,27 @@ SOURCES += \
     $$PWD/algorithms/mesh_adjacencies.cpp \
     $$PWD/algorithms/mesh_borders.cpp \
     $$PWD/algorithms/mesh_cleaning.cpp \
+    $$PWD/algorithms/mesh_collapse_borders.cpp \
     $$PWD/algorithms/mesh_consistency.cpp \
+    $$PWD/algorithms/mesh_curve_on_manifold.cpp \
     $$PWD/algorithms/mesh_differentiation.cpp \
     $$PWD/algorithms/mesh_eigen_convert.cpp \
     $$PWD/algorithms/mesh_geodesics.cpp \
     $$PWD/algorithms/mesh_geometric_information.cpp \
     $$PWD/algorithms/mesh_graph.cpp \
+    $$PWD/algorithms/mesh_grid.cpp \
     $$PWD/algorithms/mesh_implicit_function.cpp \
     $$PWD/algorithms/mesh_morphological_operations.cpp \
     $$PWD/algorithms/mesh_normals.cpp \
+    $$PWD/algorithms/mesh_refine.cpp \
+    $$PWD/algorithms/mesh_remeshing.cpp \
     $$PWD/algorithms/mesh_smoothing.cpp \
     $$PWD/algorithms/mesh_split.cpp \
     $$PWD/algorithms/mesh_subdivision.cpp \
     $$PWD/algorithms/mesh_transfer.cpp \
     $$PWD/algorithms/mesh_transformations.cpp \
     $$PWD/algorithms/mesh_triangulation.cpp \
+    $$PWD/algorithms/mesh_vcg_convert.cpp \
     $$PWD/algorithms/model_clean.cpp \
     $$PWD/algorithms/model_deformation.cpp \
     $$PWD/algorithms/model_normalization.cpp \

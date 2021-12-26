@@ -5,14 +5,17 @@ qt {
     DEFINES += NVL_QT
 }
 
-#Loading modules
-include($$PWD/nvl/utilities/utilities.pri)
+message(------------------------------------------------)
+message(Loading nuvolib...)
+message(------------------------------------------------)
+
+#Loading libraries
+include($$PWD/nvl/libraries/libraries.pri)
 include($$PWD/nvl/math/math.pri)
+include($$PWD/nvl/utilities/utilities.pri)
 include($$PWD/nvl/structures/structures.pri)
 include($$PWD/nvl/models/models.pri)
 include($$PWD/nvl/viewer/viewer.pri)
-include($$PWD/nvl/vcglib/vcglib.pri)
-include($$PWD/nvl/external/external.pri)
 
 win32{
     QMAKE_CXXFLAGS += -bigobj

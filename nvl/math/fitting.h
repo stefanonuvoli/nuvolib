@@ -3,6 +3,8 @@
 
 #include <nvl/nuvolib.h>
 
+#ifdef NVL_EIGEN_LOADED
+
 #include <nvl/math/plane.h>
 #include <nvl/math/point.h>
 
@@ -17,6 +19,8 @@ template<class T>
 Plane<T> bestFittingPlaneSVD(const std::vector<Point3<T>>& points);
 
 }
+
+#endif
 
 #include "fitting.cpp"
 

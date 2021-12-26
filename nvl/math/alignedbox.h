@@ -3,6 +3,8 @@
 
 #include <nvl/nuvolib.h>
 
+#ifdef NVL_EIGEN_LOADED
+
 #include <Eigen/Geometry>
 
 namespace nvl {
@@ -24,5 +26,7 @@ typedef AlignedBox<int,3> AlignedBox3i;
 typedef AlignedBox<long,3> AlignedBox3l;
 
 }
+
+#endif
 
 #endif // NVL_MATH_ALIGNEDBOX_H

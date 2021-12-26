@@ -3,6 +3,8 @@
 
 #include <nvl/nuvolib.h>
 
+#ifdef NVL_QGLVIEWER_LOADED
+
 #include <nvl/viewer/gl/gl_shader.h>
 
 #include <QGLContext>
@@ -52,6 +54,8 @@ protected:
 };
 
 }
+
+#endif
 
 #include "qgl_base_shader.cpp"
 

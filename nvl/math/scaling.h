@@ -3,6 +3,8 @@
 
 #include <nvl/nuvolib.h>
 
+#ifdef NVL_EIGEN_LOADED
+
 #include <Eigen/Core>
 #include <Eigen/Geometry>
 
@@ -33,5 +35,7 @@ typedef Scaling3<int> Scaling3i;
 typedef Scaling3<long long int> Scaling3l;
 
 }
+
+#endif
 
 #endif // NVL_MATH_SCALING_H

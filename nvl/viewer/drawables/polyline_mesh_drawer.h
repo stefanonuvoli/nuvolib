@@ -3,6 +3,8 @@
 
 #include <nvl/nuvolib.h>
 
+#ifdef NVL_OPENGL_LOADED
+
 #include <nvl/viewer/drawables/vertex_mesh_drawer.h>
 #include <nvl/viewer/drawables/polyline_mesh_drawer_base.h>
 
@@ -68,6 +70,8 @@ protected:
 };
 
 }
+
+#endif
 
 #include "polyline_mesh_drawer.cpp"
 

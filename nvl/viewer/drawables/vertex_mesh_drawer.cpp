@@ -1,7 +1,6 @@
 #include "vertex_mesh_drawer.h"
 
-#include <nvl/viewer/gl/gl_primitives.h>
-#include <nvl/viewer/gl/gl_draw.h>
+#ifdef NVL_OPENGL_LOADED
 
 #include <nvl/math/constants.h>
 
@@ -511,3 +510,5 @@ double VertexMeshDrawer<M>::getVertexNormalLength() const
 }
 
 }
+
+#endif

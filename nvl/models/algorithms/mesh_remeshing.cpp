@@ -1,9 +1,11 @@
-#include "vcg_remeshing.h"
+#include "mesh_remeshing.h"
+
+#ifdef NVL_VCGLIB_LOADED
 
 #include <vcg/complex/algorithms/isotropic_remeshing.h>
 
-#include <nvl/vcglib/vcg_convert.h>
-#include <nvl/vcglib/vcg_triangle_mesh.h>
+#include <nvl/models/algorithms/mesh_vcg_convert.h>
+#include <nvl/models/structures/vcg_triangle_mesh.h>
 
 namespace nvl {
 
@@ -86,5 +88,7 @@ void vcgIsotropicRemeshing(
 
     vcg::tri::IsotropicRemeshing<VCGMesh>::Do(vcgResultMesh,vcgMesh,Par);
 }
+
+#endif
 
 }

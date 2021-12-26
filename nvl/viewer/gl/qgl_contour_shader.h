@@ -3,6 +3,8 @@
 
 #include <nvl/nuvolib.h>
 
+#ifdef NVL_QGLVIEWER_LOADED
+
 #include <nvl/viewer/gl/qgl_base_shader.h>
 
 namespace nvl {
@@ -35,6 +37,8 @@ protected:
 };
 
 }
+
+#endif
 
 #include "qgl_contour_shader.cpp"
 

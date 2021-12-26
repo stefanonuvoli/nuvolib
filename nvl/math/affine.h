@@ -3,6 +3,8 @@
 
 #include <nvl/nuvolib.h>
 
+#ifdef NVL_EIGEN_LOADED
+
 #include <Eigen/Core>
 #include <Eigen/Geometry>
 
@@ -33,5 +35,7 @@ typedef Affine3<int> Affine3i;
 typedef Affine3<long long int> Affine3l;
 
 }
+
+#endif
 
 #endif // NVL_MATH_AFFINE_H

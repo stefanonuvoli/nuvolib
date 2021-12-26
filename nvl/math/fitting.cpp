@@ -1,5 +1,7 @@
 #include "fitting.h"
 
+#ifdef NVL_EIGEN_LOADED
+
 #include <nvl/math/barycenter.h>
 #include <nvl/math/covariance.h>
 #include <nvl/math/conversions.h>
@@ -48,3 +50,5 @@ Plane<T> bestFittingPlaneSVD(const std::vector<Point3<T>>& points)
 }
 
 }
+
+#endif

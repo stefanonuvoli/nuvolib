@@ -1,8 +1,5 @@
 #include "face_mesh_drawer_base.h"
 
-#include <nvl/viewer/gl/gl_primitives.h>
-#include <nvl/viewer/gl/gl_draw.h>
-
 namespace nvl {
 
 NVL_INLINE FaceMeshDrawerBase::FaceMeshDrawerBase() :
@@ -132,6 +129,8 @@ NVL_INLINE void FaceMeshDrawerBase::setFaceShaderMode(const FaceShaderMode& mode
     vFaceShaderMode = mode;
 }
 
+#ifdef NVL_OPENGL_LOADED
+
 NVL_INLINE GLShader* FaceMeshDrawerBase::faceShader() const
 {
     return vFaceShader;
@@ -141,6 +140,8 @@ NVL_INLINE void FaceMeshDrawerBase::setFaceShader(GLShader* value)
 {
     vFaceShader = value;
 }
+
+#endif
 
 NVL_INLINE std::vector<double>& FaceMeshDrawerBase::vertexValues()
 {

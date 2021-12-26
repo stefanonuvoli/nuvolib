@@ -1,7 +1,9 @@
-#ifndef NVL_VCGLIB_VCG_CURVE_ON_MANIFOLD_H
-#define NVL_VCGLIB_VCG_CURVE_ON_MANIFOLD_H
+#ifndef NVL_MODELS_MESH_CURVE_ON_MANIFOLD_H
+#define NVL_MODELS_MESH_CURVE_ON_MANIFOLD_H
 
 #include <nvl/nuvolib.h>
+
+#ifdef NVL_VCGLIB_LOADED
 
 #include <nvl/math/segment.h>
 
@@ -39,6 +41,8 @@ bool vcgCurveOnManifold(
 
 }
 
-#include "vcg_curve_on_manifold.cpp"
+#endif
 
-#endif // NVL_VCGLIB_VCG_CURVE_ON_MANIFOLD_H
+#include "mesh_curve_on_manifold.cpp"
+
+#endif // NVL_MODELS_MESH_CURVE_ON_MANIFOLD_H

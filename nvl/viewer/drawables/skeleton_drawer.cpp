@@ -1,5 +1,7 @@
 #include "skeleton_drawer.h"
 
+#ifdef NVL_OPENGL_LOADED
+
 #include <nvl/viewer/gl/gl_primitives.h>
 
 #include <nvl/math/constants.h>
@@ -480,3 +482,5 @@ void SkeletonDrawer<S>::updateBoundingBox()
 }
 
 }
+
+#endif

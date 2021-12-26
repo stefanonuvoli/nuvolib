@@ -3,6 +3,8 @@
 
 #include <nvl/nuvolib.h>
 
+#ifdef NVL_EIGEN_LOADED
+
 #include <Eigen/Core>
 #include <Eigen/Geometry>
 
@@ -33,5 +35,7 @@ typedef Rotation3<int> Rotation3i;
 typedef Rotation3<long long int> Rotation3l;
 
 }
+
+#endif
 
 #endif // NVL_MATH_ROTATION_H

@@ -3,6 +3,8 @@
 
 #include <nvl/nuvolib.h>
 
+#ifdef NVL_EIGEN_LOADED
+
 #include <Eigen/Core>
 #include <Eigen/Geometry>
 
@@ -24,5 +26,7 @@ typedef Projective3<int> Projective3i;
 typedef Projective3<long long int> Projective3l;
 
 }
+
+#endif
 
 #endif // NVL_MATH_PROJECTIVE_TRANSFORMATIONS_H

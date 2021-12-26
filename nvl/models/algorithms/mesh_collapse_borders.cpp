@@ -1,9 +1,11 @@
-#include "vcg_collapse_borders.h"
+#include "mesh_collapse_borders.h"
+
+#ifdef NVL_VCGLIB_LOADED
 
 #include <nvl/math/inverse_map.h>
 
-#include <nvl/vcglib/vcg_convert.h>
-#include <nvl/vcglib/vcg_triangle_mesh.h>
+#include <nvl/models/structures/vcg_triangle_mesh.h>
+#include <nvl/models/algorithms/mesh_vcg_convert.h>
 
 #include <vcg/complex/algorithms/update/topology.h>
 #include <vcg/complex/algorithms/update/flag.h>
@@ -209,5 +211,7 @@ std::vector<size_t> vcgCollapseBorders(
 
     return nonCollapsed;
 }
+
+#endif
 
 }

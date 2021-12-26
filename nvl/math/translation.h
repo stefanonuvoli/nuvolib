@@ -3,6 +3,8 @@
 
 #include <nvl/nuvolib.h>
 
+#ifdef NVL_EIGEN_LOADED
+
 #include <Eigen/Core>
 #include <Eigen/Geometry>
 
@@ -33,5 +35,7 @@ typedef Translation3<int> Translation3i;
 typedef Translation3<long long int> Translation3l;
 
 }
+
+#endif
 
 #endif // NVL_MATH_TRANSLATION_H

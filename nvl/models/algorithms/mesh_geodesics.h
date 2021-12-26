@@ -1,9 +1,9 @@
 #ifndef NVL_MODELS_MESH_GEODESICS
 #define NVL_MODELS_MESH_GEODESICS
 
-#ifdef NVL_LIBIGL_LOADED
-
 #include <nvl/nuvolib.h>
+
+#ifdef NVL_LIBIGL_LOADED
 
 #include <igl/heat_geodesics.h>
 

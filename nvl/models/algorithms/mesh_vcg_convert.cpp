@@ -1,4 +1,6 @@
-#include "vcg_convert.h"
+#include "mesh_vcg_convert.h"
+
+#ifdef NVL_VCGLIB_LOADED
 
 #include <vcg/complex/complex.h>
 #include <vcg/complex/algorithms/clean.h>
@@ -33,6 +35,8 @@ void convertSegmentsToVCGEdgeMesh(
         vcg::tri::Allocator<VCGMesh>::AddEdge(vcgMesh, vertexMap.at(coord1), vertexMap.at(coord2));
     }
 }
+
+#ifdef NVL_EIGEN_LOADED
 
 template<class VCGMesh>
 void convertVCGMeshToEigen(
@@ -119,6 +123,8 @@ void convertEigenToVCGMesh(
         }
     }
 }
+
+#endif
 
 template<class Mesh, class VCGMesh>
 void convertMeshToVCGMesh(
@@ -307,5 +313,7 @@ void convertVCGMeshToMesh(
         }
     }
 }
+
+#endif
 
 }

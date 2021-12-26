@@ -1,5 +1,7 @@
 #include "gl_textures.h"
 
+#ifdef NVL_OPENGL_LOADED
+
 #include <nvl/math/numeric_limits.h>
 
 #include <nvl/viewer/gl/opengl_headers.h>
@@ -112,3 +114,5 @@ NVL_INLINE int glLoadTextureImage(const std::string& filename)
 }
 
 }
+
+#endif

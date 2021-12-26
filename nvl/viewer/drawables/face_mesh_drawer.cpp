@@ -1,5 +1,7 @@
 ﻿#include "face_mesh_drawer.h"
 
+#ifdef NVL_OPENGL_LOADED
+
 #include <nvl/viewer/gl/gl_primitives.h>
 #include <nvl/viewer/gl/gl_draw.h>
 #include <nvl/viewer/gl/gl_textures.h>
@@ -1080,3 +1082,5 @@ double FaceMeshDrawer<M>::getFaceNormalLength() const
 }
 
 }
+
+#endif

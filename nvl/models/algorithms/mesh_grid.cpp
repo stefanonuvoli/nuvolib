@@ -1,8 +1,10 @@
-#include "vcg_grid.h"
+#include "mesh_grid.h"
+
+#ifdef NVL_VCGLIB_LOADED
 
 #include <nvl/models/algorithms/mesh_triangulation.h>
 
-#include <nvl/vcglib/vcg_convert.h>
+#include <nvl/models/algorithms/mesh_vcg_convert.h>
 
 #include <vcg/complex/algorithms/update/bounding.h>
 #include <vcg/complex/algorithms/closest.h>
@@ -107,5 +109,7 @@ typename Mesh::VertexId VCGGrid<Mesh>::getClosestVertex(const Point& point)
 
     return vVCGBirthVertex[vcgId];
 }
+
+#endif
 
 }

@@ -3,6 +3,8 @@
 
 #include <nvl/nuvolib.h>
 
+#ifdef NVL_EIGEN_LOADED
+
 #include <Eigen/Geometry>
 
 #include <nvl/math/hyperplane.h>
@@ -29,7 +31,8 @@ typedef ParametrizedLine4<double> ParametrizedLine4d;
 typedef ParametrizedLine4<int> ParametrizedLine4i;
 typedef ParametrizedLine4<long long int> ParametrizedLine4l;
 
-
 }
+
+#endif
 
 #endif // NVL_MATH_PARAMETRIZEDLINE_H

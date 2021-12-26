@@ -3,6 +3,8 @@
 
 #include <nvl/nuvolib.h>
 
+#ifdef NVL_OPENGL_LOADED
+
 #include <string>
 
 #include <nvl/math/point.h>
@@ -50,6 +52,8 @@ public:
 };
 
 }
+
+#endif
 
 #include "gl_shader.cpp"
 

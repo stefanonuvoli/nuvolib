@@ -1,5 +1,9 @@
-#ifndef NVL_VCGLIB_VCG_MESH_REFINE_H
-#define NVL_VCGLIB_VCG_MESH_REFINE_H
+#ifndef NVL_MODELS_MESH_REFINE_H
+#define NVL_MODELS_MESH_REFINE_H
+
+#include <nvl/nuvolib.h>
+
+#ifdef NVL_VCGLIB_LOADED
 
 #include <nvl/math/segment.h>
 
@@ -47,6 +51,8 @@ bool vcgRefineMesh(
 
 }
 
-#include "vcg_mesh_refine.cpp"
+#endif
 
-#endif // NVL_VCGLIB_VCG_MESH_REFINE_H
+#include "mesh_refine.cpp"
+
+#endif // NVL_MODELS_MESH_REFINE_H

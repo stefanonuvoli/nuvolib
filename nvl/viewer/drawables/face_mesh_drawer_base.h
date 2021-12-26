@@ -4,7 +4,10 @@
 #include <nvl/nuvolib.h>
 
 #include <nvl/viewer/drawables/polyline_mesh_drawer_base.h>
+
+#ifdef NVL_OPENGL_LOADED
 #include <nvl/viewer/gl/gl_shader.h>
+#endif
 
 #include <nvl/utilities/color.h>
 
@@ -64,8 +67,10 @@ public:
     const FaceShaderMode& faceShaderMode() const;
     virtual void setFaceShaderMode(const FaceShaderMode& mode);
 
+#ifdef NVL_OPENGL_LOADED
     GLShader* faceShader() const;
     virtual void setFaceShader(GLShader* value);
+#endif
 
     bool faceTransparency() const;
     virtual void setFaceTransparency(bool value);
@@ -107,7 +112,9 @@ private:
     FaceColorMode vFaceColorMode;
 
     FaceShaderMode vFaceShaderMode;
+#ifdef NVL_OPENGL_LOADED
     GLShader* vFaceShader;
+#endif
 
     std::vector<double> vVertexValues;
     std::vector<double> vFaceValues;

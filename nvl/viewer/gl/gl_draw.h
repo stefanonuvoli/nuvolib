@@ -3,6 +3,8 @@
 
 #include <nvl/nuvolib.h>
 
+#ifdef NVL_OPENGL_LOADED
+
 #include <nvl/math/point.h>
 #include <nvl/utilities/color.h>
 
@@ -18,6 +20,8 @@ void glNormal(const Vector3d& n);
 void glColor(const Color& c);
 
 }
+
+#endif
 
 #include "gl_draw.cpp"
 

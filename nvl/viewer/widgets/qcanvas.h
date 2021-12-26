@@ -3,6 +3,8 @@
 
 #include <nvl/nuvolib.h>
 
+#ifdef NVL_OPENGL_LOADED
+
 #include <nvl/viewer/widgets/canvas.h>
 
 #include <nvl/viewer/gl/opengl_headers.h> //Needed to load glew
@@ -76,6 +78,8 @@ Q_SIGNALS:
 };
 
 }
+
+#endif
 
 #include "qcanvas.cpp"
 

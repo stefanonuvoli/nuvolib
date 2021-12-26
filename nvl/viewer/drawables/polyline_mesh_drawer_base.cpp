@@ -1,8 +1,5 @@
 #include "polyline_mesh_drawer_base.h"
 
-#include <nvl/viewer/gl/gl_primitives.h>
-#include <nvl/viewer/gl/gl_draw.h>
-
 namespace nvl {
 
 NVL_INLINE PolylineMeshDrawerBase::PolylineMeshDrawerBase() :

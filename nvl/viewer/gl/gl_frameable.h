@@ -3,6 +3,8 @@
 
 #include <nvl/nuvolib.h>
 
+#ifdef NVL_OPENGL_LOADED
+
 #include <nvl/math/point.h>
 
 #include <nvl/viewer/gl/opengl_headers.h>
@@ -24,6 +26,8 @@ public:
 };
 
 }
+
+#endif
 
 #include "gl_frameable.cpp"
 

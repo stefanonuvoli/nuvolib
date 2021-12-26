@@ -1,9 +1,11 @@
-#ifndef NVL_VCGLIB_VCG_GRID_H
-#define NVL_VCGLIB_VCG_GRID_H
+#ifndef NVL_MODELS_MESH_GRID_H
+#define NVL_MODELS_MESH_GRID_H
 
 #include <nvl/nuvolib.h>
 
-#include <nvl/vcglib/vcg_triangle_mesh.h>
+#ifdef NVL_VCGLIB_LOADED
+
+#include <nvl/models/structures/vcg_triangle_mesh.h>
 
 #include <vector>
 #include <utility>
@@ -53,6 +55,8 @@ private:
 
 }
 
-#include "vcg_grid.cpp"
+#endif
 
-#endif // NVL_VCGLIB_VCG_GRID_H
+#include "mesh_grid.cpp"
+
+#endif // NVL_MODELS_MESH_GRID_H

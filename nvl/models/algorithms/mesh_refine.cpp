@@ -1,15 +1,15 @@
-#include "vcg_mesh_refine.h"
+#include "mesh_refine.h"
 
-#include <nvl/vcglib/vcg_triangle_mesh.h>
-#include <nvl/vcglib/vcg_convert.h>
+#ifdef NVL_VCGLIB_LOADED
 
 #include <nvl/math/comparisons.h>
 
+#include <nvl/models/structures/vcg_triangle_mesh.h>
+#include <nvl/models/algorithms/mesh_vcg_convert.h>
 #include <nvl/models/algorithms/mesh_triangulation.h>
 
 #include <vcg/complex/algorithms/refine.h>
 #include <vcg/complex/algorithms/update/quality.h>
-
 
 #include <set>
 
@@ -337,5 +337,7 @@ bool vcgRefineMesh(
 
     return done;
 }
+
+#endif
 
 }

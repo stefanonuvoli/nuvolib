@@ -3,6 +3,8 @@
 
 #include <nvl/nuvolib.h>
 
+#ifdef NVL_OPENGL_LOADED
+
 #include <nvl/viewer/interfaces/drawable.h>
 #include <nvl/viewer/interfaces/pickable.h>
 #include <nvl/viewer/gl/gl_frameable.h>
@@ -77,6 +79,8 @@ protected:
 };
 
 }
+
+#endif
 
 #include "skeleton_drawer.cpp"
 

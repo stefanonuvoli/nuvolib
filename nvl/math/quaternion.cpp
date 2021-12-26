@@ -1,5 +1,7 @@
 #include "quaternion.h"
 
+#ifdef NVL_EIGEN_LOADED
+
 namespace nvl {
 
 template<class T>
@@ -37,3 +39,5 @@ Quaternion<T> operator/(const T& s, const Quaternion<T>& q) {
 }
 
 }
+
+#endif

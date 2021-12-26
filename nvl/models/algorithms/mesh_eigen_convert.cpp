@@ -1,5 +1,7 @@
 #include "mesh_eigen_convert.h"
 
+#ifdef NVL_EIGEN_LOADED
+
 namespace nvl {
 
 template<class Mesh>
@@ -160,5 +162,6 @@ void convertEigenMeshToMesh(
     }
 }
 
-
 }
+
+#endif

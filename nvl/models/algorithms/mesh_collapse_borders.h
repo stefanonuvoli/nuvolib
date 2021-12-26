@@ -1,7 +1,9 @@
-#ifndef NVL_VCGLIB_VCG_COLLAPSE_BORDERS_H
-#define NVL_VCGLIB_VCG_COLLAPSE_BORDERS_H
+#ifndef NVL_MODELS_MESH_COLLAPSE_BORDERS_H
+#define NVL_MODELS_MESH_COLLAPSE_BORDERS_H
 
 #include <nvl/nuvolib.h>
+
+#ifdef NVL_VCGLIB_LOADED
 
 #include <vector>
 #include <unordered_set>
@@ -24,6 +26,8 @@ std::vector<size_t> vcgCollapseBorders(
 
 }
 
-#include "vcg_collapse_borders.cpp"
+#endif
 
-#endif // NVL_VCGLIB_VCG_COLLAPSE_BORDERS_H
+#include "mesh_collapse_borders.cpp"
+
+#endif // NVL_MODELS_MESH_COLLAPSE_BORDERS_H

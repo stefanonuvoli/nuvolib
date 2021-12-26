@@ -1,5 +1,7 @@
 #include "qgl_base_shader.h"
 
+#ifdef NVL_QGLVIEWER_LOADED
+
 namespace nvl {
 
 NVL_INLINE QGLBaseShader::QGLBaseShader() :
@@ -143,3 +145,5 @@ NVL_INLINE void QGLBaseShader::setAttribute(const std::string& name, const int& 
 }
 
 }
+
+#endif

@@ -1,7 +1,9 @@
-#ifndef NVL_VCGLIB_VCG_REMESHING_H
-#define NVL_VCGLIB_VCG_REMESHING_H
+#ifndef NVL_MODELS_MESH_REMESHING_H
+#define NVL_MODELS_MESH_REMESHING_H
 
 #include <nvl/nuvolib.h>
+
+#ifdef NVL_VCGLIB_LOADED
 
 namespace nvl {
 
@@ -22,6 +24,8 @@ void vcgIsotropicRemeshing(
 
 }
 
-#include "vcg_remeshing.cpp"
+#endif
 
-#endif // NVL_VCGLIB_VCG_REMESHING_H
+#include "mesh_remeshing.cpp"
+
+#endif // NVL_MODELS_MESH_REMESHING_H

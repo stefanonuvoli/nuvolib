@@ -1,10 +1,12 @@
-#include "vcg_curve_on_manifold.h"
+#include "mesh_curve_on_manifold.h"
+
+#ifdef NVL_VCGLIB_LOADED
 
 #include <nvl/math/comparisons.h>
 #include <nvl/math/numeric_limits.h>
 
-#include <nvl/vcglib/vcg_triangle_mesh.h>
-#include <nvl/vcglib/vcg_convert.h>
+#include <nvl/models/structures/vcg_triangle_mesh.h>
+#include <nvl/models/algorithms/mesh_vcg_convert.h>
 
 #include <nvl/models/algorithms/mesh_triangulation.h>
 
@@ -303,5 +305,7 @@ bool vcgCurveOnManifold(
 
     return done;
 }
+
+#endif
 
 }
