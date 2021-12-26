@@ -1,4 +1,4 @@
-- Change all executable files in samples in main.cpp
+- Rename main.cpp all executable files in samples
 - CMake
 - Documentation
 - Face mesh without polylines, then create FacePolylineMesh

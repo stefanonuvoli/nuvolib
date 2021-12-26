@@ -1,3 +1,9 @@
+/*
+ * This file is part of nuvolib: https://github.com/stefanonuvoli/nuvolib
+ * This Source Code Form is subject to the terms of the GNU GPL 3.0
+ *
+ * @author Stefano Nuvoli (stefano.nuvoli@gmail.com)
+ */
 #ifndef NVL_STRUCTURES_VECTOR_WITH_DELETE_H
 #define NVL_STRUCTURES_VECTOR_WITH_DELETE_H
 
@@ -10,6 +16,10 @@
 
 namespace nvl {
 
+/**
+ * @brief A vector which implements a lazy remove operation efficiently.
+ * @tparam T Type of the element
+ */
 template<class T>
 class VectorWithDelete
 {
@@ -25,8 +35,8 @@ public:
     /* Constructors */
 
     VectorWithDelete();
-    VectorWithDelete(Size realSize);
-    VectorWithDelete(Size realSize, const T& value);
+    VectorWithDelete(const Size realSize);
+    VectorWithDelete(const Size realSize, const T& value);
 
 
     /* Methods */
@@ -35,28 +45,28 @@ public:
     Size realSize() const;
     Size size() const;
     bool empty() const;
-    void resize(Size size, T initValue = T());
+    void resize(const Size size, const T initValue = T());
 
-    T& at(Index pos);
-    const T& at(Index pos) const;
+    T& at(const Index pos);
+    const T& at(const Index pos) const;
 
     Index push_back(const T& value);
-    void insert(Index pos, const T& value);
+    void insert(const Index pos, const T& value);
 
     void pop_back();
-    void erase(Index pos);
+    void erase(const Index pos);
     void erase(iterator it);
     void erase(const_iterator it);
 
     const T& front() const;
     const T& back() const;
 
-    bool isDeleted(Index pos) const;
+    bool isDeleted(const Index pos) const;
 
     std::vector<Index> compact();
 
-    T& operator[](const Index& pos);
-    const T& operator[](const Index& pos) const;
+    T& operator[](const Index pos);
+    const T& operator[](const Index pos) const;
 
 
     /* Iterators */

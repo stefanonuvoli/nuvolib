@@ -14,6 +14,8 @@ namespace nvl {
 /**
  * @brief Wrapper for an iterator. It allows to hide the function of the given container,
  * in a way the user can use only the iterators.
+ * @tparam C Container
+ * @tparam I Container iterator
  */
 template<class C, class I>
 class IteratorWrapper

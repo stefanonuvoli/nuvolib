@@ -1,3 +1,9 @@
+/*
+ * This file is part of nuvolib: https://github.com/stefanonuvoli/nuvolib
+ * This Source Code Form is subject to the terms of the GNU GPL 3.0
+ *
+ * @author Stefano Nuvoli (stefano.nuvoli@gmail.com)
+ */
 #ifndef NVL_STRUCTURES_DISJOINT_SET_H
 #define NVL_STRUCTURES_DISJOINT_SET_H
 
@@ -8,6 +14,12 @@
 
 namespace nvl {
 
+/**
+ * @brief Disjoint set class. It allows to efficiently perform find-union operations
+ * on disjoint sets.
+ * @tparam T Type of the elements
+ * @tparam C Map type to link the elements to the index
+ */
 template<class T, class C = std::map<T, Index>>
 class DisjointSet
 {

@@ -25,7 +25,7 @@ NVL_INLINE Color::Color() : Color(255, 255, 255, 255)
  * @param blue Blue color, from 0 to 255
  * @param alpha Alpha value, from 0 to 255
  */
-NVL_INLINE Color::Color(int red, int green, int blue, int alpha) :
+NVL_INLINE Color::Color(const int red, const int green, const int blue, const int alpha) :
     vRed(red), vGreen(green), vBlue(blue), vAlpha(alpha)
 {
 
@@ -38,7 +38,7 @@ NVL_INLINE Color::Color(int red, int green, int blue, int alpha) :
  * @param blue Blue color, from 0 to 1
  * @param alpha Alpha value, from 0 to 1
  */
-NVL_INLINE Color::Color(float red, float green, float blue, float alpha)
+NVL_INLINE Color::Color(const float red, const float green, const float blue, const float alpha)
 {
     setRedF(red);
     setGreenF(green);
@@ -53,7 +53,7 @@ NVL_INLINE Color::Color(float red, float green, float blue, float alpha)
  * @param blue Blue color, from 0 to 1
  * @param alpha Alpha value, from 0 to 1
  */
-NVL_INLINE Color::Color(double red, double green, double blue, double alpha)
+NVL_INLINE Color::Color(const double red, const double green, const double blue, const double alpha)
 {
     setRedF(static_cast<float>(red));
     setGreenF(static_cast<float>(green));
@@ -85,7 +85,7 @@ NVL_INLINE int Color::redI() const
  * @brief Integer red setter
  * @param red Integer red color value, from 0 to 255
  */
-NVL_INLINE void Color::setRedI(int red)
+NVL_INLINE void Color::setRedI(const int red)
 {
     assert(red >= 0 && red <= 255);
     vRed = red;
@@ -104,7 +104,7 @@ NVL_INLINE int Color::greenI() const
  * @brief Integer green setter
  * @param green Integer green color value, from 0 to 255
  */
-NVL_INLINE void Color::setGreenI(int green)
+NVL_INLINE void Color::setGreenI(const int green)
 {
     assert(green >= 0 && green <= 255);
     vGreen = green;
@@ -123,7 +123,7 @@ NVL_INLINE int Color::blueI() const
  * @brief Integer blue setter
  * @param blue Integer blue color value, from 0 to 255
  */
-NVL_INLINE void Color::setBlueI(int blue)
+NVL_INLINE void Color::setBlueI(const int blue)
 {
     assert(blue >= 0 && blue <= 255);
     vBlue = blue;
@@ -142,7 +142,7 @@ NVL_INLINE int Color::alphaI() const
  * @brief Integer alpha setter
  * @param alpha Integer alpha color value, from 0 to 255
  */
-NVL_INLINE void Color::setAlphaI(int alpha)
+NVL_INLINE void Color::setAlphaI(const int alpha)
 {
     assert(alpha >= 0 && alpha <= 255);
     vAlpha = alpha;
@@ -161,7 +161,7 @@ NVL_INLINE float Color::redF() const
  * @brief Float alpha setter
  * @param red Float red color value, from 0 to 1
  */
-NVL_INLINE void Color::setRedF(float red)
+NVL_INLINE void Color::setRedF(const float red)
 {
     assert(red >= 0.0 && red <= 1.0);
     vRed = static_cast<int>(red * 255);
@@ -180,7 +180,7 @@ NVL_INLINE float Color::greenF() const
  * @brief Float green setter
  * @param green Float green color value, from 0 to 1
  */
-NVL_INLINE void Color::setGreenF(float green)
+NVL_INLINE void Color::setGreenF(const float green)
 {
     assert(green >= 0.0 && green <= 1.0);
     vGreen = static_cast<int>(green * 255);
@@ -199,7 +199,7 @@ NVL_INLINE float Color::blueF() const
  * @brief Float blue setter
  * @param blue Float blue color value, from 0 to 1
  */
-NVL_INLINE void Color::setBlueF(float blue)
+NVL_INLINE void Color::setBlueF(const float blue)
 {
     assert(blue >= 0.0 && blue <= 1.0);
     vBlue = static_cast<int>(blue * 255);
@@ -218,7 +218,7 @@ NVL_INLINE float Color::alphaF() const
  * @brief Float alpha setter
  * @param alpha Float alpha color value, from 0 to 1
  */
-NVL_INLINE void Color::setAlphaF(float alpha)
+NVL_INLINE void Color::setAlphaF(const float alpha)
 {
     assert(alpha >= 0.0 && alpha <= 1.0);
     vAlpha = static_cast<int>(alpha * 255);
@@ -231,7 +231,7 @@ NVL_INLINE void Color::setAlphaF(float alpha)
  * @param v Value
  * @param alpha Alpha value
  */
-NVL_INLINE void Color::setHsv(int h, int s, int v, int alpha)
+NVL_INLINE void Color::setHsv(const int h, const int s, const int v, const int alpha)
 {
     assert(h >= 0 && h <= 255);
     assert(s >= 0 && s <= 255);
@@ -295,7 +295,7 @@ NVL_INLINE void Color::setHsv(int h, int s, int v, int alpha)
  * @param v Value
  * @param alpha Alpha value
  */
-NVL_INLINE void Color::setHsvF(float h, float s, float v, float alpha)
+NVL_INLINE void Color::setHsvF(const float h, const float s, const float v, const float alpha)
 {
     assert(h >= 0.0 && h <= 1.0);
     assert(s >= 0.0 && s <= 1.0);

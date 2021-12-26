@@ -1,3 +1,9 @@
+/*
+ * This file is part of nuvolib: https://github.com/stefanonuvoli/nuvolib
+ * This Source Code Form is subject to the terms of the GNU GPL 3.0
+ *
+ * @author Stefano Nuvoli (stefano.nuvoli@gmail.com)
+ */
 #ifndef NVL_STRUCTURES_VECTOR_WITH_DELETE_ITERATOR_H
 #define NVL_STRUCTURES_VECTOR_WITH_DELETE_ITERATOR_H
 
@@ -9,6 +15,12 @@ namespace nvl {
 
 namespace internal {
 
+/**
+ * @brief Iterator for the vector with deleted
+ * @tparam C Container used
+ * @tparam T Type of the element
+ * @tparam I Iterator of the container
+ */
 template<class C, class T, class I>
 class VectorWithDeleteIterator
 {

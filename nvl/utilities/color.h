@@ -58,7 +58,7 @@ public:
     float alphaF() const;
     void setAlphaF(const float alphaI);
 
-    void setHsv(int h, int s, int v, int alphaI = 255);
+    void setHsv(const int h, const int s, const int v, const int alphaI = 255);
     void setHsvF(const float h, const float s, const float v, const float alphaI = 1.0f);
 
 #ifdef NVL_QT
