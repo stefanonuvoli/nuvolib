@@ -197,7 +197,6 @@ bool Graph<T,W>::isAdjacent(const T& o1, const T& o2) const
  * @brief Get the weight of an edge between to nodes.
  * It returns MAX_WEIGHT if the nodes are not adjacent
  * or the nodes cannot be found.
- *
  * @param o1 Object of the node 1
  * @param o2 Object of the node 2
  * @return Weight of the edge, MAX_WEIGHT if nodes are not adjacent
