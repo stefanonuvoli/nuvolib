@@ -1,13 +1,13 @@
-#include "igl_geodesics.h"
+#include "mesh_geodesics.h"
+
+#ifdef NVL_LIBIGL_LOADED
 
 #include <nvl/models/algorithms/mesh_triangulation.h>
+#include <nvl/models/algorithms/mesh_eigen_convert.h>
 
 #include <nvl/math/numeric_limits.h>
 
-#include <nvl/libigl/igl_convert.h>
-
 #include <igl/exact_geodesic.h>
-
 
 namespace nvl {
 
@@ -174,3 +174,5 @@ std::vector<typename Mesh::Scalar> heatGeodesics(
 }
 
 }
+
+#endif

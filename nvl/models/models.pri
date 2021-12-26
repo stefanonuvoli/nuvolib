@@ -28,6 +28,7 @@ HEADERS += \
     $$PWD/algorithms/mesh_consistency.h \
     $$PWD/algorithms/mesh_differentiation.h \
     $$PWD/algorithms/mesh_eigen_convert.h \
+    $$PWD/algorithms/mesh_geodesics.h \
     $$PWD/algorithms/mesh_geometric_information.h \
     $$PWD/algorithms/mesh_graph.h \
     $$PWD/algorithms/mesh_implicit_function.h \
@@ -118,6 +119,7 @@ SOURCES += \
     $$PWD/algorithms/mesh_consistency.cpp \
     $$PWD/algorithms/mesh_differentiation.cpp \
     $$PWD/algorithms/mesh_eigen_convert.cpp \
+    $$PWD/algorithms/mesh_geodesics.cpp \
     $$PWD/algorithms/mesh_geometric_information.cpp \
     $$PWD/algorithms/mesh_graph.cpp \
     $$PWD/algorithms/mesh_implicit_function.cpp \

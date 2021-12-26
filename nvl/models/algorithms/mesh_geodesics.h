@@ -1,5 +1,7 @@
-#ifndef NVL_LIBIGL_IGL_GEODESICS
-#define NVL_LIBIGL_IGL_GEODESICS
+#ifndef NVL_MODELS_MESH_GEODESICS
+#define NVL_MODELS_MESH_GEODESICS
+
+#ifdef NVL_LIBIGL_LOADED
 
 #include <nvl/nuvolib.h>
 
@@ -45,6 +47,8 @@ std::vector<typename Mesh::Scalar> heatGeodesics(
 
 }
 
-#include "igl_geodesics.cpp"
+#endif
 
-#endif // NVL_LIBIGL_IGL_GEODESICS
+#include "mesh_geodesics.cpp"
+
+#endif // NVL_MODELS_MESH_GEODESICS
