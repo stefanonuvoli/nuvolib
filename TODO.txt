@@ -1,4 +1,4 @@
 - Rename main.cpp all executable files in samples
 - CMake
 - Documentation
-- Face mesh without polylines, then create FacePolylineMesh
+- Viewer: method for selecting drawables at a runtime
