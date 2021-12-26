@@ -5,7 +5,7 @@
 
 #include <vector>
 
-#include <nvl/structures/vector_with_delete.h>
+#include <nvl/structures/containers/vector_with_delete.h>
 
 #include <nvl/utilities/iterator_wrapper.h>
 

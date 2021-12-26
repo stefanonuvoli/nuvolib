@@ -3,7 +3,7 @@
 
 #include <nvl/nuvolib.h>
 
-#include <nvl/structures/internal/vector_with_delete_iterator.h>
+#include "internal/vector_with_delete_iterator.h"
 
 #include <vector>
 #include <ostream>

@@ -4,8 +4,8 @@ namespace nvl {
 
 /**
  * @brief Default constructor
- * @param[in] value Value of the node
- * @param[in] id ID of the node in the current graph
+ * @param value Value of the node
+ * @param id ID of the node in the current graph
  */
 template<class T, class W>
 Graph<T,W>::Node::Node() :
@@ -15,8 +15,8 @@ Graph<T,W>::Node::Node() :
 
 /**
  * @brief Default constructor
- * @param[in] value Value of the node
- * @param[in] id If of the node in the current graph
+ * @param value Value of the node
+ * @param id If of the node in the current graph
  */
 template<class T, class W>
 Graph<T,W>::Node::Node(const T& value, const Index& id) :

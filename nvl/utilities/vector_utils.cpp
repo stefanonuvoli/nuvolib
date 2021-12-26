@@ -1,9 +1,21 @@
+/*
+ * This file is part of nuvolib: https://github.com/stefanonuvoli/nuvolib
+ * This Source Code Form is subject to the terms of the GNU GPL 3.0
+ *
+ * @author Stefano Nuvoli (stefano.nuvoli@gmail.com)
+ */
 #include "vector_utils.h"
 
 #include <algorithm>
 
 namespace nvl {
 
+/**
+ * @brief Remove element from vector
+ * @param vector Input vector
+ * @param indexes Indexes to delete
+ * @return Map of the indices of the new vector to the previous vector
+ */
 template<class T>
 std::vector<Index> vectorRemoveElements(
         std::vector<T>& vector,
@@ -17,6 +29,13 @@ std::vector<Index> vectorRemoveElements(
     return vectorRemoveElements(vector, isDeleted);
 }
 
+
+/**
+ * @brief Remove element from vector
+ * @param vector Input vector
+ * @param isDeleted Vector of flags which determine the elements to delete
+ * @return Map of the indices of the new vector to the previous vector
+ */
 template<class T>
 std::vector<Index> vectorRemoveElements(
         std::vector<T>& vector,
@@ -44,6 +63,12 @@ std::vector<Index> vectorRemoveElements(
     return map;
 }
 
+/**
+ * @brief Remove element from vector
+ * @param vector Input vector
+ * @param Index Index to delete
+ * @return Map of the indices of the new vector to the previous vector
+ */
 template<class T>
 std::vector<Index> vectorRemoveElement(
         std::vector<T>& vector,
@@ -69,6 +94,12 @@ std::vector<Index> vectorRemoveElement(
     return map;
 }
 
+/**
+ * @brief Get index of an element in a vector
+ * @param vector Input vector
+ * @param value Input value
+ * @return The index of the element if it has been found, NULL_ID otherwise
+ */
 template<class T>
 Index vectorGetIndexByValue(
         const std::vector<T>& vector,

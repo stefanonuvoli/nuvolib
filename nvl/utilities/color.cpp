@@ -1,20 +1,43 @@
+/*
+ * This file is part of nuvolib: https://github.com/stefanonuvoli/nuvolib
+ * This Source Code Form is subject to the terms of the GNU GPL 3.0
+ *
+ * @author Stefano Nuvoli (stefano.nuvoli@gmail.com)
+ */
 #include "color.h"
 
 #include <nvl/utilities/comparators.h>
 
 namespace nvl {
 
+/**
+ * @brief Default constructor. Default color: white.
+ */
 NVL_INLINE Color::Color() : Color(255, 255, 255, 255)
 {
 
 }
 
+/**
+ * @brief Constructor with int values.
+ * @param red Red color, from 0 to 255
+ * @param green Green color, from 0 to 255
+ * @param blue Blue color, from 0 to 255
+ * @param alpha Alpha value, from 0 to 255
+ */
 NVL_INLINE Color::Color(int red, int green, int blue, int alpha) :
     vRed(red), vGreen(green), vBlue(blue), vAlpha(alpha)
 {
 
 }
 
+/**
+ * @brief Constructor with float values.
+ * @param red Red color, from 0 to 1
+ * @param green Green color, from 0 to 1
+ * @param blue Blue color, from 0 to 1
+ * @param alpha Alpha value, from 0 to 1
+ */
 NVL_INLINE Color::Color(float red, float green, float blue, float alpha)
 {
     setRedF(red);
@@ -23,6 +46,13 @@ NVL_INLINE Color::Color(float red, float green, float blue, float alpha)
     setAlphaF(alpha);
 }
 
+/**
+ * @brief Constructor with double values.
+ * @param red Red color, from 0 to 1
+ * @param green Green color, from 0 to 1
+ * @param blue Blue color, from 0 to 1
+ * @param alpha Alpha value, from 0 to 1
+ */
 NVL_INLINE Color::Color(double red, double green, double blue, double alpha)
 {
     setRedF(static_cast<float>(red));
@@ -32,99 +62,175 @@ NVL_INLINE Color::Color(double red, double green, double blue, double alpha)
 }
 
 #ifdef NVL_QT
+/**
+ * @brief Consttructor with QColor
+ * @param color QColor
+ */
 NVL_INLINE Color::Color(const QColor& color) : Color(color.red(), color.green(), color.blue(), color.alpha())
 {
 
 }
 #endif
 
+/**
+ * @brief Integer red getter
+ * @return Red integer value
+ */
 NVL_INLINE int Color::redI() const
 {
     return vRed;
 }
 
+/**
+ * @brief Integer red setter
+ * @param red Integer red color value, from 0 to 255
+ */
 NVL_INLINE void Color::setRedI(int red)
 {
     assert(red >= 0 && red <= 255);
     vRed = red;
 }
 
+/**
+ * @brief Integer green getter
+ * @return Green integer value
+ */
 NVL_INLINE int Color::greenI() const
 {
     return vGreen;
 }
+
+/**
+ * @brief Integer green setter
+ * @param green Integer green color value, from 0 to 255
+ */
 NVL_INLINE void Color::setGreenI(int green)
 {
     assert(green >= 0 && green <= 255);
     vGreen = green;
 }
 
+/**
+ * @brief Integer blue getter
+ * @return Blue integer value
+ */
 NVL_INLINE int Color::blueI() const
 {
     return vBlue;
 }
 
+/**
+ * @brief Integer blue setter
+ * @param blue Integer blue color value, from 0 to 255
+ */
 NVL_INLINE void Color::setBlueI(int blue)
 {
     assert(blue >= 0 && blue <= 255);
     vBlue = blue;
 }
 
+/**
+ * @brief Integer alpha getter
+ * @return Alpha integer value
+ */
 NVL_INLINE int Color::alphaI() const
 {
     return vAlpha;
 }
 
+/**
+ * @brief Integer alpha setter
+ * @param alpha Integer alpha color value, from 0 to 255
+ */
 NVL_INLINE void Color::setAlphaI(int alpha)
 {
     assert(alpha >= 0 && alpha <= 255);
     vAlpha = alpha;
 }
 
+/**
+ * @brief Float red getter
+ * @return Red float value
+ */
 NVL_INLINE float Color::redF() const
 {
     return vRed / 255.0f;
 }
 
+/**
+ * @brief Float alpha setter
+ * @param red Float red color value, from 0 to 1
+ */
 NVL_INLINE void Color::setRedF(float red)
 {
     assert(red >= 0.0 && red <= 1.0);
     vRed = static_cast<int>(red * 255);
 }
 
+/**
+ * @brief Float green getter
+ * @return Green float value
+ */
 NVL_INLINE float Color::greenF() const
 {
     return vGreen / 255.0f;
 }
 
+/**
+ * @brief Float green setter
+ * @param green Float green color value, from 0 to 1
+ */
 NVL_INLINE void Color::setGreenF(float green)
 {
     assert(green >= 0.0 && green <= 1.0);
     vGreen = static_cast<int>(green * 255);
 }
 
+/**
+ * @brief Float blue getter
+ * @return Blue float value
+ */
 NVL_INLINE float Color::blueF() const
 {
     return vBlue / 255.0f;
 }
 
+/**
+ * @brief Float blue setter
+ * @param blue Float blue color value, from 0 to 1
+ */
 NVL_INLINE void Color::setBlueF(float blue)
 {
     assert(blue >= 0.0 && blue <= 1.0);
     vBlue = static_cast<int>(blue * 255);
 }
 
+/**
+ * @brief Float alpha getter
+ * @return Alpha float value
+ */
 NVL_INLINE float Color::alphaF() const
 {
     return vAlpha / 255.0f;
 }
 
+/**
+ * @brief Float alpha setter
+ * @param alpha Float alpha color value, from 0 to 1
+ */
 NVL_INLINE void Color::setAlphaF(float alpha)
 {
     assert(alpha >= 0.0 && alpha <= 1.0);
     vAlpha = static_cast<int>(alpha * 255);
 }
 
+/**
+ * @brief Set color given hue, saturation, value integer values
+ * @param h Hue
+ * @param s Saturation
+ * @param v Value
+ * @param alpha Alpha value
+ */
 NVL_INLINE void Color::setHsv(int h, int s, int v, int alpha)
 {
     assert(h >= 0 && h <= 255);
@@ -179,10 +285,16 @@ NVL_INLINE void Color::setHsv(int h, int s, int v, int alpha)
                 vBlue = q;
                 break;
         }
-
     }
 }
 
+/**
+ * @brief Set color given hue, saturation, value float values
+ * @param h Hue
+ * @param s Saturation
+ * @param v Value
+ * @param alpha Alpha value
+ */
 NVL_INLINE void Color::setHsvF(float h, float s, float v, float alpha)
 {
     assert(h >= 0.0 && h <= 1.0);
@@ -194,22 +306,41 @@ NVL_INLINE void Color::setHsvF(float h, float s, float v, float alpha)
 }
 
 #ifdef NVL_QT
+/**
+ * @brief Get the QColor
+ * @return Corresponding QColor
+ */
 NVL_INLINE QColor Color::toQColor()
 {
     return QColor(redI(), greenI(), blueI(), alphaI());
 }
 #endif
 
+/**
+ * @brief Less comparator
+ * @param color Color to compare
+ * @return True if the current color is less than the given color
+ */
 NVL_INLINE bool Color::operator<(const Color& color) const
 {
     return pairwiseComparator(this->vRed, color.vRed, this->vGreen, color.vGreen, this->vBlue, color.vBlue, this->vAlpha, color.vAlpha);
 }
 
+/**
+ * @brief Equality comparator
+ * @param color Color to compare
+ * @return True if the color are equal
+ */
 NVL_INLINE bool Color::operator==(const Color& color) const
 {
     return this->vRed == color.vRed && this->vGreen == color.vGreen && this->vBlue == color.vBlue && this->vAlpha == color.vAlpha;
 }
 
+/**
+ * @brief Inequality comparator
+ * @param color Color to compare
+ * @return True if the color are not equal
+ */
 NVL_INLINE bool Color::operator!=(const Color& color) const
 {
     return !(*this == color);

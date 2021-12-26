@@ -1,3 +1,9 @@
+/*
+ * This file is part of nuvolib: https://github.com/stefanonuvoli/nuvolib
+ * This Source Code Form is subject to the terms of the GNU GPL 3.0
+ *
+ * @author Stefano Nuvoli (stefano.nuvoli@gmail.com)
+ */
 #ifndef NVL_UTILITIES_COLORIZE_H
 #define NVL_UTILITIES_COLORIZE_H
 
@@ -12,11 +18,11 @@ namespace nvl {
 Color getRangeColor(const Size& range, const Index& position, const int saturation = 131, const int value = 223);
 Color getRangeDifferentColor(const Size& range, const Index& position, const int saturation = 131, const int value = 223);
 
-std::vector<Color> getColors(const Size& number, const int saturation = 131, const int value = 223);
+std::vector<Color> getRangeColors(const Size& number, const int saturation = 131, const int value = 223);
 std::vector<Color> getDifferentColors(const Size& number, const int saturation = 131, const int value = 223);
 
 template<class T>
-std::vector<Color> getColorPerValue(const std::vector<T>& labels, const int saturation = 131, const int value = 223);
+std::vector<Color> getRangeColorPerValue(const std::vector<T>& labels, const int saturation = 131, const int value = 223);
 template<class T>
 std::vector<Color> getDifferentColorPerValue(const std::vector<T>& labels, const int saturation = 131, const int value = 223);
 

@@ -30,7 +30,7 @@ Graph<T,W>::Graph(const GraphType& type, const GraphMapping& mapping) :
 
 /**
  * @brief Add a node to the graph
- * @param[in] o Object of the node
+ * @param o Object of the node
  * @return Iterator to the node if it has been inserted,
  * end iterator otherwise
  */
@@ -59,7 +59,7 @@ typename Graph<T,W>::NodeIterator Graph<T,W>::addNode(const T& o)
 /**
  * @brief Delete a node from the graph (lazy approach, it just sets a
  * flag)
- * @param[in] o Object of the node
+ * @param o Object of the node
  * @return True if the element has been deleted, false otherwise
  */
 template<class T, class W>
@@ -92,7 +92,7 @@ bool Graph<T,W>::deleteNode(const T& o)
 
 /**
  * @brief Find a node in the graph with a given object
- * @param[in] o Object of the node
+ * @param o Object of the node
  * @return Iterator to the node if it exists, end iterator otherwise
  */
 template<class T, class W>
@@ -113,8 +113,8 @@ typename Graph<T,W>::NodeIterator Graph<T,W>::findNode(const T& o) const
 
 /**
  * @brief Add an edge to the graph
- * @param[in] o1 Object of the node 1
- * @param[in] o2 Object of the node 2
+ * @param o1 Object of the node 1
+ * @param o2 Object of the node 2
  * @return True if the edge has been inserted, false if it was not possible
  * to insert the edge because the corresponding objects have not been found.
  */
@@ -142,8 +142,8 @@ bool Graph<T,W>::addEdge(const T& o1, const T& o2, const W& weight)
 
 /**
  * @brief Delete an edge from the graph
- * @param[in] o1 Object of the node 1
- * @param[in] o2 Object of the node 2
+ * @param o1 Object of the node 1
+ * @param o2 Object of the node 2
  * @return True if the edge has been deleted, false if it was not possible
  * to insert the edge because the corresponding objects have not been found.
  */
@@ -170,8 +170,8 @@ bool Graph<T,W>::deleteEdge(const T& o1, const T& o2)
 
 /**
  * @brief Check if two nodes are adjacent
- * @param[in] o1 Object of the node 1
- * @param[in] o2 Object of the node 2
+ * @param o1 Object of the node 1
+ * @param o2 Object of the node 2
  * @return True if the nodes are adjacent, false otherwise. False is returned
  * if one of the objects have not been found
  */
@@ -198,8 +198,8 @@ bool Graph<T,W>::isAdjacent(const T& o1, const T& o2) const
  * It returns MAX_WEIGHT if the nodes are not adjacent
  * or the nodes cannot be found.
  *
- * @param[in] o1 Object of the node 1
- * @param[in] o2 Object of the node 2
+ * @param o1 Object of the node 1
+ * @param o2 Object of the node 2
  * @return Weight of the edge, MAX_WEIGHT if nodes are not adjacent
  * or the nodes cannot be found
  */
@@ -224,8 +224,8 @@ const W& Graph<T,W>::getWeight(const T& o1, const T& o2) const
 /**
  * @brief Set the weight of the edge between two nodes. If the edge does not
  * exist or one of the nodes do not exist, no changes are done.
- * @param[in] o1 Object of the node 1
- * @param[in] o2 Object of the node 2
+ * @param o1 Object of the node 1
+ * @param o2 Object of the node 2
  */
 template<class T, class W>
 void Graph<T,W>::setWeight(const T& o1, const T& o2, const W& weight)
@@ -257,7 +257,7 @@ void Graph<T,W>::setWeight(const T& o1, const T& o2, const W& weight)
  * Note that you should use this function when you are sure
  * that the iterator is pointing to an element which is in the
  * graph.
- * @param[in] it Iterator to the node
+ * @param it Iterator to the node
  * @return True if the node has been deleted, false if the corresponding
  * object has not been found.
  */
@@ -292,8 +292,8 @@ bool Graph<T,W>::deleteNode(GenericNodeIterator it)
  * Note that you should use this function when you are sure
  * that the iteratos are pointing to an element which is in the
  * graph.
- * @param[in] it1 Iterator to node 1
- * @param[in] it2 Iterator to node 2
+ * @param it1 Iterator to node 1
+ * @param it2 Iterator to node 2
  */
 template<class T, class W>
 void Graph<T,W>::addEdge(GenericNodeIterator it1, GenericNodeIterator it2, const W& weight)
@@ -311,8 +311,8 @@ void Graph<T,W>::addEdge(GenericNodeIterator it1, GenericNodeIterator it2, const
  * Note that you should use this function when you are sure
  * that the iteratos are pointing to an element which is in the
  * graph.
- * @param[in] it1 Iterator to node 1
- * @param[in] it2 Iterator to node 2
+ * @param it1 Iterator to node 1
+ * @param it2 Iterator to node 2
  */
 template<class T, class W>
 void Graph<T,W>::deleteEdge(GenericNodeIterator it1, const GenericNodeIterator it2)
@@ -331,8 +331,8 @@ void Graph<T,W>::deleteEdge(GenericNodeIterator it1, const GenericNodeIterator i
  * Note that you should use this function when you are sure
  * that the iterators are pointing to an element which is in the
  * graph.
- * @param[in] it1 Iterator to node 1
- * @param[in] it2 Iterator to node 2
+ * @param it1 Iterator to node 1
+ * @param it2 Iterator to node 2
  * @return True if the nodes are adjacent, false otherwise
  */
 template<class T, class W>
@@ -350,8 +350,8 @@ bool Graph<T,W>::isAdjacent(const GenericNodeIterator it1, const GenericNodeIter
  * Note that you should use this function when you are sure
  * that the iterators are pointing to an element which is in the
  * graph.
- * @param[in] it1 Iterator to node 1
- * @param[in] it2 Iterator to node 2
+ * @param it1 Iterator to node 1
+ * @param it2 Iterator to node 2
  * @return Weight of the edge, MAX_WEIGHT if nodes are not adjacent
  */
 template<class T, class W>
@@ -369,9 +369,9 @@ const W& Graph<T,W>::getWeight(const GenericNodeIterator it1, const GenericNodeI
  * Note that you should use this function when you are sure
  * that the iterators are pointing to an element which is in the
  * graph. If the edge does not exist, no changes are done
- * @param[in] it1 Iterator to node 1
- * @param[in] it2 Iterator to node 2
- * @param[in] weight New weight of the edge
+ * @param it1 Iterator to node 1
+ * @param it2 Iterator to node 2
+ * @param weight New weight of the edge
  */
 template<class T, class W>
 void Graph<T,W>::setWeight(GenericNodeIterator it1, GenericNodeIterator it2, const W& weight)
@@ -592,7 +592,7 @@ typename Graph<T,W>::RangeBasedNodeIterator Graph<T,W>::nodeIterator() const
  * @brief Begin adjacent node iterator. The user should avoid to give as
  * argument a node iterator pointing to a deleted element or to the end
  * iterator.
- * @param[in] nodeIt Iterator of the node
+ * @param nodeIt Iterator of the node
  * @return Iterator
  */
 template<class T, class W>
@@ -612,7 +612,7 @@ typename Graph<T,W>::AdjacentIterator Graph<T,W>::adjacentBegin(
  * @brief End adjacent node iterator. The user should avoid to give as
  * argument a node iterator pointing to a deleted element or to the end
  * iterator.
- * @param[in] nodeIt Iterator of the node
+ * @param nodeIt Iterator of the node
  * @return Iterator
  */
 template<class T, class W>
@@ -630,7 +630,7 @@ typename Graph<T,W>::AdjacentIterator Graph<T,W>::adjacentEnd(
  * @brief Get range based adjacent node iterator of the graph given a node.
  * The user should avoid to give as argument a node iterator pointing to a
  * deleted element or to the end iterator.
- * @param[in] nodeIt Iterator of the node
+ * @param nodeIt Iterator of the node
  * @return Range based node iterator
  */
 template<class T, class W>
@@ -646,7 +646,7 @@ typename Graph<T,W>::RangeBasedAdjacentIterator Graph<T,W>::adjacentIterator(
  * @brief Begin adjacent node iterator. The user should avoid to give as
  * argument a node iterator pointing to a deleted element or to the end
  * iterator.
- * @param[in] nodeIt Iterator of the node
+ * @param nodeIt Iterator of the node
  * @return Iterator
  */
 template<class T, class W>
@@ -660,7 +660,7 @@ typename Graph<T,W>::AdjacentIterator Graph<T,W>::adjacentBegin(
  * @brief End adjacent node iterator. The user should avoid to give as
  * argument a node iterator pointing to a deleted element or to the end
  * iterator.
- * @param[in] nodeIt Iterator of the node
+ * @param nodeIt Iterator of the node
  * @return Iterator
  */
 template<class T, class W>
@@ -675,7 +675,7 @@ typename Graph<T,W>::AdjacentIterator Graph<T,W>::adjacentEnd(
  * @brief Get range based adjacent node iterator of the graph given a node.
  * The user should avoid to give as argument a node iterator pointing to a
  * deleted element or to the end iterator.
- * @param[in] nodeIt Iterator of the node
+ * @param nodeIt Iterator of the node
  * @return Range based node iterator
  */
 template<class T, class W>
@@ -689,7 +689,7 @@ typename Graph<T,W>::RangeBasedAdjacentIterator Graph<T,W>::adjacentIterator(
 
 /**
  * @brief Begin adjacent node iterator
- * @param[in] o Object of the node
+ * @param o Object of the node
  * @return Iterator
  */
 template<class T, class W>
@@ -700,7 +700,7 @@ typename Graph<T,W>::AdjacentIterator Graph<T,W>::adjacentBegin(const T& o) cons
 
 /**
  * @brief End adjacent node iterator
- * @param[in] o Object of the node
+ * @param o Object of the node
  * @return Iterator
  */
 template<class T, class W>
@@ -711,7 +711,7 @@ typename Graph<T,W>::AdjacentIterator Graph<T,W>::adjacentEnd(const T& o) const
 
 /**
  * @brief Get range based adjacent node iterator of the graph given a node
- * @param[in] o Object of the node
+ * @param o Object of the node
  * @return Range based node iterator
  */
 template<class T, class W>
@@ -780,7 +780,7 @@ typename Graph<T,W>::RangeBasedEdgeIterator Graph<T,W>::edgeIterator() const
 /**
  * @brief Get the first valid (pointing to a not deleted node)
  * node iterator starting from the input one
- * @param[in] it Input node iterator
+ * @param it Input node iterator
  * @return Valid node iterator
  */
 template<class T, class W>
@@ -799,8 +799,8 @@ typename std::vector<typename Graph<T,W>::Node>::const_iterator Graph<T,W>::getF
 /**
  * @brief Get the first valid (pointing to a not deleted node)
  * adjacent node iterator starting from the input one
- * @param[in] nodeIt Target node iterator
- * @param[in] it Input adjacent node iterator
+ * @param nodeIt Target node iterator
+ * @param it Input adjacent node iterator
  * @return Valid adjacent node iterator
  */
 template<class T, class W>
@@ -820,10 +820,10 @@ typename std::unordered_map<Index, W>::const_iterator Graph<T,W>::getFirstValidI
 /**
  * @brief Get the first valid (pointing to a not deleted node)
  * edge iterator starting from the input one
- * @param[in] nodeIt Input node iterator
- * @param[in] adjIt Input adjacent node iterator
- * @param[out] nodeIt Output node iterator
- * @param[out] adjIt Output adjacent node iterator
+ * @param nodeIt Input node iterator
+ * @param adjIt Input adjacent node iterator
+ * @param nodeIt Output node iterator
+ * @param adjIt Output adjacent node iterator
  */
 template<class T, class W>
 void Graph<T,W>::getFirstValidIteratorEdge(
@@ -856,7 +856,7 @@ void Graph<T,W>::getFirstValidIteratorEdge(
 
 /**
  * @brief Find a node in the graph given the object
- * @param[in] o Object of the node
+ * @param o Object of the node
  * @return Index of the node in the node vector, -1 if the node
  * is not in the graph
  */
@@ -875,8 +875,8 @@ long long int Graph<T,W>::findNodeHelper(const T& o) const {
 
 /**
  * @brief Add an edge in the graph given the index of the nodes
- * @param[in] id1 Index of the first node
- * @param[in] id2 Index of the second node
+ * @param id1 Index of the first node
+ * @param id2 Index of the second node
  */
 template<class T, class W>
 void Graph<T,W>::addEdgeHelper(const Index& id1, const Index& id2, const W& weight)
@@ -897,8 +897,8 @@ void Graph<T,W>::addEdgeHelper(const Index& id1, const Index& id2, const W& weig
 
 /**
  * @brief Delete an edge from the graph given the index of the nodes
- * @param[in] id1 Index of the first node
- * @param[in] id2 Index of the second node
+ * @param id1 Index of the first node
+ * @param id2 Index of the second node
  */
 template<class T, class W>
 void Graph<T,W>::deleteEdgeHelper(const Index& id1, const Index& id2)
@@ -912,8 +912,8 @@ void Graph<T,W>::deleteEdgeHelper(const Index& id1, const Index& id2)
 
 /**
  * @brief Check if two nodes are adjacent given the index of the nodes
- * @param[in] id1 Index of the first node
- * @param[in] id2 Index of the second node
+ * @param id1 Index of the first node
+ * @param id2 Index of the second node
  * @return True if the nodes are adjacent, false otherwise
  */
 template<class T, class W>
@@ -935,8 +935,8 @@ bool Graph<T,W>::isAdjacentHelper(const Index& id1, const Index& id2) const
  * @brief Get the weight of an edge between two nodes given their indices.
  * It returns MAX_WEIGHT if the nodes are not adjacent
  *
- * @param[in] id1 Index of the first node
- * @param[in] id2 Index of the second node
+ * @param id1 Index of the first node
+ * @param id2 Index of the second node
  * @return Weight of the edge, MAX_WEIGHT if the nodes are not adjacent
  */
 template<class T, class W>
@@ -953,9 +953,9 @@ const W& Graph<T,W>::getWeightHelper(const Index& id1, const Index& id2) const
 
 /**
  * @brief Set the weight of an edge between two nodes given their indices
- * @param[in] id1 Index of the first node
- * @param[in] id2 Index of the second node
- * @param[in] weight Weight of the edge
+ * @param id1 Index of the first node
+ * @param id2 Index of the second node
+ * @param weight Weight of the edge
  */
 template<class T, class W>
 void Graph<T,W>::setWeightHelper(const Index& id1, const Index& id2, const W& weight)

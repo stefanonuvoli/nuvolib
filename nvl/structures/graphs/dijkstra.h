@@ -4,7 +4,7 @@
 #include <map>
 #include <list>
 
-#include <nvl/structures/graph.h>
+#include <nvl/structures/graphs/graph.h>
 
 namespace nvl {
 

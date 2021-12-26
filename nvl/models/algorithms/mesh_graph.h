@@ -1,7 +1,7 @@
 #ifndef NVL_MESH_GRAPH_H
 #define NVL_MESH_GRAPH_H
 
-#include <nvl/structures/graph.h>
+#include <nvl/structures/graphs/graph.h>
 
 namespace nvl {
 

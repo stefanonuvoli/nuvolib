@@ -66,6 +66,6 @@ private:
 
 #include "vector_with_delete_iterator.cpp"
 
-#include <nvl/structures/vector_with_delete.h>
+#include <nvl/structures/containers/vector_with_delete.h>
 
 #endif // NVL_STRUCTURES_VECTOR_WITH_DELETE_ITERATOR_H

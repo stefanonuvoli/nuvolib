@@ -1,3 +1,9 @@
+/*
+ * This file is part of nuvolib: https://github.com/stefanonuvoli/nuvolib
+ * This Source Code Form is subject to the terms of the GNU GPL 3.0
+ *
+ * @author Stefano Nuvoli (stefano.nuvoli@gmail.com)
+ */
 #ifndef NVL_UTILITIES_COLOR_H
 #define NVL_UTILITIES_COLOR_H
 
@@ -9,6 +15,9 @@
 
 namespace nvl {
 
+/**
+ * @brief A generic color.
+ */
 class Color
 {
 
@@ -17,40 +26,40 @@ public:
     /* Typedefs */
 
     Color();
-    Color(int redI, int greenI, int blueI, int alphaI = 255);
-    Color(float redF, float greenF, float blueF, float alphaI = 1.0f);
-    Color(double redF, double greenF, double blueF, double alphaI = 1.0);
+    Color(const int redI, const int greenI, const int blueI, const int alphaI = 255);
+    Color(const float redF, const float greenF, const float blueF, const float alphaI = 1.0f);
+    Color(const double redF, const double greenF, const double blueF, const double alphaI = 1.0);
 
 #ifdef NVL_QT
     Color(const QColor& color);
 #endif
 
     int redI() const;
-    void setRedI(int redF);
+    void setRedI(const int redF);
 
     int greenI() const;
-    void setGreenI(int greenF);
+    void setGreenI(const int greenF);
 
     int blueI() const;
-    void setBlueI(int blueF);
+    void setBlueI(const int blueF);
 
     int alphaI() const;
-    void setAlphaI(int alphaI);
+    void setAlphaI(const int alphaI);
 
     float redF() const;
-    void setRedF(float redF);
+    void setRedF(const float redF);
 
     float greenF() const;
-    void setGreenF(float greenF);
+    void setGreenF(const float greenF);
 
     float blueF() const;
-    void setBlueF(float blueF);
+    void setBlueF(const float blueF);
 
     float alphaF() const;
-    void setAlphaF(float alphaI);
+    void setAlphaF(const float alphaI);
 
     void setHsv(int h, int s, int v, int alphaI = 255);
-    void setHsvF(float h, float s, float v, float alphaI = 1.0);
+    void setHsvF(const float h, const float s, const float v, const float alphaI = 1.0f);
 
 #ifdef NVL_QT
     QColor toQColor();

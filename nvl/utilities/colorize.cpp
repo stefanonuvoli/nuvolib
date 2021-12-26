@@ -1,7 +1,21 @@
+/*
+ * This file is part of nuvolib: https://github.com/stefanonuvoli/nuvolib
+ * This Source Code Form is subject to the terms of the GNU GPL 3.0
+ *
+ * @author Stefano Nuvoli (stefano.nuvoli@gmail.com)
+ */
 #include "colorize.h"
 
 namespace nvl {
 
+/**
+ * @brief Generate different colors, blending from red to blue
+ * @param range Number of possible values
+ * @param position Value in the range
+ * @param saturation Satuation
+ * @param value Value
+ * @return Generated color for the given position
+ */
 NVL_INLINE Color getRangeColor(const Size& range, const Index& position, const int saturation, const int value)
 {
     Index pos = position;
@@ -18,6 +32,14 @@ NVL_INLINE Color getRangeColor(const Size& range, const Index& position, const i
     return color;
 }
 
+/**
+ * @brief Generate colors maximizing the difference between similar positions
+ * @param range Number of possible values
+ * @param position Value in the range
+ * @param saturation Satuation
+ * @param value Value
+ * @return Generated color for the given position
+ */
 NVL_INLINE Color getRangeDifferentColor(const Size& range, const Index& position, const int saturation, const int value)
 {
     Index pos = position;
@@ -43,7 +65,14 @@ NVL_INLINE Color getRangeDifferentColor(const Size& range, const Index& position
     return getRangeColor(range, position, saturation, value);
 }
 
-NVL_INLINE std::vector<Color> getColors(const Size& number, const int saturation, const int value)
+/**
+ * @brief Generate different colors, blending from red to blue
+ * @param number Number of colors
+ * @param saturation Satuation
+ * @param value Value
+ * @return Generated colors
+ */
+NVL_INLINE std::vector<Color> getRangeColors(const Size& number, const int saturation, const int value)
 {
     std::vector<Color> result(number);
     if (number > 0) {
@@ -54,6 +83,13 @@ NVL_INLINE std::vector<Color> getColors(const Size& number, const int saturation
     return result;
 }
 
+/**
+ * @brief Generate colors maximizing the difference between similar positions
+ * @param number Number of colors
+ * @param saturation Satuation
+ * @param value Value
+ * @return Generated colors
+ */
 NVL_INLINE std::vector<Color> getDifferentColors(const Size& number, const int saturation, const int value)
 {
     std::vector<Color> result(number);
@@ -65,8 +101,15 @@ NVL_INLINE std::vector<Color> getDifferentColors(const Size& number, const int s
     return result;
 }
 
+/**
+ * @brief Generate colors given labels, blending from red to blue
+ * @param labels Labels
+ * @param saturation Satuation
+ * @param value Value
+ * @return Generated colors
+ */
 template<class T>
-std::vector<Color> getColorPerValue(const std::vector<T>& labels, const int saturation, const int value)
+std::vector<Color> getRangeColorPerValue(const std::vector<T>& labels, const int saturation, const int value)
 {
     std::vector<Color> result(labels.size());
 
@@ -84,6 +127,13 @@ std::vector<Color> getColorPerValue(const std::vector<T>& labels, const int satu
     return result;
 }
 
+/**
+ * @brief Generate colors given labels, maximizing the difference between similar positions
+ * @param labels Labels
+ * @param saturation Satuation
+ * @param value Value
+ * @return Generated colors
+ */
 template<class T>
 std::vector<Color> getDifferentColorPerValue(const std::vector<T>& labels, const int saturation, const int value)
 {
@@ -102,6 +152,15 @@ std::vector<Color> getDifferentColorPerValue(const std::vector<T>& labels, const
     return result;
 }
 
+/**
+ * @brief Blend a color from red to green given a value
+ * @param value Value
+ * @param minValue Min value
+ * @param maxValue Max value
+ * @param minIntensity Min intensity color
+ * @param maxIntensity Max intensity color
+ * @return Generated color
+ */
 template<class T>
 Color getRampRedGreen(const T& value, const T& minValue, const T& maxValue, const float minIntensity, const float maxIntensity)
 {
@@ -123,6 +182,15 @@ Color getRampRedGreen(const T& value, const T& minValue, const T& maxValue, cons
     return color;
 }
 
+/**
+ * @brief Blend a color from red to blue given a value
+ * @param value Value
+ * @param minValue Min value
+ * @param maxValue Max value
+ * @param minIntensity Min intensity color
+ * @param maxIntensity Max intensity color
+ * @return Generated color
+ */
 template<class T>
 Color getRampRedBlue(const T& value, const T& minValue, const T& maxValue, const float minIntensity, const float maxIntensity)
 {

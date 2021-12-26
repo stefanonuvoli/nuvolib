@@ -15,17 +15,17 @@ namespace nvl {
 /**
  * @brief General porpouse indexed Dijkstra algorithm. The current implementation has
  * time complexity O(|E| + |V| log |V|).
- * @param[in] graph Input graph. It is a templated type that must implement:
+ * @param graph Input graph. It is a templated type that must implement:
  * - getNode(id) that returns the node (or an iterator) given an id;
  * - getWeight(node1, node2) that takes the return type of getNode and returns
  *   the weight of the two nodes;
  * - A constant double MAX_WEIGHT which represent the max weight in the graph.
- * @param[in] nodes List of ids of the input nodes of the graph
- * @param[in] nodeAdjacencies Indexed adjacencies of each graph node (referring to the
+ * @param nodes List of ids of the input nodes of the graph
+ * @param nodeAdjacencies Indexed adjacencies of each graph node (referring to the
  * indices of the vector "nodes")
- * @param[in] sourceId Id of the source (referring to the indices of the vector "nodes")
- * @param[out] dist Vector of shortest path costs from the source to each node
- * @param[out] pred Vector for predecessors to compute the path
+ * @param sourceId Id of the source (referring to the indices of the vector "nodes")
+ * @param dist Vector of shortest path costs from the source to each node
+ * @param pred Vector for predecessors to compute the path
  */
 template<class G, class I>
 void dijkstra(
@@ -109,8 +109,8 @@ GraphPath<T,W> getGraphShortestPath(
 /**
  * @brief Execute Dijkstra algorithm given a nvl graph and the source. It
  * computes the shortest path between the source and the input nodes of the graph.
- * @param[in] graph Input nvl graph.
- * @param[in] source Source node value
+ * @param graph Input nvl graph.
+ * @param source Source node value
  * @return A map that associates all the graph nodes to the shortest path from the source
  * to that node. It contains structs which contain the path (a list of nodes) and a double
  * value which represents the cost of the path. The map is implemented using the std::map,
@@ -132,8 +132,8 @@ inline DijkstraResult<T,W> dijkstra(const Graph<T,W>& graph, const T& source)
 /**
  * @brief Execute Dijkstra algorithm given a nvl graph and the source. It
  * computes the shortest path between the source and the input nodes of the graph.
- * @param[in] graph Input nvl graph.
- * @param[in] source Source node value
+ * @param graph Input nvl graph.
+ * @param source Source node value
  * @return A map that associates all the graph nodes to the shortest path from the source
  * to that node. It contains structs which contain the path (a list of nodes) and a double
  * value which represents the cost of the path. The map is implemented using the std::map,
@@ -160,12 +160,12 @@ DijkstraResult<T,W> dijkstra(
 /**
  * @brief Execute Dijkstra algorithm given a nvl graph and the source. It
  * computes the shortest path between the source and the input nodes of the graph.
- * @param[in] graph Input nvl graph.
- * @param[in] sourceIt Source node iterator
- * @param[in] nodes List of ids of the input nodes of the graph
- * @param[in] nodeAdjacencies Indexed adjacencies of each graph node (referring to the
+ * @param graph Input nvl graph.
+ * @param sourceIt Source node iterator
+ * @param nodes List of ids of the input nodes of the graph
+ * @param nodeAdjacencies Indexed adjacencies of each graph node (referring to the
  * indices of the vector "nodes")
- * @param[in] idMap Map to get the index of a node (referring to the indices of the vector
+ * @param idMap Map to get the index of a node (referring to the indices of the vector
  * "nodes") given the id on the input nvl graph
  * @return A map that associates all the graph nodes to the shortest path from the source
  * to that node. It contains structs which contain the path (a list of nodes) and a double
@@ -191,12 +191,12 @@ DijkstraResult<T,W> dijkstra(
 /**
  * @brief Execute Dijkstra algorithm given a nvl graph and the source. It
  * computes the shortest path between the source and the input nodes of the graph.
- * @param[in] graph Input nvl graph.
- * @param[in] sourceIt Source node iterator
- * @param[in] nodes List of ids of the input nodes of the graph
- * @param[in] nodeAdjacencies Indexed adjacencies of each graph node (referring to the
+ * @param graph Input nvl graph.
+ * @param sourceIt Source node iterator
+ * @param nodes List of ids of the input nodes of the graph
+ * @param nodeAdjacencies Indexed adjacencies of each graph node (referring to the
  * indices of the vector "nodes")
- * @param[in] idMap Map to get the index of a node (referring to the indices of the vector
+ * @param idMap Map to get the index of a node (referring to the indices of the vector
  * "nodes") given the id on the input nvl graph
  * @return A map that associates all the graph nodes to the shortest path from the source
  * to that node. It contains structs which contain the path (a list of nodes) and a double
@@ -257,9 +257,9 @@ DijkstraResult<T,W> dijkstra(
 /**
  * @brief Execute Dijkstra algorithm to get the shortest path from the source
  * to the destination, given a nvl graph.
- * @param[in] graph Input nvl graph.
- * @param[in] source Source node value
- * @param[in] destination Destination node value
+ * @param graph Input nvl graph.
+ * @param source Source node value
+ * @param destination Destination node value
  * @return A struct which contains the shortest path and its cost.
  * If no path exists, then an empty path of MAX_WEIGHT cost is returned.
  * The data can be retrieved in constant time.
@@ -288,13 +288,13 @@ inline GraphPath<T,W> dijkstra(
 /**
  * @brief Execute Dijkstra algorithm to get the shortest path from the source
  * to the destination, given a nvl graph.
- * @param[in] graph Input nvl graph.
- * @param[in] source Source node value
- * @param[in] destination Destination node value
- * @param[in] nodes List of ids of the input nodes of the graph
- * @param[in] nodeAdjacencies Indexed adjacencies of each graph node (referring to the
+ * @param graph Input nvl graph.
+ * @param source Source node value
+ * @param destination Destination node value
+ * @param nodes List of ids of the input nodes of the graph
+ * @param nodeAdjacencies Indexed adjacencies of each graph node (referring to the
  * indices of the vector "nodes")
- * @param[in] idMap Map to get the index of a node (referring to the indices of the vector
+ * @param idMap Map to get the index of a node (referring to the indices of the vector
  * "nodes") given the id on the input nvl graph
  * @return A struct which contains the shortest path and its cost.
  * If no path exists, then an empty path of MAX_WEIGHT cost is returned.
@@ -327,9 +327,9 @@ GraphPath<T,W> dijkstra(
 /**
  * @brief Execute Dijkstra algorithm to get the shortest path from the source
  * to the destination, given a nvl graph.
- * @param[in] graph Input nvl graph.
- * @param[in] sourceIt Source node iterator
- * @param[in] destinationIt Destination node iterator
+ * @param graph Input nvl graph.
+ * @param sourceIt Source node iterator
+ * @param destinationIt Destination node iterator
  * @return A struct which contains the shortest path and its cost.
  * If no path exists, then an empty path of MAX_WEIGHT cost is returned.
  * The data can be retrieved in constant time.
@@ -355,13 +355,13 @@ GraphPath<T,W> dijkstra(
 /**
  * @brief Execute Dijkstra algorithm to get the shortest path from the source
  * to the destination, given a nvl graph.
- * @param[in] graph Input nvl graph.
- * @param[in] sourceIt Source node iterator
- * @param[in] destinationIt Destination node iterator
- * @param[in] nodes List of ids of the input nodes of the graph
- * @param[in] nodeAdjacencies Indexed adjacencies of each graph node (referring to the
+ * @param graph Input nvl graph.
+ * @param sourceIt Source node iterator
+ * @param destinationIt Destination node iterator
+ * @param nodes List of ids of the input nodes of the graph
+ * @param nodeAdjacencies Indexed adjacencies of each graph node (referring to the
  * indices of the vector "nodes")
- * @param[in] idMap Map to get the index of a node (referring to the indices of the vector
+ * @param idMap Map to get the index of a node (referring to the indices of the vector
  * "nodes") given the id on the input nvl graph
  * @return A struct which contains the shortest path and its cost.
  * If no path exists, then an empty path of MAX_WEIGHT cost is returned.
@@ -394,11 +394,11 @@ GraphPath<T,W> dijkstra(
 
 /**
  * @brief Fill indexed data structure needed by the Dijkstra algorithm for a nvl graph.
- * @param[in] graph Input nvl graph
- * @param[out] nodes List of ids of the input nodes of the graph
- * @param[out] nodeAdjacencies Indexed adjacencies of each graph node (referring to the
+ * @param graph Input nvl graph
+ * @param nodes List of ids of the input nodes of the graph
+ * @param nodeAdjacencies Indexed adjacencies of each graph node (referring to the
  * indices of the vector "nodes")
- * @param[out] idMap Map to get the index of a node (referring to the indices of the vector
+ * @param idMap Map to get the index of a node (referring to the indices of the vector
  * "nodes") given the id on the input nvl graph
  */
 template<class T, class W>
@@ -454,13 +454,13 @@ namespace internal {
 /**
  * @brief Get the resulting shortest path in the nvl graph, given the raw Dijkstra data,
  * given a source and a destination
- * @param[in] graph Input nvl graph
- * @param[in] sourceIt nvl graph iterator of the source node.
- * @param[in] nodes List of ids of the input nodes of the graph
- * @param[in] sourceId Id of the source (referring to the indices of the vector "nodes")
- * @param[in] destinationId Id of the destination (referring to the indices of the vector "nodes")
- * @param[in] dist Vector of shortest path costs from the source to each node
- * @param[in] pred Vector for predecessors to compute the path
+ * @param graph Input nvl graph
+ * @param sourceIt nvl graph iterator of the source node.
+ * @param nodes List of ids of the input nodes of the graph
+ * @param sourceId Id of the source (referring to the indices of the vector "nodes")
+ * @param destinationId Id of the destination (referring to the indices of the vector "nodes")
+ * @param dist Vector of shortest path costs from the source to each node
+ * @param pred Vector for predecessors to compute the path
  * @return Shortest path between source and destination
  */
 template<class T, class W>

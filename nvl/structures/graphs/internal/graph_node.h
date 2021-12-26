@@ -3,7 +3,7 @@
 
 #include <nvl/nuvolib.h>
 
-#include <nvl/structures/graph.h>
+#include <nvl/structures/graphs/graph.h>
 
 #include <unordered_map>
 

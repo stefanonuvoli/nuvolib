@@ -1,0 +1,3 @@
+- Change all executable files in samples in main.cpp
+- CMake
+- Documentation

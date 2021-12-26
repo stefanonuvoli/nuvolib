@@ -1,3 +1,9 @@
+/*
+ * This file is part of nuvolib: https://github.com/stefanonuvoli/nuvolib
+ * This Source Code Form is subject to the terms of the GNU GPL 3.0
+ *
+ * @author Stefano Nuvoli (stefano.nuvoli@gmail.com)
+ */
 #include "string_utils.h"
 
 #include <regex>
@@ -99,7 +105,7 @@ NVL_INLINE std::vector<std::string> stringSplit(const char* string, char separat
  * @param end End element of the array (default the end of the array)
  * @param separator Separator char (default space)
  * @param ignoreEmpty Do not join empty elements
- * @return
+ * @return Resulting string
  */
 NVL_INLINE std::string stringUnion(
         const std::vector<std::string>& stringArray,
@@ -133,7 +139,7 @@ NVL_INLINE std::string stringUnion(
  * @param stringStream String stream
  * @param separator Separator char (default space)
  * @param ignoreEmpty Do not join empty elements
- * @return
+ * @return Resulting string
  */
 NVL_INLINE std::string stringUnion(
         std::istringstream& stringStream,
