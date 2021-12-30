@@ -92,6 +92,19 @@ bool modelSaveToFile(
 
         success = modelSaveDataToRIG(filename, modelData, error, mode);
     }
+#ifdef NVL_FBXSDK_LOADED
+    else if (ext == "fbx") {
+        IOModelData<
+                typename M::Mesh,
+                typename M::Skeleton,
+                typename M::SkinningWeights,
+                typename M::Animation> modelData;
+
+        modelSaveData(model, modelData, mode);
+
+        success = modelSaveDataToFBX(filename, modelData, error, mode);
+    }
+#endif
     else if (ext == "obj") {
         IOMeshError meshError;
         success = meshSaveToFile(filename, model.mesh, meshError, mode.meshMode);

@@ -15,27 +15,6 @@ NVL_INLINE QGLBaseShader::~QGLBaseShader()
     unload();
 }
 
-NVL_INLINE bool QGLBaseShader::load(
-        QGLContext* context,
-        const std::string& vertexShader,
-        const std::string& fragmentShader)
-{
-    unload();
-
-    vShaderProgram = new QGLShaderProgram(context);
-
-    bool ret = true;
-    ret &= vShaderProgram->addShaderFromSourceFile(QGLShader::Vertex, vertexShader.c_str());
-    ret &= vShaderProgram->addShaderFromSourceFile(QGLShader::Fragment, fragmentShader.c_str());
-    ret &= vShaderProgram->link();
-    assert(ret && "Error compiling shader.");
-
-    if (!ret)
-        vShaderProgram = nullptr;
-
-    return ret;
-}
-
 NVL_INLINE void QGLBaseShader::unload() {
     if (isLoaded()) {
         delete vShaderProgram;
@@ -142,6 +121,71 @@ NVL_INLINE void QGLBaseShader::setAttribute(const std::string& name, const int& 
 {
     assert(isLoaded());
     setAttribute(attributeLocation(name), value);
+}
+
+NVL_INLINE bool QGLBaseShader::load(
+        QGLContext* context,
+        const std::string& vertexShader,
+        const std::string& fragmentShader)
+{
+    createProgram(context);
+
+    bool ret = true;
+    ret &= vShaderProgram->addShaderFromSourceFile(QGLShader::Vertex, vertexShader.c_str());
+    ret &= vShaderProgram->addShaderFromSourceFile(QGLShader::Fragment, fragmentShader.c_str());
+
+    ret &= link();
+
+    return ret;
+}
+
+bool NVL_INLINE QGLBaseShader::loadVertexShader(
+    QGLContext* context,
+    const std::string& vertexShader)
+{
+    createProgram(context);
+
+    bool ret = true;
+    ret &= vShaderProgram->addShaderFromSourceFile(QGLShader::Vertex, vertexShader.c_str());
+
+    ret &= link();
+
+    return ret;
+}
+
+bool NVL_INLINE QGLBaseShader::loadFragmentShader(
+    QGLContext* context,
+    const std::string& fragmentShader)
+{
+    createProgram(context);
+
+    bool ret = true;
+    ret &= vShaderProgram->addShaderFromSourceFile(QGLShader::Fragment, fragmentShader.c_str());
+
+    ret &= link();
+
+    return ret;
+}
+
+void NVL_INLINE QGLBaseShader::createProgram(
+        QGLContext* context)
+{
+    unload();
+
+    vShaderProgram = new QGLShaderProgram(context);
+}
+
+bool NVL_INLINE QGLBaseShader::link()
+{
+    bool ret = true;
+
+    ret &= vShaderProgram->link();
+    assert(ret && "Error compiling shader.");
+
+    if (!ret)
+        vShaderProgram = nullptr;
+
+    return ret;
 }
 
 }

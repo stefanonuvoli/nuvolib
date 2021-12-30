@@ -18,6 +18,13 @@ bool modelLoadDataFromFBX(
         IOModelError& error,
         const IOModelMode& mode);
 
+template<class M, class S, class W, class A>
+bool modelSaveDataToFBX(
+        const std::string& filename,
+        const IOModelData<M,S,W,A>& modelData,
+        IOModelError& error,
+        const IOModelMode& mode);
+
 }
 
 #include "model_io_fbx.cpp"

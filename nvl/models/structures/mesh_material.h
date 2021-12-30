@@ -34,7 +34,7 @@ public:
 
     enum ShadingModel {
         SHADING_STANDARD = 0,
-        SHADING_LAMBERTIAN = 1,
+        SHADING_LAMBERT = 1,
         SHADING_PHONG = 2, };
 
     explicit MeshMaterial();

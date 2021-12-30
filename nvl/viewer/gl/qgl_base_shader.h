@@ -50,6 +50,16 @@ protected:
         QGLContext* context,
         const std::string& vertexShader,
         const std::string& fragmentShader);
+    bool loadVertexShader(
+        QGLContext* context,
+        const std::string& vertexShader);
+    bool loadFragmentShader(
+        QGLContext* context,
+        const std::string& fragmentShader);
+
+    void createProgram(
+            QGLContext* context);
+    bool link();
 
 };
 
