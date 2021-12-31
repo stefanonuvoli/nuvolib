@@ -7,11 +7,13 @@
 
 namespace nvl {
 
-template<class A>
-A animationSubset(const A& animation, const std::string& name, const double& timeStart, const double& timeEnd);
+//TODO
 
-template<class A>
-A animationSubset(const A& animation, const std::string& name, const typedef A::FrameId& timeStart, const typedef A::FrameId& timeEnd);
+//template<class A>
+//A animationSubset(const A& animation, const std::string& name, const double& timeStart, const double& timeEnd);
+
+//template<class A>
+//A animationSubset(const A& animation, const std::string& name, const typename A::FrameId& timeStart, const typename A::FrameId& timeEnd);
 
 }
 
