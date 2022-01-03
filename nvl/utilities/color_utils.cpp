@@ -4,9 +4,67 @@
  *
  * @author Stefano Nuvoli (stefano.nuvoli@gmail.com)
  */
-#include "colorize.h"
+#include "color_utils.h"
+
+#include <nvl/math/interpolation.h>
 
 namespace nvl {
+
+/**
+ * @brief Interpolate color given two colors and a alpha value
+ * @param color1 Color 1
+ * @param color2 Color 2
+ * @param alpha Alpha value for interpolation
+ * @return Interpolated color
+ */
+NVL_INLINE Color interpolateColor(
+        const Color& color1,
+        const Color& color2,
+        const double& alpha)
+{
+    Color color;
+
+    color.setRedF(interpolateLinear(color1.redF(), color2.redF(), alpha));
+    color.setGreenF(interpolateLinear(color1.greenF(), color2.greenF(), alpha));
+    color.setBlueF(interpolateLinear(color1.blueF(), color2.blueF(), alpha));
+    color.setAlphaF(interpolateLinear(color1.alphaF(), color2.alphaF(), alpha));
+
+    return color;
+}
+
+/**
+ * @brief Interpolate color given two colors and a alpha value
+ * @param color1 Color 1
+ * @param color2 Color 2
+ * @param alpha Alpha value for interpolation
+ * @return Interpolated color
+ */
+NVL_INLINE Color interpolateColor(
+        const std::vector<Color>& colors,
+        const std::vector<double>& alphas)
+{
+    Color color;
+
+    std::vector<float> redValues(colors.size());
+    std::vector<float> greenValues(colors.size());
+    std::vector<float> blueValues(colors.size());
+    std::vector<float> alphaValues(colors.size());
+
+    for (Index i = 0; i < colors.size(); ++i) {
+        redValues[i] = colors[i].redF();
+        greenValues[i] = colors[i].greenF();
+        blueValues[i] = colors[i].blueF();
+        alphaValues[i] = colors[i].alphaF();
+    }
+
+    color.setRedF(interpolateLinear(redValues, alphas));
+    color.setGreenF(interpolateLinear(greenValues, alphas));
+    color.setBlueF(interpolateLinear(blueValues, alphas));
+    color.setAlphaF(interpolateLinear(alphaValues, alphas));
+
+    return color;
+}
+
 
 /**
  * @brief Generate different colors, blending from red to blue
@@ -217,5 +275,6 @@ Color getRampRedBlue(const T& value, const T& minValue, const T& maxValue, const
 
     return color;
 }
+
 
 }

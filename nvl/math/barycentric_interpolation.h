@@ -17,7 +17,13 @@ V barycentricInterpolation(
         const std::vector<R>& bc);
 
 template<class T, class V, EigenId D, class R = T>
-V barycentricInterpolation(
+V /*
+ * This file is part of nuvolib: https://github.com/stefanonuvoli/nuvolib
+ * This Source Code Form is subject to the terms of the GNU GPL 3.0
+ *
+ * @author Stefano Nuvoli (stefano.nuvoli@gmail.com)
+ */
+barycentricInterpolation(
         const Point<T,D>& p1,
         const Point<T,D>& p2,
         const Point<T,D>& p3,

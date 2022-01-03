@@ -1,7 +1,18 @@
+/*
+ * This file is part of nuvolib: https://github.com/stefanonuvoli/nuvolib
+ * This Source Code Form is subject to the terms of the GNU GPL 3.0
+ *
+ * @author Stefano Nuvoli (stefano.nuvoli@gmail.com)
+ */
 #include "barycenter.h"
 
 namespace nvl {
 
+/**
+ * @brief Get barycenter of input points
+ * @param points Input points
+ * @return Barycenter
+ */
 template<class T, EigenId D1, EigenId D2>
 Point<T, D2> barycenter(const Matrix<T, D1, D2>& points)
 {
@@ -10,6 +21,11 @@ Point<T, D2> barycenter(const Matrix<T, D1, D2>& points)
     return barycenter;
 }
 
+/**
+ * @brief Get barycenter of input points
+ * @param points Input points
+ * @return Barycenter
+ */
 template<class T, EigenId D>
 Point<T, D> barycenter(const std::vector<Point<T, D>>& points)
 {
@@ -25,6 +41,13 @@ Point<T, D> barycenter(const std::vector<Point<T, D>>& points)
     return barycenter;
 }
 
+/**
+ * @brief Get barycenter of 3 points
+ * @param p1 Input point 1
+ * @param p2 Input point 2
+ * @param p3 Input point 3
+ * @return Barycenter
+ */
 template<class T, EigenId D>
 Point<T, D> barycenter(const Point<T, D>& p1, const Point<T, D>& p2, const Point<T, D>& p3)
 {

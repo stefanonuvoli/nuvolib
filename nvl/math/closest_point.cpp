@@ -80,7 +80,13 @@ Point<T,D> closestPointOnTriangle(
 }
 
 template<class T, EigenId D>
-Point<T,D> closestPointOnTriangle(
+Point<T,D> /*
+ * This file is part of nuvolib: https://github.com/stefanonuvoli/nuvolib
+ * This Source Code Form is subject to the terms of the GNU GPL 3.0
+ *
+ * @author Stefano Nuvoli (stefano.nuvoli@gmail.com)
+ */
+closestPointOnTriangle(
         const Point<T,D>& p1,
         const Point<T,D>& p2,
         const Point<T,D>& p3,

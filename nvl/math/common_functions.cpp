@@ -1,3 +1,9 @@
+/*
+ * This file is part of nuvolib: https://github.com/stefanonuvoli/nuvolib
+ * This Source Code Form is subject to the terms of the GNU GPL 3.0
+ *
+ * @author Stefano Nuvoli (stefano.nuvoli@gmail.com)
+ */
 #include "common_functions.h"
 
 #include <math.h>
@@ -132,6 +138,30 @@ T sum(const std::vector<T>& vector)
     }
 
     return sum;
+}
+
+template<class T, class M, class R>
+R fmod(const T& value, const M& mod)
+{
+    return std::fmod(value, mod);
+}
+
+template<class T, class R>
+R round(const T& value)
+{
+    return std::round(value);
+}
+
+template<class T, class R>
+R ceil(const T& value)
+{
+    return std::ceil(value);
+}
+
+template<class T, class R>
+R floor(const T& value)
+{
+    return std::floor(value);
 }
 
 }

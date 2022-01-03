@@ -16,7 +16,13 @@ T interpolateLinear(const T& v1, const T& v2, const W& a)
 }
 
 template<class T, class W>
-T interpolateLinear(const std::vector<T>& v, const std::vector<W>& weights)
+T /*
+ * This file is part of nuvolib: https://github.com/stefanonuvoli/nuvolib
+ * This Source Code Form is subject to the terms of the GNU GPL 3.0
+ *
+ * @author Stefano Nuvoli (stefano.nuvoli@gmail.com)
+ */
+interpolateLinear(const std::vector<T>& v, const std::vector<W>& weights)
 {
     T result(0,0,0);
 
@@ -27,7 +33,7 @@ T interpolateLinear(const std::vector<T>& v, const std::vector<W>& weights)
 
     for (Index i = 0; i < v.size(); i++) {
         const T& value = v[i];
-        const double& weight = weights[i];
+        const W& weight = weights[i];
         result += weight * value;
     }
 
@@ -120,7 +126,7 @@ Vector<T, D> interpolateVectorLinear(const std::vector<Vector<T, D>>& v, const s
 
     for (Index i = 0; i < v.size(); i++) {
         const Vector<T, D>& vector = v[i];
-        const double& weight = weights[i];
+        const W& weight = weights[i];
         result += weight * vector;
     }
     return result;
@@ -228,7 +234,7 @@ Quaternion<T> interpolateRotationSpherical(const std::vector<Quaternion<T>>& q, 
     if (q.size() == 0)
         return result;
 
-    double currentSum = 0.0;
+    W currentSum = 0.0;
     for (Index i = 0; i < q.size(); ++i) {
         const Quaternion<T>& quaternion = q[i];
 
@@ -264,7 +270,7 @@ DualQuaternion<T> interpolateDualQuaternion(const std::vector<DualQuaternion<T>>
     if (dq.size() == 0)
         return result;
 
-    double currentSum = 0.0;
+    W currentSum = 0.0;
     for (Index i = 0; i < dq.size(); ++i) {
         const DualQuaternion<T>& dualQuaternion = dq[i];
 

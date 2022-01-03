@@ -39,7 +39,6 @@ HEADERS += \
     $$PWD/transformations.h \
     $$PWD/translation.h \
     $$PWD/triangulate.h \
-    $$PWD/trigonometry.h \
     $$PWD/vector.h
 
 SOURCES += \
@@ -66,5 +65,4 @@ SOURCES += \
     $$PWD/segment.cpp \
     $$PWD/smoothing.cpp \
     $$PWD/triangulate.cpp \
-    $$PWD/trigonometry.cpp \
     $$PWD/vector.cpp

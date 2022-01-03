@@ -37,7 +37,13 @@ V barycentricInterpolation(
 }
 
 template<class T, class V, EigenId D, class R>
-V barycentricInterpolationBarycenterSubdivision(
+V /*
+ * This file is part of nuvolib: https://github.com/stefanonuvoli/nuvolib
+ * This Source Code Form is subject to the terms of the GNU GPL 3.0
+ *
+ * @author Stefano Nuvoli (stefano.nuvoli@gmail.com)
+ */
+barycentricInterpolationBarycenterSubdivision(
         const std::vector<Point<T,D>>& polygon,
         const Point<T,D>& point,
         const std::vector<V>& values,

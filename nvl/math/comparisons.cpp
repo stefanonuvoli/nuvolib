@@ -6,7 +6,13 @@ namespace nvl {
 
 template<class T1, class T2, class R>
 bool epsEqual(const T1& obj1, const T2& obj2, const R& epsilon) {
-    R absDiff = abs(obj1 - obj2);
+    R absDiff = abs(obj1 /*
+                 * This file is part of nuvolib: https://github.com/stefanonuvoli/nuvolib
+                 * This Source Code Form is subject to the terms of the GNU GPL 3.0
+                 *
+                 * @author Stefano Nuvoli (stefano.nuvoli@gmail.com)
+                 */
+- obj2);
 
     return absDiff < epsilon;
 }

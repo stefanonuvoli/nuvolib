@@ -2,7 +2,7 @@
 
 HEADERS += \
     $$PWD/color.h \
-    $$PWD/colorize.h \
+    $$PWD/color_utils.h \
     $$PWD/comparators.h \
     $$PWD/file_utils.h \
     $$PWD/iterator_wrapper.h \
@@ -14,7 +14,7 @@ HEADERS += \
 
 SOURCES += \
     $$PWD/color.cpp \
-    $$PWD/colorize.cpp \
+    $$PWD/color_utils.cpp \
     $$PWD/comparators.cpp \
     $$PWD/file_utils.cpp \
     $$PWD/iterator_wrapper.cpp \

@@ -1,3 +1,9 @@
+/*
+ * This file is part of nuvolib: https://github.com/stefanonuvoli/nuvolib
+ * This Source Code Form is subject to the terms of the GNU GPL 3.0
+ *
+ * @author Stefano Nuvoli (stefano.nuvoli@gmail.com)
+ */
 #ifndef NVL_MATH_COMMON_FUNCTIONS_H
 #define NVL_MATH_COMMON_FUNCTIONS_H
 
@@ -55,6 +61,18 @@ R sign(const T& value);
 
 template<class T>
 T sum(const std::vector<T>& vector);
+
+template<class T, class M, class R = T>
+R fmod(const T& value, const M& mod);
+
+template<class T, class R = T>
+R round(const T& value);
+
+template<class T, class R = T>
+R ceil(const T& value);
+
+template<class T, class R = T>
+R floor(const T& value);
 
 }
 
