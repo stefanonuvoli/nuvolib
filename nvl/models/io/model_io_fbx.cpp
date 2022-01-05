@@ -572,6 +572,10 @@ void handleMesh(
         }
     }
 
+    //Vertex colors
+
+    //TODO
+
 
     //Materials
 

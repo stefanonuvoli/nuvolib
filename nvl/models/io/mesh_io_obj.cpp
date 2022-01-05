@@ -254,7 +254,7 @@ bool meshLoadDataFromOBJ(
                 data.vertexColors.push_back(VC(std::stof(lineSplitted[4]), std::stof(lineSplitted[5]), std::stof(lineSplitted[6])));
             }
             else {
-                data.vertexColors.push_back(Color(0.7, 0.7, 0.7));
+                data.vertexColors.push_back(Color(1.0, 1.0, 1.0));
             }
         }
 

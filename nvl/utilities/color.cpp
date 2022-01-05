@@ -13,7 +13,7 @@ namespace nvl {
 /**
  * @brief Default constructor. Default color: white.
  */
-NVL_INLINE Color::Color() : Color(255, 255, 255, 255)
+NVL_INLINE Color::Color() : Color(1.0, 1.0, 1.0, 1.0)
 {
 
 }
@@ -25,10 +25,12 @@ NVL_INLINE Color::Color() : Color(255, 255, 255, 255)
  * @param blue Blue color, from 0 to 255
  * @param alpha Alpha value, from 0 to 255
  */
-NVL_INLINE Color::Color(const int red, const int green, const int blue, const int alpha) :
-    vRed(red), vGreen(green), vBlue(blue), vAlpha(alpha)
+NVL_INLINE Color::Color(const int red, const int green, const int blue, const int alpha)
 {
-
+    setRedI(red);
+    setGreenI(green);
+    setBlueI(blue);
+    setAlphaI(alpha);
 }
 
 /**
@@ -78,7 +80,7 @@ NVL_INLINE Color::Color(const QColor& color) : Color(color.red(), color.green(),
  */
 NVL_INLINE int Color::redI() const
 {
-    return vRed;
+    return vRed * 255;
 }
 
 /**
@@ -88,7 +90,7 @@ NVL_INLINE int Color::redI() const
 NVL_INLINE void Color::setRedI(const int red)
 {
     assert(red >= 0 && red <= 255);
-    vRed = red;
+    vRed = red / 255.0f;
 }
 
 /**
@@ -97,7 +99,7 @@ NVL_INLINE void Color::setRedI(const int red)
  */
 NVL_INLINE int Color::greenI() const
 {
-    return vGreen;
+    return vGreen * 255;
 }
 
 /**
@@ -107,7 +109,7 @@ NVL_INLINE int Color::greenI() const
 NVL_INLINE void Color::setGreenI(const int green)
 {
     assert(green >= 0 && green <= 255);
-    vGreen = green;
+    vGreen = green / 255.0f;
 }
 
 /**
@@ -116,7 +118,7 @@ NVL_INLINE void Color::setGreenI(const int green)
  */
 NVL_INLINE int Color::blueI() const
 {
-    return vBlue;
+    return vBlue * 255;
 }
 
 /**
@@ -126,7 +128,7 @@ NVL_INLINE int Color::blueI() const
 NVL_INLINE void Color::setBlueI(const int blue)
 {
     assert(blue >= 0 && blue <= 255);
-    vBlue = blue;
+    vBlue = blue / 255.0f;
 }
 
 /**
@@ -135,7 +137,7 @@ NVL_INLINE void Color::setBlueI(const int blue)
  */
 NVL_INLINE int Color::alphaI() const
 {
-    return vAlpha;
+    return vAlpha * 255;
 }
 
 /**
@@ -145,7 +147,7 @@ NVL_INLINE int Color::alphaI() const
 NVL_INLINE void Color::setAlphaI(const int alpha)
 {
     assert(alpha >= 0 && alpha <= 255);
-    vAlpha = alpha;
+    vAlpha = alpha / 255.0f;
 }
 
 /**
@@ -154,7 +156,7 @@ NVL_INLINE void Color::setAlphaI(const int alpha)
  */
 NVL_INLINE float Color::redF() const
 {
-    return vRed / 255.0f;
+    return vRed;
 }
 
 /**
@@ -164,7 +166,7 @@ NVL_INLINE float Color::redF() const
 NVL_INLINE void Color::setRedF(const float red)
 {
     assert(red >= 0.0 && red <= 1.0);
-    vRed = static_cast<int>(red * 255);
+    vRed = red;
 }
 
 /**
@@ -173,7 +175,7 @@ NVL_INLINE void Color::setRedF(const float red)
  */
 NVL_INLINE float Color::greenF() const
 {
-    return vGreen / 255.0f;
+    return vGreen;
 }
 
 /**
@@ -183,7 +185,7 @@ NVL_INLINE float Color::greenF() const
 NVL_INLINE void Color::setGreenF(const float green)
 {
     assert(green >= 0.0 && green <= 1.0);
-    vGreen = static_cast<int>(green * 255);
+    vGreen = green;
 }
 
 /**
@@ -192,7 +194,7 @@ NVL_INLINE void Color::setGreenF(const float green)
  */
 NVL_INLINE float Color::blueF() const
 {
-    return vBlue / 255.0f;
+    return vBlue;
 }
 
 /**
@@ -202,7 +204,7 @@ NVL_INLINE float Color::blueF() const
 NVL_INLINE void Color::setBlueF(const float blue)
 {
     assert(blue >= 0.0 && blue <= 1.0);
-    vBlue = static_cast<int>(blue * 255);
+    vBlue = blue;
 }
 
 /**
@@ -211,7 +213,7 @@ NVL_INLINE void Color::setBlueF(const float blue)
  */
 NVL_INLINE float Color::alphaF() const
 {
-    return vAlpha / 255.0f;
+    return vAlpha;
 }
 
 /**
@@ -221,7 +223,7 @@ NVL_INLINE float Color::alphaF() const
 NVL_INLINE void Color::setAlphaF(const float alpha)
 {
     assert(alpha >= 0.0 && alpha <= 1.0);
-    vAlpha = static_cast<int>(alpha * 255);
+    vAlpha = alpha;
 }
 
 /**
@@ -233,16 +235,16 @@ NVL_INLINE void Color::setAlphaF(const float alpha)
  */
 NVL_INLINE void Color::setHsv(const int h, const int s, const int v, const int alpha)
 {
-    assert(h >= 0 && h <= 255);
+    assert(h >= 0 && h <= 360);
     assert(s >= 0 && s <= 255);
     assert(v >= 0 && v <= 255);
     assert(alpha >= 0 && alpha <= 255);
 
     vAlpha = alpha;
     if (s == 0) {
-        vRed = v;
-        vGreen = v;
-        vBlue = v;
+        vRed = v / 255.0f;
+        vGreen = v / 255.0f;
+        vBlue = v / 255.0f;
     }
     else {
         int region, remainder, p, q, t;
@@ -255,34 +257,34 @@ NVL_INLINE void Color::setHsv(const int h, const int s, const int v, const int a
 
         switch (region) {
             case 0:
-                vRed = v;
-                vGreen = t;
-                vBlue = p;
+                vRed = v / 255.0f;
+                vGreen = t / 255.0f;
+                vBlue = p / 255.0f;
                 break;
             case 1:
-                vRed = q;
-                vGreen = v;
-                vBlue = p;
+                vRed = q / 255.0f;
+                vGreen = v / 255.0f;
+                vBlue = p / 255.0f;
                 break;
             case 2:
-                vRed = p;
-                vGreen = v;
-                vBlue = t;
+                vRed = p / 255.0f;
+                vGreen = v / 255.0f;
+                vBlue = t / 255.0f;
                 break;
             case 3:
-                vRed = p;
-                vGreen = q;
-                vBlue = v;
+                vRed = p / 255.0f;
+                vGreen = q / 255.0f;
+                vBlue = v / 255.0f;
                 break;
             case 4:
-                vRed = t;
-                vGreen = p;
-                vBlue = v;
+                vRed = t / 255.0f;
+                vGreen = p / 255.0f;
+                vBlue = v / 255.0f;
                 break;
             default:
-                vRed = v;
-                vGreen = p;
-                vBlue = q;
+                vRed = v / 255.0f;
+                vGreen = p / 255.0f;
+                vBlue = q / 255.0f;
                 break;
         }
     }

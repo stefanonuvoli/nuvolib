@@ -71,10 +71,10 @@ public:
 
 private:
 
-    int vRed;
-    int vGreen;
-    int vBlue;
-    int vAlpha;
+    float vRed;
+    float vGreen;
+    float vBlue;
+    float vAlpha;
 
 };
 
