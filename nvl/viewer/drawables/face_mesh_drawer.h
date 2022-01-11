@@ -33,6 +33,7 @@ public:
     bool hasFaceColors() const override;
     bool hasTextures() const override;
     bool hasFaceTransparency() const override;
+    bool hasFaceLighting() const override;
     bool hasSmoothShading() const override;
     bool hasFlatShading() const override;
     bool hasVertexColors() const override;

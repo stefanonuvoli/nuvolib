@@ -1,3 +1,9 @@
+/*
+ * This file is part of nuvolib: https://github.com/stefanonuvoli/nuvolib
+ * This Source Code Form is subject to the terms of the GNU GPL 3.0
+ *
+ * @author Stefano Nuvoli (stefano.nuvoli@gmail.com)
+ */
 #include "barycentric_interpolation.h"
 
 #include <nvl/math/numeric_limits.h>
@@ -6,6 +12,14 @@
 
 namespace nvl {
 
+/**
+ * @brief Barycentric interpolation in a triangle
+ * @param v1 Triangle value 1
+ * @param v2 Triangle value 2
+ * @param v3 Triangle value 3
+ * @param bc Barycentric coordinates
+ * @return Interpolated value
+ */
 template<class V, class R>
 V barycentricInterpolation(
         const V& v1,
@@ -21,6 +35,18 @@ V barycentricInterpolation(
     return p;
 }
 
+/**
+ * @brief Barycentric interpolation in a triangle
+ * @param p1 Triangle vertex 1
+ * @param p2 Triangle vertex 2
+ * @param p3 Triangle vertex 3
+ * @param point Target point
+ * @param v1 Triangle vertex 1
+ * @param v2 Triangle vertex 2
+ * @param v3 Triangle vertex 3
+ * @param useClosestPoint Use closest point if the point does not lie in the triangle (default false)
+ * @return Interpolated value
+ */
 template<class T, class V, EigenId D, class R>
 V barycentricInterpolation(
         const Point<T,D>& p1,
@@ -36,14 +62,16 @@ V barycentricInterpolation(
     return barycentricInterpolation(v1, v2, v3, bc);
 }
 
-template<class T, class V, EigenId D, class R>
-V /*
- * This file is part of nuvolib: https://github.com/stefanonuvoli/nuvolib
- * This Source Code Form is subject to the terms of the GNU GPL 3.0
- *
- * @author Stefano Nuvoli (stefano.nuvoli@gmail.com)
+/**
+ * @brief Barycentric interpolation on a polygon, using barycenter subdivision
+ * @param polygon Polygon vertices
+ * @param point Target point
+ * @param values Values for each vertex
+ * @param useClosestPoint Use closest point if the point does not lie in the triangle (default false)
+ * @return Interpolated value
  */
-barycentricInterpolationBarycenterSubdivision(
+template<class T, class V, EigenId D, class R>
+V barycentricInterpolationBarycenterSubdivision(
         const std::vector<Point<T,D>>& polygon,
         const Point<T,D>& point,
         const std::vector<V>& values,
@@ -118,6 +146,14 @@ barycentricInterpolationBarycenterSubdivision(
     return value;
 }
 
+/**
+ * @brief Barycentric interpolation on a polygon, using subdivision on diagonal
+ * @param polygon Polygon vertices
+ * @param point Target point
+ * @param values Values for each vertex
+ * @param useClosestPoint Use closest point if the point does not lie in the triangle (default false)
+ * @return Interpolated value
+ */
 template<class T, class V, EigenId D, class R>
 V barycentricInterpolationDiagonalSubdivision(
         const std::vector<Point<T,D>>& polygon,

@@ -28,6 +28,7 @@ public:
     enum FaceShadingMode { FACE_SHADING_SMOOTH, FACE_SHADING_FLAT };
     enum FaceColorMode { FACE_COLOR_PER_FACE, FACE_COLOR_PER_VERTEX, FACE_COLOR_UNIFORM };
     enum FaceShaderMode { FACE_SHADER_VERTEX_VALUE, FACE_SHADER_NONE };
+    enum TextureMode { TEXTURE_MODE_MODULATE, TEXTURE_MODE_REPLACE };
 
     FaceMeshDrawerBase();
     virtual ~FaceMeshDrawerBase() = default;
@@ -35,25 +36,25 @@ public:
     virtual void update() = 0;
 
     bool faceVisible() const;
-    virtual void setFaceVisible(bool visible);
+    virtual void setFaceVisible(const bool visible);
 
     bool wireframeVisible() const;
-    virtual void setWireframeVisible(bool visible);
+    virtual void setWireframeVisible(const bool visible);
 
     bool faceNormalVisible() const;
-    virtual void setFaceNormalVisible(bool visible);
+    virtual void setFaceNormalVisible(const bool visible);
 
     bool textureVisible() const;
-    virtual void setTextureVisible(bool visible);
+    virtual void setTextureVisible(const bool visible);
 
     int wireframeSize() const;
-    virtual void setWireframeSize(int size);
+    virtual void setWireframeSize(const int size);
 
     const Color& wireframeColor() const;
     virtual void setWireframeColor(const Color& color);
 
     int faceNormalSize() const;
-    virtual void setFaceNormalSize(int size);
+    virtual void setFaceNormalSize(const int size);
 
     const Color& faceUniformColor() const;
     virtual void setFaceUniformColor(const Color& value);
@@ -62,7 +63,16 @@ public:
     virtual void setFaceShadingMode(FaceShadingMode mode);
 
     const FaceColorMode& faceColorMode() const;
-    virtual void setFaceColorMode(FaceColorMode mode);
+    virtual void setFaceColorMode(const FaceColorMode& mode);
+
+    bool faceTransparency() const;
+    virtual void setFaceTransparency(const bool value);
+
+    bool faceLighting() const;
+    virtual void setFaceLighting(const bool value);
+
+    const TextureMode& textureMode() const;
+    virtual void setTextureMode(const TextureMode& mode);
 
     const FaceShaderMode& faceShaderMode() const;
     virtual void setFaceShaderMode(const FaceShaderMode& mode);
@@ -71,9 +81,6 @@ public:
     GLShader* faceShader() const;
     virtual void setFaceShader(GLShader* value);
 #endif
-
-    bool faceTransparency() const;
-    virtual void setFaceTransparency(bool value);
 
     std::vector<double>& vertexValues();
     const std::vector<double>& vertexValues() const;
@@ -89,6 +96,7 @@ public:
     virtual bool hasFaceColors() const = 0;
     virtual bool hasTextures() const = 0;
     virtual bool hasFaceTransparency() const = 0;
+    virtual bool hasFaceLighting() const = 0;
     virtual bool hasSmoothShading() const = 0;
     virtual bool hasFlatShading() const = 0;
     virtual bool hasVertexColors() const = 0;
@@ -111,6 +119,9 @@ private:
     FaceShadingMode vFaceShadingMode;
     FaceColorMode vFaceColorMode;
 
+    bool vFaceTransparency;
+    bool vFaceLighting;
+
     FaceShaderMode vFaceShaderMode;
 #ifdef NVL_OPENGL_LOADED
     GLShader* vFaceShader;
@@ -119,7 +130,8 @@ private:
     std::vector<double> vVertexValues;
     std::vector<double> vFaceValues;
 
-    bool vFaceTransparency;
+    TextureMode vTextureMode;
+
 
 };
 

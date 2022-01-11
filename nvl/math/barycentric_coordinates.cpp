@@ -11,6 +11,15 @@
 
 namespace nvl {
 
+/**
+ * @brief Barycentric coordinates of a point in a triangle
+ * @param p1 Triangle vertex 1
+ * @param p2 Triangle vertex 2
+ * @param p3 Triangle vertex 3
+ * @param point Target point
+ * @param useClosestPoint Use closest point if the point does not lie in the triangle (default false)
+ * @return Barycentric coordinates
+ */
 template<class T, EigenId D, class R>
 std::vector<R> barycentricCoordinates(
         const Point<T,D>& p1,

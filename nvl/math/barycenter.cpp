@@ -9,7 +9,7 @@
 namespace nvl {
 
 /**
- * @brief Get barycenter of input points
+ * @brief Barycenter of input points
  * @param points Input points
  * @return Barycenter
  */
@@ -22,7 +22,7 @@ Point<T, D2> barycenter(const Matrix<T, D1, D2>& points)
 }
 
 /**
- * @brief Get barycenter of input points
+ * @brief Barycenter of input points
  * @param points Input points
  * @return Barycenter
  */
@@ -42,7 +42,7 @@ Point<T, D> barycenter(const std::vector<Point<T, D>>& points)
 }
 
 /**
- * @brief Get barycenter of 3 points
+ * @brief Barycenter of 3 points
  * @param p1 Input point 1
  * @param p2 Input point 2
  * @param p3 Input point 3

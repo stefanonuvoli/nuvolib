@@ -5,11 +5,13 @@
 
 #ifdef NVL_OPENGL_LOADED
 
+#include <nvl/viewer/gl/opengl_headers.h>
+
 #include <string>
 
 namespace nvl {
 
-int glLoadTextureImage(const std::string& filename);
+int glLoadTextureImage(const std::string& filename, const GLint textureMode = GL_MODULATE);
 
 }
 

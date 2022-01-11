@@ -17,7 +17,7 @@
 namespace nvl {
 
 template<class T>
-MatrixFX<T,3> pointsToMatrix(const std::vector<Point3<T>>& points);
+MatrixFX<T,3> pointsToRowMatrix(const std::vector<Point3<T>>& points);
 
 }
 

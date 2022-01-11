@@ -1,3 +1,9 @@
+/*
+* This file is part of nuvolib: https://github.com/stefanonuvoli/nuvolib
+* This Source Code Form is subject to the terms of the GNU GPL 3.0
+*
+* @author Stefano Nuvoli (stefano.nuvoli@gmail.com)
+*/
 #include "closest_point.h"
 
 #include <nvl/math/normals.h>
@@ -5,6 +11,13 @@
 
 namespace nvl {
 
+/**
+ * @brief Closest point on a given line
+ * @param p1 Line start point
+ * @param p2 Line end point
+ * @param point Target point
+ * @return Closest point
+ */
 template<class T, EigenId D>
 Point<T,D> closestPointOnLine(
         const Point<T,D>& p1,
@@ -35,6 +48,13 @@ Point<T,D> closestPointOnLine(
     return result;
 }
 
+/**
+ * @brief Closest point on a given segment
+ * @param p1 Segment start point
+ * @param p2 segment end point
+ * @param point Target point
+ * @return Closest point
+ */
 template<class T, EigenId D>
 Point<T,D> closestPointOnSegment(
         const Point<T,D>& p1,
@@ -45,6 +65,15 @@ Point<T,D> closestPointOnSegment(
     return closestPointOnSegment(p1, p2, point, t);
 }
 
+
+/**
+ * @brief Closest point on a given segment
+ * @param p1 Segment start point
+ * @param p2 segment end point
+ * @param point Target point
+ * @param t Output parameterization on the segment
+ * @return Closest point
+ */
 template<class T, EigenId D>
 Point<T,D> closestPointOnSegment(
         const Point<T,D>& p1,
@@ -67,6 +96,14 @@ Point<T,D> closestPointOnSegment(
     return result;
 }
 
+/**
+ * @brief Closest point on a given triangle
+ * @param p1 Vertex 1
+ * @param p2 Vertex 2
+ * @param p3 Vertex 3
+ * @param point Target point
+ * @return Closest point
+ */
 template<class T, EigenId D>
 Point<T,D> closestPointOnTriangle(
         const Point<T,D>& p1,
@@ -80,13 +117,7 @@ Point<T,D> closestPointOnTriangle(
 }
 
 template<class T, EigenId D>
-Point<T,D> /*
- * This file is part of nuvolib: https://github.com/stefanonuvoli/nuvolib
- * This Source Code Form is subject to the terms of the GNU GPL 3.0
- *
- * @author Stefano Nuvoli (stefano.nuvoli@gmail.com)
- */
-closestPointOnTriangle(
+Point<T,D> closestPointOnTriangle(
         const Point<T,D>& p1,
         const Point<T,D>& p2,
         const Point<T,D>& p3,
@@ -123,6 +154,12 @@ closestPointOnTriangle(
     }
 }
 
+/**
+ * @brief Closest point lying on a given plane
+ * @param plane Plane
+ * @param point Target point
+ * @return Closest point
+ */
 template<class T, EigenId D>
 Point<T,D> closestPointOnPlane(
         const Plane<T>& plane,

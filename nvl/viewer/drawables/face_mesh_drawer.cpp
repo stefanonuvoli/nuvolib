@@ -117,6 +117,12 @@ bool FaceMeshDrawer<M>::hasFaceTransparency() const
 }
 
 template<class M>
+bool FaceMeshDrawer<M>::hasFaceLighting() const
+{
+    return true;
+}
+
+template<class M>
 bool FaceMeshDrawer<M>::hasSmoothShading() const
 {
     return true;
@@ -515,7 +521,15 @@ void FaceMeshDrawer<M>::loadTextures()
 
             int texture = nvl::maxLimitValue<unsigned int>();
             if (!mat.diffuseMap().empty()) {
-                texture = glLoadTextureImage(mat.diffuseMap());
+                GLint glTextureMode;
+                if (this->textureMode() == TextureMode::TEXTURE_MODE_MODULATE) {
+                    glTextureMode = GL_MODULATE;
+                }
+                else {
+                    assert(this->textureMode() == TextureMode::TEXTURE_MODE_REPLACE);
+                    glTextureMode = GL_REPLACE;
+                }
+                texture = glLoadTextureImage(mat.diffuseMap(), glTextureMode);
             }
             vTextures[mId] = texture;
         }
@@ -536,7 +550,12 @@ void FaceMeshDrawer<M>::drawFaceSmoothShading() const
 {
     const bool textureVisible = this->textureVisible() && !vRenderingFaceMaterials.empty();
 
-    glEnable(GL_LIGHTING);
+    if (this->faceLighting()) {
+        glEnable(GL_LIGHTING);
+    }
+    else {
+        glDisable(GL_LIGHTING);
+    }
 
     if (this->faceTransparency()) {
         glEnable(GL_BLEND);
@@ -667,7 +686,12 @@ void FaceMeshDrawer<M>::drawFaceFlatShading() const
 {
     const bool textureVisible = this->textureVisible() && !vRenderingFaceMaterials.empty();
 
-    glEnable(GL_LIGHTING);
+    if (this->faceLighting()) {
+        glEnable(GL_LIGHTING);
+    }
+    else {
+        glDisable(GL_LIGHTING);
+    }
 
     if (this->faceTransparency()) {
         glEnable(GL_BLEND);
@@ -795,8 +819,13 @@ void FaceMeshDrawer<M>::drawFaceFlatShading() const
 
 template<class M>
 void FaceMeshDrawer<M>::drawWireframe() const
-{
-    glDisable(GL_LIGHTING);
+{    
+    if (this->faceLighting()) {
+        glEnable(GL_LIGHTING);
+    }
+    else {
+        glDisable(GL_LIGHTING);
+    }
 
     if (this->faceTransparency()) {
         glEnable(GL_BLEND);
@@ -938,7 +967,12 @@ void FaceMeshDrawer<M>::drawFaceWithNames(Canvas* canvas, const Index drawableId
 
     std::vector<Canvas::PickingData>& pickingNameMap = canvas->pickingDataPool();
 
-    glEnable(GL_LIGHTING);
+    if (this->faceLighting()) {
+        glEnable(GL_LIGHTING);
+    }
+    else {
+        glDisable(GL_LIGHTING);
+    }
 
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);

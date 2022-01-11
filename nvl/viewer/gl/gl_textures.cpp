@@ -4,8 +4,6 @@
 
 #include <nvl/math/numeric_limits.h>
 
-#include <nvl/viewer/gl/opengl_headers.h>
-
 #ifdef NVL_QGLVIEWER_LOADED
 #include <QGLViewer/qglviewer.h>
 #include <QImage>
@@ -21,7 +19,7 @@
 
 namespace nvl {
 
-NVL_INLINE int glLoadTextureImage(const std::string& filename)
+NVL_INLINE int glLoadTextureImage(const std::string& filename, const GLint textureMode)
 {
     int textureId = maxLimitValue<unsigned int>();
 
@@ -52,7 +50,7 @@ NVL_INLINE int glLoadTextureImage(const std::string& filename)
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, GL_formatted_image.width(), GL_formatted_image.height(), 0, GL_RGB, GL_UNSIGNED_BYTE, GL_formatted_image.bits());
         }
 
-        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, textureMode);
 
         glBindTexture(GL_TEXTURE_2D, 0);
 
@@ -94,7 +92,7 @@ NVL_INLINE int glLoadTextureImage(const std::string& filename)
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
         }
 
-        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, textureMode);
 
         glBindTexture(GL_TEXTURE_2D, 0);
 

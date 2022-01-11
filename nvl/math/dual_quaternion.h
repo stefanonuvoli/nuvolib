@@ -16,6 +16,10 @@
 
 namespace nvl {
 
+/**
+ * @brief Class representing a dual quaternion
+ * @tparam T Scalar type
+ */
 template<class T>
 class DualQuaternion {
 

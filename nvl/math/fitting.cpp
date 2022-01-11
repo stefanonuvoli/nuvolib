@@ -18,7 +18,7 @@ namespace nvl {
 template<class T>
 Plane<T> bestFittingPlaneCovariance(const std::vector<Point3<T>>& points)
 {
-    MatrixFX<T,3> matrix = pointsToMatrix(points);
+    MatrixFX<T,3> matrix = pointsToRowMatrix(points);
 
     Point3<T> b = barycenter(matrix);
 
@@ -41,7 +41,7 @@ Plane<T> bestFittingPlaneCovariance(const std::vector<Point3<T>>& points)
 template<class T>
 Plane<T> bestFittingPlaneSVD(const std::vector<Point3<T>>& points)
 {
-    MatrixFX<T,3> matrix = pointsToMatrix(points);
+    MatrixFX<T,3> matrix = pointsToRowMatrix(points);
 
     Point3<T> b = barycenter(matrix);
 

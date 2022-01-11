@@ -66,6 +66,7 @@ public:
 
     void loadAnimation(const Index& id);
     void unloadAnimation();
+    void reloadAnimation();
     bool isAnimationLoaded() const;
     Index loadedAnimation() const;
 

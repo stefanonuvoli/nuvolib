@@ -48,19 +48,22 @@ template<class T>
 T max(const T& value1, const T& value2);
 
 template<class T>
-T max(const std::vector<T>& vector);
+T max(const std::vector<T>& values);
 
 template<class T>
 T min(const T& value1, const T& value2);
 
 template<class T>
-T min(const std::vector<T>& vector);
+T min(const std::vector<T>& values);
 
 template<class T, class R = int>
 R sign(const T& value);
 
 template<class T>
-T sum(const std::vector<T>& vector);
+T sum(const std::vector<T>& values);
+
+template<class T, class M, class R = T>
+R mod(const T& value, const M& mod);
 
 template<class T, class M, class R = T>
 R fmod(const T& value, const M& mod);

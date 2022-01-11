@@ -285,6 +285,13 @@ void ModelDrawer<M>::unloadAnimation()
 }
 
 template<class M>
+void ModelDrawer<M>::reloadAnimation() {
+    Index aId = loadedAnimation();
+    unloadAnimation();
+    loadAnimation(aId);
+}
+
+template<class M>
 bool ModelDrawer<M>::isAnimationLoaded() const
 {
     return vAnimationLoaded != NULL_ID;

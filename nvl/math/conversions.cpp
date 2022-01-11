@@ -8,8 +8,13 @@
 
 namespace nvl {
 
+/**
+ * @brief Convert a collection of points in a row matrix
+ * @param points Points
+ * @return Matrix
+ */
 template<class T>
-MatrixFX<T,3> pointsToMatrix(const std::vector<Point3<T>>& points)
+MatrixFX<T,3> pointsToRowMatrix(const std::vector<Point3<T>>& points)
 {
     MatrixFX<T,3> matrix;
 
