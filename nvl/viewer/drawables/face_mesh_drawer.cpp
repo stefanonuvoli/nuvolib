@@ -349,6 +349,7 @@ void FaceMeshDrawer<M>::resetRenderingFaceColor(const Index& id)
     typedef typename M::MaterialColor MaterialColor;
 
     if (!this->vMesh->faceMaterialIsNull(id)) {
+        assert(id < this->vMesh->nextMaterialId());
         const Material& material = this->vMesh->material(this->vMesh->faceMaterial(id));
 
         MaterialColor c = material.diffuseColor();

@@ -545,7 +545,7 @@ void meshSaveFaceData(
     typedef typename M::VertexNormal VertexNormal;
     typedef typename M::VertexUV VertexUV;
 
-    std::vector<Index> materialMap(mesh.nextMaterialId());
+    std::vector<Index> materialMap(mesh.nextMaterialId(), NULL_ID);
 
     if (mode.materials) {
         std::vector<Material>& materials = meshData.materials;
@@ -582,7 +582,7 @@ void meshSaveFaceData(
             faceNormals.resize(mesh.faceNumber());
         }
         if (faceMaterialsEnabled) {
-            faceMaterials.resize(mesh.faceNumber());
+            faceMaterials.resize(mesh.faceNumber(), NULL_ID);
         }
         if (vertexNormalsEnabled) {
             faceVertexNormals.resize(mesh.faceNumber());
@@ -602,7 +602,9 @@ void meshSaveFaceData(
             }
 
             if (faceMaterialsEnabled) {
-                faceMaterials[fId] = materialMap[mesh.faceMaterial(f)];
+                if (!mesh.faceMaterialIsNull(f)) {
+                    faceMaterials[fId] = materialMap[mesh.faceMaterial(f)];
+                }
             }
 
             if (vertexNormalsEnabled) {

@@ -374,6 +374,7 @@ void FaceMesh<VT,PT,FT>::clear()
     this->clearMaterials();
     this->clearWedgeNormals();
     this->clearWedgeUVs();
+    updateComponents();
 }
 
 template<class VT, class PT, class FT>
@@ -400,7 +401,7 @@ template<class VT, class PT, class FT>
 void FaceMesh<VT,PT,FT>::updateFaceNormals()
 {
     if (vFaceNormalsEnabled) {
-        this->vFaceNormals.resize(this->nextFaceId(), FaceNormal::Zero());
+        this->vFaceNormals.resize(this->nextFaceId());
     }
     else {
         this->vFaceNormals.clear();
