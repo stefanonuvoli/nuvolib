@@ -63,7 +63,7 @@ std::vector<typename Mesh::FaceId> meshTriangulateConvexFace(
     const typename Mesh::FaceContainer faceVertices = mesh.faceVertexIds(fId);
     const Face face = mesh.face(fId);
 
-    Index vertexNumber = faceVertices.size();
+    Size vertexNumber = faceVertices.size();
 
     std::vector<FaceId> resultingFaces;
 
