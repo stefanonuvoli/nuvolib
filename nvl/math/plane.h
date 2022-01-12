@@ -16,6 +16,9 @@
 namespace nvl {
 
 template<class T> using Plane = Hyperplane<T,3>;
+
+/* Common typedefs */
+
 typedef Plane<float> Planef;
 typedef Plane<double> Planed;
 typedef Plane<int> Planei;

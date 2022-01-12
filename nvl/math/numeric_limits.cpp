@@ -8,12 +8,20 @@
 
 namespace nvl {
 
+/**
+ * @brief Max value of a type
+ * @return Maximum value
+ */
 template<class T>
 T maxLimitValue()
 {
     return std::numeric_limits<T>::max();
 }
 
+/**
+ * @brief Min value of a type
+ * @return Minimum value
+ */
 template<class T>
 T minLimitValue()
 {

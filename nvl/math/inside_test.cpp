@@ -12,6 +12,15 @@
 
 namespace nvl {
 
+/**
+ * @brief Test if point is inside a triangle
+ * @param p1 Triangle point 1
+ * @param p2 Triangle point 2
+ * @param p3 Triangle point 3
+ * @param point Point
+ * @param strictly Check if the point is strictly inside
+ * @return True if the point lies inside, false otherwise
+ */
 template<EigenId D, class T>
 bool pointInsideTriangle(
         const Point<T,D>& p1,

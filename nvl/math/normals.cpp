@@ -12,6 +12,14 @@
 
 namespace nvl {
 
+/**
+ * @brief Normal of a triangle
+ * @param p1 Point 1
+ * @param p2 Point 2
+ * @param p3 Point 3
+ * @param normalize If true, it normalizes the resulting normal
+ * @return Normal
+ */
 template<class T>
 Vector3<T> faceNormalPlanar(const Point3<T>& p1, const Point3<T>& p2, const Point3<T>& p3, const bool normalize)
 {
@@ -23,12 +31,23 @@ Vector3<T> faceNormalPlanar(const Point3<T>& p1, const Point3<T>& p2, const Poin
     return vec;
 }
 
+/**
+ * @brief Normal of a polygon using the first triangle
+ * @param points Points of the polygon
+ * @param normalize If true, it normalizes the resulting normal
+ * @return Normal
+ */
 template<class T>
 Vector3<T> faceNormalPlanar(const std::vector<Point3<T>>& points, const bool normalize)
 {
     return faceNormalPlanar(points[0], points[1], points[2], normalize);
 }
 
+/**
+ * @brief Normal of a polygon using covariance fitting
+ * @param points Points of the polygon
+ * @return Normal
+ */
 template<class T>
 Vector3<T> faceNormalCovarianceFitting(const std::vector<Point3<T>>& points)
 {
@@ -46,6 +65,11 @@ Vector3<T> faceNormalCovarianceFitting(const std::vector<Point3<T>>& points)
 
 }
 
+/**
+ * @brief Normal of a polygon using SVD decomposition
+ * @param points Points of the polygon
+ * @return Normal
+ */
 template<class T>
 Vector3<T> faceNormalSVDFitting(const std::vector<Point3<T>>& points)
 {

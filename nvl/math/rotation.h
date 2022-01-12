@@ -21,19 +21,15 @@ namespace nvl {
 template<class T, Size D> using Rotation = Eigen::RotationBase<T,D>;
 
 
-/* Common 2D typedefs */
+/* Common typedefs */
 
 template<class T> using Rotation2 = Eigen::Rotation2D<T>;
+template<class T> using Rotation3 = Eigen::AngleAxis<T>;
 
 typedef Rotation2<float> Rotation2f;
 typedef Rotation2<double> Rotation2d;
 typedef Rotation2<int> Rotation2i;
 typedef Rotation2<long long int> Rotation2l;
-
-
-/* Common 3D typedefs */
-
-template<class T> using Rotation3 = Eigen::AngleAxis<T>;
 
 typedef Rotation3<float> Rotation3f;
 typedef Rotation3<double> Rotation3d;

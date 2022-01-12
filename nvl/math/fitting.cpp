@@ -15,6 +15,11 @@
 
 namespace nvl {
 
+/**
+ * @brief Get the best fitting plane using covariance matrix
+ * @param points Points
+ * @return Best fitting plane
+ */
 template<class T>
 Plane<T> bestFittingPlaneCovariance(const std::vector<Point3<T>>& points)
 {
@@ -38,6 +43,11 @@ Plane<T> bestFittingPlaneCovariance(const std::vector<Point3<T>>& points)
     return plane;
 }
 
+/**
+ * @brief Get the best fitting plane using SVD decomposition
+ * @param points Points
+ * @return Best fitting plane
+ */
 template<class T>
 Plane<T> bestFittingPlaneSVD(const std::vector<Point3<T>>& points)
 {

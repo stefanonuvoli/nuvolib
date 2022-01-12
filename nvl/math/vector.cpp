@@ -8,12 +8,19 @@
 
 namespace nvl {
 
+/**
+ * @brief Default constructor
+ */
 template<class T, EigenId D>
-Vector<T,D>::Vector()
+Vector<T,D>::Vector() : Matrix<T, D, 1>()
 {
 
 }
 
+/**
+ * @brief Variadic argument constructor
+ * @param args Arguments
+ */
 template<class T, EigenId D>
 template<typename... Ts>
 Vector<T,D>::Vector(Ts... args)
@@ -22,14 +29,24 @@ Vector<T,D>::Vector(Ts... args)
 
 }
 
+/**
+ * @brief Operator overload =
+ * @param other Other vector
+ * @return Reference to the current vector
+ */
 template<class T, EigenId D>
 template<typename OtherDerived>
-Vector<T,D>& Vector<T,D>::operator=(const Matrix<T,D,1>& other)
+Vector<T,D>& Vector<T,D>::operator=(const Matrix<T,D,1>& vec)
 {
-    Matrix<T,D,1>::operator=(other);
+    Matrix<T,D,1>::operator=(vec);
     return *this;
 }
 
+/**
+ * @brief Operator overload <
+ * @param vec Other vector
+ * @return True if it is less than the other vector
+ */
 template<class T, EigenId D>
 bool Vector<T,D>::operator<(const Vector<T,D>& vec) const
 {
@@ -46,6 +63,11 @@ bool Vector<T,D>::operator<(const Vector<T,D>& vec) const
     return false;
 }
 
+/**
+ * @brief Operator overload <=
+ * @param vec Other vector
+ * @return True if it is less or equal than the other vector
+ */
 template<class T, EigenId D>
 bool Vector<T,D>::operator<=(const Vector<T,D>& vec) const
 {
@@ -55,6 +77,11 @@ bool Vector<T,D>::operator<=(const Vector<T,D>& vec) const
     return *this == vec;
 }
 
+/**
+ * @brief Operator overload >
+ * @param vec Other vector
+ * @return True if it is greater than the other vector
+ */
 template<class T, EigenId D>
 bool Vector<T,D>::operator>(const Vector<T,D>& vec) const
 {
@@ -71,6 +98,11 @@ bool Vector<T,D>::operator>(const Vector<T,D>& vec) const
     return false;
 }
 
+/**
+ * @brief Operator overload >=
+ * @param vec Other vector
+ * @return True if it is greater or equal than the other vector
+ */
 template<class T, EigenId D>
 bool Vector<T,D>::operator>=(const Vector<T,D>& vec) const
 {

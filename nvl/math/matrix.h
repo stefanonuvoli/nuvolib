@@ -19,12 +19,11 @@ template<class T> using MatrixBase = Eigen::MatrixBase<T>;
 
 template<class T, EigenId D1, EigenId D2> using Matrix = Eigen::Matrix<T,D1,D2>;
 
+/* Common typedefs */
+
 template<class T> using MatrixXX = Matrix<T, Eigen::Dynamic, Eigen::Dynamic>;
 template<class T, EigenId D1> using MatrixFX = Matrix<T, D1, Eigen::Dynamic>;
 template<class T, EigenId D2> using MatrixXF = Matrix<T, Eigen::Dynamic, D2>;
-
-
-/* Common typedefs */
 
 template<class T>
 using Matrix22 = Matrix<T,2,2>;

@@ -8,6 +8,11 @@
 
 namespace nvl {
 
+/**
+ * @brief Triangulation of a convex polygon
+ * @param points Points
+ * @return Triangulation
+ */
 template<EigenId D, class T>
 std::vector<std::vector<Index>> triangulateConvexPolygon(const std::vector<Point<T,D>>& points)
 {

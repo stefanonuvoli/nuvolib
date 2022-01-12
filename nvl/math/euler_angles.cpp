@@ -10,8 +10,13 @@
 
 namespace nvl {
 
+/**
+ * @brief Euler angles (XYZ notation) from a quaternion
+ * @param q Quaternion
+ * @return Euler angles
+ */
 template<class T, class A>
-Vector3<A> eulerAnglesFromQuaternionXYZ(const Quaternion<T>& q) {
+Vector3<A> eulerAnglesXYZFromQuaternion(const Quaternion<T>& q) {
     Vector3<A> angles;
 
     //Roll (x-axis rotation)
@@ -34,6 +39,11 @@ Vector3<A> eulerAnglesFromQuaternionXYZ(const Quaternion<T>& q) {
     return angles;
 }
 
+/**
+ * @brief Quaternion from euler angles (XYZ notation)
+ * @param eulerAngles Euler angles
+ * @return Quaternion
+ */
 template<class A, class T>
 Quaternion<T> eulerAnglesToQuaternionXYZ(const Vector3<A>& eulerAngles)
 {
@@ -58,12 +68,22 @@ Quaternion<T> eulerAnglesToQuaternionXYZ(const Vector3<A>& eulerAngles)
     return q;
 }
 
+/**
+ * @brief Euler angles (XYZ notation) from a rotation
+ * @param r Rotation
+ * @return Euler angles
+ */
 template<class T, class A>
-Vector3<A> eulerAnglesFromRotationXYZ(const Rotation3<T>& r)
+Vector3<A> eulerAnglesXYZFromRotation(const Rotation3<T>& r)
 {
-    return eulerAnglesFromQuaternionXYZ(Quaternion<T>(r));
+    return eulerAnglesXYZFromQuaternion(Quaternion<T>(r));
 }
 
+/**
+ * @brief Rotation from euler angles (XYZ notation)
+ * @param eulerAngles Euler angles
+ * @return Rotation
+ */
 template<class A, class T>
 Rotation3<T> eulerAnglesToRotationXYZ(const Vector3<A>& eulerAngles)
 {

@@ -4,12 +4,18 @@
  *
  * @author Stefano Nuvoli (stefano.nuvoli@gmail.com)
  */
-#include "inverse_map.h"
+#include "inverse_function.h"
 
 namespace nvl {
 
+/**
+ * @brief Inverse function of a vector function
+ * @param map Function
+ * @param size Size of the inverse function (default max value in the co-image)
+ * @return Inverse function
+ */
 template<class T>
-std::vector<T> inverseMap(const std::vector<T>& map, const long long int size)
+std::vector<T> inverseFunction(const std::vector<T>& map, const long long int size)
 {
     long long int maxVId = -1;
 
@@ -36,8 +42,13 @@ std::vector<T> inverseMap(const std::vector<T>& map, const long long int size)
     return inverse;
 }
 
+/**
+ * @brief Inverse function of a map
+ * @param map Function
+ * @return Inverse function
+ */
 template<class T>
-std::map<T,T> inverseMap(const std::map<T,T>& map)
+std::map<T,T> inverseFunction(const std::map<T,T>& map)
 {
     std::map<T,T> inverse;
     for (Index i = 0; i < map.size(); ++i) {
@@ -50,8 +61,13 @@ std::map<T,T> inverseMap(const std::map<T,T>& map)
     return inverse;
 }
 
+/**
+ * @brief Inverse function of a map
+ * @param map Function
+ * @return Inverse function
+ */
 template<class T>
-std::unordered_map<T,T> inverseMap(const std::unordered_map<T,T>& map)
+std::unordered_map<T,T> inverseFunction(const std::unordered_map<T,T>& map)
 {
     std::map<T,T> inverse;
     for (Index i = 0; i < map.size(); ++i) {

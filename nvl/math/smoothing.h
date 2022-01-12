@@ -27,18 +27,6 @@ void laplacianSmoothing(
         const unsigned int iterations,
         const std::vector<double>& alphas);
 
-template<class T>
-void laplacianSmoothing(
-        std::vector<T>& line,
-        const unsigned int iterations,
-        const double alpha);
-
-template<class T>
-void laplacianSmoothing(
-        std::vector<T>& line,
-        const unsigned int iterations,
-        const std::vector<double>& alphas);
-
 }
 
 #include "smoothing.cpp"

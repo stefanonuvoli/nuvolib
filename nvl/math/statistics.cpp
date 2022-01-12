@@ -12,6 +12,11 @@
 
 namespace nvl {
 
+/**
+ * @brief Mean (average) of a collection of values
+ * @param values Values
+ * @return Mean
+ */
 template<class T, class R>
 R mean(const std::vector<T>& values)
 {
@@ -26,12 +31,23 @@ R mean(const std::vector<T>& values)
     return avg;
 }
 
+/**
+ * @brief Variance of a collection of values
+ * @param values Values
+ * @return Variance
+ */
 template<class T, class R>
 R variance(const std::vector<T>& values)
 {
     return variance(values, mean(values));
 }
 
+/**
+ * @brief Variance of a collection of values
+ * @param values Values
+ * @param mean Mean of the values
+ * @return Variance
+ */
 template<class T, class R>
 R variance(const std::vector<T>& values, const T& mean)
 {
@@ -48,23 +64,49 @@ R variance(const std::vector<T>& values, const T& mean)
     return var;
 }
 
+/**
+ * @brief Standard deviation of a collection of values
+ * @param values Values
+ * @return Standard deviation
+ */
 template<class T, class R>
 R stddev(const std::vector<T>& values)
 {
     return stddev(values, mean(values));
 }
+
+/**
+ * @brief Standard deviation of a collection of values
+ * @param values Values
+ * @param mean Mean of the values
+ * @return Standard deviation
+ */
 template<class T, class R>
 R stddev(const std::vector<T>& values, const T& mean)
 {
     return sqrt(variance(values, mean));
 }
 
+/**
+ * @brief Calculate frequency bins of a collection of values
+ * @param values Values
+ * @param nBins Number of bins
+ * @return Frequency bins
+ */
 template<class T, class R>
 std::vector<R> frequencyBins(const std::vector<T>& values, const unsigned int nBins)
 {
     return frequencyBins(values, min(values), max(values), nBins);
 }
 
+/**
+ * @brief Calculate frequency bins of a collection of values
+ * @param values Values
+ * @param minValue Min value
+ * @param maxValue Max value
+ * @param nBins Number of bins
+ * @return Frequency bins
+ */
 template<class T, class R>
 std::vector<R> frequencyBins(const std::vector<T>& values, const T& minValue, const T& maxValue, const unsigned int nBins)
 {
@@ -84,13 +126,26 @@ std::vector<R> frequencyBins(const std::vector<T>& values, const T& minValue, co
     return bins;
 }
 
-
+/**
+ * @brief Get a score (from 0 to 1) of how much a collection of values is uniformly distributed
+ * @param values Values
+ * @param nBins Number of bins
+ * @return score
+ */
 template<class T, class R>
 std::vector<R> sampleUniformlyDistributedScore(const std::vector<T>& values, const unsigned int nBins)
 {
     return frequencyBins(values, min(values), max(values), nBins);
 }
 
+/**
+ * @brief Get a score (from 0 to 1) of how much a collection of values is uniformly distributed
+ * @param values Values
+ * @param minValue Min value
+ * @param maxValue Max value
+ * @param nBins Number of bins
+ * @return score
+ */
 template<class T, class R>
 R sampleUniformlyDistributedScore(const std::vector<T>& values, const T& minValue, const T& maxValue, const unsigned int nBins)
 {

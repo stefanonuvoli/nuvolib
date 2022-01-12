@@ -13,6 +13,11 @@
 
 namespace nvl {
 
+/**
+ * @brief Class representing a segment, composed by two points in a space.
+ * The segment is always composed of two endpoints p1, p2 such that p1 < p2.
+ * @tparam Type of the point
+ */
 template<class P>
 class Segment {
 
@@ -37,7 +42,7 @@ public:
 
 private:
 
-    void swapIfNecessary();
+    void sortEndpoints();
 
     P vP1;
     P vP2;
@@ -46,18 +51,19 @@ private:
 /* Common typedefs */
 
 template<class T> using Segment2 = Segment<Point2<T>>;
+template<class T> using Segment3 = Segment<Point3<T>>;
+template<class T> using Segment4 = Segment<Point4<T>>;
+
 typedef Segment2<float> Segment2f;
 typedef Segment2<double> Segment2d;
 typedef Segment2<int> Segment2i;
 typedef Segment2<long long int> Segment2l;
 
-template<class T> using Segment3 = Segment<Point3<T>>;
 typedef Segment3<float> Segment3f;
 typedef Segment3<double> Segment3d;
 typedef Segment3<int> Segment3i;
 typedef Segment3<long long int> SegmentSegment3l;
 
-template<class T> using Segment4 = Segment<Point4<T>>;
 typedef Segment4<float> Segment4f;
 typedef Segment4<double> Segment4d;
 typedef Segment4<int> Segment4i;

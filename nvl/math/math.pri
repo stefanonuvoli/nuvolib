@@ -9,6 +9,7 @@ HEADERS += \
     $$PWD/barycentric_interpolation.h \
     $$PWD/euler_angles.h \
     $$PWD/inside_test.h \
+    $$PWD/inverse_function.h \
     $$PWD/statistics.h \
     $$PWD/closest_point.h \
     $$PWD/common_functions.h \
@@ -20,7 +21,6 @@ HEADERS += \
     $$PWD/fitting.h \
     $$PWD/hyperplane.h \
     $$PWD/interpolation.h \
-    $$PWD/inverse_map.h \
     $$PWD/line.h \
     $$PWD/matrix.h \
     $$PWD/normalization.h \
@@ -48,6 +48,7 @@ SOURCES += \
     $$PWD/barycentric_interpolation.cpp \
     $$PWD/euler_angles.cpp \
     $$PWD/inside_test.cpp \
+    $$PWD/inverse_function.cpp \
     $$PWD/statistics.cpp \
     $$PWD/closest_point.cpp \
     $$PWD/common_functions.cpp \
@@ -57,7 +58,6 @@ SOURCES += \
     $$PWD/dual_quaternion.cpp \
     $$PWD/fitting.cpp \
     $$PWD/interpolation.cpp \
-    $$PWD/inverse_map.cpp \
     $$PWD/normalization.cpp \
     $$PWD/normals.cpp \
     $$PWD/numeric_limits.cpp \

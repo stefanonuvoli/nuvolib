@@ -21,19 +21,15 @@ namespace nvl {
 template<class T, Size D> using Translation = Eigen::Translation<T,D>;
 
 
-/* Common 2D typedefs */
+/* Common typedefs */
 
 template<class T> using Translation2 = Translation<T,2>;
+template<class T> using Translation3 = Translation<T,3>;
 
 typedef Translation2<float> Translation2f;
 typedef Translation2<double> Translation2d;
 typedef Translation2<int> Translation2i;
 typedef Translation2<long long int> Translation2l;
-
-
-/* Common 3D typedefs */
-
-template<class T> using Translation3 = Translation<T,3>;
 
 typedef Translation3<float> Translation3f;
 typedef Translation3<double> Translation3d;

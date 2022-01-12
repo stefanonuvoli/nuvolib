@@ -24,8 +24,7 @@ typedef Quaternion<double> Quaterniond;
 typedef Quaternion<int> Quaternioni;
 typedef Quaternion<long long int> Quaternionl;
 
-
-/* Missing operations of quaternions */
+/* Operations of quaternions */
 
 template<class T>
 Quaternion<T> operator+(const Quaternion<T>& q1, const Quaternion<T>& q2);

@@ -22,6 +22,9 @@
 namespace nvl {
 
 template<class T> using Line = Hyperplane<T,2>;
+
+/* Common typedefs */
+
 typedef Line<float> Linef;
 typedef Line<double> Lined;
 typedef Line<int> Linei;

@@ -3,7 +3,7 @@
 #include <nvl/models/algorithms/mesh_transfer.h>
 #include <nvl/models/algorithms/mesh_subdivision.h>
 
-#include <nvl/math/inverse_map.h>
+#include <nvl/math/inverse_function.h>
 
 #include <unordered_set>
 
@@ -231,8 +231,8 @@ Mesh meshReconstructTriangulatedPolygons(
     }
 
     //Get inverse of the derived birth vertex
-    std::vector<VertexId> derivedVertexMap = inverseMap(derivedBirthVertex, originalMesh.nextVertexId());
-    std::vector<VertexId> transferVertexMap = inverseMap(transferBirthVertices, derivedMesh.nextVertexId());
+    std::vector<VertexId> derivedVertexMap = inverseFunction(derivedBirthVertex, originalMesh.nextVertexId());
+    std::vector<VertexId> transferVertexMap = inverseFunction(transferBirthVertices, derivedMesh.nextVertexId());
 
     //Add derived faces
     for (const FaceId& fId : derivedFacesToCopy) {

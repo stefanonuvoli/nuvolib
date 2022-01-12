@@ -16,12 +16,12 @@
 namespace nvl {
 
 template<class T, class A = T>
-Vector3<A> eulerAnglesFromQuaternionXYZ(const Quaternion<T>& q);
+Vector3<A> eulerAnglesXYZFromQuaternion(const Quaternion<T>& q);
 template<class A, class T = A>
 Quaternion<T> eulerAnglesToQuaternionXYZ(const Vector3<A>& eulerAngles);
 
 template<class T, class A = T>
-Vector3<A> eulerAnglesFromRotationXYZ(const Rotation3<T>& r);
+Vector3<A> eulerAnglesXYZFromRotation(const Rotation3<T>& r);
 template<class A, class T = A>
 Rotation3<T> eulerAnglesToRotationXYZ(const Vector3<A>& eulerAngles);
 

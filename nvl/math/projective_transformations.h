@@ -16,15 +16,11 @@
 
 namespace nvl {
 
-/* Basic typedefs */
-
 template<class T, Index D> using ProjectiveTransformation = Eigen::Transform<T,D,Eigen::Projective>;
 
-/* 3D Typedefs */
+/* Common typedefs */
 
 template<class T> using Projective3 = ProjectiveTransformation<T,3>;
-
-/* Common 3D typedefs */
 
 typedef Projective3<float> Projective3f;
 typedef Projective3<double> Projective3d;

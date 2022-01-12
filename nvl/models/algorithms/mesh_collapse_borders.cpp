@@ -2,7 +2,7 @@
 
 #ifdef NVL_VCGLIB_LOADED
 
-#include <nvl/math/inverse_map.h>
+#include <nvl/math/inverse_function.h>
 
 #include <nvl/models/structures/vcg_triangle_mesh.h>
 #include <nvl/models/algorithms/mesh_vcg_convert.h>
@@ -29,7 +29,7 @@ std::vector<typename Mesh::VertexId> collapseBorders(
     std::vector<FaceId> meshBirthFace;
     convertMeshToVCGMesh(mesh, vcgMesh, meshBirthVertex, meshBirthFace);
 
-    std::vector<Index> meshVertexMap = inverseMap(meshBirthVertex, mesh.nextVertexId());
+    std::vector<Index> meshVertexMap = inverseFunction(meshBirthVertex, mesh.nextVertexId());
 
     std::vector<typename Mesh::VertexId> vcgVerticesToKeep(verticesToKeep.size());
 
@@ -49,7 +49,7 @@ std::vector<typename Mesh::VertexId> collapseBorders(
     std::vector<Index> vcgBirthFace;
     convertVCGMeshToMesh(vcgMesh, mesh, vcgBirthVertex, vcgBirthFace);
 
-    std::vector<Index> vcgVertexMap = inverseMap(vcgBirthVertex, vcgMesh.vert.size());
+    std::vector<Index> vcgVertexMap = inverseFunction(vcgBirthVertex, vcgMesh.vert.size());
 
     std::vector<VertexId> nonCollapsed(vcgNonCollapsed.size());
     for (Index i = 0; i < vcgNonCollapsed.size(); ++i) {

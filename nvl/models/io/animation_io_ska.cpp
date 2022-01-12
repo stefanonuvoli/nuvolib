@@ -158,7 +158,7 @@ bool animationSaveDataToSKA(
 
             constexpr double eps = 1e-5;
 
-            Vector3<Scalar> ang = eulerAnglesFromRotationXYZ(rot);
+            Vector3<Scalar> ang = eulerAnglesXYZFromRotation(rot);
             for (EigenId i = 0; i < ang.size(); ++i) {
                 ang[i] = ang[i] / M_PI * 180.0;
 

@@ -10,6 +10,13 @@
 
 namespace nvl {
 
+/**
+ * @brief Laplacian smoothing of a collection of values
+ * @param vector Values
+ * @param adjacencies Adjacencies
+ * @param iterations Iterations
+ * @param alpha Alpha
+ */
 template<class T>
 void laplacianSmoothing(
         std::vector<T>& vector,
@@ -37,6 +44,13 @@ void laplacianSmoothing(
     }
 }
 
+/**
+ * @brief Laplacian smoothing of a collection of values
+ * @param vector Values
+ * @param adjacencies Adjancencies
+ * @param iterations Iterations
+ * @param alphas Alpha for each value
+ */
 template<class T>
 void laplacianSmoothing(
         std::vector<T>& vector,

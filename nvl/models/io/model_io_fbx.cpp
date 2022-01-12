@@ -1368,7 +1368,7 @@ inline FbxVector4 FBXRotationFromRotation(const Rotation3d& rot)
 {
     constexpr double radToDegrees = 180.0 / M_PI;
 
-    Vector3d angleVec = eulerAnglesFromRotationXYZ(rot);
+    Vector3d angleVec = eulerAnglesXYZFromRotation(rot);
     FbxVector4 fbxR(angleVec[0] * radToDegrees, angleVec[1] * radToDegrees, angleVec[2] * radToDegrees, 0.0);
 
     return fbxR;
