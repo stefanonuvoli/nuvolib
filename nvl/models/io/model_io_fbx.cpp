@@ -261,12 +261,6 @@ bool modelSaveDataToFBX(
 {
     typedef internal::FBXData<M,S,W,A> FBXData;
 
-    typedef typename FBXData::AnimationData AnimationData;
-
-    typedef typename FBXData::SkeletonTransformation SkeletonTransformation;
-
-    typedef typename FBXData::Animation Animation;
-
     error = IO_MODEL_SUCCESS;
 
     //Initialize the SDK manager. This object handles memory management.

@@ -418,7 +418,7 @@ DualQuaternion<T> DualQuaternion<T>::Identity()
 {
     return DualQuaternion<T>(
         Quaternion<T>::Identity(),
-        Quaternion<T>::Identity());
+        Translation3<T>::Identity());
 }
 
 /**
