@@ -44,19 +44,18 @@ void skeletonSetRoot(Skeleton& skeleton, const typename Skeleton::JointId& jId)
     JointId lastJoint = NULL_ID;
     JointId currentJoint = jId;
 
-    while (!skeletonCopy.isRoot(currentJoint)) {
-        JointId parentId = skeletonCopy.parentId(currentJoint);
-
+    while (currentJoint != NULL_ID) {
         skeleton.setParent(currentJoint, lastJoint);
 
-        std::vector<JointId> children = skeletonCopy.children(currentJoint);
-        children.push_back(parentId);
+        if (lastJoint != NULL_ID) {
+            std::vector<JointId> children = skeletonCopy.children(lastJoint);
+            children.push_back(currentJoint);
+            skeleton.setChildren(lastJoint, children);
+        }
 
         lastJoint = currentJoint;
-        currentJoint = parentId;
+        currentJoint = skeletonCopy.parentId(currentJoint);
     }
-
-    skeleton.setParent(currentJoint, lastJoint);
 
     skeleton.updateRoots();
 }
