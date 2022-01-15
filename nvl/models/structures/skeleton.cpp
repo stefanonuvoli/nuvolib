@@ -124,6 +124,18 @@ typename Skeleton<T>::JointId Skeleton<T>::addJoint(const Joint& joint, const Jo
 }
 
 template<class T>
+void Skeleton<T>::updateRoots()
+{
+    vRoots.clear();
+
+    for (JointId jId = 0; jId < this->jointNumber(); ++jId) {
+        if (vParents[jId] == NULL_ID) {
+            vRoots.push_back(jId);
+        }
+    }
+}
+
+template<class T>
 const std::vector<typename Skeleton<T>::Joint>& Skeleton<T>::joints() const
 {
     return vJoints;

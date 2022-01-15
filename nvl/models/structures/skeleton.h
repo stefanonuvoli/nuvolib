@@ -44,6 +44,8 @@ public:
     JointId addChild(const Joint& joint, const JointId& parentId);
     JointId addJoint(const Joint& joint, const JointId& parentId, const std::vector<JointId>& children);
 
+    void updateRoots();
+
     const std::vector<Joint>& joints() const;
     const std::vector<JointId>& roots() const;
     const std::vector<JointId>& children(const JointId& id) const;

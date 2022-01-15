@@ -57,6 +57,8 @@ void skeletonSetRoot(Skeleton& skeleton, const typename Skeleton::JointId& jId)
     }
 
     skeleton.setParent(currentJoint, lastJoint);
+
+    skeleton.updateRoots();
 }
 
 }
