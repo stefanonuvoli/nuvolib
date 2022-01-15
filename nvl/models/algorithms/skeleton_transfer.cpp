@@ -54,12 +54,12 @@ void skeletonTransferJoints(
                     newJId = skeleton.addRoot(joint);
                 }
                 else {
-                    newJId = skeleton.addChild(targetParentId, joint);
+                    newJId = skeleton.addChild(joint, targetParentId);
                 }
             }
             else if (jointMap[parent] != NULL_ID) {
                 const Joint& joint = skeleton.joint(jId);
-                newJId = targetSkeleton.addChild(jointMap[parent], joint);
+                newJId = targetSkeleton.addChild(joint, jointMap[parent]);
             }
 
             if (newJId != NULL_ID) {

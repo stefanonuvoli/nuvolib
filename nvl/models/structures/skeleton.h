@@ -35,12 +35,14 @@ public:
     Size childrenNumber(const Joint& joint) const;
 
     JointId addRoot(const T& transformation, const std::string& name = "");
-    JointId addChild(const Joint& parent, const T& transformation, const std::string& name = "");
-    JointId addChild(const JointId& parentId, const T& transformation, const std::string& name = "");
+    JointId addChild(const T& transformation, const Joint& parent, const std::string& name = "");
+    JointId addChild(const T& transformation, const JointId& parentId, const std::string& name = "");
+    JointId addJoint(const T& transformation, const JointId& parentId, const std::vector<JointId>& children, const std::string& name = "");
 
     JointId addRoot(const Joint& joint);
-    JointId addChild(const Joint& parent, const Joint& joint);
-    JointId addChild(const JointId& parentId, const Joint& joint);
+    JointId addChild(const Joint& joint, const Joint& parent);
+    JointId addChild(const Joint& joint, const JointId& parentId);
+    JointId addJoint(const Joint& joint, const JointId& parentId, const std::vector<JointId>& children);
 
     const std::vector<Joint>& joints() const;
     const std::vector<JointId>& roots() const;
@@ -60,6 +62,14 @@ public:
     Joint& parent(const Joint& joint);
     const JointId& parentId(const JointId& id) const;
     const JointId& parentId(const Joint& joint) const;
+
+    void setParent(const JointId& jId, const Joint& parent);
+    void setParent(const JointId& jId, const JointId& parentId);
+    void setParent(const Joint& jId, const Joint& parent);
+    void setParent(const Joint& jId, const JointId& parentId);
+
+    void setChildren(const JointId& jId, const std::vector<JointId>& children);
+    void setChildren(const Joint& jId, const std::vector<JointId>& children);
 
     bool isRoot(const Index& id) const;
     bool isRoot(const Joint& joint) const;

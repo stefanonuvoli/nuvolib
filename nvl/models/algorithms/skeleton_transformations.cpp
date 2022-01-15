@@ -34,4 +34,29 @@ void skeletonApplyTransformation(Skeleton& skeleton, const std::vector<T>& trans
     }
 }
 
+template<class Skeleton>
+void skeletonSetRoot(Skeleton& skeleton, const typename Skeleton::JointId& jId)
+{
+    typedef typename Skeleton::JointId JointId;
+
+    Skeleton skeletonCopy = skeleton;
+
+    JointId lastJoint = NULL_ID;
+    JointId currentJoint = jId;
+
+    while (!skeletonCopy.isRoot(currentJoint)) {
+        JointId parentId = skeletonCopy.parentId(currentJoint);
+
+        skeleton.setParent(currentJoint, lastJoint);
+
+        std::vector<JointId> children = skeletonCopy.children(currentJoint);
+        children.push_back(parentId);
+
+        lastJoint = currentJoint;
+        currentJoint = parentId;
+    }
+
+    skeleton.setParent(currentJoint, lastJoint);
+}
+
 }

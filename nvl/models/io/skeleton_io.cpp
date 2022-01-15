@@ -79,18 +79,23 @@ void skeletonLoadData(
     const std::vector<std::string>& names = skeletonData.names;
     const std::vector<bool>& hidden = skeletonData.hidden;
 
-    std::vector<JointId> idMap(joints.size(), NULL_ID);
-
+    skeleton.clear();
     for (Index i = 0; i < joints.size(); ++i) {
-        if (parents[i] == -1) {
-            idMap[i] = skeleton.addRoot(joints[i], names[i]);
-        }
-        else {
-            assert(idMap[parents[i]] != NULL_ID);
-            idMap[i] = skeleton.addChild(idMap[parents[i]], joints[i], names[i]);
+        JointId parentId = NULL_ID;
+        if (parents[i] >= 0)
+            parentId = static_cast<JointId>(parents[i]);
+
+        std::vector<JointId> children;
+        for (Index j = 0; j < joints.size(); ++j) {
+            if (parents[j] >= 0 && parents[j] == static_cast<int>(i)) {
+                children.push_back(static_cast<JointId>(j));
+            }
         }
 
-        skeleton.setJointHidden(idMap[i], hidden[i]);
+        JointId jId = skeleton.addJoint(joints[i], parentId, children, names[i]);
+        assert(jId == static_cast<JointId>(i));
+
+        skeleton.setJointHidden(jId, hidden[i]);
     }
 }
 
