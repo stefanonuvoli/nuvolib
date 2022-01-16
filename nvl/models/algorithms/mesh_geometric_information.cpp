@@ -93,4 +93,35 @@ typename Mesh::Point meshFaceEdgeMidpoint(const Mesh& mesh, const typename Mesh:
     return meshFaceEdgeMidpoint(mesh, face.id(), fePos);
 }
 
+template<class Mesh>
+typename Mesh::Scalar meshFaceArea(const Mesh& mesh, const typename Mesh::FaceId& fId)
+{
+    typedef typename Mesh::Point Point;
+    typedef typename Mesh::Scalar Scalar;
+    typedef typename Mesh::Face Face;
+
+    Point barycenter = meshFaceBarycenter(mesh, fId);
+
+    Scalar area = 0;
+
+    const Face& face = mesh.face(fId);
+    for (Index j = 0; j < face.vertexNumber(); ++j) {
+        const Point& p1 = mesh.vertexPoint(face.vertexId(j));
+        const Point& p2 = mesh.vertexPoint(face.nextVertexId(j));
+
+        Point v1 = p2 - p1;
+        Point v2 = barycenter - p1;
+
+        area += 0.5 * (v1.cross(v2)).norm();
+    }
+
+    return area;
+}
+
+template<class Mesh>
+typename Mesh::Scalar meshFaceArea(const Mesh& mesh, const typename Mesh::Face& face)
+{
+    return meshFaceBarycenter(mesh, face.id());
+}
+
 }

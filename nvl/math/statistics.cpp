@@ -161,14 +161,9 @@ R sampleUniformlyDistributedScore(const std::vector<T>& values, const T& minValu
 
     R cs = 0;
     for (Index i = 0; i < binsP.size(); ++i) {
-        R diff = binsP[i] - expectedP;
-        cs += (diff * diff) / expectedP;
+        R diff = nvl::abs(binsP[i] - expectedP);
+        cs += diff;
     }
-    cs = sqrt(cs);
-
-    cs /= binsP.size();
-
-    assert(cs >= 0 - EPSILON && cs <= 1 + EPSILON);
 
     cs = max(min(cs, 1.0), 0.0);
 

@@ -23,6 +23,11 @@ typename Mesh::Point meshFaceEdgeMidpoint(const Mesh& mesh, const typename Mesh:
 template<class Mesh>
 typename Mesh::Point meshFaceEdgeMidpoint(const Mesh& mesh, const typename Mesh::Face& face, const Index& fePos);
 
+template<class Mesh>
+typename Mesh::Scalar meshFaceArea(const Mesh& mesh, const typename Mesh::FaceId& fId);
+template<class Mesh>
+typename Mesh::Scalar meshFaceArea(const Mesh& mesh, const typename Mesh::Face& face);
+
 
 
 }
