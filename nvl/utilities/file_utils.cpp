@@ -147,19 +147,39 @@ NVL_INLINE std::string filenameAbsolutePath(
  */
 NVL_INLINE bool fileCopy(const std::string& source, const std::string& dest)
 {
-    std::ifstream sourceStream(source, std::ios::binary);
-    if (!sourceStream.is_open()) {
-        return false;
-    }
-    std::ofstream destStream(dest, std::ios::binary);
-    if (!destStream.is_open()) {
+    std::ifstream ifs(source, std::ios::binary);
+    if (!ifs.is_open()) {
         return false;
     }
 
-    destStream << sourceStream.rdbuf();
+    //Get pointer to associated buffer object
+    std::filebuf* pbuf = ifs.rdbuf();
 
-    sourceStream.close();
-    destStream.close();
+    //Get file size using buffer's members
+    std::size_t size = pbuf->pubseekoff(0, ifs.end, ifs.in);
+    pbuf->pubseekpos(0, ifs.in);
+
+    //Allocate memory to contain file data
+    char* buffer = new char[size];
+
+    //Get file data
+    pbuf->sgetn(buffer,size);
+
+    //Close resource
+    ifs.close();
+
+    std::ofstream ofs(dest, std::ios::binary);
+    if (!ofs.is_open()) {
+        return false;
+    }
+
+    //Write to output
+    ofs.write(buffer, size);
+
+    //Close resource
+    ofs.close();
+
+    delete[] buffer;
 
     return true;
 }
