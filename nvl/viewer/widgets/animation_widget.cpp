@@ -1,6 +1,7 @@
 #include "animation_widget.h"
 
 #ifdef NVL_QT
+#ifdef NVL_OPENGL_LOADED
 
 #include "ui_animation_widget.h"
 
@@ -90,4 +91,4 @@ NVL_INLINE void AnimationWidget::on_fpsSpinBox_valueChanged(double arg1)
 }
 
 #endif
-
+#endif
