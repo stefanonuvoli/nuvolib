@@ -1,4 +1,8 @@
 ﻿#include "model_drawer_widget.h"
+
+#ifdef NVL_QT
+#ifdef NVL_OPENGL_LOADED
+
 #include "ui_model_drawer_widget.h"
 
 namespace nvl {
@@ -30,3 +34,6 @@ NVL_INLINE ModelDrawerWidget::~ModelDrawerWidget()
 }
 
 }
+
+#endif
+#endif

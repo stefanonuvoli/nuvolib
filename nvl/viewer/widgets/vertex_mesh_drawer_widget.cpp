@@ -1,4 +1,8 @@
 ﻿#include "vertex_mesh_drawer_widget.h"
+
+#ifdef NVL_QT
+#ifdef NVL_OPENGL_LOADED
+
 #include "ui_vertex_mesh_drawer_widget.h"
 
 #include <nvl/models/mesh_3d.h>
@@ -268,5 +272,7 @@ NVL_INLINE void VertexMeshDrawerWidget::on_vertexNormalsSlider_valueChanged(int 
     }
 }
 
-
 }
+
+#endif
+#endif

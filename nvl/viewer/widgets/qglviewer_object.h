@@ -3,6 +3,8 @@
 
 #include <nvl/nuvolib.h>
 
+#ifdef NVL_QT
+#ifdef NVL_OPENGL_LOADED
 #ifdef NVL_QGLVIEWER_LOADED
 
 #include <nvl/viewer/gl/opengl_headers.h>
@@ -86,6 +88,8 @@ private:
 
 }
 
+#endif
+#endif
 #endif
 
 #include "qglviewer_object.cpp"

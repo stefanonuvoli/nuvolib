@@ -3,6 +3,9 @@
 
 #include <nvl/nuvolib.h>
 
+#ifdef NVL_QT
+#ifdef NVL_OPENGL_LOADED
+
 #include <QFrame>
 
 #include <nvl/viewer/interfaces/drawable.h>
@@ -58,6 +61,9 @@ private:
 };
 
 }
+
+#endif
+#endif
 
 #include "drawable_widget.cpp"
 

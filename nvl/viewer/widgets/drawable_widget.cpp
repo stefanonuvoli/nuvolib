@@ -1,5 +1,10 @@
 #include "drawable_widget.h"
+
+#ifdef NVL_QT
+#ifdef NVL_OPENGL_LOADED
+
 #include "ui_drawable_widget.h"
+
 namespace nvl {
 
 NVL_INLINE DrawableWidget::DrawableWidget(
@@ -98,3 +103,5 @@ NVL_INLINE void DrawableWidget::on_resetFrameButton_clicked()
 
 }
 
+#endif
+#endif

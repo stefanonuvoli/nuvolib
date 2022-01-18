@@ -3,6 +3,9 @@
 
 #include <nvl/nuvolib.h>
 
+#ifdef NVL_QT
+#ifdef NVL_OPENGL_LOADED
+
 #include <nvl/viewer/widgets/qcanvas.h>
 #include <nvl/viewer/widgets/drawable_list_widget.h>
 #include <nvl/viewer/drawables/skeleton_drawer.h>
@@ -67,6 +70,9 @@ private:
 };
 
 }
+
+#endif
+#endif
 
 #include "skeleton_drawer_widget.cpp"
 

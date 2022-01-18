@@ -1,4 +1,8 @@
 ﻿#include "face_mesh_drawer_widget.h"
+
+#ifdef NVL_QT
+#ifdef NVL_OPENGL_LOADED
+
 #include "ui_face_mesh_drawer_widget.h"
 
 #include <nvl/models/structures/model.h>
@@ -458,5 +462,7 @@ NVL_INLINE void FaceMeshDrawerWidget::on_faceTextureModeComboBox_currentIndexCha
     }
 }
 
-
 }
+
+#endif
+#endif

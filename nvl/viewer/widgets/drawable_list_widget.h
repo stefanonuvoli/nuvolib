@@ -3,6 +3,9 @@
 
 #include <nvl/nuvolib.h>
 
+#ifdef NVL_QT
+#ifdef NVL_OPENGL_LOADED
+
 #include <QFrame>
 #include <QTreeWidgetItem>
 
@@ -73,6 +76,9 @@ private:
 };
 
 }
+
+#endif
+#endif
 
 #include "drawable_list_widget.cpp"
 

@@ -3,6 +3,7 @@
 
 #include <nvl/nuvolib.h>
 
+#ifdef NVL_QT
 #ifdef NVL_OPENGL_LOADED
 
 #include <nvl/viewer/widgets/canvas.h>
@@ -79,6 +80,7 @@ Q_SIGNALS:
 
 }
 
+#endif
 #endif
 
 #include "qcanvas.cpp"

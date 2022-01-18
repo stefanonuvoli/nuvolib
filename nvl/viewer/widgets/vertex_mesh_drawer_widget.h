@@ -3,6 +3,9 @@
 
 #include <nvl/nuvolib.h>
 
+#ifdef NVL_QT
+#ifdef NVL_OPENGL_LOADED
+
 #include <nvl/viewer/widgets/qcanvas.h>
 #include <nvl/viewer/widgets/drawable_list_widget.h>
 #include <nvl/viewer/drawables/vertex_mesh_drawer.h>
@@ -70,6 +73,9 @@ private:
 };
 
 }
+
+#endif
+#endif`
 
 #include "vertex_mesh_drawer_widget.cpp"
 

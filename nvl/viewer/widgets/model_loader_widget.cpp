@@ -1,4 +1,8 @@
 #include "model_loader_widget.h"
+
+#ifdef NVL_QT
+#ifdef NVL_OPENGL_LOADED
+
 #include "ui_model_loader_widget.h"
 
 #include <nvl/models/io/model_io.h>
@@ -294,3 +298,6 @@ NVL_INLINE void ModelLoaderWidget::updateView()
 }
 
 }
+
+#endif
+#endif

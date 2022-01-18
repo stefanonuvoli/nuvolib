@@ -3,6 +3,8 @@
 
 #include <nvl/nuvolib.h>
 
+#ifdef NVL_QT
+
 #include <nvl/utilities/color.h>
 
 #include <nvl/math/point.h>
@@ -153,6 +155,8 @@ protected:
 };
 
 }
+
+#endif
 
 #include "canvas.cpp"
 

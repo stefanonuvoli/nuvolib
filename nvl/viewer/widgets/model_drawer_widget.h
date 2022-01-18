@@ -3,6 +3,9 @@
 
 #include <nvl/nuvolib.h>
 
+#ifdef NVL_QT
+#ifdef NVL_OPENGL_LOADED
+
 #include <nvl/viewer/widgets/qcanvas.h>
 #include <nvl/viewer/widgets/drawable_list_widget.h>
 #include <nvl/viewer/widgets/face_mesh_drawer_widget.h>
@@ -44,6 +47,9 @@ private:
 };
 
 }
+
+#endif
+#endif
 
 #include "model_drawer_widget.cpp"
 

@@ -1,6 +1,9 @@
 #ifndef NVL_VIEWER_VIEWERWINDOW_H
 #define NVL_VIEWER_VIEWERWINDOW_H
 
+#ifdef NVL_QT
+#ifdef NVL_OPENGL_LOADED
+
 #include <nvl/nuvolib.h>
 
 #include <nvl/viewer/widgets/qcanvas.h>
@@ -76,6 +79,9 @@ private:
 };
 
 }
+
+#endif
+#endif
 
 #include "viewerwindow.cpp"
 

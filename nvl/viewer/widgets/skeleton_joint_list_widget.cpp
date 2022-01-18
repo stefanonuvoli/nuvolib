@@ -1,4 +1,8 @@
 #include "skeleton_joint_list_widget.h"
+
+#ifdef NVL_QT
+#ifdef NVL_OPENGL_LOADED
+
 #include "ui_skeleton_joint_list_widget.h"
 
 #include <nvl/viewer/drawables/model_drawer.h>
@@ -202,4 +206,7 @@ NVL_INLINE void SkeletonJointListWidget::on_skeletonJointListTreeWidget_itemSele
 }
 
 }
+
+#endif
+#endif
 

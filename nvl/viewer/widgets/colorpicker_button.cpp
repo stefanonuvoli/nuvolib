@@ -1,5 +1,7 @@
 #include "colorpicker_button.h"
 
+#ifdef NVL_QT
+
 #include <QColorDialog>
 
 namespace nvl {
@@ -45,3 +47,6 @@ NVL_INLINE const QColor& ColorPickerButton::color()
 }
 
 }
+
+#endif
+

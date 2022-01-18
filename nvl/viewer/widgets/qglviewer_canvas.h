@@ -3,6 +3,9 @@
 
 #include <nvl/nuvolib.h>
 
+#ifdef NVL_QT
+#ifdef NVL_OPENGL_LOADED
+
 #include <nvl/viewer/widgets/qcanvas.h>
 
 #include <QVBoxLayout>
@@ -96,6 +99,9 @@ public Q_SLOTS:
 }
 
 #include <nvl/viewer/widgets/qglviewer_object.h>
+
+#endif
+#endif
 
 #include "qglviewer_canvas.cpp"
 

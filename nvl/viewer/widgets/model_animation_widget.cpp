@@ -1,4 +1,8 @@
 #include "model_animation_widget.h"
+
+#ifdef NVL_QT
+#ifdef NVL_OPENGL_LOADED
+
 #include "ui_model_animation_widget.h"
 
 namespace nvl {
@@ -392,4 +396,7 @@ NVL_INLINE void ModelAnimationWidget::on_keepKeyframesCheckBox_stateChanged(int 
 }
 
 }
+
+#endif
+#endif
 

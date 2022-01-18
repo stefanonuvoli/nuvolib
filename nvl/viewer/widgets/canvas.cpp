@@ -1,5 +1,7 @@
 #include "canvas.h"
 
+#ifdef NVL_QT
+
 #include <nvl/utilities/vector_utils.h>
 
 namespace nvl {
@@ -238,3 +240,5 @@ NVL_INLINE bool Canvas::PickingData::isEmpty() const
 }
 
 }
+
+#endif

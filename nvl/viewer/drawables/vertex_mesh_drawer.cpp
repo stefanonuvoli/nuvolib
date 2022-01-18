@@ -3,6 +3,7 @@
 #ifdef NVL_OPENGL_LOADED
 
 #include <nvl/math/constants.h>
+#include <nvl/viewer/gl/opengl_headers.h>
 
 namespace nvl {
 

@@ -3,6 +3,8 @@
 
 #include <nvl/nuvolib.h>
 
+#ifdef NVL_QT
+
 #include <QPushButton>
 #include <QColor>
 
@@ -38,6 +40,8 @@ private:
 };
 
 }
+
+#endif
 
 #include "colorpicker_button.cpp"
 

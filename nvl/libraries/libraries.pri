@@ -30,37 +30,39 @@ isEmpty(EIGEN_PATH) {
 
 #openGL
 
-isEmpty(OPENGL_PATH) {
-    OPENGL_ENV_VARIABLE = $$(OPENGL_HOME)
+opengl {
+    isEmpty(OPENGL_PATH) {
+        OPENGL_ENV_VARIABLE = $$(OPENGL_HOME)
 
-    !isEmpty(OPENGL_ENV_VARIABLE):exists($$OPENGL_ENV_VARIABLE) {
-        OPENGL_PATH = $$OPENGL_ENV_VARIABLE
-    }
-    else {
-        unix:!macx {
-            exists(/usr/include/GL/) {
-                OPENGL_PATH = /usr/include/GL/ #linux apt default
+        !isEmpty(OPENGL_ENV_VARIABLE):exists($$OPENGL_ENV_VARIABLE) {
+            OPENGL_PATH = $$OPENGL_ENV_VARIABLE
+        }
+        else {
+            unix:!macx {
+                exists(/usr/include/GL/) {
+                    OPENGL_PATH = /usr/include/GL/ #linux apt default
+                }
+            }
+            macx {
+                exists(/usr/local/include/OpenGL) {
+                    OPENGL_PATH = /usr/local/include/OpenGL #mac brew default
+                }
             }
         }
-        macx {
-            exists(/usr/local/include/OpenGL) {
-                OPENGL_PATH = /usr/local/include/OpenGL #mac brew default
-            }
+    }
+
+    !isEmpty(OPENGL_PATH):exists($$OPENGL_PATH) {
+        DEFINES += NVL_OPENGL_LOADED
+
+        win32 {
+            LIBS += -lglu32 -lopengl32 -lglew
         }
-    }
-}
+        unix {
+            LIBS += -lGLU -lGLEW -lGL
+        }
 
-!isEmpty(OPENGL_PATH):exists($$OPENGL_PATH) {
-    DEFINES += NVL_OPENGL_LOADED
-
-    win32 {
-        LIBS += -lglu32 -lopengl32 -lglew
+        message(library \"opengl\" loaded.)
     }
-    unix {
-        LIBS += -lGLU -lGLEW -lGL
-    }
-
-    message(library \"opengl\" loaded.)
 }
 
 

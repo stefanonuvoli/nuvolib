@@ -1,4 +1,8 @@
 #include "viewerwindow.h"
+
+#ifdef NVL_QT
+#ifdef NVL_OPENGL_LOADED
+
 #include "ui_viewerwindow.h"
 
 #include <nvl/viewer/widgets/qglviewer_canvas.h>
@@ -175,3 +179,6 @@ NVL_INLINE void ViewerWindow::on_actionRightDock_triggered(bool checked)
 }
 
 }
+
+#endif
+#endif

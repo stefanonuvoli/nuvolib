@@ -1,4 +1,7 @@
 ﻿#include "skeleton_drawer_widget.h"
+
+#ifdef NVL_QT
+#ifdef NVL_OPENGL_LOADED
 #include "ui_skeleton_drawer_widget.h"
 
 #include <nvl/models/model_3d.h>
@@ -235,5 +238,7 @@ NVL_INLINE void SkeletonDrawerWidget::on_skeletonBoneColorButton_colorChanged(QC
     }
 }
 
-
 }
+
+#endif
+#endif

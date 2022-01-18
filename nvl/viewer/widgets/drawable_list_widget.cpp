@@ -1,4 +1,8 @@
 #include "drawable_list_widget.h"
+
+#ifdef NVL_QT
+#ifdef NVL_OPENGL_LOADED
+
 #include "ui_drawable_list_widget.h"
 
 #include <nvl/viewer/drawables/model_drawer.h>
@@ -218,3 +222,6 @@ NVL_INLINE void DrawableListWidget::on_drawableListTreeWidget_itemSelectionChang
 }
 
 }
+
+#endif
+#endif

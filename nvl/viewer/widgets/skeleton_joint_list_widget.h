@@ -3,6 +3,9 @@
 
 #include <nvl/nuvolib.h>
 
+#ifdef NVL_QT
+#ifdef NVL_OPENGL_LOADED
+
 #include <QFrame>
 
 #include <nvl/viewer/widgets/drawable_list_widget.h>
@@ -77,6 +80,9 @@ private:
 };
 
 }
+
+#endif
+#endif
 
 #include "skeleton_joint_list_widget.cpp"
 

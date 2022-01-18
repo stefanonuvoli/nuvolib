@@ -1,5 +1,6 @@
 #include "qcanvas.h"
 
+#ifdef NVL_QT
 #ifdef NVL_OPENGL_LOADED
 
 #include <nvl/utilities/vector_utils.h>
@@ -102,4 +103,5 @@ NVL_INLINE void QCanvas::slot_canvasPicking(
 
 }
 
+#endif
 #endif

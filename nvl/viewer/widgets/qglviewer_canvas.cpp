@@ -1,5 +1,8 @@
 #include "qglviewer_canvas.h"
 
+#ifdef NVL_QT
+#ifdef NVL_OPENGL_LOADED
+
 #include <nvl/math/quaternion.h>
 #include <nvl/math/constants.h>
 
@@ -325,3 +328,6 @@ NVL_INLINE void QGLViewerCanvas::wheelEvent(QWheelEvent *event)
 }
 
 }
+
+#endif
+#endif

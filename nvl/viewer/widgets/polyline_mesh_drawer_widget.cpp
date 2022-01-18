@@ -1,4 +1,8 @@
 ﻿#include "polyline_mesh_drawer_widget.h"
+
+#ifdef NVL_QT
+#ifdef NVL_OPENGL_LOADED
+
 #include "ui_polyline_mesh_drawer_widget.h"
 
 #include <nvl/models/model_3d.h>
@@ -264,3 +268,6 @@ NVL_INLINE void PolylineMeshDrawerWidget::on_polylineColorUniformColorButton_col
 }
 
 }
+
+#endif
+#endif

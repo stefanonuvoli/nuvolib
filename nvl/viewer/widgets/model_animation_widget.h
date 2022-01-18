@@ -3,6 +3,9 @@
 
 #include <nvl/nuvolib.h>
 
+#ifdef NVL_QT
+#ifdef NVL_OPENGL_LOADED
+
 #include <QFrame>
 
 #include <nvl/viewer/widgets/qcanvas.h>
@@ -86,6 +89,9 @@ private:
 };
 
 }
+
+#endif
+#endif
 
 #include "model_animation_widget.cpp"
 
