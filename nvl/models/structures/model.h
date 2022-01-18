@@ -32,6 +32,7 @@ public:
     const Animation& animation(const AnimationId& id) const;
     void setAnimation(const AnimationId& id, const Animation& animation);
     void removeAnimation(const AnimationId& id);
+    void clearAnimations();
 
     M mesh;
     S skeleton;

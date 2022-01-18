@@ -63,6 +63,13 @@ void Model<M,S ,W,A>::setAnimation(const Model::AnimationId &id, const Model::An
 }
 
 template<class M, class S, class W, class A>
+void Model<M,S ,W,A>::clearAnimations()
+{
+    animations.clear();
+}
+
+
+template<class M, class S, class W, class A>
 void Model<M,S ,W,A>::removeAnimation(const Model::AnimationId &id)
 {
     animations.erase(animations.begin() + id);
