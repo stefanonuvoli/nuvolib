@@ -1,3 +1,11 @@
+#qt
+
+qt {
+    DEFINES += NVL_QT
+
+    message(library \"qt\" loaded.)
+}
+
 #Eigen
 
 isEmpty(EIGEN_PATH) {

@@ -1,10 +1,6 @@
 #Include path
 INCLUDEPATH += $$PWD
 
-qt {
-    DEFINES += NVL_QT
-}
-
 message(------------------------------------------------)
 message(Loading nuvolib...)
 message(------------------------------------------------)
