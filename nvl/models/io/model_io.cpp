@@ -31,15 +31,7 @@ bool modelLoadFromFile(
     model.clear();
 
     bool success;
-    if (ext == "rig") {
-        success = modelLoadDataFromRIG(filename, modelData, error, mode);
-    }
-#ifdef NVL_FBXSDK_LOADED
-    else if (ext == "fbx") {
-        success = modelLoadDataFromFBX(filename, modelData, error, mode);
-    }
-#endif
-    else if (ext == "obj") {
+    if (ext == "obj") {
         IOMeshError meshError;
         success = meshLoadFromFile(filename, model.mesh, meshError, mode.meshMode);
         if (meshError != IOMeshError::IO_MESH_SUCCESS) {
@@ -54,15 +46,26 @@ bool modelLoadFromFile(
         }
     }
     else {
-        error = IO_MODEL_EXTENSION_NON_SUPPORTED;
-        success = false;
-    }
+        if (ext == "rig") {
+            success = modelLoadDataFromRIG(filename, modelData, error, mode);
+        }
+#ifdef NVL_FBXSDK_LOADED
+        else if (ext == "fbx") {
+            success = modelLoadDataFromFBX(filename, modelData, error, mode);
+        }
+#endif
 
-    if (success) {
-        modelLoadData(model, modelData, mode);
-    }
-    if (!success) {
-        model.clear();
+        else {
+            error = IO_MODEL_EXTENSION_NON_SUPPORTED;
+            success = false;
+        }
+
+        if (success) {
+            modelLoadData(model, modelData, mode);
+        }
+        if (!success) {
+            model.clear();
+        }
     }
 
     return success;
