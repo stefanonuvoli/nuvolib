@@ -820,13 +820,8 @@ void FaceMeshDrawer<M>::drawFaceFlatShading() const
 
 template<class M>
 void FaceMeshDrawer<M>::drawWireframe() const
-{    
-    if (this->faceLighting()) {
-        glEnable(GL_LIGHTING);
-    }
-    else {
-        glDisable(GL_LIGHTING);
-    }
+{
+    glDisable(GL_LIGHTING);
 
     if (this->faceTransparency()) {
         glEnable(GL_BLEND);
