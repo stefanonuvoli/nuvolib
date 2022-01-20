@@ -63,9 +63,9 @@ bool modelLoadFromFile(
         if (success) {
             modelLoadData(model, modelData, mode);
         }
-        if (!success) {
-            model.clear();
-        }
+    }
+    if (!success) {
+        model.clear();
     }
 
     return success;
