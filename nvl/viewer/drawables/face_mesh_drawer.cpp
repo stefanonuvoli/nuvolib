@@ -573,7 +573,7 @@ void FaceMeshDrawer<M>::drawFaceSmoothShading() const
     }
 
     glDepthFunc(GL_LESS);
-    glDepthRange(0.01, 1.0);
+    glDepthRange(0.0001, 1.0);
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
@@ -709,7 +709,7 @@ void FaceMeshDrawer<M>::drawFaceFlatShading() const
     }
 
     glDepthFunc(GL_LESS);
-    glDepthRange(0.01, 1.0);
+    glDepthRange(0.0001, 1.0);
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
@@ -974,7 +974,7 @@ void FaceMeshDrawer<M>::drawFaceWithNames(Canvas* canvas, const Index drawableId
     glCullFace(GL_BACK);
 
     glDepthFunc(GL_LESS);
-    glDepthRange(0.01, 1.0);
+    glDepthRange(0.0001, 1.0);
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 

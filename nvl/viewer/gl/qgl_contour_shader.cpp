@@ -28,14 +28,14 @@ NVL_INLINE void QGLContourShader::initGL()
     glDisable(GL_LIGHTING);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glDepthRange (0.01, 1.0);
+    glDepthRange(0.0001, 1.0);
     glDepthFunc(GL_LEQUAL);
 }
 
 NVL_INLINE void QGLContourShader::postGL()
 {
     glDisable(GL_BLEND);
-    glDepthRange (0.0, 1.0);
+    glDepthRange(0.0, 1.0);
 }
 
 NVL_INLINE void QGLContourShader::initFace(const Index& fId)
