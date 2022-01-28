@@ -7,6 +7,13 @@
 
 namespace nvl {
 
+template<class A>
+void animationBlend(
+        A& animation,
+        const double& fps = 30,
+        const double& speed = 1,
+        const bool& keepKeyframes = true);
+
 template<class F>
 void animationFrameBlend(
         std::vector<F>& animationFrames,
