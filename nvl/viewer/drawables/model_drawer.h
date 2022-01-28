@@ -36,7 +36,6 @@ public:
     typedef typename FaceMeshDrawerBase::PolylineColorMode PolylineColorMode;
     typedef typename FaceMeshDrawerBase::FaceShadingMode FaceShadingMode;
     typedef typename FaceMeshDrawerBase::FaceColorMode FaceColorMode;
-    typedef typename FaceMeshDrawerBase::FaceShaderMode VertexValueShaderMode;
     typedef typename Animation3d::Frame Frame;
     typedef ModelDrawerBase::SkinningMode SkinningMode;
 

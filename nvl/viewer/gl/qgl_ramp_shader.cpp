@@ -7,7 +7,13 @@
 namespace nvl {
 
 NVL_INLINE QGLRampShader::QGLRampShader() :
-    vShaderProgram(nullptr)
+    vShaderProgram(nullptr),
+    vMinValue(0.0f),
+    vMaxValue(1.0f),
+    vAlpha(0.8f),
+    vMinColor(1.0, 0.2, 0.2),
+    vMidColor(0.2, 1.0, 0.2),
+    vMaxColor(0.2, 0.2, 1.0)
 {
 
 }
@@ -19,9 +25,15 @@ NVL_INLINE bool QGLRampShader::load(QGLContext* context)
 
 NVL_INLINE void QGLRampShader::initGL()
 {
-    setUniform("value_min", 0.0f);
-    setUniform("value_max", 1.0f);
-    setUniform("ramp_alpha", 0.8f);
+    setUniform("value_min", this->vMinValue);
+    setUniform("value_max", this->vMaxValue);
+    setUniform("ramp_alpha", this->vAlpha);
+    setUniform("col_min", this->vMinColor);
+    setUniform("col_mid", this->vMidColor);
+    setUniform("col_max", this->vMaxColor);
+    setUniform("ramp_alpha", this->vAlpha);
+
+    vertexValueAttribute = this->attributeLocation("vertex_value");
 
     glDisable(GL_LIGHTING);
     glEnable(GL_BLEND);
@@ -51,6 +63,7 @@ NVL_INLINE void QGLRampShader::postFace(const Index& fId)
 NVL_INLINE void QGLRampShader::initVertex(const Index& vId)
 {
     NVL_SUPPRESS_UNUSEDVARIABLE(vId);
+    this->setAttribute(vertexValueAttribute, this->vVertexValues[vId]);
 }
 
 NVL_INLINE void QGLRampShader::postVertex(const Index& vId)
@@ -62,6 +75,81 @@ NVL_INLINE void QGLRampShader::addVertex(const Index& vId, const Point3d& p)
 {
     NVL_SUPPRESS_UNUSEDVARIABLE(vId);
     glVertex(p);
+}
+
+NVL_INLINE std::vector<float>& QGLRampShader::vertexValues()
+{
+    return this->vVertexValues;
+}
+
+NVL_INLINE const std::vector<float>& QGLRampShader::vertexValues() const
+{
+    return this->vVertexValues;
+}
+
+NVL_INLINE void QGLRampShader::setVertexValues(std::vector<float>& vertexValues)
+{
+    this->vVertexValues = vertexValues;
+}
+
+NVL_INLINE float QGLRampShader::minValue() const
+{
+    return this->vMinValue;
+}
+
+NVL_INLINE void QGLRampShader::setMinValue(const float minValue)
+{
+    this->vMinValue = minValue;
+}
+
+NVL_INLINE float QGLRampShader::maxValue() const
+{
+    return this->vMaxValue;
+}
+
+NVL_INLINE void QGLRampShader::setMaxValue(const float maxValue)
+{
+    this->vMaxValue = maxValue;
+}
+
+NVL_INLINE float QGLRampShader::alpha() const
+{
+    return this->vAlpha;
+}
+
+NVL_INLINE void QGLRampShader::setAlpha(const float alpha)
+{
+    this->vAlpha = alpha;
+}
+
+NVL_INLINE const Color& QGLRampShader::minColor() const
+{
+    return vMinColor;
+}
+
+NVL_INLINE void QGLRampShader::setMinColor(const Color& minColor)
+{
+    this->vMinColor = minColor;
+}
+
+NVL_INLINE const Color& QGLRampShader::midColor() const
+{
+    return this->vMidColor;
+}
+
+NVL_INLINE void QGLRampShader::setMidColor(const Color& midColor)
+{
+    this->vMidColor = midColor;
+}
+
+NVL_INLINE const Color& QGLRampShader::maxColor() const
+{
+    return this->vMaxColor;
+}
+
+NVL_INLINE void QGLRampShader::setMaxColor(const Color& maxColor)
+{
+    this->vMaxColor = maxColor;
 }
 
 }

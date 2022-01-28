@@ -1,7 +1,7 @@
 ############################ TARGET AND FLAGS ############################
 
 #App config
-TARGET = mesh_viewer
+TARGET = model_viewer
 TEMPLATE = app
 CONFIG += c++17
 CONFIG += qt
@@ -58,5 +58,5 @@ macx{
 
 #Project files
 SOURCES += \
-    mesh_viewer.cpp
+    model_viewer.cpp
 

@@ -63,6 +63,12 @@ NVL_INLINE void QGLBaseShader::setUniform(const int& location, const int& value)
     vShaderProgram->setUniformValue(location, static_cast<GLint>(value));
 }
 
+NVL_INLINE void QGLBaseShader::setUniform(const int& location, const Color& value)
+{
+    assert(isLoaded());
+    vShaderProgram->setUniformValue(location, value.toQColor());
+}
+
 NVL_INLINE void QGLBaseShader::setUniform(const std::string& name, const double& value)
 {
     assert(isLoaded());
@@ -76,6 +82,12 @@ NVL_INLINE void QGLBaseShader::setUniform(const std::string& name, const float& 
 }
 
 NVL_INLINE void QGLBaseShader::setUniform(const std::string& name, const int& value)
+{
+    assert(isLoaded());
+    setUniform(uniformLocation(name), value);
+}
+
+NVL_INLINE void QGLBaseShader::setUniform(const std::string& name, const Color& value)
 {
     assert(isLoaded());
     setUniform(uniformLocation(name), value);
@@ -105,6 +117,12 @@ NVL_INLINE void QGLBaseShader::setAttribute(const int& location, const int& valu
     vShaderProgram->setAttributeValue(location, static_cast<GLint>(value));
 }
 
+NVL_INLINE void QGLBaseShader::setAttribute(const int& location, const Color& value)
+{
+    assert(isLoaded());
+    vShaderProgram->setAttributeValue(location, value.toQColor());
+}
+
 NVL_INLINE void QGLBaseShader::setAttribute(const std::string& name, const double& value)
 {
     assert(isLoaded());
@@ -118,6 +136,12 @@ NVL_INLINE void QGLBaseShader::setAttribute(const std::string& name, const float
 }
 
 NVL_INLINE void QGLBaseShader::setAttribute(const std::string& name, const int& value)
+{
+    assert(isLoaded());
+    setAttribute(attributeLocation(name), value);
+}
+
+NVL_INLINE void QGLBaseShader::setAttribute(const std::string& name, const Color& value)
 {
     assert(isLoaded());
     setAttribute(attributeLocation(name), value);

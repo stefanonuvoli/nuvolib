@@ -15,7 +15,6 @@ NVL_INLINE FaceMeshDrawerBase::FaceMeshDrawerBase() :
     vFaceColorMode(FACE_COLOR_PER_FACE),
     vFaceTransparency(false),
     vFaceLighting(true),
-    vFaceShaderMode(FACE_SHADER_NONE),
     vFaceShader(nullptr),
     vTextureMode(TEXTURE_MODE_MODULATE)
 {
@@ -152,16 +151,6 @@ NVL_INLINE void FaceMeshDrawerBase::setTextureMode(const TextureMode& mode)
     vTextureMode = mode;
 }
 
-NVL_INLINE const typename FaceMeshDrawerBase::FaceShaderMode& FaceMeshDrawerBase::faceShaderMode() const
-{
-    return vFaceShaderMode;
-}
-
-NVL_INLINE void FaceMeshDrawerBase::setFaceShaderMode(const FaceShaderMode& mode)
-{
-    vFaceShaderMode = mode;
-}
-
 #ifdef NVL_OPENGL_LOADED
 
 NVL_INLINE GLShader* FaceMeshDrawerBase::faceShader() const
@@ -174,46 +163,11 @@ NVL_INLINE void FaceMeshDrawerBase::setFaceShader(GLShader* value)
     vFaceShader = value;
 }
 
+NVL_INLINE void FaceMeshDrawerBase::clearFaceShader()
+{
+    vFaceShader = nullptr;
+}
+
 #endif
-
-NVL_INLINE std::vector<double>& FaceMeshDrawerBase::vertexValues()
-{
-    return vVertexValues;
-}
-
-NVL_INLINE const std::vector<double>& FaceMeshDrawerBase::vertexValues() const
-{
-    return vVertexValues;
-}
-
-NVL_INLINE void FaceMeshDrawerBase::setVertexValues(const std::vector<double>& value)
-{
-    vVertexValues = value;
-}
-
-NVL_INLINE void FaceMeshDrawerBase::clearVertexValues()
-{
-    vVertexValues.clear();
-}
-
-NVL_INLINE std::vector<double>& FaceMeshDrawerBase::faceValues()
-{
-    return vFaceValues;
-}
-
-NVL_INLINE const std::vector<double>& FaceMeshDrawerBase::faceValues() const
-{
-    return vFaceValues;
-}
-
-NVL_INLINE void FaceMeshDrawerBase::setFaceValues(const std::vector<double>& value)
-{
-    vFaceValues = value;
-}
-
-NVL_INLINE void FaceMeshDrawerBase::clearFaceValues()
-{
-    vFaceValues.clear();
-}
 
 }

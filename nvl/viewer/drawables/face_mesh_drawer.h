@@ -92,10 +92,11 @@ protected:
     void drawFaceFlatShading() const;
     void drawWireframe() const;
     void drawFaceNormals() const;
-    void drawVertexValueShader() const;
 
     void drawFaceWithNames(Canvas* canvas, const Index drawableId) const;
     void drawWireframeWithNames(Canvas* canvas, const Index drawableId) const;
+
+    void drawShader() const;
 
     double getFaceNormalRadius() const;
     double getFaceNormalLength() const;

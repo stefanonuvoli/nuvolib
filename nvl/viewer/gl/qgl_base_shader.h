@@ -6,6 +6,7 @@
 #ifdef NVL_QGLVIEWER_LOADED
 
 #include <nvl/viewer/gl/gl_shader.h>
+#include <nvl/utilities/color.h>
 
 #include <QGLContext>
 #include <QGLShaderProgram>
@@ -41,6 +42,12 @@ public:
     virtual void setAttribute(const std::string& name, const double& value) override;
     virtual void setAttribute(const std::string& name, const float& value) override;
     virtual void setAttribute(const std::string& name, const int& value) override;
+
+    virtual void setUniform(const int& location, const Color& value);
+    virtual void setUniform(const std::string& name, const Color& value);
+
+    virtual void setAttribute(const int& location, const Color& value);
+    virtual void setAttribute(const std::string& name, const Color& value);
 
 protected:
 

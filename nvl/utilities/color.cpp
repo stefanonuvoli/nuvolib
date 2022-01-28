@@ -312,7 +312,7 @@ NVL_INLINE void Color::setHsvF(const float h, const float s, const float v, cons
  * @brief Get the QColor
  * @return Corresponding QColor
  */
-NVL_INLINE QColor Color::toQColor()
+NVL_INLINE QColor Color::toQColor() const
 {
     return QColor(redI(), greenI(), blueI(), alphaI());
 }

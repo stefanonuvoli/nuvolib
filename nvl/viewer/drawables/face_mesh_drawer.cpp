@@ -52,11 +52,8 @@ void FaceMeshDrawer<M>::draw() const
             drawFaceFlatShading();
         }
 
-        if (this->faceShaderMode() == FaceMeshDrawerBase::FaceShaderMode::FACE_SHADER_VERTEX_VALUE) {
-            drawVertexValueShader();
-        }
-        else {
-            assert(this->faceShaderMode() == FaceMeshDrawerBase::FaceShaderMode::FACE_SHADER_NONE);
+        if (this->faceShader() != nullptr) {
+            drawShader();
         }
     }
 
@@ -920,42 +917,6 @@ void FaceMeshDrawer<M>::drawFaceNormals() const
 }
 
 template<class M>
-void FaceMeshDrawer<M>::drawVertexValueShader() const
-{
-    typedef typename M::VertexId VertexId;
-    typedef typename M::Face Face;
-
-    GLShader* faceShader = this->faceShader();
-
-    if (faceShader == nullptr || this->vertexValues().empty())
-        return;
-
-    faceShader->bind();
-    int vertexValueAttribute = faceShader->attributeLocation("vertex_value");
-
-    faceShader->initGL();
-    for (const Face& face : this->vMesh->faces()) {
-        faceShader->initFace(face.id());
-
-        for (const VertexId& vId : face.vertexIds()) {
-            faceShader->initVertex(vId);
-
-            Point3d p = this->renderingVertex(vId);
-
-            faceShader->setAttribute(vertexValueAttribute, this->vertexValues()[vId]);
-            faceShader->addVertex(vId, p);
-
-            faceShader->postVertex(vId);
-        }
-
-        faceShader->postFace(face.id());
-    }
-    faceShader->postGL();
-
-    faceShader->release();
-}
-
-template<class M>
 void FaceMeshDrawer<M>::drawFaceWithNames(Canvas* canvas, const Index drawableId) const
 {
     typedef typename M::Point Point;
@@ -1095,6 +1056,39 @@ void FaceMeshDrawer<M>::drawWireframeWithNames(Canvas* canvas, const Index drawa
 
     glDepthFunc(GL_LESS);
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+}
+
+template<class M>
+void FaceMeshDrawer<M>::drawShader() const
+{
+    typedef typename M::VertexId VertexId;
+    typedef typename M::Face Face;
+
+    GLShader* faceShader = this->faceShader();
+
+    if (faceShader == nullptr)
+        return;
+
+    faceShader->bind();
+
+    faceShader->initGL();
+    for (const Face& face : this->vMesh->faces()) {
+        faceShader->initFace(face.id());
+
+        for (const VertexId& vId : face.vertexIds()) {
+            faceShader->initVertex(vId);
+
+            Point3d p = this->renderingVertex(vId);
+            faceShader->addVertex(vId, p);
+
+            faceShader->postVertex(vId);
+        }
+
+        faceShader->postFace(face.id());
+    }
+    faceShader->postGL();
+
+    faceShader->release();
 }
 
 template<class M>

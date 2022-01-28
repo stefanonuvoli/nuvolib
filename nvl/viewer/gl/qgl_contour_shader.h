@@ -30,10 +30,46 @@ public:
 
     void addVertex(const Index& vId, const Point3d& p) override;
 
+    std::vector<float>& vertexValues();
+    const std::vector<float>& vertexValues() const;
+    void setVertexValues(std::vector<float>& vertexValues);
+
+    float minValue() const;
+    void setMinValue(const float minValue);
+
+    float maxValue() const;
+    void setMaxValue(const float maxValue);
+
+    float alpha() const;
+    void setAlpha(const float alpha);
+
+    float stripeNumber() const;
+    void setStripeNumber(const float stripeNumber);
+
+    float stripeWidth() const;
+    void setStripeWidth(const float stripeWidth);
+
+    const Color& minColor() const;
+    void setMinColor(const Color& minColor);
+
+    const Color& maxColor() const;
+    void setMaxColor(const Color& maxColor);
+
 protected:
 
     QGLShaderProgram* vShaderProgram;
 
+    int vertexValueAttribute;
+
+    float vMinValue;
+    float vMaxValue;
+    float vAlpha;
+    float vStripeNumber;
+    float vStripeWidth;
+    Color vMinColor;
+    Color vMaxColor;
+
+    std::vector<float> vVertexValues;
 };
 
 }

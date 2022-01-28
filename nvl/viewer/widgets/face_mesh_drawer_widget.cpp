@@ -28,12 +28,6 @@ NVL_INLINE FaceMeshDrawerWidget::FaceMeshDrawerWidget(
 
 NVL_INLINE FaceMeshDrawerWidget::~FaceMeshDrawerWidget()
 {
-
-#ifdef NVL_QGLVIEWER_LOADED
-    rampQGLShader.unload();
-    contourQGLShader.unload();
-#endif
-
     delete ui;
 }
 
@@ -88,7 +82,6 @@ NVL_INLINE void FaceMeshDrawerWidget::updateFaceView()
     Color faceUniformColor(255,255,255);
     bool normalsVisible = faceEnabled;
     int normalSize = 1;
-    int shaderSelected = ShaderOptions::SHADER_NONE;
     int textureModeSelected = FaceMeshDrawerBase::TEXTURE_MODE_MODULATE;
 
     if (faceEnabled) {
@@ -128,28 +121,6 @@ NVL_INLINE void FaceMeshDrawerWidget::updateFaceView()
                 textureModeSelected = 1;
             }
 
-
-            if (meshDrawer->faceShaderMode() == FaceMeshDrawerBase::FaceShaderMode::FACE_SHADER_NONE) {
-                shaderSelected = ShaderOptions::SHADER_NONE;
-            }
-            else {
-                assert(meshDrawer->faceShaderMode() == FaceMeshDrawerBase::FaceShaderMode::FACE_SHADER_VERTEX_VALUE);
-
-#ifdef NVL_QGLVIEWER_LOADED
-                QGLRampShader* rampShader = dynamic_cast<QGLRampShader*>(meshDrawer->faceShader());
-                if (rampShader != nullptr) {
-                    shaderSelected = (first || shaderSelected == ShaderOptions::SHADER_RAMP ? ShaderOptions::SHADER_RAMP : ShaderOptions::SHADER_NONE);
-                }
-                else {
-                    QGLContourShader* rampShader = dynamic_cast<QGLContourShader*>(meshDrawer->faceShader());
-                    if (rampShader != nullptr) {
-                        shaderSelected = (first || shaderSelected == ShaderOptions::SHADER_CONTOUR ? ShaderOptions::SHADER_CONTOUR : ShaderOptions::SHADER_NONE);
-                    }
-                }
-
-#endif
-            }
-
             first = false;
         }
     }
@@ -182,7 +153,6 @@ NVL_INLINE void FaceMeshDrawerWidget::updateFaceView()
     ui->faceTransparencyCheckBox->setChecked(faceTransparency);
     ui->faceTextureVisibleCheckBox->setChecked(textureVisible);
     ui->faceTextureModeComboBox->setCurrentIndex(textureModeSelected);
-    ui->faceShaderComboBox->setCurrentIndex(shaderSelected);
 }
 
 NVL_INLINE void FaceMeshDrawerWidget::getSelectedDrawers()
@@ -388,43 +358,6 @@ NVL_INLINE void FaceMeshDrawerWidget::on_faceNormalsSlider_valueChanged(int valu
     }
 }
 
-NVL_INLINE void FaceMeshDrawerWidget::on_faceShaderComboBox_currentIndexChanged(int index)
-{
-    if (vHandleUpdate) {
-        for (FaceMeshDrawerBase* meshDrawer : vFaceMeshDrawers) {
-            switch (index) {
-                case 1:
-
-#ifdef NVL_QGLVIEWER_LOADED
-                    rampQGLShader.load(vCanvas->qglContext());
-                    meshDrawer->setFaceShader(&rampQGLShader);
-                    meshDrawer->setFaceShaderMode(FaceMeshDrawerBase::FaceShaderMode::FACE_SHADER_VERTEX_VALUE);
-#endif
-                    break;
-
-                case 2:
-
-#ifdef NVL_QGLVIEWER_LOADED
-                    contourQGLShader.load(vCanvas->qglContext());
-                    meshDrawer->setFaceShader(&contourQGLShader);
-                    meshDrawer->setFaceShaderMode(FaceMeshDrawerBase::FaceShaderMode::FACE_SHADER_VERTEX_VALUE);
-#endif
-                    break;
-
-                default:
-                    assert(index == ShaderOptions::SHADER_NONE);
-                    meshDrawer->setFaceShader(nullptr);
-                    meshDrawer->setFaceShaderMode(FaceMeshDrawerBase::FaceShaderMode::FACE_SHADER_NONE);
-                    break;
-            }
-        }
-
-        updateView();
-        vCanvas->updateGL();
-    }
-}
-
-
 NVL_INLINE void FaceMeshDrawerWidget::on_faceLightingCheckBox_stateChanged(int arg1)
 {
     if (vHandleUpdate) {
@@ -436,7 +369,6 @@ NVL_INLINE void FaceMeshDrawerWidget::on_faceLightingCheckBox_stateChanged(int a
         vCanvas->updateGL();
     }
 }
-
 
 NVL_INLINE void FaceMeshDrawerWidget::on_faceTextureModeComboBox_currentIndexChanged(int index)
 {

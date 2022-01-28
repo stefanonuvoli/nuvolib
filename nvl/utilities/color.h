@@ -62,7 +62,7 @@ public:
     void setHsvF(const float h, const float s, const float v, const float alphaI = 1.0f);
 
 #ifdef NVL_QT
-    QColor toQColor();
+    QColor toQColor() const;
 #endif
 
     bool operator<(const Color& color) const;
