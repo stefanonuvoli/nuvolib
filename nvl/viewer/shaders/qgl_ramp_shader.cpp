@@ -10,30 +10,27 @@ NVL_INLINE QGLRampShader::QGLRampShader() :
     vShaderProgram(nullptr),
     vMinValue(0.0f),
     vMaxValue(1.0f),
-    vAlpha(0.8f),
-    vMinColor(1.0, 0.2, 0.2),
-    vMidColor(0.2, 1.0, 0.2),
-    vMaxColor(0.2, 0.2, 1.0)
+    vMinColor(1.0, 0.2, 0.2, 0.8),
+    vMidColor(0.2, 1.0, 0.2, 0.8),
+    vMaxColor(0.2, 0.2, 1.0, 0.8)
 {
 
 }
 
 NVL_INLINE bool QGLRampShader::load(QGLContext* context)
 {
-    return QGLBaseShader::load(context, ":/shaders/ramp.vert", ":/shaders/ramp.frag");
+    return QGLShader::load(context, ":/shaders/ramp.vert", ":/shaders/ramp.frag");
 }
 
 NVL_INLINE void QGLRampShader::initGL()
 {
-    setUniform("value_min", this->vMinValue);
-    setUniform("value_max", this->vMaxValue);
-    setUniform("ramp_alpha", this->vAlpha);
-    setUniform("col_min", this->vMinColor);
-    setUniform("col_mid", this->vMidColor);
-    setUniform("col_max", this->vMaxColor);
-    setUniform("ramp_alpha", this->vAlpha);
+    this->setUniform("value_min", this->vMinValue);
+    this->setUniform("value_max", this->vMaxValue);
+    this->setUniform("col_min", this->vMinColor);
+    this->setUniform("col_mid", this->vMidColor);
+    this->setUniform("col_max", this->vMaxColor);
 
-    vertexValueAttribute = this->attributeLocation("vertex_value");
+    vertexValueAttribute = this->attributeLocation("value");
 
     glDisable(GL_LIGHTING);
     glEnable(GL_BLEND);
@@ -62,7 +59,6 @@ NVL_INLINE void QGLRampShader::postFace(const Index& fId)
 
 NVL_INLINE void QGLRampShader::initVertex(const Index& vId)
 {
-    NVL_SUPPRESS_UNUSEDVARIABLE(vId);
     this->setAttribute(vertexValueAttribute, this->vVertexValues[vId]);
 }
 
@@ -110,16 +106,6 @@ NVL_INLINE float QGLRampShader::maxValue() const
 NVL_INLINE void QGLRampShader::setMaxValue(const float maxValue)
 {
     this->vMaxValue = maxValue;
-}
-
-NVL_INLINE float QGLRampShader::alpha() const
-{
-    return this->vAlpha;
-}
-
-NVL_INLINE void QGLRampShader::setAlpha(const float alpha)
-{
-    this->vAlpha = alpha;
 }
 
 NVL_INLINE const Color& QGLRampShader::minColor() const

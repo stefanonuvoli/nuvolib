@@ -8,8 +8,6 @@
 
 #include <nvl/utilities/vector_utils.h>
 
-#include <QGLShaderProgram>
-
 namespace nvl {
 
 NVL_INLINE QGLViewerObject::QGLViewerObject(QCanvas* canvas, QWidget* parent) :

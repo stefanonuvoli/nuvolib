@@ -51,10 +51,6 @@ void FaceMeshDrawer<M>::draw() const
         else if (this->faceShadingMode() == FaceMeshDrawerBase::FACE_SHADING_FLAT) {
             drawFaceFlatShading();
         }
-
-        if (this->faceShader() != nullptr) {
-            drawShader();
-        }
     }
 
     if (this->wireframeVisible()) {
@@ -65,6 +61,9 @@ void FaceMeshDrawer<M>::draw() const
         drawFaceNormals();
     }
 
+    if (this->faceShader() != nullptr) {
+        drawShader();
+    }
 }
 
 template<class M>

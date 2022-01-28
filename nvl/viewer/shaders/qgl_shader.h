@@ -1,11 +1,11 @@
-#ifndef NVL_VIEWER_QGL_BASE_SHADER_H
-#define NVL_VIEWER_QGL_BASE_SHADER_H
+#ifndef NVL_VIEWER_QGL_SHADER_H
+#define NVL_VIEWER_QGL_SHADER_H
 
 #include <nvl/nuvolib.h>
 
 #ifdef NVL_QGLVIEWER_LOADED
 
-#include <nvl/viewer/gl/gl_shader.h>
+#include <nvl/viewer/shaders/gl_shader.h>
 #include <nvl/utilities/color.h>
 
 #include <QGLContext>
@@ -13,13 +13,16 @@
 
 namespace nvl {
 
-class QGLBaseShader : public GLShader
+/**
+ * @brief QGLViewer shader interface
+ */
+class QGLShader : public GLShader
 {
 
 public:
 
-    QGLBaseShader();
-    virtual ~QGLBaseShader();
+    QGLShader();
+    virtual ~QGLShader();
 
     virtual void unload();
     virtual bool isLoaded() const;
@@ -74,6 +77,6 @@ protected:
 
 #endif
 
-#include "qgl_base_shader.cpp"
+#include "qgl_shader.cpp"
 
-#endif // NVL_VIEWER_QGL_BASE_SHADER_H
+#endif // NVL_VIEWER_QGL_SHADER_H

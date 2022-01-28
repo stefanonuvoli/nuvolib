@@ -1,22 +1,21 @@
-#ifndef NVL_VIEWER_QGL_RAMP_SHADER_H
-#define NVL_VIEWER_QGL_RAMP_SHADER_H
+#ifndef NVL_VIEWER_QGL_CONTOUR_SHADER_H
+#define NVL_VIEWER_QGL_CONTOUR_SHADER_H
 
 #include <nvl/nuvolib.h>
 
 #ifdef NVL_QGLVIEWER_LOADED
 
-#include <nvl/utilities/color.h>
-#include <nvl/viewer/gl/qgl_base_shader.h>
+#include <nvl/viewer/shaders/qgl_shader.h>
 
 namespace nvl {
 
-class QGLRampShader : public QGLBaseShader
+class QGLContourShader : public QGLShader
 {
 
 public:
 
-    QGLRampShader();
-    virtual ~QGLRampShader() = default;
+    QGLContourShader();
+    virtual ~QGLContourShader() = default;
 
     bool load(QGLContext* context);
 
@@ -41,14 +40,14 @@ public:
     float maxValue() const;
     void setMaxValue(const float maxValue);
 
-    float alpha() const;
-    void setAlpha(const float alpha);
+    float stripeNumber() const;
+    void setStripeNumber(const float stripeNumber);
+
+    float stripeWidth() const;
+    void setStripeWidth(const float stripeWidth);
 
     const Color& minColor() const;
     void setMinColor(const Color& minColor);
-
-    const Color& midColor() const;
-    void setMidColor(const Color& midColor);
 
     const Color& maxColor() const;
     void setMaxColor(const Color& maxColor);
@@ -61,19 +60,18 @@ protected:
 
     float vMinValue;
     float vMaxValue;
-    float vAlpha;
+    float vStripeNumber;
+    float vStripeWidth;
     Color vMinColor;
-    Color vMidColor;
     Color vMaxColor;
 
     std::vector<float> vVertexValues;
-
 };
 
 }
 
 #endif
 
-#include "qgl_ramp_shader.cpp"
+#include "qgl_contour_shader.cpp"
 
-#endif // NVL_VIEWER_QGL_RAMP_SHADER_H
+#endif // NVL_VIEWER_QGL_CONTOUR_SHADER_H

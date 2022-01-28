@@ -6,7 +6,7 @@
 #include <nvl/viewer/drawables/polyline_mesh_drawer_base.h>
 
 #ifdef NVL_OPENGL_LOADED
-#include <nvl/viewer/gl/gl_shader.h>
+#include <nvl/viewer/shaders/gl_shader.h>
 #endif
 
 #include <nvl/utilities/color.h>

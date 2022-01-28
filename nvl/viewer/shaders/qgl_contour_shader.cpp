@@ -10,29 +10,29 @@ NVL_INLINE QGLContourShader::QGLContourShader() :
     vShaderProgram(nullptr),
     vMinValue(0.0f),
     vMaxValue(1.0f),
-    vAlpha(0.8f),
     vStripeNumber(10.0f),
     vStripeWidth(0.6f),
-    vMinColor(1.0, 0.2, 0.2),
-    vMaxColor(0.2, 0.2, 1.0)
+    vMinColor(0.9, 0.9, 0.9, 0.7),
+    vMaxColor(0.1, 0.1, 0.1, 0.7)
 {
 
 }
 
 NVL_INLINE bool QGLContourShader::load(QGLContext* context)
 {
-    return QGLBaseShader::load(context, ":/shaders/contour.vert", ":/shaders/contour.frag");
+    return QGLShader::load(context, ":/shaders/contour.vert", ":/shaders/contour.frag");
 }
 
 NVL_INLINE void QGLContourShader::initGL()
 {
-    setUniform("value_min", this->vMinValue);
-    setUniform("value_max", this->vMaxValue);
-    setUniform("alpha", this->vAlpha);
-    setUniform("stripe_num", this->vStripeNumber);
-    setUniform("stripe_width", this->vStripeWidth);
-    setUniform("col_min", this->vMinColor);
-    setUniform("col_max", this->vMaxColor);
+    this->setUniform("value_min", this->vMinValue);
+    this->setUniform("value_max", this->vMaxValue);
+    this->setUniform("stripe_num", this->vStripeNumber);
+    this->setUniform("stripe_width", this->vStripeWidth);
+    this->setUniform("col_min", this->vMinColor);
+    this->setUniform("col_max", this->vMaxColor);
+
+    vertexValueAttribute = this->attributeLocation("value");
 
     glDisable(GL_LIGHTING);
     glEnable(GL_BLEND);
@@ -61,7 +61,7 @@ NVL_INLINE void QGLContourShader::postFace(const Index& fId)
 
 NVL_INLINE void QGLContourShader::initVertex(const Index& vId)
 {
-    NVL_SUPPRESS_UNUSEDVARIABLE(vId);
+    this->setAttribute(vertexValueAttribute, this->vVertexValues[vId]);
 }
 
 NVL_INLINE void QGLContourShader::postVertex(const Index& vId)
@@ -108,16 +108,6 @@ NVL_INLINE float QGLContourShader::maxValue() const
 NVL_INLINE void QGLContourShader::setMaxValue(const float maxValue)
 {
     this->vMaxValue = maxValue;
-}
-
-NVL_INLINE float QGLContourShader::alpha() const
-{
-    return this->vAlpha;
-}
-
-NVL_INLINE void QGLContourShader::setAlpha(const float newAlpha)
-{
-    this->vAlpha = newAlpha;
 }
 
 NVL_INLINE float QGLContourShader::stripeNumber() const

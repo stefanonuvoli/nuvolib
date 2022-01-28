@@ -34,7 +34,7 @@ contains(DEFINES, NVL_QT) {
         $$PWD/widgets/vertex_mesh_drawer_widget.cpp
 
     RESOURCES += \
-        $$PWD/gl/shaders.qrc
+        $$PWD/shaders/shaders.qrc
 
     FORMS +=  \
         $$PWD/viewerwindow.ui \
@@ -53,16 +53,16 @@ contains(DEFINES, NVL_QT) {
     contains(DEFINES, NVL_QGLVIEWER_LOADED) {
 
         HEADERS += \
-            $$PWD/gl/qgl_base_shader.h \
-            $$PWD/gl/qgl_contour_shader.h \
-            $$PWD/gl/qgl_ramp_shader.h \
+            $$PWD/shaders/qgl_contour_shader.h \
+            $$PWD/shaders/qgl_ramp_shader.h \
+            $$PWD/shaders/qgl_shader.h \
             $$PWD/widgets/qglviewer_canvas.h \
             $$PWD/widgets/qglviewer_object.h
 
         SOURCES += \
-            $$PWD/gl/qgl_base_shader.cpp \
-            $$PWD/gl/qgl_contour_shader.cpp \
-            $$PWD/gl/qgl_ramp_shader.cpp \
+            $$PWD/shaders/qgl_contour_shader.cpp \
+            $$PWD/shaders/qgl_ramp_shader.cpp \
+            $$PWD/shaders/qgl_shader.cpp \
             $$PWD/widgets/qglviewer_canvas.cpp \
             $$PWD/widgets/qglviewer_object.cpp
 
@@ -113,8 +113,8 @@ contains(DEFINES, NVL_OPENGL_LOADED) {
         $$PWD/gl/gl_draw.cpp \
         $$PWD/gl/gl_frameable.cpp \
         $$PWD/gl/gl_primitives.cpp \
-        $$PWD/gl/gl_shader.cpp \
         $$PWD/gl/gl_textures.cpp \
+        $$PWD/shaders/gl_shader.cpp \
         $$PWD/interfaces/animable.cpp \
         $$PWD/interfaces/drawable.cpp \
         $$PWD/interfaces/frameable.cpp \
