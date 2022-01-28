@@ -3,6 +3,7 @@
 #ifdef NVL_OPENGL_LOADED
 
 #include <nvl/viewer/gl/gl_primitives.h>
+#include <nvl/viewer/gl/gl_draw.h>
 
 #include <nvl/math/constants.h>
 

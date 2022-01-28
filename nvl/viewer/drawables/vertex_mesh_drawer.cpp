@@ -4,6 +4,7 @@
 
 #include <nvl/math/constants.h>
 #include <nvl/viewer/gl/opengl_headers.h>
+#include <nvl/viewer/gl/gl_draw.h>
 
 namespace nvl {
 
