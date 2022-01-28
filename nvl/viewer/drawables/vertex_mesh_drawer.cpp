@@ -18,7 +18,7 @@ template<class M>
 VertexMeshDrawer<M>::VertexMeshDrawer(M* mesh, const bool visible, const bool pickable) :
     VertexMeshDrawerBase(),
     MeshDrawer<M>(mesh, visible, pickable),
-    vDefaultVertexColor(1.0, 1.0, 1.0)
+    vDefaultVertexColor(0.7, 0.7, 0.7)
 {
     resetRenderingVertexData();
 }

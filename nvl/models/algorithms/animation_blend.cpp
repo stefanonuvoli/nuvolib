@@ -5,6 +5,30 @@
 
 namespace nvl {
 
+/**
+ * @brief Blend animation keyframes
+ * @param animation Animation
+ * @param fps Fps
+ * @param speed Speed
+ * @param keepKeyframes Keep original keyframes
+ */
+template<class A>
+void animationBlend(
+        A& animation,
+        const double& fps,
+        const double& speed,
+        const bool& keepKeyframes)
+{
+    return animationFrameBlend(animation.keyframes(), fps, speed, keepKeyframes);
+}
+
+/**
+ * @brief Blend animation frames
+ * @param animationFrames Frames
+ * @param fps Fps
+ * @param speed Speed
+ * @param keepKeyframes Keep original keyframes
+ */
 template<class F>
 void animationFrameBlend(
         std::vector<F>& animationFrames,

@@ -181,7 +181,7 @@ template<class VT, class PT>
 void PolylineMesh<VT,PT>::updatePolylineColors()
 {
     if (vPolylineColorsEnabled) {
-        this->vPolylineColors.resize(this->nextPolylineId(), VertexColor(1.0, 1.0, 1.0));
+        this->vPolylineColors.resize(this->nextPolylineId(), VertexColor(0.7, 0.7, 0.7));
     }
     else {
         this->vPolylineColors.clear();

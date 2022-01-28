@@ -75,7 +75,6 @@ NVL_INLINE void FaceMeshDrawerWidget::updateFaceView()
 
     bool faceVisible = faceEnabled;
     bool textureVisible = faceEnabled;
-    bool textureModeVisible = faceEnabled;
     bool faceLighting = faceEnabled;
     bool faceTransparency = faceEnabled;
     bool wireframeVisible = faceEnabled;
@@ -118,7 +117,6 @@ NVL_INLINE void FaceMeshDrawerWidget::updateFaceView()
             normalsVisible &= faceNormalEnabled && meshDrawer->faceNormalVisible();
             normalSize = (first || normalSize == meshDrawer->faceNormalSize() ? meshDrawer->faceNormalSize() : 1);
             textureVisible &= textureEnabled && meshDrawer->textureVisible();
-            textureModeVisible &= textureEnabled && meshDrawer->textureVisible();
             faceTransparency &= faceTransparencyEnabled && meshDrawer->faceTransparency();
             faceLighting &= faceTransparencyEnabled && meshDrawer->faceLighting();
 

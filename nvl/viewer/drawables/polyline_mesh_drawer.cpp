@@ -16,7 +16,8 @@ PolylineMeshDrawer<M>::PolylineMeshDrawer() : PolylineMeshDrawer<M>(nullptr)
 template<class M>
 PolylineMeshDrawer<M>::PolylineMeshDrawer(M* mesh, const bool visible, const bool pickable) :
     PolylineMeshDrawerBase(),
-    VertexMeshDrawer<M>(mesh, visible, pickable)
+    VertexMeshDrawer<M>(mesh, visible, pickable),
+    vDefaultPolylineColor(0.7, 0.7, 0.7)
 {
     resetRenderingPolylineData();
     this->setVertexVisible(false);
