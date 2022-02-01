@@ -47,12 +47,19 @@ int main(int argc, char *argv[]) {
     Mesh mesh1, mesh2, mesh3;
 
     //Load mesh
-    nvl::meshLoadFromFile("../../data/bunny_2000.obj", mesh1);
+    bool success = nvl::meshLoadFromFile("../../data/bunny_2000.obj", mesh1);
+    if (!success) {
+        std::cout << "Impossible to load mesh." << std::endl;
+        exit(1);
+    }
 
     //Translate mesh to the center
     nvl::AlignedBox3d bbox = nvl::meshBoundingBox(mesh1);
     nvl::Vector3d center = -bbox.center();
+    double scaleFactor = 1.0 / bbox.diagonal().norm();
+
     nvl::meshApplyTransformation(mesh1, nvl::Translation3d(center));
+    nvl::meshApplyTransformation(mesh1, nvl::Scaling3d(scaleFactor, scaleFactor, scaleFactor));
 
     //Update the vertex and face normals
     mesh1.computeFaceNormals();

@@ -110,9 +110,11 @@ NVL_INLINE const Color& QGLViewerCanvas::backgroundColor() const
 {
     return vQGLViewerObject->backgroundColor();
 }
+
 NVL_INLINE void QGLViewerCanvas::fitScene(bool visibleObjects)
 {
     AlignedBox3d boundingBox;
+    boundingBox.setNull();
 
     for (const Drawable* drawable : this->drawables()) {
         if (!visibleObjects || drawable->isVisible()) {

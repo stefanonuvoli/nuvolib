@@ -18,17 +18,17 @@ namespace nvl {
  * @return Axis-aligned bounding box
  */
 template<class Mesh>
-AlignedBox3<typename Mesh::Scalar> meshBoundingBox(const Mesh &mesh)
+AlignedBox3<typename Mesh::Scalar> meshBoundingBox(const Mesh& mesh)
 {
     typedef typename Mesh::Scalar Scalar;
     typedef typename Mesh::Vertex Vertex;
 
     AlignedBox3<Scalar> boundingBox;
+    boundingBox.setNull();
 
     for (const Vertex& vertex : mesh.vertices()) {
         boundingBox.extend(vertex.point());
     }
-
     return boundingBox;
 }
 
