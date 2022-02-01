@@ -20,6 +20,14 @@
 
 namespace nvl {
 
+/**
+ * @brief Collapse borders of a mesh, giving a set of vertices to keep
+ * @param mesh Mesh
+ * @param verticesToKeep Collection of vertices to keep in the borders
+ * @param birthVertex Map of the birth vertices of the resulting mesh
+ * @param birthFace Map of the birth faces of the resulting mesh
+ * @return Vertices that have not been collapsed
+ */
 template<class Mesh>
 std::vector<typename Mesh::VertexId> collapseBorders(
     Mesh& mesh,
@@ -84,7 +92,14 @@ std::vector<typename Mesh::VertexId> collapseBorders(
     return nonCollapsed;
 }
 
-
+/**
+ * @brief Collapse borders of a mesh, giving a set of vertices to keep and using VCG
+ * @param vcgMesh VCG Mesh
+ * @param verticesToKeep Collection of vertices to keep in the borders
+ * @param birthVertex Map of the birth vertices of the resulting mesh
+ * @param birthFace Map of the birth faces of the resulting mesh
+ * @return Vertices that have not been collapsed
+ */
 template<class VCGMesh>
 std::vector<size_t> vcgCollapseBorders(
     VCGMesh& vcgMesh,

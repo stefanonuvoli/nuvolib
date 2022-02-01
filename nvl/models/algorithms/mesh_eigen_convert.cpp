@@ -10,6 +10,14 @@
 
 namespace nvl {
 
+/**
+ * @brief Convert mesh to eigen mesh
+ * @param mesh Mesh
+ * @param V Resulting vertices
+ * @param F Resulting faces
+ * @param dim Dimension of the coordinates (default 3)
+ * @param numVerticesPerFace Number of vertices per face (default 3, triangles)
+ */
 template<class Mesh>
 void convertMeshToEigenMesh(
         const Mesh& mesh,
@@ -58,6 +66,16 @@ void convertMeshToEigenMesh(
     }
 }
 
+/**
+ * @brief Convert mesh to eigen mesh
+ * @param mesh Mesh
+ * @param V Resulting vertices
+ * @param F Resulting faces
+ * @param birthVertex Birth vertex of the resulting mesh
+ * @param birthFace Birth face of the resulting mesh
+ * @param dim Dimension of the coordinates (default 3)
+ * @param numVerticesPerFace Number of vertices per face (default 3, triangles)
+ */
 template<class Mesh>
 void convertMeshToEigenMesh(
         const Mesh& mesh,
@@ -112,6 +130,12 @@ void convertMeshToEigenMesh(
     }
 }
 
+/**
+ * @brief Convert eigen mesh to mesh
+ * @param V Eigen vertices
+ * @param F Eigen faces
+ * @param mesh Mesh
+ */
 template<class Mesh>
 void convertEigenMeshToMesh(
         const Eigen::MatrixXd& V,
@@ -138,6 +162,14 @@ void convertEigenMeshToMesh(
     }
 }
 
+/**
+ * @brief Convert eigen mesh to mesh
+ * @param V Eigen vertices
+ * @param F Eigen faces
+ * @param mesh Resulting mesh
+ * @param birthVertex Birth vertex of the resulting mesh
+ * @param birthFace Birth face of the resulting mesh
+ */
 template<class Mesh>
 void convertEigenMeshToMesh(
         const Eigen::MatrixXd& V,

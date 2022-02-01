@@ -11,7 +11,11 @@
 
 namespace nvl {
 
-
+/**
+ * @brief Differential coordinates of the vertices of a mesh
+ * @param mesh Mesh
+ * @return Differential coordinates
+ */
 template<class Mesh, class R>
 std::vector<Vector3<R>> meshDifferentialCoordinates(
         const Mesh& mesh)
@@ -21,6 +25,13 @@ std::vector<Vector3<R>> meshDifferentialCoordinates(
     const std::vector<std::vector<VertexId>> vvAdj = meshVertexVertexAdjacencies(mesh);
     return meshDifferentialCoordinates(mesh, vvAdj);
 }
+
+/**
+ * @brief Differential coordinates of the vertices of a mesh
+ * @param mesh Mesh
+ * @param vvAdj Pre-computed vertex-vertex adjacencies
+ * @return Differential coordinates
+ */
 template<class Mesh, class R>
 std::vector<Vector3<R>> meshDifferentialCoordinates(
         const Mesh& mesh,
@@ -35,6 +46,13 @@ std::vector<Vector3<R>> meshDifferentialCoordinates(
     }
     return dc;
 }
+
+/**
+ * @brief Differential coordinates of a single vertex of a mesh
+ * @param mesh Mesh
+ * @param vId Vertex Id
+ * @return Differential coordinates
+ */
 template<class Mesh, class R>
 Vector3<R> meshDifferentialCoordinates(
         const Mesh& mesh,
@@ -45,6 +63,14 @@ Vector3<R> meshDifferentialCoordinates(
     const std::vector<std::vector<VertexId>> vvAdj = meshVertexVertexAdjacencies(mesh);
     return meshDifferentialCoordinates(mesh, vId, vvAdj);
 }
+
+/**
+ * @brief Differential coordinates of a single vertex of a mesh
+ * @param mesh Mesh
+ * @param vId Vertex Id
+ * @param vvAdj Pre-computed vertex-vertex adjacencies
+ * @return Differential coordinates
+ */
 template<class Mesh, class R>
 Vector3<R> meshDifferentialCoordinates(
         const Mesh& mesh,

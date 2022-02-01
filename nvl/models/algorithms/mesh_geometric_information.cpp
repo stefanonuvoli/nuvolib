@@ -12,6 +12,11 @@
 
 namespace nvl {
 
+/**
+ * @brief Axis-aligned bounding box of a mesh
+ * @param mesh Mesh
+ * @return Axis-aligned bounding box
+ */
 template<class Mesh>
 AlignedBox3<typename Mesh::Scalar> meshBoundingBox(const Mesh &mesh)
 {
@@ -27,6 +32,11 @@ AlignedBox3<typename Mesh::Scalar> meshBoundingBox(const Mesh &mesh)
     return boundingBox;
 }
 
+/**
+ * @brief Average edge length of a mesh
+ * @param mesh Mesh
+ * @return Average edge length
+ */
 template<class Mesh>
 typename Mesh::Scalar meshAverageEdgeLength(const Mesh& mesh)
 {
@@ -56,35 +66,65 @@ typename Mesh::Scalar meshAverageEdgeLength(const Mesh& mesh)
     return length / n;
 }
 
+/**
+ * @brief Barycenter of a face of a mesh
+ * @param mesh Mesh
+ * @param fId Face id
+ * @return Barycenter
+ */
 template<class Mesh>
 typename Mesh::Point meshFaceBarycenter(const Mesh& mesh, const typename Mesh::FaceId& fId)
+{
+    return meshFaceBarycenter(mesh, mesh.face(fId));
+}
+
+/**
+ * @brief Barycenter of a face of a mesh
+ * @param mesh Mesh
+ * @param face Face
+ * @return Barycenter
+ */
+template<class Mesh>
+typename Mesh::Point meshFaceBarycenter(const Mesh& mesh, const typename Mesh::Face& face)
 {
     typedef typename Mesh::Point Point;
     typedef typename Mesh::VertexId VertexId;
 
-    std::vector<Point> points;
+    std::vector<Point> points(face.vertexNumber());
 
-    for (const VertexId& vId : mesh.faceVertexIds(fId)) {
-        points.push_back(mesh.vertexPoint(vId));
+    for (Index j = 0; j < face.vertexNumber(); ++j) {
+        points[j] = mesh.vertexPoint(face.vertexId(j));
     }
 
     return barycenter(points);
 }
 
-template<class Mesh>
-typename Mesh::Point meshFaceBarycenter(const Mesh& mesh, const typename Mesh::Face& face)
-{
-    return meshFaceBarycenter(mesh, face.id());
-}
-
+/**
+ * @brief Midpoint of an edge of a mesh
+ * @param mesh Mesh
+ * @param fId Face id
+ * @param fePos Position of the edge in the face
+ * @return Midpoint of the edge
+ */
 template<class Mesh>
 typename Mesh::Point meshFaceEdgeMidpoint(const Mesh& mesh, const typename Mesh::FaceId& fId, const Index& fePos)
+{
+    return meshFaceEdgeMidpoint(mesh, mesh.face(fId), fePos);
+}
+
+/**
+ * @brief Midpoint of an edge of a mesh
+ * @param mesh Mesh
+ * @param face Face
+ * @param fePos Position of the edge in the face
+ * @return Midpoint of the edge
+ */
+template<class Mesh>
+typename Mesh::Point meshFaceEdgeMidpoint(const Mesh& mesh, const typename Mesh::Face& face, const Index& fePos)
 {
     typedef typename Mesh::Point Point;
     typedef typename Mesh::Face Face;
     typedef typename Mesh::VertexId VertexId;
-
-    const Face& face = mesh.face(fId);
 
     const VertexId& v1 = face.vertexId(fePos);
     const VertexId& v2 = face.nextVertexId(fePos);
@@ -93,24 +133,35 @@ typename Mesh::Point meshFaceEdgeMidpoint(const Mesh& mesh, const typename Mesh:
     return p;
 }
 
-template<class Mesh>
-typename Mesh::Point meshFaceEdgeMidpoint(const Mesh& mesh, const typename Mesh::Face& face, const Index& fePos)
-{
-    return meshFaceEdgeMidpoint(mesh, face.id(), fePos);
-}
-
+/**
+ * @brief Area of a face of a mesh
+ * @param mesh Mesh
+ * @param fId Face id
+ * @return Area of the face
+ */
 template<class Mesh>
 typename Mesh::Scalar meshFaceArea(const Mesh& mesh, const typename Mesh::FaceId& fId)
+{
+    return meshFaceBarycenter(mesh, mesh.face(fId));
+}
+
+/**
+ * @brief Area of a face of a mesh
+ * @param mesh Mesh
+ * @param face Face
+ * @return Area of the face
+ */
+template<class Mesh>
+typename Mesh::Scalar meshFaceArea(const Mesh& mesh, const typename Mesh::Face& face)
 {
     typedef typename Mesh::Point Point;
     typedef typename Mesh::Scalar Scalar;
     typedef typename Mesh::Face Face;
 
-    Point barycenter = meshFaceBarycenter(mesh, fId);
+    Point barycenter = meshFaceBarycenter(mesh, face);
 
     Scalar area = 0;
 
-    const Face& face = mesh.face(fId);
     for (Index j = 0; j < face.vertexNumber(); ++j) {
         const Point& p1 = mesh.vertexPoint(face.vertexId(j));
         const Point& p2 = mesh.vertexPoint(face.nextVertexId(j));
@@ -122,12 +173,6 @@ typename Mesh::Scalar meshFaceArea(const Mesh& mesh, const typename Mesh::FaceId
     }
 
     return area;
-}
-
-template<class Mesh>
-typename Mesh::Scalar meshFaceArea(const Mesh& mesh, const typename Mesh::Face& face)
-{
-    return meshFaceBarycenter(mesh, face.id());
 }
 
 }

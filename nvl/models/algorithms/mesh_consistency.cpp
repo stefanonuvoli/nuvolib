@@ -8,6 +8,11 @@
 
 namespace nvl {
 
+/**
+ * @brief Remove faces with deleted vertices
+ * @param mesh Mesh
+ * @return Deleted faces
+ */
 template<class Mesh>
 std::vector<typename Mesh::FaceId> meshRemoveFacesWithDeletedVertices(Mesh& mesh)
 {
@@ -26,6 +31,11 @@ std::vector<typename Mesh::FaceId> meshRemoveFacesWithDeletedVertices(Mesh& mesh
     return deletedFaces;
 }
 
+/**
+ * @brief Remove polylines with deleted vertices
+ * @param mesh Mesh
+ * @return Deleted polylines
+ */
 template<class Mesh>
 std::vector<typename Mesh::PolylineId> meshRemovePolylinesWithDeletedVertices(Mesh& mesh)
 {

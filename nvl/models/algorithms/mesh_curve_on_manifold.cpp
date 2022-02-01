@@ -20,6 +20,20 @@
 
 namespace nvl {
 
+/**
+ * @brief Curve on manifold: smooth a collection of segments over a surface
+ * @param mesh Mesh
+ * @param segments Segment to project and smooth
+ * @param curveLines Resulting lines
+ * @param birthVertex Birth vertex in the resulting mesh
+ * @param birthFace Birth face in the resulting mesh
+ * @param firstStepIterations Iterations of the first step of smoothing
+ * @param secondStepIterations Iterations of the second step of smoothing
+ * @param baryCentricThreshold Barycentric threshold
+ * @param fixBorders Fix borders of the mesh
+ * @param fixCorners Fix corners of the segments
+ * @return Resulting mesh
+ */
 template<class Mesh>
 Mesh curveOnManifold(
         const Mesh& mesh,
@@ -127,6 +141,20 @@ Mesh curveOnManifold(
     return outputMesh;
 }
 
+/**
+ * @brief Curve on manifold: smooth a collection of segments over a surface
+ * @param mesh VCG triangle mesh
+ * @param edgeMesh VCG edge mesh (edges to smooth)
+ * @param resultMesh VCG resulting mesh
+ * @param birthVertex Birth vertex in the resulting mesh
+ * @param birthFace Birth face in the resulting mesh
+ * @param firstStepIterations Iterations of the first step of smoothing
+ * @param secondStepIterations Iterations of the second step of smoothing
+ * @param baryCentricThreshold Barycentric threshold
+ * @param fixBorders Fix borders of the mesh
+ * @param fixCorners Fix corners of the segments
+ * @return True if the procedure has successfully tagged each line
+ */
 template<class VCGMesh>
 bool vcgCurveOnManifold(
         VCGMesh& mesh,
