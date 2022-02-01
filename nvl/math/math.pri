@@ -7,6 +7,7 @@ HEADERS += \
     $$PWD/barycenter.h  \
     $$PWD/barycentric_coordinates.h \
     $$PWD/barycentric_interpolation.h \
+    $$PWD/cotangent_weights.h \
     $$PWD/euler_angles.h \
     $$PWD/inside_test.h \
     $$PWD/inverse_function.h \
@@ -46,6 +47,7 @@ SOURCES += \
     $$PWD/barycenter.cpp \
     $$PWD/barycentric_coordinates.cpp \
     $$PWD/barycentric_interpolation.cpp \
+    $$PWD/cotangent_weights.cpp \
     $$PWD/euler_angles.cpp \
     $$PWD/inside_test.cpp \
     $$PWD/inverse_function.cpp \

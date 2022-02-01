@@ -70,8 +70,8 @@ R asin(const T& value)
 
 /**
  * @brief Arctangent of a value
- * @param value Tangent value
- * @return Angle in radiants
+ * @param value Angle in radiants
+ * @return Tangent value
  */
 template<class T, class R>
 R atan(const T& value)
@@ -81,13 +81,24 @@ R atan(const T& value)
 
 /**
  * @brief Arctangent (2) of a value
- * @param value Tangent value
- * @return Angle in radiants
+ * @param value Angle in radiants
+ * @return Tangent value
  */
 template<class T, class R>
 R atan2(const T& value)
 {
     return static_cast<R>(std::atan2(value));
+}
+
+/**
+ * @brief Cotan of a value
+ * @param value Angle in radiants
+ * @return Tangent value
+ */
+template<class T, class R>
+R cotan(const T& value)
+{
+    return static_cast<R>(std::cos(value) / std::sin(value));
 }
 
 /**
@@ -285,4 +296,27 @@ R floor(const T& value)
     return std::floor(value);
 }
 
+/**
+ * @brief Clamp value
+ * @param value Value
+ * @param minValue Min value
+ * @param maxValue Max value
+ * @return Clamped value
+ */
+template<class T>
+T clamp(const T& value, const T& minValue, const T& maxValue)
+{
+    return std::clamp(value, minValue, maxValue);
+}
+
+/**
+ * @brief Check if the value is nan
+ * @param value Value
+ * @return True if is nan value
+ */
+template<class T>
+bool isnan(const T& value)
+{
+    return std::isnan(value);
+}
 }

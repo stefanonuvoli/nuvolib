@@ -64,6 +64,72 @@ void meshLaplacianSmoothing(
         const unsigned int iterations,
         const std::vector<double>& alphas,
         const std::vector<std::vector<typename Mesh::VertexId>>& vvAdj);
+
+
+/* Cotangent laplacian smoothing */
+
+template<class Mesh>
+void meshCotangentSmoothing(
+        Mesh& mesh,
+        const unsigned int iterations,
+        const double alpha,
+        const bool fixBorders = false);
+template<class Mesh>
+void meshCotangentSmoothing(
+        Mesh& mesh,
+        const unsigned int iterations,
+        const double alpha,
+        const std::vector<std::vector<typename Mesh::VertexId>>& vvAdj,
+        const std::vector<std::vector<typename Mesh::FaceId>>& vfAdj,
+        const bool fixBorders = false);
+template<class Mesh>
+void meshCotangentSmoothing(
+        Mesh& mesh,
+        const unsigned int iterations,
+        const std::vector<double>& alphas,
+        const bool fixBorders = false);
+template<class Mesh>
+void meshCotangentSmoothing(
+        Mesh& mesh,
+        const unsigned int iterations,
+        const std::vector<double>& alphas,
+        const std::vector<std::vector<typename Mesh::VertexId>>& vvAdj,
+        const std::vector<std::vector<typename Mesh::FaceId>>& vfAdj,
+        const bool fixBorders = false);
+
+template<class Mesh>
+void meshCotangentSmoothing(
+        Mesh& mesh,
+        const std::vector<typename Mesh::VertexId>& vertices,
+        const unsigned int iterations,
+        const double alpha,
+        const bool fixBorders = false);
+template<class Mesh>
+void meshCotangentSmoothing(
+        Mesh& mesh,
+        const std::vector<typename Mesh::VertexId>& vertices,
+        const unsigned int iterations,
+        const double alpha,
+        const std::vector<std::vector<typename Mesh::VertexId>>& vvAdj,
+        const std::vector<std::vector<typename Mesh::FaceId>>& vfAdj,
+        const bool fixBorders = false);
+template<class Mesh>
+void meshCotangentSmoothing(
+        Mesh& mesh,
+        const std::vector<typename Mesh::VertexId>& vertices,
+        const unsigned int iterations,
+        const std::vector<double>& alphas,
+        const bool fixBorders = false);
+template<class Mesh>
+void meshCotangentSmoothing(
+        Mesh& mesh,
+        const std::vector<typename Mesh::VertexId>& vertices,
+        const unsigned int iterations,
+        const std::vector<double>& alphas,
+        const std::vector<std::vector<typename Mesh::VertexId>>& vvAdj,
+        const std::vector<std::vector<typename Mesh::FaceId>>& vfAdj,
+        const bool fixBorders = false);
+
 }
 
 #include "mesh_smoothing.cpp"

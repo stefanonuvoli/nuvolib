@@ -35,7 +35,7 @@ template<class T, EigenId D, class R>
 R angle(const Vector<T,D>& vec1, const Vector<T,D>& vec2, const bool alreadyNormalized)
 {
     if (!alreadyNormalized) {
-        return angle(dot(vec1.normalized(), vec2.normalized()));
+        return angle(vec1.normalized().dot(vec2.normalized()));
     }
     else {
         return angle(vec1, vec2);

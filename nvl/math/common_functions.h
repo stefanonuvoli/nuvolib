@@ -33,6 +33,9 @@ template<class T, class R = T>
 R atan2(const T& value);
 
 template<class T, class R = T>
+R cotan(const T& value);
+
+template<class T, class R = T>
 R abs(const T& value);
 
 template<class T1, class T2, class R = T1>
@@ -76,6 +79,12 @@ R ceil(const T& value);
 
 template<class T, class R = T>
 R floor(const T& value);
+
+template<class T>
+T clamp(const T& value, const T& minValue, const T& maxValue);
+
+template<class T>
+bool isnan(const T& value);
 
 }
 

@@ -27,14 +27,13 @@ std::vector<std::vector<typename Mesh::FaceId>> meshVertexFaceAdjacencies(
         const Mesh& mesh,
         std::vector<std::vector<Index>>& vfPos);
 
-
 template<class Mesh>
 std::vector<std::vector<typename Mesh::FaceId>> meshFaceFaceAdjacencies(
         const Mesh& mesh);
 template<class Mesh>
 std::vector<std::vector<typename Mesh::FaceId>> meshFaceFaceAdjacencies(
         const Mesh& mesh,
-        const std::vector<std::vector<typename Mesh::VertexId>>& vfAdj);
+        const std::vector<std::vector<typename Mesh::FaceId>>& vfAdj);
 
 template<class Mesh>
 std::vector<std::vector<typename Mesh::FaceId>> meshConnectedComponents(

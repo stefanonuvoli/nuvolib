@@ -118,10 +118,9 @@ template<class Mesh>
 std::vector<std::vector<typename Mesh::FaceId>> meshFaceFaceAdjacencies(
         const Mesh& mesh)
 {
-    std::vector<std::vector<typename Mesh::VertexId>> vfAdj = meshVertexFaceAdjacencies(mesh);
+    std::vector<std::vector<typename Mesh::FaceId>> vfAdj = meshVertexFaceAdjacencies(mesh);
     return meshFaceFaceAdjacencies(mesh, vfAdj);
 }
-
 
 /**
  * @brief Mesh face-face adjacencies
@@ -132,7 +131,7 @@ std::vector<std::vector<typename Mesh::FaceId>> meshFaceFaceAdjacencies(
 template<class Mesh>
 std::vector<std::vector<typename Mesh::FaceId>> meshFaceFaceAdjacencies(
         const Mesh& mesh,
-        const std::vector<std::vector<typename Mesh::VertexId>>& vfAdj)
+        const std::vector<std::vector<typename Mesh::FaceId>>& vfAdj)
 {
     typedef typename Mesh::Face Face;
     typedef typename Mesh::FaceId FaceId;

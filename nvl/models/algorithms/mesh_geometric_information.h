@@ -34,8 +34,6 @@ typename Mesh::Scalar meshFaceArea(const Mesh& mesh, const typename Mesh::FaceId
 template<class Mesh>
 typename Mesh::Scalar meshFaceArea(const Mesh& mesh, const typename Mesh::Face& face);
 
-
-
 }
 
 #include "mesh_geometric_information.cpp"
