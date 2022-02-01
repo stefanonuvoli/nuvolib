@@ -232,7 +232,7 @@ template<class VT>
 void VertexMesh<VT>::updateVertexColors()
 {
     if (vVertexColorsEnabled) {
-        this->vVertexColors.resize(this->nextVertexId(), VertexColor(1.0, 1.0, 1.0));
+        this->vVertexColors.resize(this->nextVertexId(), VertexColor(0.8, 0.8, 0.8));
     }
     else {
         this->vVertexColors.clear();
