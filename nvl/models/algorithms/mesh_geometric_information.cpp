@@ -24,11 +24,11 @@ AlignedBox3<typename Mesh::Scalar> meshBoundingBox(const Mesh& mesh)
     typedef typename Mesh::Vertex Vertex;
 
     AlignedBox3<Scalar> boundingBox;
-    boundingBox.setNull();
 
     for (const Vertex& vertex : mesh.vertices()) {
         boundingBox.extend(vertex.point());
     }
+
     return boundingBox;
 }
 
