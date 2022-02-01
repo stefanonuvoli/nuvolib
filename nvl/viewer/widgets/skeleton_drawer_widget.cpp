@@ -1,7 +1,14 @@
-﻿#include "skeleton_drawer_widget.h"
+﻿/*
+ * This file is part of nuvolib: https://github.com/stefanonuvoli/nuvolib
+ * This Source Code Form is subject to the terms of the GNU GPL 3.0
+ *
+ * @author Stefano Nuvoli (stefano.nuvoli@gmail.com)
+ */
+#include "skeleton_drawer_widget.h"
 
 #ifdef NVL_QT
 #ifdef NVL_OPENGL_LOADED
+
 #include "ui_skeleton_drawer_widget.h"
 
 #include <nvl/models/model_3d.h>

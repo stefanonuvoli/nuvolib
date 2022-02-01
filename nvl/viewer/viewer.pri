@@ -33,8 +33,6 @@ contains(DEFINES, NVL_QT) {
         $$PWD/widgets/skeleton_drawer_widget.cpp \
         $$PWD/widgets/vertex_mesh_drawer_widget.cpp
 
-    RESOURCES += \
-        $$PWD/shaders/shaders.qrc
 
     FORMS +=  \
         $$PWD/viewerwindow.ui \
@@ -49,6 +47,9 @@ contains(DEFINES, NVL_QT) {
         $$PWD/widgets/polyline_mesh_drawer_widget.ui \
         $$PWD/widgets/skeleton_drawer_widget.ui \
         $$PWD/widgets/vertex_mesh_drawer_widget.ui
+
+    RESOURCES += \
+        $$PWD/shaders/shaders.qrc
 
     contains(DEFINES, NVL_QGLVIEWER_LOADED) {
 
@@ -88,9 +89,9 @@ contains(DEFINES, NVL_OPENGL_LOADED) {
         $$PWD/gl/gl_draw.h \
         $$PWD/gl/gl_frameable.h \
         $$PWD/gl/gl_primitives.h \
-        $$PWD/gl/gl_shader.h \
         $$PWD/gl/gl_textures.h \
         $$PWD/gl/opengl_headers.h \
+        $$PWD/shaders/gl_shader.h \
         $$PWD/interfaces/animable.h \
         $$PWD/interfaces/drawable.h \
         $$PWD/interfaces/frameable.h \
