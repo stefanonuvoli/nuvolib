@@ -47,7 +47,7 @@ int main(int argc, char *argv[]) {
     Mesh mesh1, mesh2, mesh3;
 
     //Load mesh
-    nvl::meshLoadFromFile("../../data/bunny_5000.obj", mesh1);
+    nvl::meshLoadFromFile("../../data/bunny_2000.obj", mesh1);
 
     //Translate mesh to the center
     nvl::AlignedBox3d bbox = nvl::meshBoundingBox(mesh1);
@@ -74,12 +74,12 @@ int main(int argc, char *argv[]) {
     FaceMeshDrawer drawer1(&mesh1);    
     FaceMeshDrawer drawer2(&mesh2);
     FaceMeshDrawer drawer3(&mesh3);
-//    drawer1.setWireframeVisible(true);
-//    drawer1.setWireframeSize(2);
-//    drawer2.setWireframeVisible(true);
-//    drawer2.setWireframeSize(2);
-//    drawer3.setWireframeVisible(true);
-//    drawer3.setWireframeSize(2);
+    drawer1.setWireframeVisible(true);
+    drawer1.setWireframeSize(2);
+    drawer2.setWireframeVisible(true);
+    drawer2.setWireframeSize(2);
+    drawer3.setWireframeVisible(true);
+    drawer3.setWireframeSize(2);
 
     //Add to the canvas
     viewer.canvas()->addDrawable(&drawer1, "Original");
