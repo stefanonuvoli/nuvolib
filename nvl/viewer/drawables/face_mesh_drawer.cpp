@@ -67,7 +67,7 @@ void FaceMeshDrawer<M>::draw() const
         drawFaceNormals();
     }
 
-    if (this->faceShader() != nullptr) {
+    if (this->faceShaderVisible() && this->faceShader() != nullptr) {
         drawShader();
     }
 }

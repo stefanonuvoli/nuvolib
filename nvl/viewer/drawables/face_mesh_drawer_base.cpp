@@ -21,8 +21,9 @@ NVL_INLINE FaceMeshDrawerBase::FaceMeshDrawerBase() :
     vFaceColorMode(FACE_COLOR_PER_FACE),
     vFaceTransparency(false),
     vFaceLighting(true),
+    vTextureMode(TEXTURE_MODE_MODULATE),
     vFaceShader(nullptr),
-    vTextureMode(TEXTURE_MODE_MODULATE)
+    vFaceShaderVisible(true)
 {
 
 }
@@ -175,5 +176,15 @@ NVL_INLINE void FaceMeshDrawerBase::clearFaceShader()
 }
 
 #endif
+
+NVL_INLINE bool FaceMeshDrawerBase::faceShaderVisible() const
+{
+    return vFaceShaderVisible;
+}
+
+NVL_INLINE void FaceMeshDrawerBase::setFaceShaderVisible(const bool value)
+{
+    vFaceShaderVisible = value;
+}
 
 }

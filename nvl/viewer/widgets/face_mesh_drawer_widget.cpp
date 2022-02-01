@@ -89,6 +89,7 @@ NVL_INLINE void FaceMeshDrawerWidget::updateFaceView()
     bool normalsVisible = faceEnabled;
     int normalSize = 1;
     int textureModeSelected = FaceMeshDrawerBase::TEXTURE_MODE_MODULATE;
+    bool faceShaderVisible = faceEnabled;
 
     if (faceEnabled) {
         bool first = true;
@@ -118,6 +119,7 @@ NVL_INLINE void FaceMeshDrawerWidget::updateFaceView()
             textureVisible &= textureEnabled && meshDrawer->textureVisible();
             faceTransparency &= faceTransparencyEnabled && meshDrawer->faceTransparency();
             faceLighting &= faceTransparencyEnabled && meshDrawer->faceLighting();
+            faceShaderVisible &= meshDrawer->faceShaderVisible();
 
             if (meshDrawer->textureMode() == FaceMeshDrawerBase::TEXTURE_MODE_MODULATE) {
                 textureModeSelected = 0;
@@ -159,6 +161,7 @@ NVL_INLINE void FaceMeshDrawerWidget::updateFaceView()
     ui->faceTransparencyCheckBox->setChecked(faceTransparency);
     ui->faceTextureVisibleCheckBox->setChecked(textureVisible);
     ui->faceTextureModeComboBox->setCurrentIndex(textureModeSelected);
+    ui->faceShaderCheckBox->setChecked(faceShaderVisible);
 }
 
 NVL_INLINE void FaceMeshDrawerWidget::getSelectedDrawers()
@@ -391,6 +394,18 @@ NVL_INLINE void FaceMeshDrawerWidget::on_faceTextureModeComboBox_currentIndexCha
         for (FaceMeshDrawerBase* meshDrawer : vFaceMeshDrawers) {
             meshDrawer->setTextureMode(textureMode);
             meshDrawer->update();
+        }
+
+        updateView();
+        vCanvas->updateGL();
+    }
+}
+
+NVL_INLINE void FaceMeshDrawerWidget::on_faceShaderCheckBox_stateChanged(int arg1)
+{
+    if (vHandleUpdate) {
+        for (FaceMeshDrawerBase* meshDrawer : vFaceMeshDrawers) {
+            meshDrawer->setFaceShaderVisible(arg1 == Qt::Checked);
         }
 
         updateView();

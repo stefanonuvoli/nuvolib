@@ -61,6 +61,7 @@ private Q_SLOTS:
     void on_faceNormalsSlider_valueChanged(int value);
     void on_faceLightingCheckBox_stateChanged(int arg1);
     void on_faceTextureModeComboBox_currentIndexChanged(int index);
+    void on_faceShaderCheckBox_stateChanged(int arg1);
 
 private:
 

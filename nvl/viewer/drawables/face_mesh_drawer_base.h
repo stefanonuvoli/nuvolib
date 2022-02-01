@@ -85,6 +85,9 @@ public:
     virtual void clearFaceShader();
 #endif
 
+    bool faceShaderVisible() const;
+    virtual void setFaceShaderVisible(const bool visible);
+
     virtual bool hasFaceNormals() const = 0;
     virtual bool hasFaceColors() const = 0;
     virtual bool hasTextures() const = 0;
@@ -115,14 +118,12 @@ private:
     bool vFaceTransparency;
     bool vFaceLighting;
 
+    TextureMode vTextureMode;
+
 #ifdef NVL_OPENGL_LOADED
     GLShader* vFaceShader;
 #endif
-
-    std::vector<double> vVertexValues;
-    std::vector<double> vFaceValues;
-
-    TextureMode vTextureMode;
+    bool vFaceShaderVisible;
 
 };
 

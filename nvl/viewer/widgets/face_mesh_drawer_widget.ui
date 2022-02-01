@@ -232,6 +232,13 @@
      </property>
     </spacer>
    </item>
+   <item row="1" column="3">
+    <widget class="QCheckBox" name="faceShaderCheckBox">
+     <property name="text">
+      <string>Shader</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <customwidgets>
