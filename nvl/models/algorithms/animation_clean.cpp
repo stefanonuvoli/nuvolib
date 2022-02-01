@@ -14,6 +14,11 @@
 
 namespace nvl {
 
+/**
+ * @brief Remove scaling from animations
+ * @param skeleton Skeleton
+ * @param animations Animations
+ */
 template<class S, class A>
 void animationRemoveScaling(const S& skeleton, std::vector<A>& animations)
 {
@@ -23,12 +28,22 @@ void animationRemoveScaling(const S& skeleton, std::vector<A>& animations)
     }
 }
 
+/**
+ * @brief Remove scaling from animation
+ * @param skeleton Skeleton
+ * @param animation Animation
+ */
 template<class S, class A>
 void animationRemoveScaling(const S& skeleton, A& animation)
 {
     animationFrameRemoveScaling(skeleton, animation.keyframes());
 }
 
+/**
+ * @brief Remove scaling from animation frames
+ * @param skeleton Skeleton
+ * @param frames Animation frames
+ */
 template<class S, class F>
 void animationFrameRemoveScaling(const S& skeleton, std::vector<F>& frames)
 {
@@ -38,6 +53,11 @@ void animationFrameRemoveScaling(const S& skeleton, std::vector<F>& frames)
     }
 }
 
+/**
+ * @brief Remove scaling from animation frame
+ * @param skeleton Skeleton
+ * @param frame Frame
+ */
 template<class S, class F>
 void animationFrameRemoveScaling(const S& skeleton, F& frame)
 {
@@ -71,6 +91,11 @@ void animationFrameRemoveScaling(const S& skeleton, F& frame)
     }
 }
 
+/**
+ * @brief Remove root motion from animations
+ * @param skeleton Skeleton
+ * @param animations Animations
+ */
 template<class S, class A>
 void animationRemoveRootMotion(const S& skeleton, std::vector<A>& animations)
 {
@@ -80,12 +105,22 @@ void animationRemoveRootMotion(const S& skeleton, std::vector<A>& animations)
     }
 }
 
+/**
+ * @brief Remove root motion from animation
+ * @param skeleton Skeleton
+ * @param animation Animation
+ */
 template<class S, class A>
 void animationRemoveRootMotion(const S& skeleton, A& animation)
 {
     animationFrameRemoveRootMotion(skeleton, animation.keyframes());
 }
 
+/**
+ * @brief Remove root motion from animation frames
+ * @param skeleton Skeleton
+ * @param frames Animation frames
+ */
 template<class S, class F>
 void animationFrameRemoveRootMotion(const S& skeleton, std::vector<F>& frames)
 {
@@ -95,6 +130,11 @@ void animationFrameRemoveRootMotion(const S& skeleton, std::vector<F>& frames)
     }
 }
 
+/**
+ * @brief Remove root motion from animation frame
+ * @param skeleton Skeleton
+ * @param frame Animation frame
+ */
 template<class S, class F>
 void animationFrameRemoveRootMotion(const S& skeleton, F& frame)
 {
@@ -134,6 +174,5 @@ void animationFrameRemoveRootMotion(const S& skeleton, F& frame)
 
     animationFrameGlobalFromLocal(skeleton, frame);
 }
-
 
 }

@@ -11,6 +11,13 @@
 
 namespace nvl {
 
+/**
+ * @brief Mesh vertex-vertex adjacencies
+ * @param mesh Mesh
+ * @param faces Flag for taking into account face adjacencies (default true)
+ * @param polylines Flag for taking into account polyline adjacencies (default true)
+ * @return Vertex-vertex adjacencies
+ */
 template<class Mesh>
 std::vector<std::vector<typename Mesh::VertexId>> meshVertexVertexAdjacencies(
         const Mesh& mesh,
@@ -58,6 +65,11 @@ std::vector<std::vector<typename Mesh::VertexId>> meshVertexVertexAdjacencies(
     return vvAdj;
 }
 
+/**
+ * @brief Mesh vertex-face adjacencies
+ * @param mesh Mesh
+ * @return Vertex-face adjacencies
+ */
 template<class Mesh>
 std::vector<std::vector<typename Mesh::FaceId>> meshVertexFaceAdjacencies(
         const Mesh& mesh)
@@ -66,6 +78,12 @@ std::vector<std::vector<typename Mesh::FaceId>> meshVertexFaceAdjacencies(
     return meshVertexFaceAdjacencies(mesh, vfPos);
 }
 
+/**
+ * @brief Mesh vertex-face adjacencies
+ * @param mesh Mesh
+ * @param vfPos Output vector that gives the position of the vertex in the adjacent face
+ * @return Vertex-face adjacencies
+ */
 template<class Mesh>
 std::vector<std::vector<typename Mesh::FaceId>> meshVertexFaceAdjacencies(
         const Mesh& mesh,
@@ -91,6 +109,11 @@ std::vector<std::vector<typename Mesh::FaceId>> meshVertexFaceAdjacencies(
     return vfAdj;
 }
 
+/**
+ * @brief Mesh face-face adjacencies
+ * @param mesh Mesh
+ * @return Face-face adjacencies
+ */
 template<class Mesh>
 std::vector<std::vector<typename Mesh::FaceId>> meshFaceFaceAdjacencies(
         const Mesh& mesh)
@@ -99,6 +122,13 @@ std::vector<std::vector<typename Mesh::FaceId>> meshFaceFaceAdjacencies(
     return meshFaceFaceAdjacencies(mesh, vfAdj);
 }
 
+
+/**
+ * @brief Mesh face-face adjacencies
+ * @param mesh Mesh
+ * @param vfAdj Pre-computed vertex-vertex adjacencies
+ * @return Face-face adjacencies
+ */
 template<class Mesh>
 std::vector<std::vector<typename Mesh::FaceId>> meshFaceFaceAdjacencies(
         const Mesh& mesh,
@@ -150,6 +180,11 @@ std::vector<std::vector<typename Mesh::FaceId>> meshFaceFaceAdjacencies(
     return ffAdj;
 }
 
+/**
+ * @brief Connected components of a mesh
+ * @param mesh Mesh
+ * @return Connected components as a vector of face ids
+ */
 template<class Mesh>
 std::vector<std::vector<typename Mesh::FaceId>> meshConnectedComponents(
         const Mesh& mesh)
@@ -158,6 +193,12 @@ std::vector<std::vector<typename Mesh::FaceId>> meshConnectedComponents(
     return meshConnectedComponents(mesh, ffAdj);
 }
 
+/**
+ * @brief Connected components of a mesh
+ * @param mesh Mesh
+ * @param ffAdj Pre-computed face-face adjacencies
+ * @return Connected components as a vector of face ids
+ */
 template<class Mesh>
 std::vector<std::vector<typename Mesh::FaceId>> meshConnectedComponents(
         const Mesh& mesh,
@@ -167,6 +208,12 @@ std::vector<std::vector<typename Mesh::FaceId>> meshConnectedComponents(
     return meshConnectedComponents(mesh, ffAdj, faceComponentMap);
 }
 
+/**
+ * @brief Connected components of a mesh
+ * @param mesh Mesh
+ * @param faceComponentMap Map that maps to each face the component it belongs in
+ * @return Connected components as a vector of face ids
+ */
 template<class Mesh>
 std::vector<std::vector<typename Mesh::FaceId>> meshConnectedComponents(
         const Mesh& mesh,
@@ -176,6 +223,13 @@ std::vector<std::vector<typename Mesh::FaceId>> meshConnectedComponents(
     return meshConnectedComponents(mesh, ffAdj, faceComponentMap);
 }
 
+/**
+ * @brief Connected components of a mesh
+ * @param mesh Mesh
+ * @param ffAdj Pre-computed face-face adjacencies
+ * @param faceComponentMap Map that maps to each face the component it belongs in
+ * @return Connected components as a vector of face ids
+ */
 template<class Mesh>
 std::vector<std::vector<typename Mesh::FaceId>> meshConnectedComponents(
         const Mesh& mesh,
@@ -222,7 +276,12 @@ std::vector<std::vector<typename Mesh::FaceId>> meshConnectedComponents(
     return connectedComponents;
 }
 
-
+/**
+ * @brief Connected components of a mesh
+ * @param mesh Mesh
+ * @param selectedFaces Face subset on which compute the connected components
+ * @return Connected components as a vector of face ids
+ */
 template<class Mesh, class Set>
 std::vector<std::vector<typename Mesh::FaceId>> meshSubsetConnectedComponents(
         const Mesh& mesh,
@@ -232,6 +291,13 @@ std::vector<std::vector<typename Mesh::FaceId>> meshSubsetConnectedComponents(
     return meshSubsetConnectedComponents(mesh, selectedFaces, ffAdj);
 }
 
+/**
+ * @brief Connected components of a mesh
+ * @param mesh Mesh
+ * @param selectedFaces Face subset on which compute the connected components
+ * @param ffAdj Pre-computed face-face adjacencies
+ * @return Connected components as a vector of face ids
+ */
 template<class Mesh, class Set>
 std::vector<std::vector<typename Mesh::FaceId>> meshSubsetConnectedComponents(
         const Mesh& mesh,
@@ -242,6 +308,13 @@ std::vector<std::vector<typename Mesh::FaceId>> meshSubsetConnectedComponents(
     return meshSubsetConnectedComponents(mesh, selectedFaces, ffAdj, faceComponentMap);
 }
 
+/**
+ * @brief Connected components of a mesh
+ * @param mesh Mesh
+ * @param selectedFaces Face subset on which compute the connected components
+ * @param faceComponentMap Map that maps to each face the component it belongs in
+ * @return Connected components as a vector of face ids
+ */
 template<class Mesh, class Set>
 std::vector<std::vector<typename Mesh::FaceId>> meshSubsetConnectedComponents(
         const Mesh& mesh,
@@ -252,6 +325,14 @@ std::vector<std::vector<typename Mesh::FaceId>> meshSubsetConnectedComponents(
     return meshSubsetConnectedComponents(mesh, selectedFaces, ffAdj, faceComponentMap);
 }
 
+/**
+ * @brief Connected components of a mesh
+ * @param mesh Mesh
+ * @param selectedFaces Face subset on which compute the connected components
+ * @param ffAdj Pre-computed face-face adjacencies
+ * @param faceComponentMap Map that maps to each face the component it belongs in
+ * @return Connected components as a vector of face ids
+ */
 template<class Mesh, class Set>
 std::vector<std::vector<typename Mesh::FaceId>> meshSubsetConnectedComponents(
         const Mesh& mesh,

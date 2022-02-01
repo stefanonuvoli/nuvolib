@@ -10,6 +10,24 @@
 
 namespace nvl {
 
+namespace internal {
+
+template<class VertexId>
+std::vector<VertexId> findBorderVertexChainPath(
+        const VertexId& startId,
+        const VertexId& targetId,
+        const std::vector<std::vector<VertexId>>& nextMap,
+        std::vector<std::vector<bool>>& visited);
+
+}
+
+/**
+ * @brief Check if a face edge is on the borders of a mesh
+ * @param mesh Mesh
+ * @param fId Face id
+ * @param fePos Id of the edge of the face
+ * @return True if the edge is a border
+ */
 template<class Mesh>
 bool meshIsBorderFaceEdge(
         const Mesh& mesh,
@@ -20,6 +38,14 @@ bool meshIsBorderFaceEdge(
     return meshIsBorderFaceEdge(mesh, fId, fePos, ffAdj);
 }
 
+/**
+ * @brief Check if a face edge is on the borders of a mesh
+ * @param mesh Mesh
+ * @param fId Face id
+ * @param fePos Id of the edge of the face
+ * @param ffAdj Pre-computed face-face adjacencies
+ * @return True if the edge is a border
+ */
 template<class Mesh>
 bool meshIsBorderFaceEdge(
         const Mesh& mesh,
@@ -32,6 +58,13 @@ bool meshIsBorderFaceEdge(
     return ffAdj[fId][fePos] == NULL_ID;
 }
 
+/**
+ * @brief Check if a face is on the borders of a mesh
+ * @param mesh Mesh
+ * @param fId Face id
+ * @param fePos Id of the edge of the face
+ * @return True if the face has a border edge
+ */
 template<class Mesh>
 bool meshIsBorderFace(
         const Mesh& mesh,
@@ -41,6 +74,13 @@ bool meshIsBorderFace(
     return meshIsBorderFace(mesh, fId, ffAdj);
 }
 
+/**
+ * @brief Check if a face is on the borders of a mesh
+ * @param mesh Mesh
+ * @param fId Face id
+ * @param ffAdj Pre-computed face-face adjacencies
+ * @return True if the face has a border edge
+ */
 template<class Mesh>
 bool meshIsBorderFace(
         const Mesh& mesh,
@@ -60,6 +100,12 @@ bool meshIsBorderFace(
     return false;
 }
 
+/**
+ * @brief Check if a vertex is on the borders of a mesh
+ * @param mesh Mesh
+ * @param vId Vertex Id
+ * @return True if the vertex is on the border
+ */
 template<class Mesh>
 bool meshIsBorderVertex(
         const Mesh& mesh,
@@ -69,6 +115,13 @@ bool meshIsBorderVertex(
     return meshIsBorderVertex(mesh, vId, ffAdj);
 }
 
+/**
+ * @brief Check if a vertex is on the borders of a mesh
+ * @param mesh Mesh
+ * @param vId Vertex Id
+ * @param ffAdj Pre-computed face-face adjacencies
+ * @return True if the vertex is on the border
+ */
 template<class Mesh>
 bool meshIsBorderVertex(
         const Mesh& mesh,
@@ -96,6 +149,11 @@ bool meshIsBorderVertex(
     return false;
 }
 
+/**
+ * @brief Get all faces lying on a border in a mesh
+ * @param mesh Mesh
+ * @return Faces lying on a border
+ */
 template<class Mesh>
 std::vector<typename Mesh::FaceId> meshBorderFaces(const Mesh& mesh)
 {
@@ -103,6 +161,12 @@ std::vector<typename Mesh::FaceId> meshBorderFaces(const Mesh& mesh)
     return meshBorderFaces(mesh, ffAdj);
 }
 
+/**
+ * @brief Get all faces lying on a border in a mesh
+ * @param mesh Mesh
+ * @param ffAdj Pre-computed face-face adjacencies
+ * @return Faces lying on a border
+ */
 template<class Mesh>
 std::vector<typename Mesh::FaceId> meshBorderFaces(
         const Mesh& mesh,
@@ -125,6 +189,11 @@ std::vector<typename Mesh::FaceId> meshBorderFaces(
     return borderFaces;
 }
 
+/**
+ * @brief Get all vertices lying on a border in a mesh
+ * @param mesh Mesh
+ * @return Vertices lying on a border
+ */
 template<class Mesh>
 std::vector<typename Mesh::VertexId> meshBorderVertices(const Mesh& mesh)
 {
@@ -132,6 +201,12 @@ std::vector<typename Mesh::VertexId> meshBorderVertices(const Mesh& mesh)
     return meshBorderVertices(mesh, ffAdj);
 }
 
+/**
+ * @brief Get all vertices lying on a border in a mesh
+ * @param mesh Mesh
+ * @param ffAdj Pre-computed face-face adjacencies
+ * @return Vertices lying on a border
+ */
 template<class Mesh>
 std::vector<typename Mesh::VertexId> meshBorderVertices(
         const Mesh& mesh,
@@ -161,6 +236,11 @@ std::vector<typename Mesh::VertexId> meshBorderVertices(
     return std::vector<VertexId>(borderVertices.begin(), borderVertices.end());
 }
 
+/**
+ * @brief Get all vertex chains on a border in a mesh
+ * @param mesh Mesh
+ * @return Vertex chains lying on a border
+ */
 template<class Mesh>
 std::vector<std::vector<typename Mesh::VertexId>> meshBorderVertexChains(
         const Mesh& mesh)
@@ -169,6 +249,12 @@ std::vector<std::vector<typename Mesh::VertexId>> meshBorderVertexChains(
     return meshBorderVertexChains(mesh, ffAdj);
 }
 
+/**
+ * @brief Get all vertex chains on a border in a mesh
+ * @param mesh Mesh
+ * @param ffAdj Pre-computed face-face adjacencies
+ * @return Vertex chains lying on a border
+ */
 template<class Mesh>
 std::vector<std::vector<typename Mesh::VertexId>> meshBorderVertexChains(
         const Mesh& mesh,
@@ -214,7 +300,7 @@ std::vector<std::vector<typename Mesh::VertexId>> meshBorderVertexChains(
 
         //If it is a border vertex
         if (!nextMap[vId].empty()) {
-            std::vector<VertexId> chain = internal::findBorderChainLoop(vId, vId, nextMap, visited);
+            std::vector<VertexId> chain = internal::findBorderVertexChainPath(vId, vId, nextMap, visited);
 
             if (!chain.empty()) {
                 chains.push_back(chain);
@@ -225,6 +311,14 @@ std::vector<std::vector<typename Mesh::VertexId>> meshBorderVertexChains(
     return chains;
 }
 
+/**
+ * @brief Check if a face edge is on the borders of a subset of a mesh
+ * @param mesh Mesh
+ * @param fId Face id
+ * @param fePos Id of the edge of the face
+ * @param selectedFaces Faces in the subset of the mesh
+ * @return True if the edge is a border
+ */
 template<class Mesh, class Set>
 bool meshSubsetIsBorderFaceEdge(
         const Mesh& mesh,
@@ -236,6 +330,15 @@ bool meshSubsetIsBorderFaceEdge(
     return meshSubsetIsBorderFaceEdge(mesh, fId, fePos, selectedFaces, ffAdj);
 }
 
+/**
+ * @brief Check if a face edge is on the borders of a subset of mesh
+ * @param mesh Mesh
+ * @param fId Face id
+ * @param fePos Id of the edge of the face
+ * @param selectedFaces Faces in the subset of the mesh
+ * @param ffAdj Pre-computed face-face adjacencies
+ * @return True if the edge is a border
+ */
 template<class Mesh, class Set>
 bool meshSubsetIsBorderFaceEdge(
         const Mesh& mesh,
@@ -249,6 +352,14 @@ bool meshSubsetIsBorderFaceEdge(
     return ffAdj[fId][fePos] == NULL_ID || selectedFaces.find(ffAdj[fId][fePos]) == selectedFaces.end();
 }
 
+/**
+ * @brief Check if a face is on the borders of a subset of a mesh
+ * @param mesh Mesh
+ * @param fId Face id
+ * @param fePos Id of the edge of the face
+ * @param selectedFaces Faces in the subset of the mesh
+ * @return True if the face has a border edge
+ */
 template<class Mesh, class Set>
 bool meshSubsetIsBorderFace(
         const Mesh& mesh,
@@ -259,6 +370,15 @@ bool meshSubsetIsBorderFace(
     return meshSubsetIsBorderFace(mesh, fId, selectedFaces, ffAdj);
 }
 
+/**
+ * @brief Check if a face is on the borders of a subset of a mesh
+ * @param mesh Mesh
+ * @param fId Face id
+ * @param fePos Id of the edge of the face
+ * @param selectedFaces Faces in the subset of the mesh
+ * @param ffAdj Pre-computed face-face adjacencies
+ * @return True if the face has a border edge
+ */
 template<class Mesh, class Set>
 bool meshSubsetIsBorderFace(
         const Mesh& mesh,
@@ -279,6 +399,13 @@ bool meshSubsetIsBorderFace(
     return false;
 }
 
+/**
+ * @brief Check if a vertex is on the borders of a subset a subset of a mesh
+ * @param mesh Mesh
+ * @param vId Vertex Id
+ * @param selectedFaces Faces in the subset of the mesh
+ * @return True if the vertex is on the border
+ */
 template<class Mesh, class Set>
 bool meshSubsetIsBorderVertex(
         const Mesh& mesh,
@@ -289,6 +416,14 @@ bool meshSubsetIsBorderVertex(
     return meshSubsetIsBorderVertex(mesh, vId, selectedFaces, ffAdj);
 }
 
+/**
+ * @brief Check if a vertex is on the borders of a subset of a mesh
+ * @param mesh Mesh
+ * @param vId Vertex Id
+ * @param selectedFaces Faces in the subset of the mesh
+ * @param ffAdj Pre-computed face-face adjacencies
+ * @return True if the vertex is on the border
+ */
 template<class Mesh, class Set>
 bool meshSubsetIsBorderVertex(
         const Mesh& mesh,
@@ -317,6 +452,12 @@ bool meshSubsetIsBorderVertex(
     return false;
 }
 
+/**
+ * @brief Get all faces lying on a border in a subset of a mesh
+ * @param mesh Mesh
+ * @param selectedFaces Faces in the subset of the mesh
+ * @return Faces lying on a border
+ */
 template<class Mesh, class Set>
 std::vector<typename Mesh::VertexId> meshSubsetBorderFaces(
         const Mesh& mesh,
@@ -326,6 +467,13 @@ std::vector<typename Mesh::VertexId> meshSubsetBorderFaces(
     return meshSubsetBorderFaces(mesh, selectedFaces, ffAdj);
 }
 
+/**
+ * @brief Get all faces lying on a border in a subset of a mesh
+ * @param mesh Mesh
+ * @param selectedFaces Faces in the subset of the mesh
+ * @param ffAdj Pre-computed face-face adjacencies
+ * @return Faces lying on a border
+ */
 template<class Mesh, class Set>
 std::vector<typename Mesh::VertexId> meshSubsetBorderFaces(
         const Mesh& mesh,
@@ -350,6 +498,12 @@ std::vector<typename Mesh::VertexId> meshSubsetBorderFaces(
 
 }
 
+/**
+ * @brief Get all vertices lying on a border in a subset of a mesh
+ * @param mesh Mesh
+ * @param selectedFaces Faces in the subset of the mesh
+ * @return Vertices lying on a border
+ */
 template<class Mesh, class Set>
 std::vector<typename Mesh::VertexId> meshSubsetBorderVertices(
         const Mesh& mesh,
@@ -359,6 +513,13 @@ std::vector<typename Mesh::VertexId> meshSubsetBorderVertices(
     return meshSubsetBorderVertices(mesh, selectedFaces, ffAdj);
 }
 
+/**
+ * @brief Get all vertices lying on a border in a subset of a mesh
+ * @param mesh Mesh
+ * @param selectedFaces Faces in the subset of the mesh
+ * @param ffAdj Pre-computed face-face adjacencies
+ * @return Vertices lying on a border
+ */
 template<class Mesh, class Set>
 std::vector<typename Mesh::VertexId> meshSubsetBorderVertices(
         const Mesh& mesh,
@@ -389,6 +550,12 @@ std::vector<typename Mesh::VertexId> meshSubsetBorderVertices(
     return std::vector<VertexId>(borderVertices.begin(), borderVertices.end());
 }
 
+/**
+ * @brief Get all vertex chains on a border in a subset of a mesh
+ * @param mesh Mesh
+ * @param selectedFaces Faces in the subset of the mesh
+ * @return Vertex chains lying on a border
+ */
 template<class Mesh, class Set>
 std::vector<std::vector<typename Mesh::VertexId>> meshSubsetBorderVertexChains(
         const Mesh& mesh,
@@ -398,6 +565,13 @@ std::vector<std::vector<typename Mesh::VertexId>> meshSubsetBorderVertexChains(
     return meshBorderVertexChains(mesh, ffAdj, selectedFaces);
 }
 
+/**
+ * @brief Get all vertex chains on a border in a subset of a mesh
+ * @param mesh Mesh
+ * @param selectedFaces Faces in the subset of the mesh
+ * @param ffAdj Pre-computed face-face adjacencies
+ * @return Vertex chains lying on a border
+ */
 template<class Mesh, class Set>
 std::vector<std::vector<typename Mesh::VertexId>> meshSubsetBorderVertexChains(
         const Mesh& mesh,
@@ -444,7 +618,7 @@ std::vector<std::vector<typename Mesh::VertexId>> meshSubsetBorderVertexChains(
 
         //If it is a border vertex
         if (!nextMap[vId].empty()) {
-            std::vector<VertexId> chain = internal::findBorderChainLoop(vId, vId, nextMap, visited);
+            std::vector<VertexId> chain = internal::findBorderVertexChainPath(vId, vId, nextMap, visited);
 
             if (!chain.empty()) {
                 chains.push_back(chain);
@@ -459,10 +633,18 @@ std::vector<std::vector<typename Mesh::VertexId>> meshSubsetBorderVertexChains(
 
 namespace internal {
 
+/**
+ * @brief Find the path of the vertex chain in the mesh, given starting and ending vertex
+ * @param startId Starting vertex
+ * @param targetId Ending vertex
+ * @param nextMap Tmp map
+ * @param visited Visited flag vector
+ * @return Vertex chain connecting the vertices
+ */
 template<class VertexId>
-std::vector<VertexId> findBorderChainLoop(
-        const VertexId startId,
-        const VertexId targetId,
+std::vector<VertexId> findBorderVertexChainPath(
+        const VertexId& startId,
+        const VertexId& targetId,
         const std::vector<std::vector<VertexId>>& nextMap,
         std::vector<std::vector<bool>>& visited)
 {
@@ -504,7 +686,7 @@ std::vector<VertexId> findBorderChainLoop(
             tmpVisited[currentId][currentPath] = true;
 
             VertexId nextVertexId = nextMap[currentId][currentPath];
-            std::vector<VertexId> tmpChain = internal::findBorderChainLoop(nextVertexId, targetId, nextMap, tmpVisited);
+            std::vector<VertexId> tmpChain = internal::findBorderVertexChainPath(nextVertexId, targetId, nextMap, tmpVisited);
 
             if (!tmpChain.empty()) {
                 visited = tmpVisited;

@@ -14,6 +14,11 @@ namespace nvl {
 
 /* ----------------------- GEOMETRICAL TRANSFORMATIONS ----------------------- */
 
+/**
+ * @brief Apply transformation to animations
+ * @param animations Animations
+ * @param transformation Transformation
+ */
 template<class A, class T>
 void animationApplyTransformation(std::vector<A>& animations, const T& transformation)
 {
@@ -23,12 +28,22 @@ void animationApplyTransformation(std::vector<A>& animations, const T& transform
     }
 }
 
+/**
+ * @brief Apply transformation to animation
+ * @param animation Animation
+ * @param transformation Transformation
+ */
 template<class A, class T>
 void animationApplyTransformation(A& animation, const T& transformation)
 {
     animationFrameApplyTransformation(animation.keyframes(), transformation);
 }
 
+/**
+ * @brief Apply transformation to animation frames
+ * @param frames Animation frames
+ * @param transformation Transformation
+ */
 template<class F, class T>
 void animationFrameApplyTransformation(std::vector<F>& frames, const T& transformation)
 {
@@ -38,6 +53,11 @@ void animationFrameApplyTransformation(std::vector<F>& frames, const T& transfor
     }
 }
 
+/**
+ * @brief Apply transformation to animation frame
+ * @param frames Animation frame
+ * @param transformation Transformation
+ */
 template<class F, class T>
 void animationFrameApplyTransformation(F& frame, const T& transformation)
 {
@@ -53,6 +73,11 @@ void animationFrameApplyTransformation(F& frame, const T& transformation)
     }
 }
 
+/**
+ * @brief Apply transformation to animations
+ * @param animations Animations
+ * @param transformations Transformation for each skeleton joint
+ */
 template<class A, class T>
 void animationApplyTransformation(std::vector<A>& animations, const std::vector<T>& transformations)
 {
@@ -62,12 +87,22 @@ void animationApplyTransformation(std::vector<A>& animations, const std::vector<
     }
 }
 
+/**
+ * @brief Apply transformation to animation
+ * @param animation Animation
+ * @param transformations Transformation for each skeleton joint
+ */
 template<class A, class T>
 void animationApplyTransformation(A& animation, const std::vector<T>& transformations)
 {
     animationFrameApplyTransformation(animation.keyframes(), transformations);
 }
 
+/**
+ * @brief Apply transformation to animation frames
+ * @param animations Animation frames
+ * @param transformations Transformation for each skeleton joint
+ */
 template<class F, class T>
 void animationFrameApplyTransformation(std::vector<F>& frames, const std::vector<T>& transformations)
 {
@@ -77,6 +112,11 @@ void animationFrameApplyTransformation(std::vector<F>& frames, const std::vector
     }
 }
 
+/**
+ * @brief Apply transformation to animation frame
+ * @param animations Animation frame
+ * @param transformations Transformation for each skeleton joint
+ */
 template<class F, class T>
 void animationFrameApplyTransformation(F& frame, const std::vector<T>& transformations)
 {
@@ -96,12 +136,22 @@ void animationFrameApplyTransformation(F& frame, const std::vector<T>& transform
 
 /* ----------------------- TIME TRANSFORMATIONS ----------------------- */
 
+/**
+ * @brief Change duration of an animation
+ * @param animation Animation
+ * @param duration New duration
+ */
 template<class A>
 void animationChangeDuration(A& animation, const double& duration)
 {
     animationChangeDuration(animation.keyframes(), duration);
 }
 
+/**
+ * @brief Change duration of an animation
+ * @param frames Animation frames
+ * @param duration New duration
+ */
 template<class F>
 void animationFrameChangeDuration(std::vector<F>& frames, const double& duration)
 {
@@ -114,12 +164,22 @@ void animationFrameChangeDuration(std::vector<F>& frames, const double& duration
     animationFrameChangeSpeed(frames, speed);
 }
 
+/**
+ * @brief Change duration of an animation given a speed value
+ * @param animation Animation
+ * @param speed Speed
+ */
 template<class A>
 void animationChangeSpeed(A& animation, const double& speed)
 {
     animationChangeSpeed(animation.keyframes(), speed);
 }
 
+/**
+ * @brief Change duration of an animation given a speed value
+ * @param frames Animation frames
+ * @param speed Speed
+ */
 template<class F>
 void animationFrameChangeSpeed(std::vector<F>& frames, const double& speed)
 {

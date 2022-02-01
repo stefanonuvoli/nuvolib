@@ -11,6 +11,12 @@
 
 namespace nvl {
 
+/**
+ * @brief Laplacian smoothing on animation
+ * @param animation Animation
+ * @param iterations Number of iterations
+ * @param alpha Alpha parameter (from 0 to 1)
+ */
 template<class A>
 void animationLaplacianSmoothing(
         A& animation,
@@ -20,6 +26,12 @@ void animationLaplacianSmoothing(
     animationFrameLaplacianSmoothing(animation.keyframes(), iterations, alpha);
 }
 
+/**
+ * @brief Laplacian smoothing on animation frames
+ * @param frames Animation frames
+ * @param iterations Number of iterations
+ * @param alpha Alpha parameter (from 0 to 1)
+ */
 template<class F>
 void animationFrameLaplacianSmoothing(
         std::vector<F>& frames,
@@ -64,6 +76,12 @@ void animationFrameLaplacianSmoothing(
     }
 }
 
+/**
+ * @brief Laplacian smoothing on animation
+ * @param animation Animation
+ * @param iterations Number of iterations
+ * @param alphas Alpha parameter for each frame (from 0 to 1)
+ */
 template<class A>
 void animationLaplacianSmoothing(
         A& animation,
@@ -73,6 +91,12 @@ void animationLaplacianSmoothing(
     animationFrameLaplacianSmoothing(animation.keyframes(), iterations, alphas);
 }
 
+/**
+ * @brief Laplacian smoothing on animation
+ * @param frames Animation frames
+ * @param iterations Number of iterations
+ * @param alphas Alpha parameter for each frame (from 0 to 1)
+ */
 template<class F>
 void animationFrameLaplacianSmoothing(
         std::vector<F>& frames,
@@ -89,8 +113,8 @@ void animationFrameLaplacianSmoothing(
             const double currentAlpha = alphas[i];
 
             if (!epsEqual(currentAlpha, 1.0)) {
-                const double prevAlpha = (1.0 - alphas[i]) / 2.0;
-                const double nextAlpha = (1.0 - alphas[i]) / 2.0;
+                const double prevAlpha = (1.0 - currentAlpha) / 2.0;
+                const double nextAlpha = (1.0 - currentAlpha) / 2.0;
 
                 Index prevI = (i == 0 ? frames.size() - 1 : i - 1);
                 Index nextI = (i + 1) % frames.size();
@@ -117,6 +141,12 @@ void animationFrameLaplacianSmoothing(
     }
 }
 
+/**
+ * @brief Laplacian smoothing on animation
+ * @param animation Animation
+ * @param iterations Number of iterations
+ * @param alphas Alpha parameter for each frame and joint of the skeleton (from 0 to 1)
+ */
 template<class A>
 void animationLaplacianSmoothing(
         A& animation,
@@ -126,6 +156,12 @@ void animationLaplacianSmoothing(
     animationFrameLaplacianSmoothing(animation.keyframes(), iterations, alphas);
 }
 
+/**
+ * @brief Laplacian smoothing on animation
+ * @param frames Animation frames
+ * @param iterations Number of iterations
+ * @param alphas Alpha parameter for each frame and joint of the skeleton (from 0 to 1)
+ */
 template<class F>
 void animationFrameLaplacianSmoothing(
         std::vector<F>& frames,
@@ -150,8 +186,8 @@ void animationFrameLaplacianSmoothing(
             for (Index jId = 0; jId < transformations.size(); ++jId) {
                 const double currentAlpha = alphas[i][jId];
                 if (!epsEqual(currentAlpha, 1.0)) {
-                    const double prevAlpha = (1.0 - alphas[i][jId]) / 2.0;
-                    const double nextAlpha = (1.0 - alphas[i][jId]) / 2.0;
+                    const double prevAlpha = (1.0 - currentAlpha) / 2.0;
+                    const double nextAlpha = (1.0 - currentAlpha) / 2.0;
 
                     std::vector<double> weights(3);
                     weights[0] = prevAlpha;

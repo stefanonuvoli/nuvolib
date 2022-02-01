@@ -13,7 +13,7 @@
 
 namespace nvl {
 
-/* ----------------------- DEFORMATION FROM LOCAL ----------------------- */
+/* ----------------------- DEFORMATION ----------------------- */
 
 template<class S, class A>
 void animationDeformationFromGlobal(

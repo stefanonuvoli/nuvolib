@@ -141,17 +141,6 @@ std::vector<std::vector<typename Mesh::VertexId>> meshSubsetBorderVertexChains(
         const std::vector<std::vector<typename Mesh::FaceId>>& ffAdj);
 
 
-namespace internal {
-
-template<class VertexId>
-std::vector<VertexId> findBorderChainLoop(
-        const VertexId startId,
-        const VertexId targetId,
-        const std::vector<std::vector<VertexId>>& nextMap,
-        std::vector<std::vector<bool>>& visited);
-
-}
-
 }
 
 #include "mesh_borders.cpp"

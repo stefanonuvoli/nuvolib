@@ -12,6 +12,11 @@ namespace nvl {
 
 /* ----------------------- DEFORMATION FROM LOCAL AND GLOBAL ----------------------- */
 
+/**
+ * @brief Get animation deformation from animation with global transformations
+ * @param skeleton Skeleton
+ * @param animation Animation with global transformations
+ */
 template<class S, class A>
 void animationDeformationFromGlobal(
         const S& skeleton,
@@ -20,6 +25,11 @@ void animationDeformationFromGlobal(
     animationFrameDeformationFromGlobal(skeleton, animation);
 }
 
+/**
+ * @brief Get animation deformation from animation frames with global transformations
+ * @param skeleton Skeleton
+ * @param frames Animation frames with global transformations
+ */
 template<class S, class F>
 void animationFrameDeformationFromGlobal(
         const S& skeleton,
@@ -31,6 +41,11 @@ void animationFrameDeformationFromGlobal(
     }
 }
 
+/**
+ * @brief Get animation deformation from animation frame with global transformations
+ * @param skeleton Skeleton
+ * @param frame Animation frame with global transformations
+ */
 template<class S, class F>
 void animationFrameDeformationFromGlobal(
         const S& skeleton,
@@ -39,6 +54,11 @@ void animationFrameDeformationFromGlobal(
     skeletonPoseDeformationFromGlobal(skeleton, frame.transformations());
 }
 
+/**
+ * @brief Get animation deformation from animation with local transformations
+ * @param skeleton Skeleton
+ * @param animation Animation with local transformations
+ */
 template<class S, class A>
 void animationDeformationFromLocal(
         const S& skeleton,
@@ -47,6 +67,11 @@ void animationDeformationFromLocal(
     animationFrameDeformationFromLocal(skeleton, animation);
 }
 
+/**
+ * @brief Get animation deformation from animation frames with local transformations
+ * @param skeleton Skeleton
+ * @param frames Animation frames with local transformations
+ */
 template<class S, class F>
 void animationFrameDeformationFromLocal(
         const S& skeleton,
@@ -58,6 +83,11 @@ void animationFrameDeformationFromLocal(
     }
 }
 
+/**
+ * @brief Get animation deformation from animation frame with local transformations
+ * @param skeleton Skeleton
+ * @param frame Animation frame with local transformations
+ */
 template<class S, class F>
 void animationFrameDeformationFromLocal(
         const S& skeleton,
@@ -69,6 +99,11 @@ void animationFrameDeformationFromLocal(
 
 /* ----------------------- LOCAL FROM GLOBAL ----------------------- */
 
+/**
+ * @brief Get animation with local transformation from animation with global transformations
+ * @param skeleton Skeleton
+ * @param frame Animation with global transformations
+ */
 template<class S, class A>
 void animationLocalFromGlobal(
         const S& skeleton,
@@ -77,6 +112,11 @@ void animationLocalFromGlobal(
     animationFrameLocalFromGlobal(skeleton, animation.keyframes());
 }
 
+/**
+ * @brief Get animation frames with local transformation from animation frames with global transformations
+ * @param skeleton Skeleton
+ * @param frame Animation frames with global transformations
+ */
 template<class S, class F>
 void animationFrameLocalFromGlobal(
         const S& skeleton,
@@ -88,6 +128,11 @@ void animationFrameLocalFromGlobal(
     }
 }
 
+/**
+ * @brief Get animation frames with local transformation from animation frame with global transformations
+ * @param skeleton Skeleton
+ * @param frame Animation frame with global transformations
+ */
 template<class S, class F>
 void animationFrameLocalFromGlobal(
         const S& skeleton,
@@ -100,6 +145,11 @@ void animationFrameLocalFromGlobal(
 
 /* ----------------------- GLOBAL FROM LOCAL ----------------------- */
 
+/**
+ * @brief Get animation with global transformation from animation with local transformations
+ * @param skeleton Skeleton
+ * @param frame Animation with local transformations
+ */
 template<class S, class A>
 void animationGlobalFromLocal(
         const S& skeleton,
@@ -108,6 +158,11 @@ void animationGlobalFromLocal(
     animationFrameGlobalFromLocal(skeleton, animation.keyframes());
 }
 
+/**
+ * @brief Get animation frames with global transformation from animation frames with local transformations
+ * @param skeleton Skeleton
+ * @param frame Animation frames with local transformations
+ */
 template<class S, class F>
 void animationFrameGlobalFromLocal(
         const S& skeleton,
@@ -119,6 +174,11 @@ void animationFrameGlobalFromLocal(
     }
 }
 
+/**
+ * @brief Get animation frames with global transformation from animation frame with local transformations
+ * @param skeleton Skeleton
+ * @param frame Animation frame with local transformations
+ */
 template<class S, class F>
 void animationFrameGlobalFromLocal(
         const S& skeleton,

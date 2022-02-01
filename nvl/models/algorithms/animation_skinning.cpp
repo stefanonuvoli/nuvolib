@@ -8,6 +8,13 @@
 
 namespace nvl {
 
+/**
+ * @brief Linear blending skinning
+ * @param skinningWeights Skinning weights
+ * @param transformations Transformation
+ * @param vId Id of the vertex in the mesh
+ * @return Resulting transformation for the vertex
+ */
 template<class W, class T>
 T animationLinearBlendingSkinningVertex(
         const W& skinningWeights,
@@ -35,6 +42,13 @@ T animationLinearBlendingSkinningVertex(
     return Transformation(matrix);
 }
 
+/**
+ * @brief Dual quaternion skinning
+ * @param skinningWeights Skinning weights
+ * @param transformations Transformation
+ * @param vId Id of the vertex in the mesh
+ * @return Resulting transformation for the vertex
+ */
 template<class W, class T>
 DualQuaternion<T> animationDualQuaternionSkinningVertex(
         const W& skinningWeights,
@@ -58,7 +72,7 @@ DualQuaternion<T> animationDualQuaternionSkinningVertex(
 
         const double dot = transformations[pivotJoint].rotation().dot(transformations[jointId].rotation());
         if (dot < 0.0)
-            weight *= -1;
+            weight *= -1; //We change sign if necessary
 
         dq = dq + (weight * jointTransformation);
     }
