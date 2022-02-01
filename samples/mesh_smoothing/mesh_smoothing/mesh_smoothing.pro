@@ -42,16 +42,16 @@ LIBGQLVIEWER_PATH = /usr/lib/x86_64-linux-gnu
 #nuvolib (it includes eigen, libqglviewer ...)
 include($$NUVOLIB_PATH/nuvolib.pri)
 
-##Parallel computation
-#unix:!mac {
-#    QMAKE_CXXFLAGS += -fopenmp
-#    LIBS += -fopenmp
-#}
-#macx{
-#    QMAKE_CXXFLAGS += -Xpreprocessor -fopenmp -lomp -I/usr/local/include
-#    QMAKE_LFLAGS += -lomp
-#    LIBS += -L /usr/local/lib /usr/local/lib/libomp.dylib
-#}
+#Parallel computation
+unix:!mac {
+    QMAKE_CXXFLAGS += -fopenmp
+    LIBS += -fopenmp
+}
+macx{
+    QMAKE_CXXFLAGS += -Xpreprocessor -fopenmp -lomp -I/usr/local/include
+    QMAKE_LFLAGS += -lomp
+    LIBS += -L /usr/local/lib /usr/local/lib/libomp.dylib
+}
 
 
 ############################ PROJECT FILES ############################
