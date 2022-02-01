@@ -88,7 +88,6 @@ template<class Mesh>
 typename Mesh::Point meshFaceBarycenter(const Mesh& mesh, const typename Mesh::Face& face)
 {
     typedef typename Mesh::Point Point;
-    typedef typename Mesh::VertexId VertexId;
 
     std::vector<Point> points(face.vertexNumber());
 
@@ -123,7 +122,6 @@ template<class Mesh>
 typename Mesh::Point meshFaceEdgeMidpoint(const Mesh& mesh, const typename Mesh::Face& face, const Index& fePos)
 {
     typedef typename Mesh::Point Point;
-    typedef typename Mesh::Face Face;
     typedef typename Mesh::VertexId VertexId;
 
     const VertexId& v1 = face.vertexId(fePos);
@@ -142,7 +140,7 @@ typename Mesh::Point meshFaceEdgeMidpoint(const Mesh& mesh, const typename Mesh:
 template<class Mesh>
 typename Mesh::Scalar meshFaceArea(const Mesh& mesh, const typename Mesh::FaceId& fId)
 {
-    return meshFaceBarycenter(mesh, mesh.face(fId));
+    return meshFaceArea(mesh, mesh.face(fId));
 }
 
 /**
@@ -156,7 +154,6 @@ typename Mesh::Scalar meshFaceArea(const Mesh& mesh, const typename Mesh::Face& 
 {
     typedef typename Mesh::Point Point;
     typedef typename Mesh::Scalar Scalar;
-    typedef typename Mesh::Face Face;
 
     Point barycenter = meshFaceBarycenter(mesh, face);
 
