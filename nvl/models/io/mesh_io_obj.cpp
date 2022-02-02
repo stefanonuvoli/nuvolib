@@ -107,7 +107,7 @@ bool meshLoadDataFromOBJ(
                             continue;
                         }
 
-                        typename M::Color color(std::stof(mtlSplitted[1]), std::stof(mtlSplitted[2]), std::stof(mtlSplitted[3]));
+                        typename M::Color color(stringConvert<float>(mtlSplitted[1]), stringConvert<float>(mtlSplitted[2]), stringConvert<float>(mtlSplitted[3]));
                         data.materials[loadingMaterialId].setDiffuseColor(color);
                     }
                     else if (mtlToken == "Ka") {
@@ -116,7 +116,7 @@ bool meshLoadDataFromOBJ(
                             continue;
                         }
 
-                        typename M::Color color(std::stof(mtlSplitted[1]), std::stof(mtlSplitted[2]), std::stof(mtlSplitted[3]));
+                        typename M::Color color(stringConvert<float>(mtlSplitted[1]), stringConvert<float>(mtlSplitted[2]), stringConvert<float>(mtlSplitted[3]));
                         data.materials[loadingMaterialId].setAmbientColor(color);
                     }
                     else if (mtlToken == "Ks") {
@@ -125,7 +125,7 @@ bool meshLoadDataFromOBJ(
                             continue;
                         }
 
-                        typename M::Color color(std::stof(mtlSplitted[1]), std::stof(mtlSplitted[2]), std::stof(mtlSplitted[3]));
+                        typename M::Color color(stringConvert<float>(mtlSplitted[1]), stringConvert<float>(mtlSplitted[2]), stringConvert<float>(mtlSplitted[3]));
                         data.materials[loadingMaterialId].setSpecularColor(color);
                     }
                     else if (mtlToken == "illum") {
@@ -144,7 +144,7 @@ bool meshLoadDataFromOBJ(
                             continue;
                         }
 
-                        float transparency = std::stof(mtlSplitted[1]);
+                        float transparency = stringConvert<float>(mtlSplitted[1]);
                         data.materials[loadingMaterialId].setTransparency(1 - transparency);
                     }
                     else if (mtlToken == "Tr") {
@@ -153,7 +153,7 @@ bool meshLoadDataFromOBJ(
                             continue;
                         }
 
-                        float transparency = std::stof(mtlSplitted[1]);
+                        float transparency = stringConvert<float>(mtlSplitted[1]);
                         data.materials[loadingMaterialId].setTransparency(transparency);
                     }
                     else if (mtlToken == "map_Kd") {
@@ -234,7 +234,7 @@ bool meshLoadDataFromOBJ(
                 continue;
             }
 
-            data.vertexUVs.push_back(UV(std::stof(lineSplitted[1]), std::stof(lineSplitted[2])));
+            data.vertexUVs.push_back(UV(stringConvert<float>(lineSplitted[1]), stringConvert<float>(lineSplitted[2])));
         }
 
         //Handle vertex normals
@@ -244,7 +244,7 @@ bool meshLoadDataFromOBJ(
                 continue;
             }
 
-            data.vertexNormals.push_back(VN(std::stof(lineSplitted[1]), std::stof(lineSplitted[2]), std::stof(lineSplitted[3])));
+            data.vertexNormals.push_back(VN(stringConvert<float>(lineSplitted[1]), stringConvert<float>(lineSplitted[2]), stringConvert<float>(lineSplitted[3])));
         }
 
         //Handle vertices
@@ -254,10 +254,10 @@ bool meshLoadDataFromOBJ(
                 continue;
             }
 
-            data.vertices.push_back(P(std::stof(lineSplitted[1]), std::stof(lineSplitted[2]), std::stof(lineSplitted[3])));
+            data.vertices.push_back(P(stringConvert<float>(lineSplitted[1]), stringConvert<float>(lineSplitted[2]), stringConvert<float>(lineSplitted[3])));
 
             if (lineSplitted.size() == 7) {
-                data.vertexColors.push_back(VC(std::stof(lineSplitted[4]), std::stof(lineSplitted[5]), std::stof(lineSplitted[6])));
+                data.vertexColors.push_back(VC(stringConvert<float>(lineSplitted[4]), stringConvert<float>(lineSplitted[5]), stringConvert<float>(lineSplitted[6])));
             }
             else {
                 data.vertexColors.push_back(Color(1.0, 1.0, 1.0));
@@ -282,7 +282,7 @@ bool meshLoadDataFromOBJ(
                     continue;
                 }
 
-                Index vertexId = std::stoul(faceSplitted[0]) - 1;
+                Index vertexId = stringConvert<Index>(faceSplitted[0]) - 1;
 
                 vertexIds.push_back(vertexId);
             }
@@ -297,7 +297,7 @@ bool meshLoadDataFromOBJ(
 
                 if (faceSplitted.size() >= 2) {
                     if (!faceSplitted[1].empty()) {
-                        Index uvId = std::stoul(faceSplitted[1]) - 1;
+                        Index uvId = stringConvert<Index>(faceSplitted[1]) - 1;
                         faceVertexUVs.push_back(uvId);
                     }
                 }
@@ -314,7 +314,7 @@ bool meshLoadDataFromOBJ(
                 if (faceSplitted.size() == 3) {
                     //Handling vertex normals
                     if (!faceSplitted[2].empty()) {
-                        Index normalId = std::stoul(faceSplitted[2]) - 1;
+                        Index normalId = stringConvert<Index>(faceSplitted[2]) - 1;
                         faceVertexNormals.push_back(normalId);
                     }
                 }
@@ -338,7 +338,7 @@ bool meshLoadDataFromOBJ(
             std::vector<Index> vertexIds;
 
             for (Index i = 1; i < lineSplitted.size(); ++i) {
-                vertexIds.push_back(std::stoul(lineSplitted[i]) - 1);
+                vertexIds.push_back(stringConvert<Index>(lineSplitted[i]) - 1);
             }
 
             data.polylines.push_back(vertexIds);

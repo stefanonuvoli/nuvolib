@@ -6,6 +6,8 @@
  */
 #include "string_utils.h"
 
+#include <nvl/utilities/locale_utils.h>
+
 #include <regex>
 
 namespace nvl {
@@ -247,7 +249,7 @@ NVL_INLINE void stringRightTrimInPlace(std::string& string)
  * @param string Input string
  * @return True if string is numeric, false otherwise
  */
-NVL_INLINE bool stringIsNumeric(std::string& string)
+NVL_INLINE bool stringIsNumeric(const std::string& string)
 {
     return std::regex_match(string, std::regex("((\\+|-)?[[:digit:]]+)(\\.(([[:digit:]]+)?))?"));
 }
@@ -257,7 +259,7 @@ NVL_INLINE bool stringIsNumeric(std::string& string)
  * @param string Input string
  * @return True if string is integer, false otherwise
  */
-NVL_INLINE bool stringIsInteger(std::string& string)
+NVL_INLINE bool stringIsInteger(const std::string& string)
 {
     return std::regex_match(string, std::regex("[+-]?[0-9][0-9]*"));
 }
@@ -267,9 +269,26 @@ NVL_INLINE bool stringIsInteger(std::string& string)
  * @param string Input string
  * @return True if string is numeric, false otherwise
  */
-NVL_INLINE bool stringIsFloat(std::string& string)
+NVL_INLINE bool stringIsFloat(const std::string& string)
 {
     return std::regex_match(string, std::regex("[+-]?[0-9]+(\\.[0-9]+)?([Ee][+-]?[0-9]+)?"));
+}
+
+/**
+ * @brief Convert string to a generic type
+ * @param string String
+ * @return Converted string
+ */
+template<class T>
+T stringConvert(const std::string& string)
+{
+    T value;
+
+    std::istringstream stream(string);
+    stream.imbue(streamDefaultLocale());
+    stream >> value;
+
+    return value;
 }
 
 }

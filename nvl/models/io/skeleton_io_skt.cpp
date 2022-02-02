@@ -72,7 +72,7 @@ bool skeletonLoadDataFromSKT(
                }
            } while (!isNumeric);
 
-           father = std::stoi(currentString);
+           father = stringConvert<int>(currentString);
 
            double t1, t2, t3;
            double r1 = 0.0, r2 = 0.0, r3 = 0.0;
@@ -86,7 +86,7 @@ bool skeletonLoadDataFromSKT(
                bool isFloat = stringIsFloat(currentString);
 
                if (isFloat) {
-                   r1 = std::stod(currentString);
+                   r1 = stringConvert<double>(currentString);
                    iss >> r2 >> r3;
                }
                else if (currentString == "hidden") {
@@ -100,7 +100,7 @@ bool skeletonLoadDataFromSKT(
                bool isFloat = stringIsFloat(currentString);
 
                if (isFloat) {
-                   s1 = std::stod(currentString);
+                   s1 = stringConvert<double>(currentString);
                    iss >> s2 >> s3;
                }
                else if (currentString == "hidden") {

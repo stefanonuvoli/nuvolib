@@ -47,9 +47,12 @@ void stringLeftTrimInPlace(std::string& string);
 std::string stringRightTrim(const std::string& string);
 void stringRightTrimInPlace(std::string& string);
 
-bool stringIsNumeric(std::string& string);
-bool stringIsInteger(std::string& string);
-bool stringIsFloat(std::string& string);
+bool stringIsNumeric(const std::string& string);
+bool stringIsInteger(const std::string& string);
+bool stringIsFloat(const std::string& string);
+
+template<class T>
+NVL_INLINE T stringConvert(const std::string& string);
 
 }
 
