@@ -17,7 +17,7 @@ namespace nvl {
  * @param alpha Alpha value for interpolation
  * @return Interpolated color
  */
-NVL_INLINE Color interpolateColor(
+NVL_INLINE Color colorInterpolation(
         const Color& color1,
         const Color& color2,
         const double& alpha)
@@ -39,7 +39,7 @@ NVL_INLINE Color interpolateColor(
  * @param alpha Alpha value for interpolation
  * @return Interpolated color
  */
-NVL_INLINE Color interpolateColor(
+NVL_INLINE Color colorInterpolation(
         const std::vector<Color>& colors,
         const std::vector<double>& alphas)
 {
@@ -74,7 +74,7 @@ NVL_INLINE Color interpolateColor(
  * @param value Value
  * @return Generated color for the given position
  */
-NVL_INLINE Color getRangeColor(const Size& range, const Index& position, const int saturation, const int value)
+NVL_INLINE Color colorRange(const Size& range, const Index& position, const int saturation, const int value)
 {
     Index pos = position;
 
@@ -98,7 +98,7 @@ NVL_INLINE Color getRangeColor(const Size& range, const Index& position, const i
  * @param value Value
  * @return Generated color for the given position
  */
-NVL_INLINE Color getRangeDifferentColor(const Size& range, const Index& position, const int saturation, const int value)
+NVL_INLINE Color colorRangeDifferent(const Size& range, const Index& position, const int saturation, const int value)
 {
     Index pos = position;
 
@@ -120,7 +120,7 @@ NVL_INLINE Color getRangeDifferentColor(const Size& range, const Index& position
 
     pos = b;
 
-    return getRangeColor(range, position, saturation, value);
+    return colorRange(range, position, saturation, value);
 }
 
 /**
@@ -130,12 +130,12 @@ NVL_INLINE Color getRangeDifferentColor(const Size& range, const Index& position
  * @param value Value
  * @return Generated colors
  */
-NVL_INLINE std::vector<Color> getRangeColors(const Size& number, const int saturation, const int value)
+NVL_INLINE std::vector<Color> colorRange(const Size& number, const int saturation, const int value)
 {
     std::vector<Color> result(number);
     if (number > 0) {
         for (Index i = 0; i < number; ++i) {
-            result[i] = getRangeColor(number + 1, i, saturation, value);
+            result[i] = colorRange(number + 1, i, saturation, value);
         }
     }
     return result;
@@ -148,12 +148,12 @@ NVL_INLINE std::vector<Color> getRangeColors(const Size& number, const int satur
  * @param value Value
  * @return Generated colors
  */
-NVL_INLINE std::vector<Color> getDifferentColors(const Size& number, const int saturation, const int value)
+NVL_INLINE std::vector<Color> colorDifferent(const Size& number, const int saturation, const int value)
 {
     std::vector<Color> result(number);
     if (number > 0) {
         for (Index i = 0; i < number; ++i) {
-            result[i] = getRangeDifferentColor(number, i, saturation, value);
+            result[i] = colorRangeDifferent(number, i, saturation, value);
         }
     }
     return result;
@@ -167,7 +167,7 @@ NVL_INLINE std::vector<Color> getDifferentColors(const Size& number, const int s
  * @return Generated colors
  */
 template<class T>
-std::vector<Color> getRangeColorPerValue(const std::vector<T>& labels, const int saturation, const int value)
+std::vector<Color> colorRangePerValue(const std::vector<T>& labels, const int saturation, const int value)
 {
     std::vector<Color> result(labels.size());
 
@@ -178,7 +178,7 @@ std::vector<Color> getRangeColorPerValue(const std::vector<T>& labels, const int
 
     if (maxLabel >= 0) {
         for (Index i = 0; i < labels.size(); ++i) {
-            result[i] = getRangeColor(maxLabel, labels[i], saturation, value);
+            result[i] = colorRange(maxLabel, labels[i], saturation, value);
         }
     }
 
@@ -193,7 +193,7 @@ std::vector<Color> getRangeColorPerValue(const std::vector<T>& labels, const int
  * @return Generated colors
  */
 template<class T>
-std::vector<Color> getDifferentColorPerValue(const std::vector<T>& labels, const int saturation, const int value)
+std::vector<Color> colorDifferentPerValue(const std::vector<T>& labels, const int saturation, const int value)
 {
     std::vector<Color> result(labels.size());
 
@@ -204,7 +204,7 @@ std::vector<Color> getDifferentColorPerValue(const std::vector<T>& labels, const
 
     if (maxLabel >= 0) {
         for (Index i = 0; i < labels.size(); ++i) {
-            result[i] = getRangeDifferentColor(maxLabel + 1, labels[i], saturation, value);
+            result[i] = colorRangeDifferent(maxLabel + 1, labels[i], saturation, value);
         }
     }
     return result;
@@ -220,7 +220,7 @@ std::vector<Color> getDifferentColorPerValue(const std::vector<T>& labels, const
  * @return Generated color
  */
 template<class T>
-Color getRampRedGreen(const T& value, const T& minValue, const T& maxValue, const float minIntensity, const float maxIntensity)
+Color colorRampRedGreen(const T& value, const T& minValue, const T& maxValue, const float minIntensity, const float maxIntensity)
 {
     Color color(minIntensity, minIntensity, minIntensity);
 
@@ -250,7 +250,7 @@ Color getRampRedGreen(const T& value, const T& minValue, const T& maxValue, cons
  * @return Generated color
  */
 template<class T>
-Color getRampRedBlue(const T& value, const T& minValue, const T& maxValue, const float minIntensity, const float maxIntensity)
+Color colorRampRedBlue(const T& value, const T& minValue, const T& maxValue, const float minIntensity, const float maxIntensity)
 {
     Color color(minIntensity, minIntensity, minIntensity);
 
@@ -276,5 +276,34 @@ Color getRampRedBlue(const T& value, const T& minValue, const T& maxValue, const
     return color;
 }
 
+/**
+ * @brief Blend a color from green to blue given a value
+ * @param value Value
+ * @param minValue Min value
+ * @param maxValue Max value
+ * @param minIntensity Min intensity color
+ * @param maxIntensity Max intensity color
+ * @return Generated color
+ */
+template<class T>
+Color colorRampGreenBlue(const T& value, const T& minValue, const T& maxValue, const float minIntensity, const float maxIntensity)
+{
+    Color color(minIntensity, minIntensity, minIntensity);
+
+    double normalizedValue = (value - minValue) / (maxValue - minValue);
+
+    if (normalizedValue <= 0) {
+        color.setGreenF(maxIntensity);
+    }
+    else if (normalizedValue >= 1) {
+        color.setBlueF(maxIntensity);
+    }
+    else {
+        color.setGreenF(minIntensity + (1.0 - normalizedValue) * (maxIntensity - minIntensity));
+        color.setBlueF(minIntensity + normalizedValue * (maxIntensity - minIntensity));
+    }
+
+    return color;
+}
 
 }

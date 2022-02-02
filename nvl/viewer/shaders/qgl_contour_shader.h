@@ -38,7 +38,7 @@ public:
 
     std::vector<float>& vertexValues();
     const std::vector<float>& vertexValues() const;
-    void setVertexValues(std::vector<float>& vertexValues);
+    void setVertexValues(const std::vector<float>& vertexValues);
 
     float minValue() const;
     void setMinValue(const float minValue);

@@ -33,6 +33,10 @@ Index vectorGetIndexByValue(
         const std::vector<T>& vector,
         const T& value);
 
+template<class R, class T>
+std::vector<R> vectorCast(
+        const std::vector<T>& vector);
+
 }
 
 #include "vector_utils.cpp"

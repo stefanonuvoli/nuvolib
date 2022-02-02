@@ -6,7 +6,6 @@
  */
 #include "mesh_differentiation.h"
 
-#include <nvl/math/normals.h>
 #include <nvl/models/algorithms/mesh_adjacencies.h>
 
 namespace nvl {
@@ -95,7 +94,6 @@ Vector3<R> meshDifferentialCoordinates(
     Vector3<R> dc = currentPoint - delta;
 
     return dc;
-
 }
 
 }

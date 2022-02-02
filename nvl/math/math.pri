@@ -39,6 +39,7 @@ HEADERS += \
     $$PWD/sparsematrix.h \
     $$PWD/transformations.h \
     $$PWD/translation.h \
+    $$PWD/triangle.h \
     $$PWD/triangulate.h \
     $$PWD/vector.h
 
@@ -66,5 +67,6 @@ SOURCES += \
     $$PWD/quaternion.cpp \
     $$PWD/segment.cpp \
     $$PWD/smoothing.cpp \
+    $$PWD/triangle.cpp \
     $$PWD/triangulate.cpp \
     $$PWD/vector.cpp

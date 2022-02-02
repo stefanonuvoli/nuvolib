@@ -37,14 +37,15 @@ T interpolateLinear(const T& v1, const T& v2, const W& a)
 template<class T, class W>
 T interpolateLinear(const std::vector<T>& v, const std::vector<W>& a)
 {
-    T result(0,0,0);
+    T result;
 
     if (v.size() == 0)
         return result;
     else if (v.size() == 1)
         return v[0];
 
-    for (Index i = 0; i < v.size(); i++) {
+    result = a[0] * v[0];
+    for (Index i = 1; i < v.size(); i++) {
         const T& value = v[i];
         const W& alpha = a[i];
         result += alpha * value;
@@ -156,18 +157,20 @@ Vector<T, D> interpolateVectorLinear(const Vector<T, D>& v1, const Vector<T, D>&
 template<class T, EigenId D, class W>
 Vector<T, D> interpolateVectorLinear(const std::vector<Vector<T, D>>& v, const std::vector<W>& a)
 {
-    Vector<T, D> result(0,0,0);
+    Vector<T, D> result;
 
     if (v.size() == 0)
         return result;
     else if (v.size() == 1)
         return v[0];
 
-    for (Index i = 0; i < v.size(); i++) {
+    result = a[0] * v[0];
+    for (Index i = 1; i < v.size(); i++) {
         const Vector<T, D>& vector = v[i];
         const W& alpha = a[i];
         result += alpha * vector;
     }
+
     return result;
 }
 

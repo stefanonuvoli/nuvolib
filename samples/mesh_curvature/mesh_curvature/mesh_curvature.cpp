@@ -9,13 +9,16 @@
 #include <nvl/viewer/interfaces/drawable.h>
 
 #include <nvl/math/transformations.h>
+#include <nvl/math/common_functions.h>
 
 #include <nvl/models/mesh_3d.h>
 #include <nvl/models/algorithms/mesh_normals.h>
 #include <nvl/models/algorithms/mesh_transformations.h>
 #include <nvl/models/algorithms/mesh_geometric_information.h>
-#include <nvl/models/algorithms/mesh_smoothing.h>
+#include <nvl/models/algorithms/mesh_curvature.h>
 #include <nvl/models/io/mesh_io.h>
+
+#include <nvl/utilities/color_utils.h>
 
 int main(int argc, char *argv[]) {
     typedef nvl::PolygonMesh3d Mesh;
@@ -47,7 +50,7 @@ int main(int argc, char *argv[]) {
     Mesh mesh1, mesh2, mesh3;
 
     //Load mesh
-    bool success = nvl::meshLoadFromFile("../../data/bunny_2000.obj", mesh1);
+    bool success = nvl::meshLoadFromFile("../../data/bunny_5000.obj", mesh1);
     if (!success) {
         std::cout << "Impossible to load mesh." << std::endl;
         exit(1);
@@ -73,25 +76,53 @@ int main(int argc, char *argv[]) {
     nvl::meshApplyTransformation(mesh1, nvl::Translation3d(-offset, 0, 0));
     nvl::meshApplyTransformation(mesh3, nvl::Translation3d(+offset, 0, 0));
 
-    //Smoothing
-    nvl::meshLaplacianSmoothing(mesh2, 20, 0.7);
-    nvl::meshCotangentSmoothing(mesh3, 20, 0.7);
+    //Mean curvature (mesh1)
+    std::vector<Mesh::Scalar> mc = nvl::meshMeanCurvatureLB(mesh1);
+    mesh1.enableVertexColors();
+    Mesh::Scalar maxMCValue = nvl::max(mc);
+    Mesh::Scalar minMCValue = nvl::min(mc);
+    for (Mesh::Vertex& v : mesh1.vertices()) {
+        nvl::Color color = nvl::colorRampRedBlue(nvl::pow(mc[v.id()], 1.5), minMCValue, maxMCValue);
+        mesh1.setVertexColor(v, color);
+    }
+
+    //Mean curvature (mesh2)
+    std::vector<Mesh::Scalar> gc = nvl::meshGaussianCurvature(mesh2);
+    mesh2.enableVertexColors();
+    Mesh::Scalar minGCValue = nvl::min(gc);
+    Mesh::Scalar maxGCValue = nvl::max(gc);
+    for (Mesh::Vertex& v : mesh2.vertices()) {
+        nvl::Color color;
+        if (gc[v.id()] <= 0) {
+            color = nvl::colorRampRedGreen(-nvl::pow(-gc[v.id()], 1.5), minGCValue, 0.0);
+        }
+        else {
+            color = nvl::colorRampGreenBlue(nvl::pow(gc[v.id()], 1.5), 0.0, maxGCValue);
+        }
+        mesh2.setVertexColor(v, color);
+    }
 
     //Initialize the drawers
     FaceMeshDrawer drawer1(&mesh1);    
     FaceMeshDrawer drawer2(&mesh2);
     FaceMeshDrawer drawer3(&mesh3);
+
     drawer1.setWireframeVisible(true);
-    drawer1.setWireframeSize(2);
+    drawer1.setWireframeSize(1);
+    drawer1.setFaceColorMode(FaceMeshDrawer::FACE_COLOR_PER_VERTEX);
+
     drawer2.setWireframeVisible(true);
-    drawer2.setWireframeSize(2);
+    drawer2.setWireframeSize(1);
+    drawer2.setFaceColorMode(FaceMeshDrawer::FACE_COLOR_PER_VERTEX);
+
     drawer3.setWireframeVisible(true);
-    drawer3.setWireframeSize(2);
+    drawer3.setWireframeSize(1);
+    drawer3.setFaceColorMode(FaceMeshDrawer::FACE_COLOR_PER_VERTEX);
 
     //Add to the canvas
-    viewer.canvas()->addDrawable(&drawer1, "Original");
-    viewer.canvas()->addDrawable(&drawer2, "Laplacian");
-    viewer.canvas()->addDrawable(&drawer3, "Cotangent laplacian");
+    viewer.canvas()->addDrawable(&drawer1, "Mean curvature");
+    viewer.canvas()->addDrawable(&drawer2, "Gaussian curvature");
+    viewer.canvas()->addDrawable(&drawer3, "Principal direction curvature");
 
     //Fit the scene
     viewer.canvas()->fitScene();

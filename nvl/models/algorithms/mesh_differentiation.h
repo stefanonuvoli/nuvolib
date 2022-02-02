@@ -9,7 +9,6 @@
 
 #include <nvl/nuvolib.h>
 
-#include <nvl/models/algorithms/mesh_adjacencies.h>
 #include <nvl/math/vector.h>
 
 #include <vector>

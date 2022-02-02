@@ -114,4 +114,20 @@ Index vectorGetIndexByValue(
     return id;
 }
 
+/**
+ * @brief Cast the content of a vector to a given type
+ * @param vector Input vector
+ * @return Vector converted
+ */
+template<class R, class T>
+std::vector<R> vectorCast(
+        const std::vector<T>& vector)
+{
+    std::vector<R> res(vector.size());
+    for (Index i = 0; i < vector.size(); ++i) {
+        res[i] = static_cast<R>(vector[i]);
+    }
+    return res;
+}
+
 }

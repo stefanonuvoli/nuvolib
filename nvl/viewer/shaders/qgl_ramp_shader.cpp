@@ -89,7 +89,7 @@ NVL_INLINE const std::vector<float>& QGLRampShader::vertexValues() const
     return this->vVertexValues;
 }
 
-NVL_INLINE void QGLRampShader::setVertexValues(std::vector<float>& vertexValues)
+NVL_INLINE void QGLRampShader::setVertexValues(const std::vector<float>& vertexValues)
 {
     this->vVertexValues = vertexValues;
 }

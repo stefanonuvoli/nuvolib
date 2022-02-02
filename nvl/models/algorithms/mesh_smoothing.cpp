@@ -433,8 +433,8 @@ void meshCotangentSmoothing(
 
                     Scalar adjWeight;
                     if (adjFaces.size() == 2 && adjFaces[0] != adjFaces[1]) {
-                        VertexId prevVId;
-                        VertexId nextVId;
+                        VertexId prevVId = NULL_ID;
+                        VertexId nextVId = NULL_ID;
 
                         const Face& face1 = mesh.face(adjFaces[0]);
                         for (Index pos = 0; pos < face1.vertexNumber(); ++pos) {
@@ -447,10 +447,13 @@ void meshCotangentSmoothing(
                         const Face& face2 = mesh.face(adjFaces[1]);
                         for (Index pos = 0; pos < face2.vertexNumber(); ++pos) {
                             if (face2.vertexId(pos) != vId && face2.vertexId(pos) != adjVId) {
-                                prevVId = face2.vertexId(pos);
+                                nextVId = face2.vertexId(pos);
                                 break;
                             }
                         }
+
+                        assert(prevVId != NULL_ID);
+                        assert(nextVId != NULL_ID);
 
                         adjWeight = cotangentWeight(
                                 mesh.vertexPoint(vId),

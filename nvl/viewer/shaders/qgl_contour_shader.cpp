@@ -91,7 +91,7 @@ NVL_INLINE const std::vector<float>& QGLContourShader::vertexValues() const
     return this->vVertexValues;
 }
 
-NVL_INLINE void QGLContourShader::setVertexValues(std::vector<float>& vertexValues)
+NVL_INLINE void QGLContourShader::setVertexValues(const std::vector<float>& vertexValues)
 {
     this->vVertexValues = vertexValues;
 }

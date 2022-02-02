@@ -11,6 +11,7 @@ HEADERS += \
     $$PWD/algorithms/mesh_cleaning.h \
     $$PWD/algorithms/mesh_collapse_borders.h \
     $$PWD/algorithms/mesh_consistency.h \
+    $$PWD/algorithms/mesh_curvature.h \
     $$PWD/algorithms/mesh_curve_on_manifold.h \
     $$PWD/algorithms/mesh_differentiation.h \
     $$PWD/algorithms/mesh_eigen_convert.h \
@@ -21,6 +22,7 @@ HEADERS += \
     $$PWD/algorithms/mesh_implicit_function.h \
     $$PWD/algorithms/mesh_morphological_operations.h \
     $$PWD/algorithms/mesh_normals.h \
+    $$PWD/algorithms/mesh_operators.h \
     $$PWD/algorithms/mesh_refine.h \
     $$PWD/algorithms/mesh_remeshing.h \
     $$PWD/algorithms/mesh_smoothing.h \
@@ -110,6 +112,7 @@ SOURCES += \
     $$PWD/algorithms/mesh_cleaning.cpp \
     $$PWD/algorithms/mesh_collapse_borders.cpp \
     $$PWD/algorithms/mesh_consistency.cpp \
+    $$PWD/algorithms/mesh_curvature.cpp \
     $$PWD/algorithms/mesh_curve_on_manifold.cpp \
     $$PWD/algorithms/mesh_differentiation.cpp \
     $$PWD/algorithms/mesh_eigen_convert.cpp \
@@ -120,6 +123,7 @@ SOURCES += \
     $$PWD/algorithms/mesh_implicit_function.cpp \
     $$PWD/algorithms/mesh_morphological_operations.cpp \
     $$PWD/algorithms/mesh_normals.cpp \
+    $$PWD/algorithms/mesh_operators.cpp \
     $$PWD/algorithms/mesh_refine.cpp \
     $$PWD/algorithms/mesh_remeshing.cpp \
     $$PWD/algorithms/mesh_smoothing.cpp \
