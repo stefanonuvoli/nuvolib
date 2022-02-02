@@ -36,9 +36,9 @@ std::vector<typename Mesh::Scalar> meshMeanCurvatureLB(const Mesh& mesh)
 }
 
 /**
- * @brief Calculate gaussian curvature using Laplace-Beltrami
+ * @brief Calculate gaussian curvature
  * @param mesh Mesh
- * @return Mean curvature (per-vertex)
+ * @return Gaussian curvature (per-vertex)
  */
 template<class Mesh>
 std::vector<typename Mesh::Scalar> meshGaussianCurvature(const Mesh& mesh)
