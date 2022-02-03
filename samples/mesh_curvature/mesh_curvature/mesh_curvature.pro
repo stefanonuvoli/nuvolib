@@ -38,6 +38,7 @@ macx {
 NUVOLIB_PATH = $$PWD/../../..
 EIGEN_PATH = /usr/include/eigen3
 LIBGQLVIEWER_PATH = /usr/lib/x86_64-linux-gnu
+VCGLIB_PATH = $$PWD/../../../../vcglib
 
 #nuvolib (it includes eigen, libqglviewer ...)
 include($$NUVOLIB_PATH/nuvolib.pri)

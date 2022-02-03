@@ -228,7 +228,7 @@ Vector3<R> meshLaplaceBeltramiOperator(
 
             Triangle<Point> triangle1(mesh.vertexPoint(vId), mesh.vertexPoint(adjVId), mesh.vertexPoint(prevVId));
             Triangle<Point> triangle2(mesh.vertexPoint(vId), mesh.vertexPoint(nextVId), mesh.vertexPoint(adjVId));
-            areaSum += (triangle1.area() / 3.0 + triangle2.area() / 3.0) * 0.5;
+            areaSum += (triangle1.area() / 3.0 + triangle2.area() / 3.0);
         }
         else {
             weight = static_cast<Scalar>(1.0);
@@ -248,7 +248,8 @@ Vector3<R> meshLaplaceBeltramiOperator(
                     mesh.vertexPoint(vId),
                     mesh.vertexPoint(adjVId),
                     mesh.vertexPoint(newVId));
-                areaSum += (triangle1.area() / 3.0) * 0.5;
+
+                areaSum += (triangle1.area() / 3.0);
             }
         }
 

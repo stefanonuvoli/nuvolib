@@ -35,6 +35,7 @@ class VCGTriangleVertex : public vcg::Vertex<
         vcg::vertex::Qualityd,
         vcg::vertex::BitFlags,
         vcg::vertex::CurvatureDird,
+        vcg::vertex::Curvatured,
         vcg::vertex::Mark,
         vcg::vertex::TexCoord2f>{};
 
@@ -61,7 +62,7 @@ class VCGTriangleFace : public vcg::Face<
 class VCGTriangleMesh : public vcg::tri::TriMesh<
         std::vector<VCGTriangleVertex>,
         std::vector<VCGTriangleEdge>,
-        std::vector<VCGTriangleFace> > {};
+        std::vector<VCGTriangleFace>>{};
 
 }
 

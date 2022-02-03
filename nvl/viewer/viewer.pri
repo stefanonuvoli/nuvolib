@@ -82,6 +82,7 @@ contains(DEFINES, NVL_OPENGL_LOADED) {
         $$PWD/drawables/model_drawer_base.h \
         $$PWD/drawables/polyline_mesh_drawer.h \
         $$PWD/drawables/polyline_mesh_drawer_base.h \
+        $$PWD/drawables/principal_curvature_drawer.h \
         $$PWD/drawables/skeleton_drawer.h \
         $$PWD/drawables/skeleton_drawer_base.h \
         $$PWD/drawables/vertex_mesh_drawer.h \
@@ -107,6 +108,7 @@ contains(DEFINES, NVL_OPENGL_LOADED) {
         $$PWD/drawables/model_drawer_base.cpp \
         $$PWD/drawables/polyline_mesh_drawer.cpp \
         $$PWD/drawables/polyline_mesh_drawer_base.cpp \
+        $$PWD/drawables/principal_curvature_drawer.cpp \
         $$PWD/drawables/skeleton_drawer.cpp \
         $$PWD/drawables/skeleton_drawer_base.cpp \
         $$PWD/drawables/vertex_mesh_drawer.cpp \

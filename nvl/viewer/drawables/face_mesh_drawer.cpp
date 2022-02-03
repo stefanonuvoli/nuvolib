@@ -833,8 +833,6 @@ void FaceMeshDrawer<M>::drawWireframe() const
     }
 
     glDepthFunc(GL_LESS);
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     glDepthRange(0.0, 1.0);

@@ -121,7 +121,7 @@ R abs(const T& value)
 template<class T1, class T2, class R>
 R pow(const T1& value, const T2& exponent)
 {
-    return static_cast<R>(std::pow(value, exponent));
+    return static_cast<R>(std::pow(static_cast<double>(value), static_cast<double>(exponent)));
 }
 
 /**

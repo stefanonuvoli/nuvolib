@@ -11,6 +11,7 @@ HEADERS += \
     $$PWD/euler_angles.h \
     $$PWD/inside_test.h \
     $$PWD/inverse_function.h \
+    $$PWD/principal_curvatures.h \
     $$PWD/statistics.h \
     $$PWD/closest_point.h \
     $$PWD/common_functions.h \

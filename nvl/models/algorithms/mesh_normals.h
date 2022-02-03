@@ -50,7 +50,6 @@ void meshComputeVertexNormalFromFaceNormals(
         const std::vector<std::vector<typename Mesh::VertexId>>& vfAdj,
         bool normalize = true);
 
-
 }
 
 #include "mesh_normals.cpp"
