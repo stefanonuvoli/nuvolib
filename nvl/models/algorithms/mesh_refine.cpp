@@ -344,6 +344,7 @@ bool vcgRefineMesh(
     return done;
 }
 
+}
+
 #endif
 
-}
