@@ -12,6 +12,10 @@
 
 namespace nvl {
 
+/**
+ * @brief Normalize skinning weights
+ * @param model Model
+ */
 template<class Model>
 void modelNormalizeSkinningWeights(Model& model)
 {
@@ -28,6 +32,11 @@ void modelNormalizeSkinningWeights(Model& model)
     }
 }
 
+/**
+ * @brief Normalize skinning weights for a vertex
+ * @param model Model
+ * @param vId Vertex id
+ */
 template<class Model>
 void modelNormalizeSkinningWeights(Model& model, const typename Model::Mesh::VertexId& vId)
 {

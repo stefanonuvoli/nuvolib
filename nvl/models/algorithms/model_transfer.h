@@ -39,9 +39,9 @@ void modelAnimationTransfer(
 template<class Model>
 void modelAnimationTransfer(
         const Model& model,
+        typename Model::AnimationId animationId,
         const std::vector<typename Model::Skeleton::JointId>& birthJoint,
-        Model& targetModel,
-        typename Model::AnimationId animationId);
+        Model& targetModel);
 
 template<class Model>
 void modelAnimationFrameTransfer(
