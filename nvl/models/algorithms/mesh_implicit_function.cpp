@@ -12,6 +12,13 @@
 
 namespace nvl {
 
+/**
+ * @brief Given an implicit per-vertex function over a mesh, get the segments lying
+ * on the zero values
+ * @param mesh Mesh
+ * @param vertexFunction Per-vertex function
+ * @return Segments passing in the zero of the function
+ */
 template<class Mesh, class F>
 std::vector<Segment<typename Mesh::Point>> meshImplicitFunction(
         const Mesh& mesh,

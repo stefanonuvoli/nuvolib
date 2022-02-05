@@ -8,6 +8,11 @@
 
 namespace nvl {
 
+/**
+ * @brief Apply transformation to a mesh
+ * @param mesh Mesh
+ * @param transformation Transformation
+ */
 template<class Mesh, class T>
 void meshApplyTransformation(Mesh& mesh, const T& transformation)
 {
@@ -23,6 +28,11 @@ void meshApplyTransformation(Mesh& mesh, const T& transformation)
     }
 }
 
+/**
+ * @brief Apply transformation to a mesh
+ * @param mesh Mesh
+ * @param transformation Transformation
+ */
 template<class Mesh, class T>
 void meshApplyTransformation(Mesh& mesh, const Matrix44<T>& transformation)
 {

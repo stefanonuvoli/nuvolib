@@ -17,19 +17,29 @@
 
 namespace nvl {
 
+/**
+ * @brief Default constructor
+ */
 template<class Mesh>
 VCGGrid<Mesh>::VCGGrid()
 {
 
 }
 
+/**
+ * @brief Constructor with mesh
+ * @param mesh Mesh
+ */
 template<class Mesh>
 VCGGrid<Mesh>::VCGGrid(const Mesh& mesh)
 {
     this->setMesh(mesh);
 }
 
-
+/**
+ * @brief Setter of the mesh
+ * @param mesh Mesh
+ */
 template<class Mesh>
 void VCGGrid<Mesh>::setMesh(const Mesh& mesh)
 {
@@ -49,18 +59,32 @@ void VCGGrid<Mesh>::setMesh(const Mesh& mesh)
     grid.Set(vVCGTriangleMesh.face.begin(), vVCGTriangleMesh.face.end());
 }
 
+/**
+ * @brief Getter of the triangulated mesh
+ * @return Mesh
+ */
 template<class Mesh>
 const Mesh& VCGGrid<Mesh>::VCGGrid::triangulatedMesh() const
 {
     return vTriangulatedMesh;
 }
 
+/**
+ * @brief Getter of the mesh
+ * @return Mesh
+ */
 template<class Mesh>
 const Mesh& VCGGrid<Mesh>:: VCGGrid::mesh() const
 {
     return vMesh;
 }
 
+/**
+ * @brief Get closest face
+ * @param point Query point
+ * @param closestPoint Closest point lying in the face
+ * @return Id of the closest face
+ */
 template<class Mesh>
 typename Mesh::FaceId VCGGrid<Mesh>::getClosestFace(const Point& point, Point& closestPoint)
 {
@@ -69,6 +93,15 @@ typename Mesh::FaceId VCGGrid<Mesh>::getClosestFace(const Point& point, Point& c
     return getClosestFace(point, closestPoint, dummyFaceId, dummyPoint);
 }
 
+/**
+ * @brief Get closest face
+ * @param point Query point
+ * @param closestPoint Closest point lying in the face
+ * @param triangleFaceId Id of the closest face in the triangulated mesh
+ * @param bayrcentricCoordinates Barycentric coordinates of the point in the
+ * closest face of the triangulated mesh
+ * @return Id of the closest face
+ */
 template<class Mesh>
 typename Mesh::FaceId VCGGrid<Mesh>::getClosestFace(const Point& point, Point& closestPoint, FaceId& triangleFaceId, Point& barycentricCoordinates)
 {
@@ -97,6 +130,11 @@ typename Mesh::FaceId VCGGrid<Mesh>::getClosestFace(const Point& point, Point& c
     return vTriangulationBirthFace[triangleFaceId];
 }
 
+/**
+ * @brief Get closest verrtex
+ * @param point Query point
+ * @return Id of the closest vertex
+ */
 template<class Mesh>
 typename Mesh::VertexId VCGGrid<Mesh>::getClosestVertex(const Point& point)
 {

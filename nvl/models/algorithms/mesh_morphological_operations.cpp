@@ -11,6 +11,11 @@
 
 namespace nvl {
 
+/**
+ * @brief Dilate mathematical morphological operator
+ * @param mesh Mesh
+ * @param selectedFaces Selected faces (input and output)
+ */
 template<class Mesh, class Set>
 void meshDilateFaceSelection(
         const Mesh& mesh,
@@ -22,6 +27,12 @@ void meshDilateFaceSelection(
     return meshDilateFaceSelection(mesh, selectedFaces, ffAdj);
 }
 
+/**
+ * @brief Dilate mathematical morphological operator
+ * @param mesh Mesh
+ * @param selectedFaces Selected faces (input and output)
+ * @param ffAdj Pre-computed face-face adjacencies
+ */
 template<class Mesh, class Set>
 void meshDilateFaceSelection(
         const Mesh& mesh,
@@ -63,6 +74,12 @@ void meshDilateFaceSelection(
     }
 }
 
+/**
+ * @brief Erode mathematical morphological operator
+ * @param mesh Mesh
+ * @param selectedFaces Selected faces (input and output)
+ * @param fixBorders Fix border of the mesh
+ */
 template<class Mesh, class Set>
 void meshErodeFaceSelection(
         const Mesh& mesh,
@@ -75,6 +92,13 @@ void meshErodeFaceSelection(
     return meshErodeFaceSelection(mesh, selectedFaces, ffAdj, fixBorders);
 }
 
+/**
+ * @brief Erode mathematical morphological operator
+ * @param mesh Mesh
+ * @param selectedFaces Selected faces (input and output)
+ * @param fixBorders Fix border of the mesh
+ * @param ffAdj Pre-computed face-face adjacencies
+ */
 template<class Mesh, class Set>
 void meshErodeFaceSelection(
         const Mesh& mesh,
@@ -126,6 +150,12 @@ void meshErodeFaceSelection(
     }
 }
 
+/**
+ * @brief Open mathematical morphological operator
+ * @param mesh Mesh
+ * @param selectedFaces Selected faces (input and output)
+ * @param fixBorders Fix border of the mesh
+ */
 template<class Mesh, class Set>
 void meshOpenFaceSelection(
         const Mesh& mesh,
@@ -138,6 +168,13 @@ void meshOpenFaceSelection(
     return meshOpenFaceSelection(mesh, selectedFaces, ffAdj, fixBorders);
 }
 
+/**
+ * @brief Open mathematical morphological operator
+ * @param mesh Mesh
+ * @param selectedFaces Selected faces (input and output)
+ * @param fixBorders Fix border of the mesh
+ * @param ffAdj Pre-computed face-face adjacencies
+ */
 template<class Mesh, class Set>
 void meshOpenFaceSelection(
         const Mesh& mesh,
@@ -149,6 +186,12 @@ void meshOpenFaceSelection(
     meshDilateFaceSelection(mesh, selectedFaces, ffAdj);
 }
 
+/**
+ * @brief Close mathematical morphological operator
+ * @param mesh Mesh
+ * @param selectedFaces Selected faces (input and output)
+ * @param fixBorders Fix border of the mesh
+ */
 template<class Mesh, class Set>
 void meshCloseFaceSelection(
         const Mesh& mesh,
@@ -161,6 +204,13 @@ void meshCloseFaceSelection(
     return meshCloseFaceSelection(mesh, selectedFaces, ffAdj, fixBorders);
 }
 
+/**
+ * @brief Close mathematical morphological operator
+ * @param mesh Mesh
+ * @param selectedFaces Selected faces (input and output)
+ * @param fixBorders Fix border of the mesh
+ * @param ffAdj Pre-computed face-face adjacencies
+ */
 template<class Mesh, class Set>
 void meshCloseFaceSelection(
         const Mesh& mesh,

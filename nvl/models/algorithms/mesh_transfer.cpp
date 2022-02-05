@@ -8,6 +8,11 @@
 
 namespace nvl {
 
+/**
+ * @brief Transfer all the data of a mesh into another one
+ * @param mesh Input mesh
+ * @param targetMesh Target mesh
+ */
 template<class M1, class M2>
 void meshTransfer(
         const M1& mesh,
@@ -24,6 +29,14 @@ void meshTransfer(
     meshTransfer(mesh, targetMesh, birthVertex, birthPolyline, birthFace);
 }
 
+/**
+ * @brief Transfer all the data of a mesh into another one
+ * @param mesh Input mesh
+ * @param targetMesh Target mesh
+ * @param birthVertex Birth vertex of the resulting mesh
+ * @param birthVertex Birth polyline of the resulting mesh
+ * @param birthFace Birth face of the resulting mesh
+ */
 template<class M1, class M2>
 void meshTransfer(
         const M1& mesh,
@@ -41,6 +54,11 @@ void meshTransfer(
     meshTransferFaces(mesh, targetMesh, birthFace, vertexMap);
 }
 
+/**
+ * @brief Transfer all the vertices of a mesh into another one
+ * @param mesh Input mesh
+ * @param targetMesh Target mesh
+ */
 template<class M1, class M2>
 void meshTransferVertices(
         const M1& mesh,
@@ -54,6 +72,12 @@ void meshTransferVertices(
     meshTransferVertices(mesh, targetMesh, birthVertex, vertexMap);
 }
 
+/**
+ * @brief Transfer all the vertices of a mesh into another one
+ * @param mesh Input mesh
+ * @param targetMesh Target mesh
+ * @param birthVertex Birth vertex of the resulting mesh
+ */
 template<class M1, class M2>
 void meshTransferVertices(
         const M1& mesh,
@@ -80,6 +104,12 @@ void meshTransferVertices(
     meshTransferVertices(mesh, targetMesh, birthVertex, vertexMap);
 }
 
+/**
+ * @brief Transfer some vertices of a mesh into another one
+ * @param mesh Input mesh
+ * @param vertices Ids of the input vertices
+ * @param targetMesh Target mesh
+ */
 template<class M1, class M2>
 void meshTransferVertices(
         const M1& mesh,
@@ -94,6 +124,13 @@ void meshTransferVertices(
     return meshTransferVertices(mesh, vertices, targetMesh, birthVertex, vertexMap);
 }
 
+/**
+ * @brief Transfer some vertices of a mesh into another one
+ * @param mesh Input mesh
+ * @param vertices Ids of the input vertices
+ * @param targetMesh Target mesh
+ * @param birthVertex Birth vertex of the resulting mesh
+ */
 template<class M1, class M2>
 void meshTransferVertices(
         const M1& mesh,
@@ -108,6 +145,14 @@ void meshTransferVertices(
     meshTransferVertices(mesh, vertices, targetMesh, birthVertex, vertexMap);
 }
 
+/**
+ * @brief Transfer some vertices of a mesh into another one
+ * @param mesh Input mesh
+ * @param vertices Ids of the input vertices
+ * @param targetMesh Target mesh
+ * @param birthVertex Birth vertex of the resulting mesh
+ * @param vertexMap Map of the input vertices to the resulting mesh
+ */
 template<class M1, class M2>
 void meshTransferVertices(
         const M1& mesh,
@@ -162,6 +207,11 @@ void meshTransferVertices(
     }
 }
 
+/**
+ * @brief Transfer all the polylines of a mesh into another one
+ * @param mesh Input mesh
+ * @param targetMesh Target mesh
+ */
 template<class M1, class M2>
 void meshTransferPolylines(
         const M1& mesh,
@@ -176,6 +226,13 @@ void meshTransferPolylines(
     return meshTransferPolylines(mesh, targetMesh, birthVertex, birthPolyline);
 }
 
+/**
+ * @brief Transfer all the polylines of a mesh into another one
+ * @param mesh Input mesh
+ * @param targetMesh Target mesh
+ * @param birthVertex Birth vertex of the resulting mesh
+ * @param birthPolyline Birth polyline of the resulting mesh
+ */
 template<class M1, class M2>
 void meshTransferPolylines(
         const M1& mesh,
@@ -204,6 +261,12 @@ void meshTransferPolylines(
     meshTransferPolylines(mesh, polylines, targetMesh, birthVertex, birthPolyline, vertexMap);
 }
 
+/**
+ * @brief Transfer some polylines of a mesh into another one
+ * @param mesh Input mesh
+ * @param polylines Ids of the input polylines
+ * @param targetMesh Target mesh
+ */
 template<class M1, class M2>
 void meshTransferPolylines(
         const M1& mesh,
@@ -220,6 +283,14 @@ void meshTransferPolylines(
     meshTransferPolylines(mesh, polylines, targetMesh, birthVertex, birthPolyline, vertexMap);
 }
 
+/**
+ * @brief Transfer some polylines of a mesh into another one
+ * @param mesh Input mesh
+ * @param polylines Ids of the input polylines
+ * @param targetMesh Target mesh
+ * @param birthVertex Birth vertex of the resulting mesh
+ * @param birthPolyline Birth polyline of the resulting mesh
+ */
 template<class M1, class M2>
 void meshTransferPolylines(
         const M1& mesh,
@@ -235,6 +306,15 @@ void meshTransferPolylines(
     meshTransferPolylines(mesh, polylines, targetMesh, birthVertex, birthPolyline, vertexMap);
 }
 
+/**
+ * @brief Transfer some polylines of a mesh into another one
+ * @param mesh Input mesh
+ * @param polylines Ids of the input polylines
+ * @param targetMesh Target mesh
+ * @param birthVertex Birth vertex of the resulting mesh
+ * @param birthPolyline Birth polyline of the resulting mesh
+ * @param vertexMap Map of the input vertices to the resulting mesh
+ */
 template<class M1, class M2>
 void meshTransferPolylines(
         const M1& mesh,
@@ -320,6 +400,14 @@ void meshTransferPolylines(
     }
 }
 
+/**
+ * @brief Transfer some polylines of a mesh into another one
+ * @param mesh Input mesh
+ * @param vertexMap Map of the input vertices to the resulting mesh (polylines with
+ * mapped vertices will be transferred)
+ * @param targetMesh Target mesh
+ * @param birthPolyline Birth polyline of the resulting mesh
+ */
 template<class M1, class M2>
 void meshTransferPolylines(
         const M1& mesh,
@@ -371,6 +459,11 @@ void meshTransferPolylines(
     }
 }
 
+/**
+ * @brief Transfer all the faces of a mesh into another one
+ * @param mesh Input mesh
+ * @param targetMesh Target mesh
+ */
 template<class M1, class M2>
 void meshTransferFaces(
         const M1& mesh,
@@ -385,6 +478,13 @@ void meshTransferFaces(
     return meshTransferFaces(mesh, targetMesh, birthVertex, birthFace);
 }
 
+/**
+ * @brief Transfer all the faces of a mesh into another one
+ * @param mesh Input mesh
+ * @param targetMesh Target mesh
+ * @param birthVertex Birth vertex of the resulting mesh
+ * @param birthFace Birth face of the resulting mesh
+ */
 template<class M1, class M2>
 void meshTransferFaces(
         const M1& mesh,
@@ -413,6 +513,12 @@ void meshTransferFaces(
     meshTransferFaces(mesh, faces, targetMesh, birthVertex, birthFace, vertexMap);
 }
 
+/**
+ * @brief Transfer some faces of a mesh into another one
+ * @param mesh Input mesh
+ * @param faces Ids of the input faces
+ * @param targetMesh Target mesh
+ */
 template<class M1, class M2>
 void meshTransferFaces(
         const M1& mesh,
@@ -429,6 +535,14 @@ void meshTransferFaces(
     meshTransferFaces(mesh, faces, targetMesh, birthVertex, birthFace, vertexMap);
 }
 
+/**
+ * @brief Transfer some faces of a mesh into another one
+ * @param mesh Input mesh
+ * @param faces Ids of the input faces
+ * @param targetMesh Target mesh
+ * @param birthVertex Birth vertex of the resulting mesh
+ * @param birthFace Birth face of the resulting mesh
+ */
 template<class M1, class M2>
 void meshTransferFaces(
         const M1& mesh,
@@ -444,7 +558,15 @@ void meshTransferFaces(
     meshTransferFaces(mesh, faces, targetMesh, birthVertex, birthFace, vertexMap);
 }
 
-
+/**
+ * @brief Transfer some faces of a mesh into another one
+ * @param mesh Input mesh
+ * @param faces Ids of the input faces
+ * @param targetMesh Target mesh
+ * @param birthVertex Birth vertex of the resulting mesh
+ * @param birthFace Birth face of the resulting mesh
+ * @param vertexMap Map of the input vertices to the resulting mesh
+ */
 template<class M1, class M2>
 void meshTransferFaces(
         const M1& mesh,
@@ -599,6 +721,14 @@ void meshTransferFaces(
     }
 }
 
+/**
+ * @brief Transfer some faces of a mesh into another one
+ * @param mesh Input mesh
+ * @param vertexMap Map of the input vertices to the resulting mesh (faces with
+ * mapped vertices will be transferred)
+ * @param targetMesh Target mesh
+ * @param birthFace Birth face of the resulting mesh
+ */
 template<class M1, class M2>
 void meshTransferFaces(
         const M1& mesh,
@@ -719,6 +849,12 @@ void meshTransferFaces(
     }
 }
 
+/**
+ * @brief Mesh transfer some vertices and the related polylines
+ * @param mesh Input mesh
+ * @param vertices Ids of the input vertices
+ * @param targetMesh Target mesh
+ */
 template<class M1, class M2>
 void meshTransferVerticesWithPolylines(
         const M1& mesh,
@@ -734,6 +870,14 @@ void meshTransferVerticesWithPolylines(
     return meshTransferVerticesWithPolylines(mesh, vertices, targetMesh, birthVertex, birthPolyline);
 }
 
+/**
+ * @brief Mesh transfer some vertices and the related polylines
+ * @param mesh Input mesh
+ * @param vertices Ids of the input vertices
+ * @param targetMesh Target mesh
+ * @param birthVertex Birth vertex of the resulting mesh
+ * @param birthPolyline Birth polyline of the resulting mesh
+ */
 template<class M1, class M2>
 void meshTransferVerticesWithPolylines(
         const M1& mesh,
@@ -750,6 +894,12 @@ void meshTransferVerticesWithPolylines(
     meshTransferPolylines(mesh, vertexMap, targetMesh, birthPolyline);
 }
 
+/**
+ * @brief Mesh transfer some vertices and the related faces
+ * @param mesh Input mesh
+ * @param vertices Ids of the input vertices
+ * @param targetMesh Target mesh
+ */
 template<class M1, class M2>
 void meshTransferVerticesWithFaces(
         const M1& mesh,
@@ -765,6 +915,14 @@ void meshTransferVerticesWithFaces(
     return meshTransferVerticesWithFaces(mesh, vertices, targetMesh, birthVertex, birthFace);
 }
 
+/**
+ * @brief Mesh transfer some vertices and the related faces
+ * @param mesh Input mesh
+ * @param vertices Ids of the input vertices
+ * @param targetMesh Target mesh
+ * @param birthVertex Birth vertex of the resulting mesh
+ * @param birthFace Birth face of the resulting mesh
+ */
 template<class M1, class M2>
 void meshTransferVerticesWithFaces(
         const M1& mesh,
@@ -781,6 +939,12 @@ void meshTransferVerticesWithFaces(
     meshTransferFaces(mesh, vertexMap, targetMesh, birthFace);
 }
 
+/**
+ * @brief Mesh transfer some vertices and the related polylines and faces
+ * @param mesh Input mesh
+ * @param vertices Ids of the input vertices
+ * @param targetMesh Target mesh
+ */
 template<class M1, class M2>
 void meshTransferVerticesWithFacesAndPolylines(
         const M1& mesh,
@@ -799,6 +963,15 @@ void meshTransferVerticesWithFacesAndPolylines(
     return meshTransferVerticesWithFacesAndPolylines(mesh, vertices, targetMesh, birthVertex, birthPolyline, birthFace);
 }
 
+/**
+ * @brief Mesh transfer some vertices and the related polylines and faces
+ * @param mesh Input mesh
+ * @param vertices Ids of the input vertices
+ * @param targetMesh Target mesh
+ * @param birthVertex Birth vertex of the resulting mesh
+ * @param birthPolyline Birth polyline of the resulting mesh
+ * @param birthFace Birth face of the resulting mesh
+ */
 template<class M1, class M2>
 void meshTransferVerticesWithFacesAndPolylines(
         const M1& mesh,

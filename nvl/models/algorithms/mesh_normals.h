@@ -36,18 +36,17 @@ void meshComputeFaceNormalFromVertexNormals(Mesh& mesh, typename Mesh::FaceId& f
 template<class Mesh>
 void meshComputeVertexNormalsFromFaceNormals(Mesh& mesh, const bool normalize = true);
 template<class Mesh>
-void meshComputeVertexNormalFromFaceNormals(Mesh& mesh, typename Mesh::FaceId& vId, const bool normalize = true);
-
+void meshComputeVertexNormalFromFaceNormals(Mesh& mesh, typename Mesh::VertexId& vId, const bool normalize = true);
 template<class Mesh>
 void meshComputeVertexNormalsFromFaceNormals(
         Mesh& mesh,
-        const std::vector<std::vector<typename Mesh::VertexId>>& vfAdj,
+        const std::vector<std::vector<typename Mesh::FaceId>>& vfAdj,
         bool normalize = true);
 template<class Mesh>
 void meshComputeVertexNormalFromFaceNormals(
         Mesh& mesh,
-        typename Mesh::FaceId& vId,
-        const std::vector<std::vector<typename Mesh::VertexId>>& vfAdj,
+        typename Mesh::VertexId& vId,
+        const std::vector<std::vector<typename Mesh::FaceId>>& vfAdj,
         bool normalize = true);
 
 }

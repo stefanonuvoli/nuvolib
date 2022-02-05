@@ -14,12 +14,22 @@
 
 namespace nvl {
 
+/**
+ * @brief Remove non standard-transformations from model (scaling and rotation
+ * from bind pose transformations and scaling from animations)
+ * @param model Model
+ */
 template<class Model>
 void modelRemoveNonStandardTransformations(Model& model)
 {
     return modelRemoveNonStandardTransformations(model.skeleton, model.animations);
 }
 
+/**
+ * @brief Remove non standard-transformations from model (scaling and rotation
+ * from bind pose transformations and scaling from animations)
+ * @param model Model
+ */
 template<class S, class A>
 void modelRemoveNonStandardTransformations(S& skeleton, std::vector<A>& animations)
 {
@@ -114,18 +124,23 @@ void modelRemoveNonStandardTransformations(S& skeleton, std::vector<A>& animatio
     }
 }
 
+/**
+ * @brief Remove scaling from model transformations
+ * @param model Model
+ */
 template<class Model>
 void modelRemoveScaling(Model& model)
 {
     return modelRemoveScaling(model.skeleton, model.animations);
 }
 
+/**
+ * @brief Remove scaling from model transformations
+ * @param model Model
+ */
 template<class S, class A>
 void modelRemoveScaling(S& skeleton, std::vector<A>& animations)
 {
-    typedef S Skeleton;
-    typedef A Animation;
-
     skeletonRemoveScaling(skeleton);
     animationRemoveScaling(skeleton, animations);
 }

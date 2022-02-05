@@ -15,6 +15,14 @@
 
 namespace nvl {
 
+/**
+ * @brief Isotropic remeshing
+ * @param mesh Mesh
+ * @param edgeSize Target edge size
+ * @param iterations Number of iterations
+ * @param fixBorders Fix borders
+ * @return Resulting mesh
+ */
 template<class Mesh>
 Mesh isotropicRemeshing(
         const Mesh& mesh,
@@ -34,6 +42,14 @@ Mesh isotropicRemeshing(
     return resultMesh;
 }
 
+/**
+ * @brief Isotropic remeshing
+ * @param vcgMesh VCG mesh
+ * @param vcgResultMesh VCG resulting mesh
+ * @param edgeSize Target edge size
+ * @param iterations Number of iterations
+ * @param fixBorders Fix borders
+ */
 template<class VCGMesh>
 void vcgIsotropicRemeshing(
         VCGMesh& vcgMesh,

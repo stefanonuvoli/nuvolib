@@ -13,6 +13,16 @@
 
 namespace nvl {
 
+/**
+ * @brief Model deformation with linear blending skinning
+ * @param mesh Mesh
+ * @param skeleton Skeleton
+ * @param skinningWeights Skinning weights
+ * @param animations Animations
+ * @param transformations Transformations
+ * @param preserveAnimations Preserved animation in the deformation
+ * @param removeNonStandardTransformations Remove non-standard transformations
+ */
 template<class M, class S, class W, class A, class T>
 void modelDeformLinearBlendingSkinning(
         M& mesh,
@@ -56,6 +66,13 @@ void modelDeformLinearBlendingSkinning(
     }
 }
 
+/**
+ * @brief Model deformation with linear blending skinning
+ * @param model Model
+ * @param transformations Transformations
+ * @param preserveAnimations Preserved animation in the deformation
+ * @param removeNonStandardTransformations Remove non-standard transformations
+ */
 template<class M, class T>
 void modelDeformLinearBlendingSkinning(
         M& model,
@@ -66,6 +83,16 @@ void modelDeformLinearBlendingSkinning(
     return modelDeformLinearBlendingSkinning(model.mesh, model.skeleton, model.skinningWeights, model.animations, transformations, preserveAnimations, removeNonStandardTransformations);
 }
 
+/**
+ * @brief Model deformation with dual quaternion skinning
+ * @param mesh Mesh
+ * @param skeleton Skeleton
+ * @param skinningWeights Skinning weights
+ * @param animations Animations
+ * @param transformations Dual quaternion transformations
+ * @param preserveAnimations Preserved animation in the deformation
+ * @param removeNonStandardTransformations Remove non-standard transformations
+ */
 template<class M, class S, class W, class A, class T>
 void modelDeformDualQuaternionSkinning(
         M& mesh,
@@ -186,6 +213,13 @@ void modelDeformDualQuaternionSkinning(
     }
 }
 
+/**
+ * @brief Model deformation with dual quaternion skinning
+ * @param model Model
+ * @param transformations Dual quaternion transformations
+ * @param preserveAnimations Preserved animation in the deformation
+ * @param removeNonStandardTransformations Remove non-standard transformations
+ */
 template<class M, class T>
 void modelDeformDualQuaternionSkinning(
         M& model,
@@ -196,6 +230,16 @@ void modelDeformDualQuaternionSkinning(
     return modelDeformDualQuaternionSkinning(model.mesh, model.skeleton, model.skinningWeights, model.animations, transformations, preserveAnimations, removeNonStandardTransformations);
 }
 
+/**
+ * @brief Model deformation with dual quaternion skinning
+ * @param mesh Mesh
+ * @param skeleton Skeleton
+ * @param skinningWeights Skinning weights
+ * @param animations Animations
+ * @param transformations Transformations
+ * @param preserveAnimations Preserved animation in the deformation
+ * @param removeNonStandardTransformations Remove non-standard transformations
+ */
 template<class M, class S, class W, class A, class T>
 void modelDeformDualQuaternionSkinning(
         M& mesh,
@@ -219,6 +263,13 @@ void modelDeformDualQuaternionSkinning(
     modelDeformDualQuaternionSkinning(mesh, skeleton, skinningWeights, animations, dualQuaternionTransformations, preserveAnimations, removeNonStandardTransformations);
 }
 
+/**
+ * @brief Model deformation with dual quaternion skinning
+ * @param model Model
+ * @param transformations Transformations
+ * @param preserveAnimations Preserved animation in the deformation
+ * @param removeNonStandardTransformations Remove non-standard transformations
+ */
 template<class M, class T>
 void modelDeformDualQuaternionSkinning(
         M& model,

@@ -13,6 +13,10 @@
 
 namespace nvl {
 
+/**
+ * @brief Remove skaling from skeleton bind poses
+ * @param skeleton Skeleton
+ */
 template<class S>
 void skeletonRemoveScaling(S& skeleton)
 {

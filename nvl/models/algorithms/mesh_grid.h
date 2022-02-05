@@ -21,6 +21,11 @@
 
 namespace nvl {
 
+/**
+ * @brief Wrapper for the VCG grid. It allows to perform queries
+ * as closest point and closest face
+ * @tparam Mesh Mesh type
+ */
 template<class Mesh>
 class VCGGrid {
 

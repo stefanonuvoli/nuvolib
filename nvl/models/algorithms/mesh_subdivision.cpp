@@ -14,16 +14,17 @@
 
 namespace nvl {
 
-
+/**
+ * @brief Subdivide faces in the barycenter
+ * @param mesh Mesh
+ */
 template<class Mesh>
 void meshSubdivideInBarycenterWithTriangles(
         Mesh& mesh)
 {
     typedef typename Mesh::FaceId FaceId;
 
-    Size faceNumber = mesh.nextFaceId();
-
-    for (FaceId fId = 0; fId < faceNumber; ++fId) {
+    for (FaceId fId = 0; fId < mesh.nextFaceId(); ++fId) {
         if (mesh.isFaceDeleted(fId))
             continue;
 
@@ -31,6 +32,11 @@ void meshSubdivideInBarycenterWithTriangles(
     }
 }
 
+/**
+ * @brief Subdivide faces in the barycenter
+ * @param birthFace Birth face of the resulting mesh
+ * @param mesh Mesh
+ */
 template<class Mesh>
 void meshSubdivideInBarycenterWithTriangles(
         Mesh& mesh,
@@ -57,6 +63,11 @@ void meshSubdivideInBarycenterWithTriangles(
     }
 }
 
+/**
+ * @brief Subdivide face in the barycenter
+ * @param mesh Mesh
+ * @param fId Face Id
+ */
 template<class Mesh>
 std::vector<typename Mesh::FaceId> meshSubdivideInBarycenterWithTriangles(
         Mesh& mesh,

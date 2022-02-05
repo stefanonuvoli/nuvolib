@@ -10,6 +10,14 @@
 
 namespace nvl {
 
+/**
+ * @brief Split an edge of a mesh
+ * @param mesh Mesh
+ * @param vertex1 First vertex id of the edge
+ * @param vertex2 Second vertex id of the edge
+ * @param newVertexPoint Point where to split
+ * @return New vertex id
+ */
 template<class Mesh>
 typename Mesh::VertexId meshSplitEdge(
         Mesh& mesh,
@@ -23,6 +31,15 @@ typename Mesh::VertexId meshSplitEdge(
     return meshSplitEdge(mesh, vertex1, vertex2, newVertexPoint, vfAdj);
 }
 
+/**
+ * @brief Split an edge of a mesh
+ * @param mesh Mesh
+ * @param vertex1 First vertex id of the edge
+ * @param vertex2 Second vertex id of the edge
+ * @param newVertexPoint Point where to split
+ * @param vfAdj Pre-computed vertex-face adjacencies (they will be updated)
+ * @return New vertex id
+ */
 template<class Mesh>
 typename Mesh::VertexId meshSplitEdge(
         Mesh& mesh,

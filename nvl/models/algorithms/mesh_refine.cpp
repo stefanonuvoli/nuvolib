@@ -21,6 +21,15 @@
 
 namespace nvl {
 
+/**
+ * @brief Refine (split over the edges) mesh using an implicit function
+ * @param mesh Mesh
+ * @param vertexFunction Per-vertex function
+ * @param curveLines Resulting curve lines
+ * @param birthVertex Birth vertex of the mesh
+ * @param birthFace Birth face of the mesh
+ * @return Resulting mesh
+ */
 template<class Mesh, class F>
 Mesh refineByImplicitFunction(
         const Mesh& mesh,
@@ -111,6 +120,17 @@ Mesh refineByImplicitFunction(
     return outputMesh;
 }
 
+/**
+ * @brief Refine (split over the edges) mesh using an implicit function
+ * @param mesh VCG mesh
+ * @param vertexFunction Per-vertex function
+ * @param resultMesh Resulting mesh
+ * @param curveLines Resulting curve lines
+ * @param birthVertex Birth vertex of the mesh
+ * @param birthFace Birth face of the mesh
+ * @return Resulting mesh
+ * @return True if it was possible to mark correctly all the components (VCG has a bug)
+ */
 template<class VCGMesh, class F>
 bool vcgRefineByImplicitFunction(
         VCGMesh& mesh,        
@@ -159,6 +179,17 @@ bool vcgRefineByImplicitFunction(
     return done;
 }
 
+/**
+ * @brief Refine (split over the edges) mesh
+ * @param mesh VCG mesh
+ * @param splitMap Split map defined for a pair of vertices
+ * @param resultMesh Resulting mesh
+ * @param curveLines Resulting curve lines
+ * @param birthVertex Birth vertex of the mesh
+ * @param birthFace Birth face of the mesh
+ * @return Resulting mesh
+ * @return True if it was possible to mark correctly all the components (VCG has a bug)
+ */
 template<class VCGMesh>
 bool vcgRefineMesh(
         VCGMesh& mesh,
@@ -242,8 +273,18 @@ bool vcgRefineMesh(
     return vcgRefineMesh(mesh, sp, ep, resultMesh, curveLines, birthVertex, birthFace);
 }
 
-
-
+/**
+ * @brief Refine (split over the edges) mesh
+ * @param mesh VCG mesh
+ * @param sp Data structure for refining
+ * @param ep Data structure for refining
+ * @param resultMesh Resulting mesh
+ * @param curveLines Resulting curve lines
+ * @param birthVertex Birth vertex of the mesh
+ * @param birthFace Birth face of the mesh
+ * @return Resulting mesh
+ * @return True if it was possible to mark correctly all the components (VCG has a bug)
+ */
 template<class VCGMesh, class SplitLev, class EdgePred>
 bool vcgRefineMesh(
         VCGMesh& mesh,

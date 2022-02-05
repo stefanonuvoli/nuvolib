@@ -17,10 +17,35 @@
 
 namespace nvl {
 
-template<class VCGMesh, class Segment>
-void convertSegmentsToVCGEdgeMesh(
-        const std::vector<Segment>& segments,
-        VCGMesh& vcgMesh);
+template<class Mesh, class VCGMesh>
+void convertMeshToVCGMesh(
+        const Mesh& mesh,
+        VCGMesh& vcgMesh,
+        Size dim = 3);
+
+template<class Mesh, class VCGMesh>
+void convertMeshToVCGMesh(
+        const Mesh& mesh,
+        VCGMesh& vcgMesh,
+        std::vector<typename Mesh::VertexId>& birthVertex,
+        std::vector<typename Mesh::FaceId>& birthFace,
+        Size dim = 3);
+
+template<class Mesh, class VCGMesh>
+void convertVCGMeshToMesh(
+        VCGMesh& vcgMesh,
+        Mesh& mesh,
+        bool selectedOnly = false,
+        Size dim = 3);
+
+template<class Mesh, class VCGMesh>
+void convertVCGMeshToMesh(
+        VCGMesh& vcgMesh,
+        Mesh& mesh,
+        std::vector<Index>& birthVertex,
+        std::vector<Index>& birthFace,
+        bool selectedOnly = false,
+        Size dim = 3);
 
 #ifdef NVL_EIGEN_LOADED
 
@@ -33,7 +58,7 @@ void convertVCGMeshToEigen(
         std::vector<Index>& fMap,
         bool selectedOnly = false,
         Index numVerticesPerFace = 3,
-        Index dim = 3);
+        Size dim = 3);
 
 template<class VCGMesh>
 void convertEigenToVCGMesh(
@@ -43,35 +68,10 @@ void convertEigenToVCGMesh(
 
 #endif
 
-template<class Mesh, class VCGMesh>
-void convertMeshToVCGMesh(
-        const Mesh& mesh,
-        VCGMesh& vcgMesh,
-        Index dim = 3);
-
-template<class Mesh, class VCGMesh>
-void convertMeshToVCGMesh(
-        const Mesh& mesh,
-        VCGMesh& vcgMesh,
-        std::vector<typename Mesh::VertexId>& birthVertex,
-        std::vector<typename Mesh::FaceId>& birthFace,
-        Index dim = 3);
-
-template<class Mesh, class VCGMesh>
-void convertVCGMeshToMesh(
-        VCGMesh& vcgMesh,
-        Mesh& mesh,
-        bool selectedOnly = false,
-        Index dim = 3);
-
-template<class Mesh, class VCGMesh>
-void convertVCGMeshToMesh(
-        VCGMesh& vcgMesh,
-        Mesh& mesh,
-        std::vector<Index>& birthVertex,
-        std::vector<Index>& birthFace,
-        bool selectedOnly = false,
-        Index dim = 3);
+template<class VCGMesh, class Segment>
+void convertSegmentsToVCGEdgeMesh(
+        const std::vector<Segment>& segments,
+        VCGMesh& vcgMesh);
 
 }
 

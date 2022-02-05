@@ -12,6 +12,12 @@
 
 namespace nvl {
 
+/**
+ * @brief Skeleton joint-joint adjacencies
+ * @param skeleton Skeleton
+ * @param childIds Id of the child for each adjacencies
+ * @return Skeleton joint-joint adjacencies
+ */
 template<class Skeleton>
 std::vector<std::vector<typename Skeleton::JointId>> skeletonJointJointAdjacencies(
         const Skeleton& skeleton,
@@ -40,6 +46,12 @@ std::vector<std::vector<typename Skeleton::JointId>> skeletonJointJointAdjacenci
     return jjAdj;
 }
 
+/**
+ * @brief Skeleton descendant of a joint
+ * @param skeleton Skeleton
+ * @param jointId Joint id
+ * @return Descendants
+ */
 template<class Skeleton>
 std::vector<typename Skeleton::JointId> skeletonJointDescendants(
         const Skeleton& skeleton,
@@ -68,6 +80,12 @@ std::vector<typename Skeleton::JointId> skeletonJointDescendants(
     return result;
 }
 
+/**
+ * @brief Skeleton non-descendants of a joint
+ * @param skeleton Skeleton
+ * @param jointId Joint id
+ * @return Non-descendants
+ */
 template<class Skeleton>
 std::vector<typename Skeleton::JointId> skeletonJointNonDescendants(
         const Skeleton& skeleton,
@@ -100,6 +118,12 @@ std::vector<typename Skeleton::JointId> skeletonJointNonDescendants(
     return result;
 }
 
+/**
+ * @brief Compute distance in the skeleton from seed joints
+ * @param skeleton Skeleton
+ * @param seedJoint Seed joint
+ * @return Distance for each joint of the skeleton
+ */
 template<class Skeleton>
 std::vector<unsigned int> skeletonJointDistance(
         const Skeleton& skeleton,
@@ -115,6 +139,12 @@ std::vector<unsigned int> skeletonJointDistance(
     return distance;
 }
 
+/**
+ * @brief Compute distance in the skeleton from seed joints
+ * @param skeleton Skeleton
+ * @param seedJoints Seed joints
+ * @return Distance for each joint of the skeleton
+ */
 template<class Skeleton>
 std::vector<unsigned int> skeletonJointDistance(
         const Skeleton& skeleton,
@@ -134,6 +164,11 @@ std::vector<unsigned int> skeletonJointDistance(
     return distance;
 }
 
+/**
+ * @brief Get paths from roots to each leaf
+ * @param skeleton Skeleton
+ * @return Root-leaves paths
+ */
 template<class Skeleton>
 std::vector<std::vector<typename Skeleton::JointId>> skeletonRootLeafPaths(
         const Skeleton& skeleton)
@@ -163,6 +198,13 @@ std::vector<std::vector<typename Skeleton::JointId>> skeletonRootLeafPaths(
 
 namespace internal {
 
+/**
+ * @brief Calculate recursively joint distance
+ * @param skeleton Skeleton
+ * @param jointId Joint id
+ * @param distance Distance
+ * @param computedJoints Flags for computed joints
+ */
 template<class Skeleton>
 void skeletonJointDistanceRecursive(
         const Skeleton& skeleton,

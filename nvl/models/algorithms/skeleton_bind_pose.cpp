@@ -12,6 +12,11 @@ namespace nvl {
 
 /* ----------------------- GLOBAL ----------------------- */
 
+/**
+ * @brief Compute global bind pose of a skeleton
+ * @param skeleton Skeleton
+ * @return Global bind pose
+ */
 template<class S>
 std::vector<typename S::Transformation> skeletonGlobalBindPose(
         const S& skeleton)
@@ -30,6 +35,11 @@ std::vector<typename S::Transformation> skeletonGlobalBindPose(
     return bindPose;
 }
 
+/**
+ * @brief Compute inverse global bind pose of a skeleton
+ * @param skeleton Skeleton
+ * @return Inverse global bind pose
+ */
 template<class S>
 std::vector<typename S::Transformation> skeletonGlobalInverseBindPose(
         const S& skeleton)
@@ -47,6 +57,11 @@ std::vector<typename S::Transformation> skeletonGlobalInverseBindPose(
     return inverseBindPose;
 }
 
+/**
+ * @brief Set global bind pose of a skeleton
+ * @param skeleton Skeleton
+ * @param bindPose New global bind pose
+ */
 template<class S>
 void skeletonSetGlobalBindPose(
         S& skeleton,
@@ -63,6 +78,11 @@ void skeletonSetGlobalBindPose(
 
 /* ----------------------- LOCAL ----------------------- */
 
+/**
+ * @brief Compute local bind pose of a skeleton
+ * @param skeleton Skeleton
+ * @return Local bind pose
+ */
 template<class S>
 std::vector<typename S::Transformation> skeletonLocalBindPose(
         const S& skeleton)
@@ -76,6 +96,11 @@ std::vector<typename S::Transformation> skeletonLocalBindPose(
     return localBindPose;
 }
 
+/**
+ * @brief Compute inverse local bind pose of a skeleton
+ * @param skeleton Skeleton
+ * @return Inverse local bind pose
+ */
 template<class S>
 std::vector<typename S::Transformation> skeletonLocalInverseBindPose(
         const S& skeleton)
@@ -93,6 +118,11 @@ std::vector<typename S::Transformation> skeletonLocalInverseBindPose(
     return inverseBindPose;
 }
 
+/**
+ * @brief Set local bind pose of a skeleton
+ * @param skeleton Skeleton
+ * @param bindPose New local bind pose
+ */
 template<class S>
 void skeletonSetLocalBindPose(
         S& skeleton,

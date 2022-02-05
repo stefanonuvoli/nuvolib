@@ -15,6 +15,12 @@
 
 namespace nvl {
 
+/**
+ * @brief Apply transformation to a model
+ * @param model Model
+ * @param transformation Transformation
+ * @param removeNonStandardTransformations Remove non-standard transformations
+ */
 template<class Model, class T>
 void modelApplyTransformation(Model& model, const T& transformation, const bool removeNonStandardTransformations)
 {

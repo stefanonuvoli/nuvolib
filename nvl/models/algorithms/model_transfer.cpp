@@ -7,10 +7,20 @@
 #include "model_transfer.h"
 
 #include <nvl/models/algorithms/mesh_transfer.h>
-#include <nvl/models/skeleton_transfer.h>
+#include <nvl/models/algorithms/skeleton_transfer.h>
 
 namespace nvl {
 
+/**
+ * @brief Transfer data from a model to another
+ * @param model Model
+ * @param faces Faces to transfer
+ * @param joints Joints to transfer
+ * @param targetModel Target model
+ * @param birthVertex Birth vertex of the resulting model
+ * @param birthFace Birth vertex of the resulting model
+ * @param birthJoint Birth joint of the resulting model
+ */
 template<class Model>
 void modelTransfer(
         const Model& model,
@@ -27,6 +37,13 @@ void modelTransfer(
     modelAnimationTransfer(model, birthJoint, targetModel);
 }
 
+/**
+ * @brief Transfer skinning weights from a model to another
+ * @param model Model
+ * @param birthVertex Birth vertex of the resulting model
+ * @param birthJoint Birth joint of the resulting model
+ * @param targetModel Target model
+ */
 template<class Model>
 void modelSkinningWeightsTransfer(
         const Model& model,
@@ -54,6 +71,12 @@ void modelSkinningWeightsTransfer(
     targetModel.skinningWeights.updateNonZeros();
 }
 
+/**
+ * @brief Transfer skinning weights of all vertices from a model to another
+ * @param model Model
+ * @param birthVertex Birth vertex of the resulting model
+ * @param targetModel Target model
+ */
 template<class Model>
 void modelSkinningWeightsTransferVertices(
         const Model& model,
@@ -77,6 +100,12 @@ void modelSkinningWeightsTransferVertices(
     targetModel.skinningWeights.updateNonZeros();
 }
 
+/**
+ * @brief Transfer skinning weights of all skeleton joints from a model to another
+ * @param model Model
+ * @param birthJoint Birth joint of the resulting model
+ * @param targetModel Target model
+ */
 template<class Model>
 void modelSkinningWeightsTransferJoints(
         const Model& model,
@@ -103,6 +132,12 @@ void modelSkinningWeightsTransferJoints(
     targetModel.skinningWeights.updateNonZeros();
 }
 
+/**
+ * @brief Transfer animations from a model to another
+ * @param model Model
+ * @param birthJoint Birth joint of the resulting model
+ * @param targetModel Target model
+ */
 template<class Model>
 void modelAnimationTransfer(
         const Model& model,
@@ -112,16 +147,23 @@ void modelAnimationTransfer(
     typedef typename Model::AnimationId AnimationId;
 
     for (AnimationId aId = 0; aId < model.animationNumber(); ++aId) {
-        modelAnimationTransfer(model, birthJoint, targetModel, aId);
+        modelAnimationTransfer(model, aId, birthJoint, targetModel);
     }
 }
 
+/**
+ * @brief Transfer animation from a model to another
+ * @param model Model
+ * @param animationId Input animation
+ * @param birthJoint Birth joint of the resulting model
+ * @param targetModel Target model
+ */
 template<class Model>
 void modelAnimationTransfer(
         const Model& model,
+        typename Model::AnimationId animationId,
         const std::vector<typename Model::Skeleton::JointId>& birthJoint,
-        Model& targetModel,
-        typename Model::AnimationId animationId)
+        Model& targetModel)
 {
     typedef typename Model::Animation Animation;
     typedef typename Model::Animation::Frame AnimationFrame;
@@ -140,6 +182,14 @@ void modelAnimationTransfer(
     targetModel.addAnimation(newAnimation);
 }
 
+/**
+ * @brief Transfer animation frame from a model to another
+ * @param model Model
+ * @param animationFrame Input animation frame
+ * @param birthJoint Birth joint of the resulting model
+ * @param targetModel Target model
+ * @param newAnimationFrame Resulting animation frame
+ */
 template<class Model>
 void modelAnimationFrameTransfer(
         const Model& model,

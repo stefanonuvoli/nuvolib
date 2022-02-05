@@ -13,6 +13,11 @@
 
 namespace nvl {
 
+/**
+ * @brief Compute face normal for a mesh (using the first three vertices of the faces)
+ * @param mesh Mesh
+ * @param normalize Normalize normals
+ */
 template<class Mesh>
 void meshComputeFaceNormalsPlanar(Mesh& mesh, const bool normalize)
 {
@@ -28,12 +33,20 @@ void meshComputeFaceNormalsPlanar(Mesh& mesh, const bool normalize)
     }
 }
 
+/**
+ * @brief Compute face normal for a mesh face (using the first three vertices of the faces)
+ * @param mesh Mesh
+ * @param fId Face id
+ * @param normalize Normalize normal
+ */
 template<class Mesh>
 void meshComputeFaceNormalPlanar(Mesh& mesh, typename Mesh::FaceId& fId, const bool normalize)
 {
     typedef typename Mesh::Face Face;
     typedef typename Mesh::Point Point;
     typedef typename Mesh::VertexId VertexId;
+
+    assert(mesh.hasFaceNormals());
 
     Face& face = mesh.face(fId);
 
@@ -48,6 +61,11 @@ void meshComputeFaceNormalPlanar(Mesh& mesh, typename Mesh::FaceId& fId, const b
     mesh.setFaceNormal(face, computeFaceNormalStandard(points, normalize));
 }
 
+/**
+ * @brief Compute face normal for a mesh (using SVD fitting)
+ * @param mesh Mesh
+ * @param normalize Normalize normals
+ */
 template<class Mesh>
 void meshComputeFaceNormalsSVDFitting(Mesh& mesh, const bool normalize)
 {
@@ -63,12 +81,20 @@ void meshComputeFaceNormalsSVDFitting(Mesh& mesh, const bool normalize)
     }
 }
 
+/**
+ * @brief Compute face normal for a mesh face (using SVD fitting)
+ * @param mesh Mesh
+ * @param fId Face id
+ * @param normalize Normalize normal
+ */
 template<class Mesh>
 void meshComputeFaceNormalSVDFitting(Mesh& mesh, typename Mesh::FaceId& fId, const bool normalize)
 {
     typedef typename Mesh::Face Face;
     typedef typename Mesh::Point Point;
     typedef typename Mesh::VertexId VertexId;
+
+    assert(mesh.hasFaceNormals());
 
     Face& face = mesh.face(fId);
 
@@ -88,6 +114,11 @@ void meshComputeFaceNormalSVDFitting(Mesh& mesh, typename Mesh::FaceId& fId, con
     }
 }
 
+/**
+ * @brief Compute face normal for a mesh (using covariance fitting)
+ * @param mesh Mesh
+ * @param normalize Normalize normals
+ */
 template<class Mesh>
 void meshComputeFaceNormalsCovarianceFitting(Mesh& mesh, const bool normalize)
 {
@@ -103,6 +134,12 @@ void meshComputeFaceNormalsCovarianceFitting(Mesh& mesh, const bool normalize)
     }
 }
 
+/**
+ * @brief Compute face normal for a mesh face (using covariance fitting)
+ * @param mesh Mesh
+ * @param fId Face id
+ * @param normalize Normalize normal
+ */
 template<class Mesh>
 void meshComputeFaceNormalsCovarianceFitting(Mesh& mesh, typename Mesh::FaceId& fId, const bool normalize)
 {
@@ -110,7 +147,10 @@ void meshComputeFaceNormalsCovarianceFitting(Mesh& mesh, typename Mesh::FaceId& 
     typedef typename Mesh::Point Point;
     typedef typename Mesh::VertexId VertexId;
 
+    assert(mesh.hasFaceNormals());
+
     Face& face = mesh.face(fId);
+
     std::vector<Point> points(face.vertexNumber());
 
     Index pointIndex = 0;
@@ -127,10 +167,17 @@ void meshComputeFaceNormalsCovarianceFitting(Mesh& mesh, typename Mesh::FaceId& 
     }
 }
 
+/**
+ * @brief Compute face normal for a mesh (using vertex normals)
+ * @param mesh Mesh
+ * @param normalize Normalize normals
+ */
 template<class Mesh>
 void meshComputeFaceNormalsFromVertexNormals(Mesh& mesh, const bool normalize)
 {
     typedef typename Mesh::FaceId FaceId;
+
+    assert(mesh.hasVertexNormals());
 
     mesh.enableFaceNormals();
 
@@ -142,6 +189,12 @@ void meshComputeFaceNormalsFromVertexNormals(Mesh& mesh, const bool normalize)
     }
 }
 
+/**
+ * @brief Compute face normal for a mesh face (using vertex normals)
+ * @param mesh Mesh
+ * @param fId Face id
+ * @param normalize Normalize normal
+ */
 template<class Mesh>
 void meshComputeFaceNormalFromVertexNormals(Mesh& mesh, typename Mesh::FaceId& fId, const bool normalize)
 {
@@ -149,7 +202,11 @@ void meshComputeFaceNormalFromVertexNormals(Mesh& mesh, typename Mesh::FaceId& f
     typedef typename Mesh::Face Face;
     typedef typename Mesh::FaceNormal FaceNormal;
 
+    assert(mesh.hasVertexNormals());
+    assert(mesh.hasFaceNormals());
+
     Face& face = mesh.face(fId);
+
     FaceNormal normal(0, 0, 0);
 
     for (const VertexId& vId : face.vertexIds()) {
@@ -164,22 +221,39 @@ void meshComputeFaceNormalFromVertexNormals(Mesh& mesh, typename Mesh::FaceId& f
     mesh.setFaceNormal(fId, normal);
 }
 
+/**
+ * @brief Compute vertex normal for a mesh (using face normals)
+ * @param mesh Mesh
+ * @param normalize Normalize normals
+ */
 template<class Mesh>
 void meshComputeVertexNormalsFromFaceNormals(Mesh& mesh, const bool normalize)
 {
     return meshComputeVertexNormalsFromFaceNormals(mesh, meshVertexFaceAdjacencies(mesh), normalize);
 }
 
+/**
+ * @brief Compute vertex normal for a mesh vertex (using face normals)
+ * @param mesh Mesh
+ * @param vId Vertex id
+ * @param normalize Normalize normal
+ */
 template<class Mesh>
-void meshComputeVertexNormalFromFaceNormals(Mesh& mesh, typename Mesh::FaceId& vId, const bool normalize)
+void meshComputeVertexNormalFromFaceNormals(Mesh& mesh, typename Mesh::VertexId& vId, const bool normalize)
 {
     return meshComputeVertexNormalsFromFaceNormals(mesh, vId, meshVertexFaceAdjacencies(mesh), normalize);
 }
 
+/**
+ * @brief Compute vertex normal for a mesh (using face normals)
+ * @param mesh Mesh
+ * @param vfAdj Pre-computed vertex-face adjacencies
+ * @param normalize Normalize normals
+ */
 template<class Mesh>
 void meshComputeVertexNormalsFromFaceNormals(
         Mesh& mesh,
-        const std::vector<std::vector<typename Mesh::VertexId>>& vfAdj,
+        const std::vector<std::vector<typename Mesh::FaceId>>& vfAdj,
         bool normalize)
 {
     typedef typename Mesh::VertexId VertexId;
@@ -194,18 +268,28 @@ void meshComputeVertexNormalsFromFaceNormals(
     }
 }
 
+/**
+ * @brief Compute vertex normal for a mesh vertex (using face normals)
+ * @param mesh Mesh
+ * @param vId Vertex id
+ * @param vfAdj Pre-computed vertex-face adjacencies
+ * @param normalize Normalize normal
+ */
 template<class Mesh>
 void meshComputeVertexNormalFromFaceNormals(
         Mesh& mesh,
-        typename Mesh::FaceId& vId,
-        const std::vector<std::vector<typename Mesh::VertexId>>& vfAdj,
+        typename Mesh::VertexId& vId,
+        const std::vector<std::vector<typename Mesh::FaceId>>& vfAdj,
         bool normalize)
 {
     typedef typename Mesh::VertexId FaceId;
     typedef typename Mesh::Vertex Vertex;
     typedef typename Mesh::VertexNormal VertexNormal;
 
+    assert(mesh.hasFaceNormals());
+
     Vertex& vertex = mesh.vertex(vId);
+
     VertexNormal normal(0, 0, 0);
 
     if (!vfAdj[vertex.id()].empty()) {

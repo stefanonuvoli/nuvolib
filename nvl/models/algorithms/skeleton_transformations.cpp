@@ -12,6 +12,11 @@
 
 namespace nvl {
 
+/**
+ * @brief Apply transformation to a skeleton
+ * @param skeleton Skeleton
+ * @param transformation Transformation
+ */
 template<class Skeleton, class T>
 void skeletonApplyTransformation(Skeleton& skeleton, const T& transformation)
 {
@@ -25,7 +30,11 @@ void skeletonApplyTransformation(Skeleton& skeleton, const T& transformation)
         joint.setBindPose(transformation * joint.bindPose());
     }
 }
-
+/**
+ * @brief Apply transformations (defined per-joint) to a skeleton
+ * @param skeleton Skeleton
+ * @param transformations Transformations
+ */
 template<class Skeleton, class T>
 void skeletonApplyTransformation(Skeleton& skeleton, const std::vector<T>& transformations)
 {
@@ -40,6 +49,11 @@ void skeletonApplyTransformation(Skeleton& skeleton, const std::vector<T>& trans
     }
 }
 
+/**
+ * @brief Change root of a skeleton sub-tree
+ * @param skeleton Skeleton
+ * @param jId New root joint id
+ */
 template<class Skeleton>
 void skeletonSetRoot(Skeleton& skeleton, const typename Skeleton::JointId& jId)
 {

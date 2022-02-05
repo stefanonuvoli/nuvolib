@@ -15,6 +15,10 @@
 
 namespace nvl {
 
+/**
+ * @brief Triangulate faces assuming they are convex
+ * @param mesh Mesh
+ */
 template<class Mesh>
 void meshTriangulateConvexFace(
         Mesh& mesh)
@@ -31,6 +35,11 @@ void meshTriangulateConvexFace(
     }
 }
 
+/**
+ * @brief Triangulate faces assuming they are convex
+ * @param mesh Mesh
+ * @param birthFace Birth face of the resulting mesh
+ */
 template<class Mesh>
 void meshTriangulateConvexFace(
         Mesh& mesh,
@@ -57,6 +66,11 @@ void meshTriangulateConvexFace(
     }
 }
 
+/**
+ * @brief Triangulate faces assuming they are convex
+ * @param mesh Mesh
+ * @param fId Face id
+ */
 template<class Mesh>
 std::vector<typename Mesh::FaceId> meshTriangulateConvexFace(
         Mesh& mesh,
@@ -101,6 +115,10 @@ std::vector<typename Mesh::FaceId> meshTriangulateConvexFace(
     return resultingFaces;
 }
 
+/**
+ * @brief Triangulate faces splitting on barycenter
+ * @param mesh Mesh
+ */
 template<class Mesh>
 void meshTriangulateBarycenter(
         Mesh& mesh)
@@ -117,6 +135,11 @@ void meshTriangulateBarycenter(
     }
 }
 
+/**
+ * @brief Triangulate faces splitting on barycenter
+ * @param mesh Mesh
+ * @param birthFace Birth face of the resulting mesh
+ */
 template<class Mesh>
 void meshTriangulateBarycenter(
         Mesh& mesh,
@@ -143,6 +166,11 @@ void meshTriangulateBarycenter(
     }
 }
 
+/**
+ * @brief Triangulate faces splitting in the barycenter
+ * @param mesh Mesh
+ * @param fId Face id
+ */
 template<class Mesh>
 std::vector<typename Mesh::FaceId> meshTriangulateBarycenter(
         Mesh& mesh,
@@ -170,7 +198,15 @@ std::vector<typename Mesh::FaceId> meshTriangulateBarycenter(
     return resultingFaces;
 }
 
-//TODO general reconstruction in proper file
+/**
+ * @brief Reconstruct polygons from a triangulated mesh, where they have not changed
+ * @param originalMesh Original mesh
+ * @param derivedMesh Derived mesh
+ * @param derivedBirthVertex Birth vertex of the derived mesh
+ * @param derivedBirthFace Birth face of the derived mesh
+ * @param resultBirthFace Birth vertex of the resulting mesh
+ * @return Reconstructed mesh
+ */
 template<class Mesh>
 Mesh meshReconstructTriangulatedPolygons(
         const Mesh& originalMesh,
@@ -179,6 +215,9 @@ Mesh meshReconstructTriangulatedPolygons(
         const std::vector<typename Mesh::FaceId>& derivedBirthFace,
         std::vector<typename Mesh::FaceId>& resultBirthFace)
 {
+    //TODO general reconstruction in proper file
+    //TODO to test
+
     typedef typename Mesh::Face Face;
     typedef typename Mesh::FaceId FaceId;
     typedef typename Mesh::VertexId VertexId;

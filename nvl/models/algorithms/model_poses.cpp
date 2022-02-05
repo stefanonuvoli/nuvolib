@@ -12,6 +12,10 @@ namespace nvl {
 
 /* ----------------------- DEFORMATION FROM LOCAL AND GLOBAL ----------------------- */
 
+/**
+ * @brief Calculate model deformation from global transformations
+ * @param model Model
+ */
 template<class M>
 void modelDeformationFromGlobal(
         M& model)
@@ -24,6 +28,10 @@ void modelDeformationFromGlobal(
     }
 }
 
+/**
+ * @brief Calculate model deformation from local transformations
+ * @param model Model
+ */
 template<class M>
 void modelDeformationFromLocal(
         M& model)
@@ -39,6 +47,10 @@ void modelDeformationFromLocal(
 
 /* ----------------------- LOCAL FROM GLOBAL ----------------------- */
 
+/**
+ * @brief Calculate local transformations from global transformations
+ * @param model Model
+ */
 template<class M>
 void modelLocalFromGlobal(
         M& model)
@@ -54,6 +66,10 @@ void modelLocalFromGlobal(
 
 /* ----------------------- GLOBAL FROM LOCAL ----------------------- */
 
+/**
+ * @brief Calculate global transformations from local transformations
+ * @param model Model
+ */
 template<class M>
 void modelGlobalFromLocal(
         M& model)

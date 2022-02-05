@@ -11,6 +11,11 @@
 
 namespace nvl {
 
+/**
+ * @brief Get the graph of a mesh (vertices)
+ * @param mesh Mesh
+ * @return Graph of a mesh
+ */
 template<class Mesh>
 Graph<typename Mesh::VertexId> meshGraph(
         const Mesh& mesh)
@@ -18,7 +23,12 @@ Graph<typename Mesh::VertexId> meshGraph(
     return meshGraph(mesh, meshVertexVertexAdjacencies(mesh));
 }
 
-
+/**
+ * @brief Get the graph of a mesh (vertices)
+ * @param mesh Mesh
+ * @param vvAdj Pre-computed vertex-vertex adjacencies
+ * @return Graph of a mesh
+ */
 template<class Mesh>
 Graph<typename Mesh::VertexId> meshGraph(
         const Mesh& mesh,
@@ -54,15 +64,24 @@ Graph<typename Mesh::VertexId> meshGraph(
 }
 
 
+/**
+ * @brief Get the dual graph of a mesh (faces)
+ * @param mesh Mesh
+ * @return Dual graph of a mesh
+ */
 template<class Mesh>
 Graph<typename Mesh::FaceId> meshDualGraph(
-        const Mesh& mesh,
-        const bool directed)
+        const Mesh& mesh)
 {
     return meshGraph(mesh, meshFaceFaceAdjacencies(mesh));
 }
 
-
+/**
+ * @brief Get the dual graph of a mesh (faces)
+ * @param mesh Mesh
+ * @param vvAdj Pre-computed vertex-vertex adjacencies
+ * @return Dual graph of a mesh
+ */
 template<class Mesh>
 Graph<typename Mesh::FaceId> meshDualGraph(
         const Mesh& mesh,

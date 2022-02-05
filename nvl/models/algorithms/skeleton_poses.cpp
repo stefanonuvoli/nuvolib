@@ -27,6 +27,11 @@ void skeletonPoseLocalFromGlobalRecursive(
 
 /* ----------------------- DEFORMATION FROM LOCAL AND GLOBAL ----------------------- */
 
+/**
+ * @brief Get deformation for skeleton joints from global transformation
+ * @param skeleton Skeleton
+ * @param transformations Transformations
+ */
 template<class S, class T>
 void skeletonPoseDeformationFromGlobal(
         const S& skeleton,
@@ -41,6 +46,11 @@ void skeletonPoseDeformationFromGlobal(
     }
 }
 
+/**
+ * @brief Get deformation for skeleton joints from local transformation
+ * @param skeleton Skeleton
+ * @param transformations Transformations
+ */
 template<class S, class T>
 void skeletonPoseDeformationFromLocal(
         const S& skeleton,
@@ -54,6 +64,11 @@ void skeletonPoseDeformationFromLocal(
 
 /* ----------------------- LOCAL FROM GLOBAL ----------------------- */
 
+/**
+ * @brief Get local transformations for skeleton joints from global transformation
+ * @param skeleton Skeleton
+ * @param transformations Transformations
+ */
 template<class S, class T>
 void skeletonPoseLocalFromGlobal(
         const S& skeleton,
@@ -71,6 +86,11 @@ void skeletonPoseLocalFromGlobal(
 
 /* ----------------------- GLOBAL FROM LOCAL ----------------------- */
 
+/**
+ * @brief Get global transformations for skeleton joints from local transformation
+ * @param skeleton Skeleton
+ * @param transformations Transformations
+ */
 template<class S, class T>
 void skeletonPoseGlobalFromLocal(
         const S& skeleton,
@@ -89,6 +109,12 @@ void skeletonPoseGlobalFromLocal(
 
 namespace internal {
 
+/**
+ * @brief Get recursively global transformations from local transformation
+ * @param skeleton Skeleton
+ * @param currentId Current joint id
+ * @param transformations Transformations
+ */
 template<class S, class T>
 void skeletonPoseGlobalFromLocalRecursive(
         const S& skeleton,
@@ -111,6 +137,12 @@ void skeletonPoseGlobalFromLocalRecursive(
     }
 }
 
+/**
+ * @brief Get recursively local transformations from global transformation
+ * @param skeleton Skeleton
+ * @param currentId Current joint id
+ * @param transformations Transformations
+ */
 template<class S, class T>
 void skeletonPoseLocalFromGlobalRecursive(
         const S& skeleton,
