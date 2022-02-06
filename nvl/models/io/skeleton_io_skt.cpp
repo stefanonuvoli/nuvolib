@@ -18,6 +18,13 @@
 
 namespace nvl {
 
+/**
+ * @brief Load skeleton from SKT file
+ * @param filename Filename
+ * @param skeleton Skeleton
+ * @param error Error
+ * @return True if loading has been successful
+ */
 template<class T>
 bool skeletonLoadDataFromSKT(
         const std::string& filename,
@@ -140,6 +147,13 @@ bool skeletonLoadDataFromSKT(
     return true;
 }
 
+/**
+ * @brief Save skeleton to SKT file
+ * @param filename Filename
+ * @param skeleton Skeleton
+ * @param error Error
+ * @return True if saving has been successful
+ */
 template<class T>
 bool skeletonSaveDataToSKT(
         const std::string& filename,

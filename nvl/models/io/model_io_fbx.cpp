@@ -23,6 +23,7 @@
 namespace nvl {
 
 namespace internal {
+
 template<class M, class S, class W, class A>
 struct FBXData {
     typedef M Mesh;
@@ -149,6 +150,14 @@ FbxVector4 FBXRotationFromRotation(const Rotation3d& rot);
 
 }
 
+/**
+ * @brief Load model from FBX file
+ * @param filename Filename
+ * @param model Model
+ * @param error Error
+ * @param mode Mode
+ * @return True if loading has been successful
+ */
 template<class M, class S, class W, class A>
 bool modelLoadDataFromFBX(
         const std::string& filename,
@@ -257,7 +266,14 @@ bool modelLoadDataFromFBX(
     return true;
 }
 
-
+/**
+ * @brief Save model to FBX file
+ * @param filename Filename
+ * @param model Model
+ * @param error Error
+ * @param mode Mode
+ * @return True if saving has been successful
+ */
 template<class M, class S, class W, class A>
 bool modelSaveDataToFBX(
         const std::string& filename,

@@ -13,6 +13,13 @@
 
 namespace nvl {
 
+/**
+ * @brief Load skinning weights from SKW file
+ * @param filename Filename
+ * @param skinningWeights Skinning weights
+ * @param error Error
+ * @return True if loading has been successful
+ */
 template<class T>
 bool skinningWeightsLoadDataFromSKW(
         const std::string& filename,
@@ -56,6 +63,13 @@ bool skinningWeightsLoadDataFromSKW(
     return true;
 }
 
+/**
+ * @brief Save skinning weights to SKW file
+ * @param filename Filename
+ * @param skinningWeights Skinning weights
+ * @param error Error
+ * @return True if saving has been successful
+ */
 template<class T>
 bool skinningWeightsSaveDataToSKW(
         const std::string& filename,

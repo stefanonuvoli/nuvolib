@@ -18,6 +18,14 @@
 
 namespace nvl {
 
+/**
+ * @brief Load model from file
+ * @param filename Filename
+ * @param model Model
+ * @param error Error
+ * @param mode Mode
+ * @return True if loading has been successful
+ */
 template<class M>
 bool modelLoadFromFile(
         const std::string& filename,
@@ -77,6 +85,14 @@ bool modelLoadFromFile(
     return success;
 }
 
+/**
+ * @brief Saving model from file
+ * @param filename Filename
+ * @param model Model
+ * @param error Error
+ * @param mode Mode
+ * @return True if saving has been successful
+ */
 template<class M>
 bool modelSaveToFile(
         const std::string& filename,
@@ -136,6 +152,12 @@ bool modelSaveToFile(
     return success;
 }
 
+/**
+ * @brief Load model data
+ * @param model Model
+ * @param modelData Model data
+ * @param mode Mode
+ */
 template<class M, class MD>
 void modelLoadData(
         M& model,
@@ -161,6 +183,12 @@ void modelLoadData(
     }
 }
 
+/**
+ * @brief Save model data
+ * @param model Model
+ * @param modelData Model data
+ * @param mode Mode
+ */
 template<class M, class MD>
 void modelSaveData(
         const M& model,

@@ -12,6 +12,14 @@
 
 namespace nvl {
 
+/**
+ * @brief Load skinning weights from file
+ * @param filename Filename
+ * @param skinningWeights Skinning weights
+ * @param error Error
+ * @param mode Mode
+ * @return True if loading has been successful
+ */
 template<class W>
 bool skinningWeightsLoadFromFile(
         const std::string& filename,
@@ -39,6 +47,14 @@ bool skinningWeightsLoadFromFile(
     return success;
 }
 
+/**
+ * @brief Save skinning weights from file
+ * @param filename Filename
+ * @param skinningWeights Skinning weights
+ * @param error Error
+ * @param mode Mode
+ * @return True if saving has been successful
+ */
 template<class W>
 bool skinningWeightsSaveToFile(
         const std::string& filename,
@@ -64,7 +80,12 @@ bool skinningWeightsSaveToFile(
     return success;
 }
 
-
+/**
+ * @brief Load skinning weights data
+ * @param skinningWeights Skinning weights
+ * @param skinningWeightsData Skinning weights data
+ * @param mode Mode
+ */
 template<class W>
 void skinningWeightsLoadData(
         SkinningWeights<W>& skinningWeights,
@@ -80,6 +101,12 @@ void skinningWeightsLoadData(
     skinningWeights.updateNonZeros();
 }
 
+/**
+ * @brief Save skinning weights data
+ * @param skinningWeights Skinning weights
+ * @param skinningWeightsData Skinning weights data
+ * @param mode Mode
+ */
 template<class W>
 void skinningWeightsSaveData(
         const SkinningWeights<W>& skinningWeights,

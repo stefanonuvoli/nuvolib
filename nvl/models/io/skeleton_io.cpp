@@ -14,6 +14,14 @@
 
 namespace nvl {
 
+/**
+ * @brief Load skeleton from file
+ * @param filename Filename
+ * @param skeleton Skeleton
+ * @param error Error
+ * @param mode Mode
+ * @return True if loading has been successful
+ */
 template<class S>
 bool skeletonLoadFromFile(
         const std::string& filename,
@@ -43,6 +51,14 @@ bool skeletonLoadFromFile(
     return success;
 }
 
+/**
+ * @brief Save skeleton from file
+ * @param filename Filename
+ * @param skeleton Skeleton
+ * @param error Error
+ * @param mode Mode
+ * @return True if saving has been successful
+ */
 template<class S>
 bool skeletonSaveToFile(
         const std::string& filename,
@@ -68,7 +84,12 @@ bool skeletonSaveToFile(
     return success;
 }
 
-
+/**
+ * @brief Load skeleton data
+ * @param skeleton Skeleton
+ * @param skeletonData Skeleton data
+ * @param mode Mode
+ */
 template<class S, class SD>
 void skeletonLoadData(
         S& skeleton,
@@ -105,6 +126,12 @@ void skeletonLoadData(
     }
 }
 
+/**
+ * @brief Save skeleton data
+ * @param skeleton Skeleton
+ * @param skeletonData Skeleton data
+ * @param mode Mode
+ */
 template<class S, class SD>
 void skeletonSaveData(
         const S& skeleton,

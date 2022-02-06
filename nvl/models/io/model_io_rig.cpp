@@ -18,6 +18,14 @@
 
 namespace nvl {
 
+/**
+ * @brief Load model from RIG file
+ * @param filename Filename
+ * @param model Model
+ * @param error Error
+ * @param mode Mode
+ * @return True if loading has been successful
+ */
 template<class M, class S, class W, class A>
 bool modelLoadDataFromRIG(
         const std::string& filename,
@@ -150,6 +158,14 @@ bool modelLoadDataFromRIG(
     return true;
 }
 
+/**
+ * @brief Save model to RIG file
+ * @param filename Filename
+ * @param model Model
+ * @param error Error
+ * @param mode Mode
+ * @return True if saving has been successful
+ */
 template<class M, class S, class W, class A>
 bool modelSaveDataToRIG(
         const std::string& filename,
