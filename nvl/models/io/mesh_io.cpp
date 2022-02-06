@@ -11,6 +11,14 @@
 
 namespace nvl {
 
+/**
+ * @brief Load mesh from file
+ * @param filename Filename
+ * @param mesh Mesh
+ * @param error Error
+ * @param mode Mode
+ * @return True if the loading has been successful
+ */
 template<class M>
 bool meshLoadFromFile(
         const std::string& filename,
@@ -47,6 +55,14 @@ bool meshLoadFromFile(
     return success;
 }
 
+/**
+ * @brief Save mesh from file
+ * @param filename Filename
+ * @param mesh Mesh
+ * @param error Error
+ * @param mode Mode
+ * @return True if the saving has been successful
+ */
 template<class M>
 bool meshSaveToFile(
         const std::string& filename,
@@ -79,6 +95,12 @@ bool meshSaveToFile(
     return success;
 }
 
+/**
+ * @brief Load vertex mesh data
+ * @param mesh Vertex mesh
+ * @param meshData Mesh data
+ * @param mode Mode
+ */
 template<class VT, class MD>
 void meshLoadData(
         VertexMesh<VT>& mesh,
@@ -88,6 +110,12 @@ void meshLoadData(
     meshLoadVertexData(mesh, meshData, mode);
 }
 
+/**
+ * @brief Load polyline mesh data
+ * @param mesh Polyline mesh
+ * @param meshData Mesh data
+ * @param mode Mode
+ */
 template<class VT, class PT, class MD>
 void meshLoadData(
         PolylineMesh<VT,PT> mesh,
@@ -98,6 +126,12 @@ void meshLoadData(
     meshLoadPolylineData(mesh, meshData, mode);
 }
 
+/**
+ * @brief Load face mesh data
+ * @param mesh Face mesh
+ * @param meshData Mesh data
+ * @param mode Mode
+ */
 template<class VT, class PT, class FT, class MD>
 void meshLoadData(
         FaceMesh<VT,PT,FT>& mesh,
@@ -109,6 +143,12 @@ void meshLoadData(
     meshLoadFaceData(mesh, meshData, mode);
 }
 
+/**
+ * @brief Save vertex mesh data
+ * @param mesh Vertex mesh
+ * @param meshData Mesh data
+ * @param mode Mode
+ */
 template<class VT, class MD>
 void meshSaveData(
         const VertexMesh<VT>& mesh,
@@ -118,6 +158,12 @@ void meshSaveData(
     meshSaveVertexData(mesh, meshData, mode);
 }
 
+/**
+ * @brief Save polyline mesh data
+ * @param mesh Polyline mesh
+ * @param meshData Mesh data
+ * @param mode Mode
+ */
 template<class VT, class PT, class MD>
 void meshSaveData(
         const PolylineMesh<VT,PT> mesh,
@@ -128,6 +174,12 @@ void meshSaveData(
     meshSavePolylineData(mesh, meshData, mode);
 }
 
+/**
+ * @brief Save face mesh data
+ * @param mesh Face mesh
+ * @param meshData Mesh data
+ * @param mode Mode
+ */
 template<class VT, class PT, class FT, class MD>
 void meshSaveData(
         const FaceMesh<VT,PT,FT>& mesh,
@@ -139,6 +191,12 @@ void meshSaveData(
     meshSaveFaceData(mesh, meshData, mode);
 }
 
+/**
+ * @brief Load vertex data
+ * @param mesh Mesh
+ * @param meshData Mesh data
+ * @param mode mode
+ */
 template<class M, class MD>
 void meshLoadVertexData(
         M& mesh,
@@ -197,6 +255,12 @@ void meshLoadVertexData(
     }
 }
 
+/**
+ * @brief Load polyline data
+ * @param mesh Mesh
+ * @param meshData Mesh data
+ * @param mode mode
+ */
 template<class M, class MD>
 void meshLoadPolylineData(
         M& mesh,
@@ -232,6 +296,12 @@ void meshLoadPolylineData(
     }
 }
 
+/**
+ * @brief Load face data
+ * @param mesh Mesh
+ * @param meshData Mesh data
+ * @param mode mode
+ */
 template<class M, class MD>
 void meshLoadFaceData(
         M& mesh,
@@ -445,6 +515,12 @@ void meshLoadFaceData(
     }
 }
 
+/**
+ * @brief Save vertex data
+ * @param mesh Mesh
+ * @param meshData Mesh data
+ * @param mode mode
+ */
 template<class M, class MD>
 void meshSaveVertexData(
         const M& mesh,
@@ -501,6 +577,12 @@ void meshSaveVertexData(
     }
 }
 
+/**
+ * @brief Save polyline data
+ * @param mesh Mesh
+ * @param meshData Mesh data
+ * @param mode mode
+ */
 template<class M, class MD>
 void meshSavePolylineData(
         const M& mesh,
@@ -538,6 +620,12 @@ void meshSavePolylineData(
     }
 }
 
+/**
+ * @brief Save face data
+ * @param mesh Mesh
+ * @param meshData Mesh data
+ * @param mode mode
+ */
 template<class M, class MD>
 void meshSaveFaceData(
         const M& mesh,

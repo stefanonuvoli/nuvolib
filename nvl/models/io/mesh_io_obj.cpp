@@ -19,6 +19,13 @@ namespace nvl {
 template<class Material>
 void meshSaveObjMaterial(std::ofstream& fMtl, const Material& material, const std::string& path);
 
+/**
+ * @brief Load mesh data from OBJ file
+ * @param filename filename
+ * @param data Mesh data
+ * @param error Error
+ * @return True if loading has been successful
+ */
 template<class P, class VN, class UV, class VC, class PC, class FN, class M>
 bool meshLoadDataFromOBJ(
         const std::string& filename,
@@ -349,6 +356,13 @@ bool meshLoadDataFromOBJ(
     return true;
 }
 
+/**
+ * @brief Save mesh data from OBJ file
+ * @param filename filename
+ * @param data Mesh data
+ * @param error Error
+ * @return True if saving has been successful
+ */
 template<class P, class VN, class UV, class VC, class PC, class FN, class M>
 bool meshSaveDataToOBJ(
         const std::string& filename,
@@ -583,6 +597,12 @@ bool meshSaveDataToOBJ(
     return true;
 }
 
+/**
+ * @brief Save MTL file
+ * @param fMtl Stream of material file
+ * @param material Material
+ * @param path Current path of the file
+ */
 template<class Material>
 void meshSaveObjMaterial(std::ofstream& fMtl, const Material& material, const std::string& path) {
     typedef typename Material::Color MaterialColor;

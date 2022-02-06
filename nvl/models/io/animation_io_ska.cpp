@@ -20,6 +20,13 @@
 
 namespace nvl {
 
+/**
+ * @brief Load data from SKA file
+ * @param filename filename
+ * @param data Animation data
+ * @param error Error
+ * @return True if loading has been successful
+ */
 template<class T>
 bool animationLoadDataFromSKA(
         const std::string& filename,
@@ -110,6 +117,13 @@ bool animationLoadDataFromSKA(
     return true;
 }
 
+/**
+ * @brief Save data from SKA file
+ * @param filename filename
+ * @param data Animation data
+ * @param error Error
+ * @return True if saving has been successful
+ */
 template<class T>
 bool animationSaveDataToSKA(
         const std::string& filename,

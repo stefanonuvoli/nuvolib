@@ -16,7 +16,7 @@ namespace nvl {
 namespace internal {
 
 /**
- * @brief The node of the binary search tree
+ * @brief The node of the AABB tree
  *
  */
 template <int D, class K, class T>

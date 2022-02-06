@@ -12,6 +12,14 @@
 
 namespace nvl {
 
+/**
+ * @brief Load animation from file
+ * @param filename Filename
+ * @param animation Animation
+ * @param error Error
+ * @param mode Mode
+ * @return True if the loading has been successful
+ */
 template<class A>
 bool animationLoadFromFile(
         const std::string& filename,
@@ -39,6 +47,14 @@ bool animationLoadFromFile(
     return success;
 }
 
+/**
+ * @brief Save animation to file
+ * @param filename Filename
+ * @param animation Animation
+ * @param error Error
+ * @param mode Mode
+ * @return True if the saving has been successful
+ */
 template<class A>
 bool animationSaveToFile(
         const std::string& filename,
@@ -64,6 +80,12 @@ bool animationSaveToFile(
     return success;
 }
 
+/**
+ * @brief Load animation data
+ * @param animation Animation
+ * @param animationData Animation data
+ * @param mode Mode
+ */
 template<class A, class AD>
 void animationLoadData(
         A& animation,
@@ -84,6 +106,12 @@ void animationLoadData(
     }
 }
 
+/**
+ * @brief Save animation data
+ * @param animation Animation
+ * @param animationData Animation data
+ * @param mode Mode
+ */
 template<class A, class AD>
 void animationSaveData(
         const A& animation,
