@@ -8,6 +8,8 @@
 
 #include "assert.h"
 
+#include <vector>
+
 namespace nvl {
 
 namespace internal {
@@ -153,7 +155,7 @@ Node* eraseNodeHelperLeaf(Node*& node, Node*& rootNode)
 template <class Node, class K, class C>
 Node* findNodeHelperLeaf(
         const K& key,
-        Node*& rootNode,
+        Node* rootNode,
         C& comparator)
 {
     if (rootNode == nullptr)
@@ -196,7 +198,7 @@ Node* findNodeHelperLeaf(
 template <class Node, class K, class C>
 Node* findLowerHelperLeaf(
         const K& key,
-        Node*& rootNode,
+        Node* rootNode,
         C& comparator)
 {
     if (rootNode == nullptr)
@@ -240,7 +242,7 @@ Node* findLowerHelperLeaf(
 template <class Node, class K, class C>
 Node* findUpperHelperLeaf(
         const K& key,
-        Node*& rootNode,
+        Node* rootNode,
         C& comparator)
 {
     if (rootNode == nullptr)
@@ -345,7 +347,7 @@ TreeSize constructionBottomUpHelperLeaf(
 
     //Create leaves
     K lastValue;
-    for (size_t i = 0; i < sortedNodes.size(); i ++) {
+    for (Index i = 0; i < sortedNodes.size(); i ++) {
         Node* node = sortedNodes.at(i);
 
         //Avoid duplicates

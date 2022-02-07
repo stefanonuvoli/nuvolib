@@ -7,6 +7,8 @@
 #ifndef NVL_BSTLEAFHELPERS_H
 #define NVL_BSTLEAFHELPERS_H
 
+#include <nvl/nuvolib.h>
+
 #include "bst_helpers.h"
 
 #include "tree_common.h"
@@ -27,13 +29,13 @@ template <class Node>
 inline Node* eraseNodeHelperLeaf(Node*& node, Node*& rootNode);
 
 template <class Node, class K, class C>
-inline Node* findHelperLeaf(const K& key, Node*& rootNode, C& comparator);
+inline Node* findHelperLeaf(const K& key, Node* rootNode, C& comparator);
 
 template <class Node, class K, class C>
-inline Node* findLowerHelperLeaf(const K& key, Node*& rootNode, C& comparator);
+inline Node* findLowerHelperLeaf(const K& key, Node* rootNode, C& comparator);
 
 template <class Node, class K, class C>
-inline Node* findUpperHelperLeaf(const K& key, Node*& rootNode, C& comparator);
+inline Node* findUpperHelperLeaf(const K& key, Node* rootNode, C& comparator);
 
 
 /* Construction helpers */

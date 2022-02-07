@@ -356,7 +356,7 @@ void AABBTree<D,K,T,C>::clear()
  * @return Number of entries in the AABB tree
  */
 template <int D, class K, class T, class C>
-TreeSize AABBTree<D,K,T,C>::size()
+TreeSize AABBTree<D,K,T,C>::size() const
 {
     return this->entries;
 }
@@ -367,7 +367,7 @@ TreeSize AABBTree<D,K,T,C>::size()
  * @return True if the AABB tree is empty, false otherwise
  */
 template <int D, class K, class T, class C>
-bool AABBTree<D,K,T,C>::empty()
+bool AABBTree<D,K,T,C>::empty() const
 {
     return (this->size() == 0);
 }

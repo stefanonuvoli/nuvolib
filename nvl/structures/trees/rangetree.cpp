@@ -359,7 +359,7 @@ void RangeTree<K,T,C>::clear()
  * @return Number of entries
  */
 template <class K, class T, class C>
-size_t RangeTree<K,T,C>::size()
+size_t RangeTree<K,T,C>::size() const
 {
     return this->entries;
 }
@@ -370,7 +370,7 @@ size_t RangeTree<K,T,C>::size()
  * @return True if the range tree is empty
  */
 template <class K, class T, class C>
-bool RangeTree<K,T,C>::empty()
+bool RangeTree<K,T,C>::empty() const
 {
     return (this->size() == 0);
 }
@@ -383,7 +383,7 @@ bool RangeTree<K,T,C>::empty()
  * @return Max height of the tree
  */
 template <class K, class T, class C>
-size_t RangeTree<K,T,C>::getHeight()
+size_t RangeTree<K,T,C>::getHeight() const
 {
     return internal::getHeightHelper(this->root);
 }

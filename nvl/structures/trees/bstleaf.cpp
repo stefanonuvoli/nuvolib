@@ -349,7 +349,7 @@ void BSTLeaf<K,T,C>::clear()
  * @return Number of entries in the BST
  */
 template <class K, class T, class C>
-TreeSize BSTLeaf<K,T,C>::size()
+TreeSize BSTLeaf<K,T,C>::size() const
 {
     return this->entries;
 }
@@ -360,7 +360,7 @@ TreeSize BSTLeaf<K,T,C>::size()
  * @return True if the BST is empty, false otherwise
  */
 template <class K, class T, class C>
-bool BSTLeaf<K,T,C>::empty()
+bool BSTLeaf<K,T,C>::empty() const
 {
     return (this->size() == 0);
 }
@@ -373,7 +373,7 @@ bool BSTLeaf<K,T,C>::empty()
  * @return Max height of the tree
  */
 template <class K, class T, class C>
-TreeSize BSTLeaf<K,T,C>::getHeight()
+TreeSize BSTLeaf<K,T,C>::getHeight() const
 {
     return internal::getHeightRecursiveHelper(this->root);
 }

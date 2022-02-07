@@ -86,13 +86,12 @@ public:
     iterator findLower(const K& key);
     iterator findUpper(const K& key);
 
-
-    TreeSize size();
-    bool empty();
-
     void clear();
 
-    TreeSize getHeight();
+    TreeSize size() const;
+    bool empty() const;
+
+    TreeSize getHeight() const;
 
 
 

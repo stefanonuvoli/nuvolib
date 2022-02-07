@@ -352,7 +352,7 @@ void BSTInner<K,T,C>::clear()
  * @return Number of entries in the BST
  */
 template <class K, class T, class C>
-TreeSize BSTInner<K,T,C>::size()
+TreeSize BSTInner<K,T,C>::size() const
 {
     return this->entries;
 }
@@ -363,7 +363,7 @@ TreeSize BSTInner<K,T,C>::size()
  * @return True if the BST is empty, false otherwise
  */
 template <class K, class T, class C>
-bool BSTInner<K,T,C>::empty()
+bool BSTInner<K,T,C>::empty() const
 {
     return (this->size() == 0);
 }
@@ -376,7 +376,7 @@ bool BSTInner<K,T,C>::empty()
  * @return Max height of the tree
  */
 template <class K, class T, class C>
-TreeSize BSTInner<K,T,C>::getHeight()
+TreeSize BSTInner<K,T,C>::getHeight() const
 {
     return internal::getHeightRecursiveHelper(this->root);
 }

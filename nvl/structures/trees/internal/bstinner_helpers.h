@@ -27,13 +27,13 @@ template <class Node>
 inline Node* eraseNodeHelperInner(Node*& node, Node*& rootNode);
 
 template <class Node, class K, class C>
-inline Node* findNodeHelperInner(const K& key, Node*& rootNode, C& comparator);
+inline Node* findNodeHelperInner(const K& key, Node* rootNode, C& comparator);
 
 template <class Node, class K, class C>
-inline Node* findLowerHelperInner(const K& key, Node*& rootNode, C& comparator);
+inline Node* findLowerHelperInner(const K& key, Node* rootNode, C& comparator);
 
 template <class Node, class K, class C>
-inline Node* findUpperHelperInner(const K& key, Node*& rootNode, C& comparator);
+inline Node* findUpperHelperInner(const K& key, Node* rootNode, C& comparator);
 
 
 

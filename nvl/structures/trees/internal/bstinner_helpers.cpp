@@ -160,7 +160,7 @@ Node* eraseNodeHelperInner(Node*& node, Node*& rootNode)
 template <class Node, class K, class C>
 Node* findNodeHelperInner(
         const K& key,
-        Node*& rootNode,
+        Node* rootNode,
         C& comparator)
 {
     Node* node = rootNode;
@@ -193,7 +193,7 @@ Node* findNodeHelperInner(
 template <class Node, class K, class C>
 Node* findLowerHelperInner(
         const K& key,
-        Node*& rootNode,
+        Node* rootNode,
         C& comparator)
 {
     Node* node = rootNode;
@@ -246,7 +246,7 @@ Node* findLowerHelperInner(
 template <class Node, class K, class C>
 Node* findUpperHelperInner(
         const K& key,
-        Node*& rootNode,
+        Node* rootNode,
         C& comparator)
 {
     Node* node = rootNode;

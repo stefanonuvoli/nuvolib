@@ -368,7 +368,7 @@ void AVLLeaf<K,T,C>::clear()
  * @return Number of entries in the BST
  */
 template <class K, class T, class C>
-TreeSize AVLLeaf<K,T,C>::size()
+TreeSize AVLLeaf<K,T,C>::size() const
 {
     return this->entries;
 }
@@ -379,7 +379,7 @@ TreeSize AVLLeaf<K,T,C>::size()
  * @return True if the BST is empty, false otherwise
  */
 template <class K, class T, class C>
-bool AVLLeaf<K,T,C>::empty()
+bool AVLLeaf<K,T,C>::empty() const
 {
     return (this->size() == 0);
 }
@@ -392,7 +392,7 @@ bool AVLLeaf<K,T,C>::empty()
  * @return Max height of the tree
  */
 template <class K, class T, class C>
-TreeSize AVLLeaf<K,T,C>::getHeight()
+TreeSize AVLLeaf<K,T,C>::getHeight() const
 {
     return internal::getHeightHelper(this->root);
 }

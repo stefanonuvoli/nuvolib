@@ -44,7 +44,7 @@ int main(int argc, char *argv[]) {
     viewer.addToRightDock(&vertexMeshDrawerWidget);
 
     //Meshes
-    Mesh mesh1, mesh2, mesh3;
+    Mesh mesh1, mesh2, mesh3, mesh4, mesh5;
 
     //Load mesh
     bool success = nvl::meshLoadFromFile("../../data/bunny_2000.obj", mesh1);
@@ -69,29 +69,40 @@ int main(int argc, char *argv[]) {
     mesh3 = mesh2 = mesh1;
 
     //We apply a transformation to the first three meshes
-    double offset = (bbox.max()(0) - bbox.min()(0)) * 1.1;
-    nvl::meshApplyTransformation(mesh1, nvl::Translation3d(-offset, 0, 0));
-    nvl::meshApplyTransformation(mesh3, nvl::Translation3d(+offset, 0, 0));
+    double offsetX = (bbox.max()(0) - bbox.min()(0)) * 1.1;
+    double offsetY = (bbox.max()(1) - bbox.min()(1)) * 1.1;
+    nvl::meshApplyTransformation(mesh1, nvl::Translation3d(-offsetX, 0, 0));
+    nvl::meshApplyTransformation(mesh3, nvl::Translation3d(+offsetX, 0, 0));
+    nvl::meshApplyTransformation(mesh4, nvl::Translation3d(0, -offsetY, 0));
+    nvl::meshApplyTransformation(mesh5, nvl::Translation3d(+offsetX, -offsetY, 0));
 
     //Smoothing
     nvl::meshLaplacianSmoothing(mesh2, 20, 0.7);
     nvl::meshCotangentSmoothing(mesh3, 20, 0.7);
 
     //Initialize the drawers
-    FaceMeshDrawer drawer1(&mesh1);    
+    FaceMeshDrawer drawer1(&mesh1);
     FaceMeshDrawer drawer2(&mesh2);
     FaceMeshDrawer drawer3(&mesh3);
+    FaceMeshDrawer drawer4(&mesh4);
+    FaceMeshDrawer drawer5(&mesh5);
     drawer1.setWireframeVisible(true);
     drawer1.setWireframeSize(2);
     drawer2.setWireframeVisible(true);
     drawer2.setWireframeSize(2);
     drawer3.setWireframeVisible(true);
     drawer3.setWireframeSize(2);
+    drawer4.setWireframeVisible(true);
+    drawer4.setWireframeSize(2);
+    drawer5.setWireframeVisible(true);
+    drawer5.setWireframeSize(2);
 
     //Add to the canvas
     viewer.canvas()->addDrawable(&drawer1, "Original");
     viewer.canvas()->addDrawable(&drawer2, "Laplacian");
     viewer.canvas()->addDrawable(&drawer3, "Cotangent laplacian");
+    viewer.canvas()->addDrawable(&drawer4, "Laplacian reprojection");
+    viewer.canvas()->addDrawable(&drawer5, "Cotangent laplacian reprojection");
 
     //Fit the scene
     viewer.canvas()->fitScene();

@@ -370,7 +370,7 @@ void AVLInner<K,T,C>::clear()
  * @return Number of entries in the BST
  */
 template <class K, class T, class C>
-TreeSize AVLInner<K,T,C>::size()
+TreeSize AVLInner<K,T,C>::size() const
 {
     return this->entries;
 }
@@ -381,7 +381,7 @@ TreeSize AVLInner<K,T,C>::size()
  * @return True if the BST is empty, false otherwise
  */
 template <class K, class T, class C>
-bool AVLInner<K,T,C>::empty()
+bool AVLInner<K,T,C>::empty() const
 {
     return (this->size() == 0);
 }
@@ -394,7 +394,7 @@ bool AVLInner<K,T,C>::empty()
  * @return Max height of the tree
  */
 template <class K, class T, class C>
-TreeSize AVLInner<K,T,C>::getHeight()
+TreeSize AVLInner<K,T,C>::getHeight() const
 {
     return internal::getHeightHelper(this->root);
 }

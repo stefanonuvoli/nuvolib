@@ -100,12 +100,10 @@ public:
 
     iterator find(const K& key);
 
-
-    TreeSize size();
-    bool empty();
-
     void clear();
 
+    TreeSize size() const;
+    bool empty() const;
     TreeSize getHeight();
 
 

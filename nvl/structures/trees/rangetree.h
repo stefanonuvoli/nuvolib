@@ -96,14 +96,11 @@ public:
 
     iterator find(const K& key);
 
-
-    size_t size();
-    bool empty();
-
     void clear();
 
-    size_t getHeight();
-
+    size_t size() const;
+    bool empty() const;
+    size_t getHeight() const;
 
 
     template <class OutputIterator>
