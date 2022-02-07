@@ -7,8 +7,6 @@
 #ifndef NVL_BSTLEAF_H
 #define NVL_BSTLEAF_H
 
-#include <nvl/nuvolib.h>
-
 #include <vector>
 #include <utility>
 

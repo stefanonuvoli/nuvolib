@@ -7,8 +7,6 @@
 #ifndef NVL_RANGETREE_H
 #define NVL_RANGETREE_H
 
-#include <nvl/nuvolib.h>
-
 #include <vector>
 #include <algorithm>
 

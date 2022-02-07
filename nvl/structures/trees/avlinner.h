@@ -7,8 +7,6 @@
 #ifndef NVL_AVLINNER_H
 #define NVL_AVLINNER_H
 
-#include <nvl/nuvolib.h>
-
 #include <vector>
 #include <utility>
 

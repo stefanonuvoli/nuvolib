@@ -7,8 +7,6 @@
 #ifndef NVL_BSTLEAFHELPERS_H
 #define NVL_BSTLEAFHELPERS_H
 
-#include <nvl/nuvolib.h>
-
 #include "bst_helpers.h"
 
 #include "tree_common.h"

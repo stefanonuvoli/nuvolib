@@ -347,7 +347,7 @@ TreeSize constructionBottomUpHelperLeaf(
 
     //Create leaves
     K lastValue;
-    for (Index i = 0; i < sortedNodes.size(); i ++) {
+    for (size_t i = 0; i < sortedNodes.size(); i ++) {
         Node* node = sortedNodes.at(i);
 
         //Avoid duplicates
@@ -373,7 +373,7 @@ TreeSize constructionBottomUpHelperLeaf(
         //Nodes of the new level
         std::vector<Node*>* newLevelNodes = new std::vector<Node*>();
 
-        for (Index i = 0; i < nodes->size(); i += 2) {
+        for (size_t i = 0; i < nodes->size(); i += 2) {
             Node* node1 = nodes->at(i);
             Node* node2 = nullptr;
 

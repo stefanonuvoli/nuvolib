@@ -7,8 +7,6 @@
 #ifndef NVL_AABBTREE_H
 #define NVL_AABBTREE_H
 
-#include <nvl/nuvolib.h>
-
 #include <vector>
 #include <utility>
 

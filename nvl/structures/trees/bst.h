@@ -7,8 +7,6 @@
 #ifndef nvlBST_H
 #define nvlBST_H
 
-#include <nvl/nuvolib.h>
-
 /** Default BST implementations */
 #include "avlleaf.h"
 

@@ -7,8 +7,6 @@
 #ifndef NVL_BSTINNER_H
 #define NVL_BSTINNER_H
 
-#include <nvl/nuvolib.h>
-
 #include <vector>
 #include <utility>
 
