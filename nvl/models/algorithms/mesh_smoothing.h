@@ -23,21 +23,8 @@ void meshLaplacianSmoothing(
 template<class Mesh>
 void meshLaplacianSmoothing(
         Mesh& mesh,
-        const unsigned int iterations,
-        const double alpha,
-        const std::vector<std::vector<typename Mesh::VertexId>>& vvAdj);
-template<class Mesh>
-void meshLaplacianSmoothing(
-        Mesh& mesh,
         const std::vector<double>& alphas,
         const unsigned int iterations);
-template<class Mesh>
-void meshLaplacianSmoothing(
-        Mesh& mesh,
-        const std::vector<double>& alphas,
-        const unsigned int iterations,
-        const std::vector<std::vector<typename Mesh::VertexId>>& vvAdj);
-
 template<class Mesh>
 void meshLaplacianSmoothing(
         Mesh& mesh,
@@ -49,14 +36,27 @@ void meshLaplacianSmoothing(
         Mesh& mesh,
         const std::vector<typename Mesh::VertexId>& vertices,
         const unsigned int iterations,
+        const std::vector<double>& alphas);
+
+template<class Mesh>
+void meshLaplacianSmoothing(
+        Mesh& mesh,
+        const unsigned int iterations,
         const double alpha,
+        const std::vector<std::vector<typename Mesh::VertexId>>& vvAdj);
+template<class Mesh>
+void meshLaplacianSmoothing(
+        Mesh& mesh,
+        const std::vector<double>& alphas,
+        const unsigned int iterations,
         const std::vector<std::vector<typename Mesh::VertexId>>& vvAdj);
 template<class Mesh>
 void meshLaplacianSmoothing(
         Mesh& mesh,
         const std::vector<typename Mesh::VertexId>& vertices,
         const unsigned int iterations,
-        const std::vector<double>& alphas);
+        const double alpha,
+        const std::vector<std::vector<typename Mesh::VertexId>>& vvAdj);
 template<class Mesh>
 void meshLaplacianSmoothing(
         Mesh& mesh,
@@ -77,22 +77,7 @@ template<class Mesh>
 void meshCotangentSmoothing(
         Mesh& mesh,
         const unsigned int iterations,
-        const double alpha,
-        const std::vector<std::vector<typename Mesh::VertexId>>& vvAdj,
-        const std::vector<std::vector<typename Mesh::FaceId>>& vfAdj);
-template<class Mesh>
-void meshCotangentSmoothing(
-        Mesh& mesh,
-        const unsigned int iterations,
         const std::vector<double>& alphas);
-template<class Mesh>
-void meshCotangentSmoothing(
-        Mesh& mesh,
-        const unsigned int iterations,
-        const std::vector<double>& alphas,
-        const std::vector<std::vector<typename Mesh::VertexId>>& vvAdj,
-        const std::vector<std::vector<typename Mesh::FaceId>>& vfAdj);
-
 template<class Mesh>
 void meshCotangentSmoothing(
         Mesh& mesh,
@@ -104,7 +89,20 @@ void meshCotangentSmoothing(
         Mesh& mesh,
         const std::vector<typename Mesh::VertexId>& vertices,
         const unsigned int iterations,
+        const std::vector<double>& alphas);
+
+template<class Mesh>
+void meshCotangentSmoothing(
+        Mesh& mesh,
+        const unsigned int iterations,
         const double alpha,
+        const std::vector<std::vector<typename Mesh::VertexId>>& vvAdj,
+        const std::vector<std::vector<typename Mesh::FaceId>>& vfAdj);
+template<class Mesh>
+void meshCotangentSmoothing(
+        Mesh& mesh,
+        const unsigned int iterations,
+        const std::vector<double>& alphas,
         const std::vector<std::vector<typename Mesh::VertexId>>& vvAdj,
         const std::vector<std::vector<typename Mesh::FaceId>>& vfAdj);
 template<class Mesh>
@@ -112,7 +110,9 @@ void meshCotangentSmoothing(
         Mesh& mesh,
         const std::vector<typename Mesh::VertexId>& vertices,
         const unsigned int iterations,
-        const std::vector<double>& alphas);
+        const double alpha,
+        const std::vector<std::vector<typename Mesh::VertexId>>& vvAdj,
+        const std::vector<std::vector<typename Mesh::FaceId>>& vfAdj);
 template<class Mesh>
 void meshCotangentSmoothing(
         Mesh& mesh,

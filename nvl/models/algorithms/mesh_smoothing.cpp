@@ -33,6 +33,63 @@ void meshLaplacianSmoothing(
 }
 
 /**
+ * @brief Laplacian smoothing on mesh, given a alpha for each vertex
+ * @param mesh Mesh
+ * @param alphas Alpha for each vertex. A value between 0 and 1, it represents
+ * the weight of the original coordinates
+ * @param iterations Number of iterations
+ */
+template<class Mesh>
+void meshLaplacianSmoothing(
+        Mesh& mesh,
+        const unsigned int iterations,
+        const std::vector<double>& alphas)
+{
+    typedef typename Mesh::VertexId VertexId;
+    const std::vector<std::vector<VertexId>> vvAdj = meshVertexVertexAdjacencies(mesh);
+    meshLaplacianSmoothing(mesh, iterations, alphas, vvAdj);
+}
+/**
+ * @brief Laplacian smoothing on mesh subset, given a constant alpha for each vertex
+ * @param mesh Mesh
+ * @param vertices Vertices to be smoothed
+ * @param iterations Number of iterations
+ * @param alpha Constant alpha for each vertex. A value between 0 and 1, it
+ * represents the weight of the original coordinates
+ */
+template<class Mesh>
+void meshLaplacianSmoothing(
+        Mesh& mesh,
+        const std::vector<typename Mesh::VertexId>& vertices,
+        const unsigned int iterations,
+        const double alpha)
+{
+    typedef typename Mesh::VertexId VertexId;
+    const std::vector<std::vector<VertexId>> vvAdj = meshVertexVertexAdjacencies(mesh);
+    meshLaplacianSmoothing(mesh, vertices, iterations, alpha, vvAdj);
+}
+/**
+ * @brief Laplacian smoothing on mesh subset, given a constant alpha for each vertex
+ * @param mesh Mesh
+ * @param vertices Vertices to be smoothed
+ * @param alphas Alpha for each vertex. A value between 0 and 1, it represents
+ * the weight of the original coordinates
+ * @param iterations Number of iterations
+ */
+template<class Mesh>
+void meshLaplacianSmoothing(
+        Mesh& mesh,
+        const std::vector<typename Mesh::VertexId>& vertices,
+        const unsigned int iterations,
+        const std::vector<double>& alphas)
+{
+    typedef typename Mesh::VertexId VertexId;
+    const std::vector<std::vector<VertexId>> vvAdj = meshVertexVertexAdjacencies(mesh);
+    meshLaplacianSmoothing(mesh, vertices, iterations, alphas, vvAdj);
+}
+
+
+/**
  * @brief Laplacian smoothing on mesh, given a constant alpha for each vertex
  * @param mesh Mesh
  * @param vvAdj Vertex-vertex adjacencies of the mesh
@@ -90,24 +147,6 @@ void meshLaplacianSmoothing(
 
         mesh.setVertexPoint(vId, pointVector[vId]);
     }
-}
-
-/**
- * @brief Laplacian smoothing on mesh, given a alpha for each vertex
- * @param mesh Mesh
- * @param alphas Alpha for each vertex. A value between 0 and 1, it represents
- * the weight of the original coordinates
- * @param iterations Number of iterations
- */
-template<class Mesh>
-void meshLaplacianSmoothing(
-        Mesh& mesh,
-        const unsigned int iterations,
-        const std::vector<double>& alphas)
-{
-    typedef typename Mesh::VertexId VertexId;
-    const std::vector<std::vector<VertexId>> vvAdj = meshVertexVertexAdjacencies(mesh);
-    meshLaplacianSmoothing(mesh, iterations, alphas, vvAdj);
 }
 
 /**
@@ -180,26 +219,6 @@ void meshLaplacianSmoothing(
  * @param mesh Mesh
  * @param vertices Vertices to be smoothed
  * @param iterations Number of iterations
- * @param alpha Constant alpha for each vertex. A value between 0 and 1, it
- * represents the weight of the original coordinates
- */
-template<class Mesh>
-void meshLaplacianSmoothing(
-        Mesh& mesh,
-        const std::vector<typename Mesh::VertexId>& vertices,
-        const unsigned int iterations,
-        const double alpha)
-{
-    typedef typename Mesh::VertexId VertexId;
-    const std::vector<std::vector<VertexId>> vvAdj = meshVertexVertexAdjacencies(mesh);
-    meshLaplacianSmoothing(mesh, vertices, iterations, alpha, vvAdj);
-}
-
-/**
- * @brief Laplacian smoothing on mesh subset, given a constant alpha for each vertex
- * @param mesh Mesh
- * @param vertices Vertices to be smoothed
- * @param iterations Number of iterations
  * @param vvAdj Vertex-vertex adjacencies of the mesh
  * @param alpha Constant alpha for each vertex. A value between 0 and 1, it
  * represents the weight of the original coordinates
@@ -252,26 +271,6 @@ void meshLaplacianSmoothing(
         const VertexId& vId = vertices[i];
         mesh.setVertexPoint(vId, pointVector[vId]);
     }
-}
-
-/**
- * @brief Laplacian smoothing on mesh subset, given a constant alpha for each vertex
- * @param mesh Mesh
- * @param vertices Vertices to be smoothed
- * @param alphas Alpha for each vertex. A value between 0 and 1, it represents
- * the weight of the original coordinates
- * @param iterations Number of iterations
- */
-template<class Mesh>
-void meshLaplacianSmoothing(
-        Mesh& mesh,
-        const std::vector<typename Mesh::VertexId>& vertices,
-        const unsigned int iterations,
-        const std::vector<double>& alphas)
-{
-    typedef typename Mesh::VertexId VertexId;
-    const std::vector<std::vector<VertexId>> vvAdj = meshVertexVertexAdjacencies(mesh);
-    meshLaplacianSmoothing(mesh, vertices, iterations, alphas, vvAdj);
 }
 
 /**
