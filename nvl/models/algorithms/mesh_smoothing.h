@@ -72,38 +72,33 @@ template<class Mesh>
 void meshCotangentSmoothing(
         Mesh& mesh,
         const unsigned int iterations,
-        const double alpha,
-        const bool fixBorders = false);
+        const double alpha);
 template<class Mesh>
 void meshCotangentSmoothing(
         Mesh& mesh,
         const unsigned int iterations,
         const double alpha,
         const std::vector<std::vector<typename Mesh::VertexId>>& vvAdj,
-        const std::vector<std::vector<typename Mesh::FaceId>>& vfAdj,
-        const bool fixBorders = false);
+        const std::vector<std::vector<typename Mesh::FaceId>>& vfAdj);
 template<class Mesh>
 void meshCotangentSmoothing(
         Mesh& mesh,
         const unsigned int iterations,
-        const std::vector<double>& alphas,
-        const bool fixBorders = false);
+        const std::vector<double>& alphas);
 template<class Mesh>
 void meshCotangentSmoothing(
         Mesh& mesh,
         const unsigned int iterations,
         const std::vector<double>& alphas,
         const std::vector<std::vector<typename Mesh::VertexId>>& vvAdj,
-        const std::vector<std::vector<typename Mesh::FaceId>>& vfAdj,
-        const bool fixBorders = false);
+        const std::vector<std::vector<typename Mesh::FaceId>>& vfAdj);
 
 template<class Mesh>
 void meshCotangentSmoothing(
         Mesh& mesh,
         const std::vector<typename Mesh::VertexId>& vertices,
         const unsigned int iterations,
-        const double alpha,
-        const bool fixBorders = false);
+        const double alpha);
 template<class Mesh>
 void meshCotangentSmoothing(
         Mesh& mesh,
@@ -111,15 +106,13 @@ void meshCotangentSmoothing(
         const unsigned int iterations,
         const double alpha,
         const std::vector<std::vector<typename Mesh::VertexId>>& vvAdj,
-        const std::vector<std::vector<typename Mesh::FaceId>>& vfAdj,
-        const bool fixBorders = false);
+        const std::vector<std::vector<typename Mesh::FaceId>>& vfAdj);
 template<class Mesh>
 void meshCotangentSmoothing(
         Mesh& mesh,
         const std::vector<typename Mesh::VertexId>& vertices,
         const unsigned int iterations,
-        const std::vector<double>& alphas,
-        const bool fixBorders = false);
+        const std::vector<double>& alphas);
 template<class Mesh>
 void meshCotangentSmoothing(
         Mesh& mesh,
@@ -127,8 +120,7 @@ void meshCotangentSmoothing(
         const unsigned int iterations,
         const std::vector<double>& alphas,
         const std::vector<std::vector<typename Mesh::VertexId>>& vvAdj,
-        const std::vector<std::vector<typename Mesh::FaceId>>& vfAdj,
-        const bool fixBorders = false);
+        const std::vector<std::vector<typename Mesh::FaceId>>& vfAdj);
 
 }
 

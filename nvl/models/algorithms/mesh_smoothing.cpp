@@ -346,21 +346,20 @@ void meshLaplacianSmoothing(
  * @param iterations Number of iterations
  * @param alpha Constant alpha for each vertex. A value between 0 and 1, it
  * represents the weight of the original coordinates
- * @param fixBorders Fix borders of the mesh
+
  */
 template<class Mesh>
 void meshCotangentSmoothing(
         Mesh& mesh,
         const unsigned int iterations,
-        const double alpha,
-        const bool fixBorders)
+        const double alpha)
 {
     typedef typename Mesh::FaceId FaceId;
     typedef typename Mesh::VertexId VertexId;
 
     const std::vector<std::vector<VertexId>> vvAdj = meshVertexVertexAdjacencies(mesh);
     const std::vector<std::vector<FaceId>> vfAdj = meshVertexFaceAdjacencies(mesh);
-    meshCotangentSmoothing(mesh, iterations, alpha, vvAdj, vfAdj, fixBorders);
+    meshCotangentSmoothing(mesh, iterations, alpha, vvAdj, vfAdj);
 }
 
 /**
@@ -371,7 +370,7 @@ void meshCotangentSmoothing(
  * represents the weight of the original coordinates
  * @param vvAdj Pre-computed vertex-vertex adjacencies
  * @param vfAdj Pre-computed vertex-face adjacencies
- * @param fixBorders Fix borders of the mesh
+
  */
 template<class Mesh>
 void meshCotangentSmoothing(
@@ -379,19 +378,13 @@ void meshCotangentSmoothing(
         const unsigned int iterations,
         const double alpha,
         const std::vector<std::vector<typename Mesh::VertexId>>& vvAdj,
-        const std::vector<std::vector<typename Mesh::FaceId>>& vfAdj,
-        const bool fixBorders)
+        const std::vector<std::vector<typename Mesh::FaceId>>& vfAdj)
 {
     typedef typename Mesh::FaceId FaceId;
     typedef typename Mesh::Face Face;
     typedef typename Mesh::VertexId VertexId;
     typedef typename Mesh::Point Point;
     typedef typename Point::Scalar Scalar;
-
-    std::vector<std::vector<FaceId>> ffAdj;
-    if (fixBorders) {
-        ffAdj = meshFaceFaceAdjacencies(mesh, vfAdj);
-    }
 
     std::vector<Point> pointVector(mesh.nextVertexId());
 
@@ -414,7 +407,7 @@ void meshCotangentSmoothing(
                 continue;
 
             Scalar weightSum = 0.0;
-            if (!vvAdj[vId].empty() && (!fixBorders || !meshIsBorderVertex(mesh, vId, ffAdj))) {
+            if (!vvAdj[vId].empty()) {
                 Point value = Point::Zero();
 
                 for (const VertexId& adjVId : vvAdj[vId]) {
@@ -491,21 +484,19 @@ void meshCotangentSmoothing(
  * @param iterations Number of iterations
  * @param alphas Alpha for each vertex. A value between 0 and 1, it represents
  * the weight of the original coordinates
- * @param fixBorders Fix borders of the mesh
  */
 template<class Mesh>
 void meshCotangentSmoothing(
         Mesh& mesh,
         const unsigned int iterations,
-        const std::vector<double>& alphas,
-        const bool fixBorders)
+        const std::vector<double>& alphas)
 {
     typedef typename Mesh::FaceId FaceId;
     typedef typename Mesh::VertexId VertexId;
 
     const std::vector<std::vector<VertexId>> vvAdj = meshVertexVertexAdjacencies(mesh);
     const std::vector<std::vector<FaceId>> vfAdj = meshVertexFaceAdjacencies(mesh);
-    meshCotangentSmoothing(mesh, iterations, alphas, vvAdj, vfAdj, fixBorders);
+    meshCotangentSmoothing(mesh, iterations, alphas, vvAdj, vfAdj);
 }
 
 /**
@@ -516,7 +507,6 @@ void meshCotangentSmoothing(
  * the weight of the original coordinates
  * @param vvAdj Pre-computed vertex-vertex adjacencies
  * @param vfAdj Pre-computed vertex-face adjacencies
- * @param fixBorders Fix borders of the mesh
  */
 template<class Mesh>
 void meshCotangentSmoothing(
@@ -524,19 +514,13 @@ void meshCotangentSmoothing(
         const unsigned int iterations,
         const std::vector<double>& alphas,
         const std::vector<std::vector<typename Mesh::VertexId>>& vvAdj,
-        const std::vector<std::vector<typename Mesh::FaceId>>& vfAdj,
-        const bool fixBorders)
+        const std::vector<std::vector<typename Mesh::FaceId>>& vfAdj)
 {
     typedef typename Mesh::FaceId FaceId;
     typedef typename Mesh::Face Face;
     typedef typename Mesh::VertexId VertexId;
     typedef typename Mesh::Point Point;
     typedef typename Point::Scalar Scalar;
-
-    std::vector<std::vector<FaceId>> ffAdj;
-    if (fixBorders) {
-        ffAdj = meshFaceFaceAdjacencies(mesh, vfAdj);
-    }
 
     std::vector<Point> pointVector(mesh.nextVertexId());
 
@@ -559,7 +543,7 @@ void meshCotangentSmoothing(
                 continue;
 
             Scalar weightSum = 0.0;
-            if (!vvAdj[vId].empty() && (!fixBorders || !meshIsBorderVertex(mesh, vId, ffAdj))) {
+            if (!vvAdj[vId].empty()) {
                 Point value = Point::Zero();
 
                 for (const VertexId& adjVId : vvAdj[vId]) {
@@ -637,22 +621,20 @@ void meshCotangentSmoothing(
  * represents the weight of the original coordinates
  * @param vvAdj Pre-computed vertex-vertex adjacencies
  * @param vfAdj Pre-computed vertex-face adjacencies
- * @param fixBorders Fix borders of the mesh
  */
 template<class Mesh>
 void meshCotangentSmoothing(
         Mesh& mesh,
         const std::vector<typename Mesh::VertexId>& vertices,
         const unsigned int iterations,
-        const double alpha,
-        const bool fixBorders)
+        const double alpha)
 {
     typedef typename Mesh::FaceId FaceId;
     typedef typename Mesh::VertexId VertexId;
 
     const std::vector<std::vector<VertexId>> vvAdj = meshVertexVertexAdjacencies(mesh);
     const std::vector<std::vector<FaceId>> vfAdj = meshVertexFaceAdjacencies(mesh);
-    meshCotangentSmoothing(mesh, vertices, iterations, alpha, vvAdj, vfAdj, fixBorders);
+    meshCotangentSmoothing(mesh, vertices, iterations, alpha, vvAdj, vfAdj);
 }
 
 
@@ -665,7 +647,6 @@ void meshCotangentSmoothing(
  * represents the weight of the original coordinates
  * @param vvAdj Pre-computed vertex-vertex adjacencies
  * @param vfAdj Pre-computed vertex-face adjacencies
- * @param fixBorders Fix borders of the mesh
  */
 template<class Mesh>
 void meshCotangentSmoothing(
@@ -674,19 +655,13 @@ void meshCotangentSmoothing(
         const unsigned int iterations,
         const double alpha,
         const std::vector<std::vector<typename Mesh::VertexId>>& vvAdj,
-        const std::vector<std::vector<typename Mesh::FaceId>>& vfAdj,
-        const bool fixBorders)
+        const std::vector<std::vector<typename Mesh::FaceId>>& vfAdj)
 {
     typedef typename Mesh::FaceId FaceId;
     typedef typename Mesh::Face Face;
     typedef typename Mesh::VertexId VertexId;
     typedef typename Mesh::Point Point;
     typedef typename Point::Scalar Scalar;
-
-    std::vector<std::vector<FaceId>> ffAdj;
-    if (fixBorders) {
-        ffAdj = meshFaceFaceAdjacencies(mesh, vfAdj);
-    }
 
     std::vector<Point> pointVector(mesh.nextVertexId());
 
@@ -706,7 +681,7 @@ void meshCotangentSmoothing(
             const VertexId& vId = vertices[i];
 
             Scalar weightSum = 0.0;
-            if (!vvAdj[vId].empty() && (!fixBorders || !meshIsBorderVertex(mesh, vId, ffAdj))) {
+            if (!vvAdj[vId].empty()) {
                 Point value = Point::Zero();
 
                 for (const VertexId& adjVId : vvAdj[vId]) {
@@ -782,22 +757,20 @@ void meshCotangentSmoothing(
  * the weight of the original coordinates
  * @param vvAdj Pre-computed vertex-vertex adjacencies
  * @param vfAdj Pre-computed vertex-face adjacencies
- * @param fixBorders Fix borders of the mesh
  */
 template<class Mesh>
 void meshCotangentSmoothing(
         Mesh& mesh,
         const std::vector<typename Mesh::VertexId>& vertices,
         const unsigned int iterations,
-        const std::vector<double>& alphas,
-        const bool fixBorders)
+        const std::vector<double>& alphas)
 {
     typedef typename Mesh::FaceId FaceId;
     typedef typename Mesh::VertexId VertexId;
 
     const std::vector<std::vector<VertexId>> vvAdj = meshVertexVertexAdjacencies(mesh);
     const std::vector<std::vector<FaceId>> vfAdj = meshVertexFaceAdjacencies(mesh);
-    meshCotangentSmoothing(mesh, vertices, iterations, alphas, vvAdj, vfAdj, fixBorders);
+    meshCotangentSmoothing(mesh, vertices, iterations, alphas, vvAdj, vfAdj);
 }
 
 
@@ -810,7 +783,6 @@ void meshCotangentSmoothing(
  * the weight of the original coordinates
  * @param vvAdj Pre-computed vertex-vertex adjacencies
  * @param vfAdj Pre-computed vertex-face adjacencies
- * @param fixBorders Fix borders of the mesh
  */
 template<class Mesh>
 void meshCotangentSmoothing(
@@ -819,19 +791,13 @@ void meshCotangentSmoothing(
         const unsigned int iterations,
         const std::vector<double>& alphas,
         const std::vector<std::vector<typename Mesh::VertexId>>& vvAdj,
-        const std::vector<std::vector<typename Mesh::FaceId>>& vfAdj,
-        const bool fixBorders)
+        const std::vector<std::vector<typename Mesh::FaceId>>& vfAdj)
 {
     typedef typename Mesh::FaceId FaceId;
     typedef typename Mesh::Face Face;
     typedef typename Mesh::VertexId VertexId;
     typedef typename Mesh::Point Point;
     typedef typename Point::Scalar Scalar;
-
-    std::vector<std::vector<FaceId>> ffAdj;
-    if (fixBorders) {
-        ffAdj = meshFaceFaceAdjacencies(mesh, vfAdj);
-    }
 
     std::vector<Point> pointVector(mesh.nextVertexId());
 
@@ -851,7 +817,7 @@ void meshCotangentSmoothing(
             const VertexId& vId = vertices[i];
 
             Scalar weightSum = 0.0;
-            if (!vvAdj[vId].empty() && (!fixBorders || !meshIsBorderVertex(mesh, vId, ffAdj))) {
+            if (!vvAdj[vId].empty()) {
                 Point value = Point::Zero();
 
                 for (const VertexId& adjVId : vvAdj[vId]) {
