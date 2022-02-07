@@ -335,9 +335,6 @@ typename AABBTree<D,K,T,C>::iterator AABBTree<D,K,T,C>::find(const K& key)
 }
 
 
-
-
-
 /**
  * @brief Clear the tree, delete all its elements
  *
@@ -351,8 +348,6 @@ void AABBTree<D,K,T,C>::clear()
     //Decreasing entries
     this->entries = 0;
 }
-
-
 
 
 /**
@@ -709,7 +704,7 @@ void swap(AABBTree<D,K,T,C>& b1, AABBTree<D,K,T,C>& b2)
 }
 
 
-/* --------- PRIVATE METHODS --------- */
+/* --------- PROTECTED METHODS --------- */
 
 /**
  * @brief Initialization of the AABB tree
