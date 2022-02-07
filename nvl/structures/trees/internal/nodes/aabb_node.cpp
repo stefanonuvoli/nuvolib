@@ -15,8 +15,8 @@ namespace internal {
 /**
  * @brief Constructor with key and value
  *
- * param key Key of the node
- * param value Value of the node
+ * @param key Key of the node
+ * @param value Value of the node
  */
 template <int D, class K, class T>
 AABBNode<D,K,T>::AABBNode(
@@ -29,7 +29,7 @@ AABBNode<D,K,T>::AABBNode(
 /**
  * @brief Constructor with only key
  *
- * param key Key of the node
+ * @param key Key of the node
  */
 template <int D, class K, class T>
 AABBNode<D,K,T>::AABBNode(const K& key)
@@ -70,8 +70,8 @@ bool AABBNode<D,K,T>::isLeaf() const
 /**
  * @brief Initialization of the node given key and value
  *
- * param key Key of the node
- * param value Value of the node
+ * @param key Key of the node
+ * @param value Value of the node
  */
 template <int D, class K, class T>
 void AABBNode<D,K,T>::init(const K& key, T* value)

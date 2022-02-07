@@ -17,8 +17,8 @@ namespace internal {
 /**
  * @brief Constructor with key and value
  *
- * param key Key of the node
- * param value Value of the node
+ * @param key Key of the node
+ * @param value Value of the node
  */
 template<class K, class T>
 BSTNode<K,T>::BSTNode(
@@ -31,7 +31,7 @@ BSTNode<K,T>::BSTNode(
 /**
  * @brief Constructor with only key
  *
- * param key Key of the node
+ * @param key Key of the node
  */
 template<class K, class T>
 BSTNode<K,T>::BSTNode(const K& key)
@@ -74,8 +74,8 @@ bool BSTNode<K,T>::isLeaf() const
 /**
  * @brief Initialization of the node given key and value
  *
- * param key Key of the node
- * param value Value of the node
+ * @param key Key of the node
+ * @param value Value of the node
  */
 template<class K, class T>
 void BSTNode<K,T>::init(const K& key, T* value)

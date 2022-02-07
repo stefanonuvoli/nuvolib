@@ -15,8 +15,8 @@ namespace internal {
 /**
  * @brief Constructor with key and value
  *
- * param key Key of the node
- * param value Value of the node
+ * @param key Key of the node
+ * @param value Value of the node
  */
 template<class K, class T>
 AVLNode<K,T>::AVLNode(
@@ -29,7 +29,7 @@ AVLNode<K,T>::AVLNode(
 /**
  * @brief Constructor with only key
  *
- * param key Key of the node
+ * @param key Key of the node
  */
 template<class K, class T>
 AVLNode<K,T>::AVLNode(const K& key)
@@ -70,8 +70,8 @@ bool AVLNode<K,T>::isLeaf() const
 /**
  * @brief Initialization of the node given key and value
  *
- * param key Key of the node
- * param value Value of the node
+ * @param key Key of the node
+ * @param value Value of the node
  */
 template<class K, class T>
 void AVLNode<K,T>::init(const K& key, T* value)

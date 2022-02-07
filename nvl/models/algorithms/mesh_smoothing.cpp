@@ -346,7 +346,6 @@ void meshLaplacianSmoothing(
  * @param iterations Number of iterations
  * @param alpha Constant alpha for each vertex. A value between 0 and 1, it
  * represents the weight of the original coordinates
-
  */
 template<class Mesh>
 void meshCotangentSmoothing(
@@ -370,7 +369,6 @@ void meshCotangentSmoothing(
  * represents the weight of the original coordinates
  * @param vvAdj Pre-computed vertex-vertex adjacencies
  * @param vfAdj Pre-computed vertex-face adjacencies
-
  */
 template<class Mesh>
 void meshCotangentSmoothing(
