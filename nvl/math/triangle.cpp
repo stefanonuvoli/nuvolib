@@ -8,7 +8,7 @@
 
 namespace nvl {
 
-template <class T>
+template<class T>
 inline Triangle<T>::Triangle() :
     p{}
 {

@@ -12,7 +12,7 @@
 namespace nvl {
 
 
-template <class K, class T, class C>
+template<class K, class T, class C>
 class RangeTree;
 
 
@@ -22,7 +22,7 @@ namespace internal {
  * @brief The node of the binary search tree
  *
  */
-template <class K, class T, class C>
+template<class K, class T, class C>
 class RangeTreeNode {
 
 public:

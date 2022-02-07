@@ -19,7 +19,7 @@ namespace nvl {
  * @brief The Triangle class
  * @tparam T Point type
  */
-template <class T>
+template<class T>
 class Triangle
 {
 public:

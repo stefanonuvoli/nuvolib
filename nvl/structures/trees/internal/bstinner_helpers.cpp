@@ -21,7 +21,7 @@ namespace internal {
  * @param comparator Less comparator for keys
  * @return Pointer to the node if the node has been inserted, nullptr otherwise
  */
-template <class Node, class K, class C>
+template<class Node, class K, class C>
 Node* insertNodeHelperInner(Node*& newNode, Node*& rootNode, C& comparator)
 {
     //Find the position in the BST in which
@@ -78,7 +78,7 @@ Node* insertNodeHelperInner(Node*& newNode, Node*& rootNode, C& comparator)
  * @param rootNode Root node of the BST
  * @return Node that replaces the erased one (useful for rebalancing)
  */
-template <class Node>
+template<class Node>
 Node* eraseNodeHelperInner(Node*& node, Node*& rootNode)
 {
     //Node that will replace the node to be erased
@@ -157,7 +157,7 @@ Node* eraseNodeHelperInner(Node*& node, Node*& rootNode)
  * is returned. Otherwise a null pointer is returned.
  *
  */
-template <class Node, class K, class C>
+template<class Node, class K, class C>
 Node* findNodeHelperInner(
         const K& key,
         Node* rootNode,
@@ -190,7 +190,7 @@ Node* findNodeHelperInner(
  * the input key, a null pointer is returned.
  *
  */
-template <class Node, class K, class C>
+template<class Node, class K, class C>
 Node* findLowerHelperInner(
         const K& key,
         Node* rootNode,
@@ -243,7 +243,7 @@ Node* findLowerHelperInner(
  * than the input key, a null pointer is returned.
  *
  */
-template <class Node, class K, class C>
+template<class Node, class K, class C>
 Node* findUpperHelperInner(
         const K& key,
         Node* rootNode,
@@ -305,7 +305,7 @@ Node* findUpperHelperInner(
  * @param comparator Less comparator for keys
  * @return Number of entries inserted in the BST
  */
-template <class Node, class K, class C>
+template<class Node, class K, class C>
 TreeSize constructionMedianHelperInner(
         std::vector<Node*>& sortedNodes,
         const TreeSize start, const TreeSize end,
@@ -362,7 +362,7 @@ TreeSize constructionMedianHelperInner(
  * @param rootNode Root node of the BST
  * @param comparator Less comparator for keys
  */
-template <class Node, class K, class C>
+template<class Node, class K, class C>
 void rangeQueryHelperInner(
         const K& start, const K& end,
         std::vector<Node*> &out,
@@ -436,7 +436,7 @@ void rangeQueryHelperInner(
  * @param comparator Less comparator for keys
  * @return Split node of the BST. Returns nullptr if the tree is empty
  */
-template <class Node, class K, class C>
+template<class Node, class K, class C>
 Node* findSplitNodeHelperInner(
         const K& start, const K& end,
         Node* rootNode,
@@ -470,7 +470,7 @@ Node* findSplitNodeHelperInner(
  * @param node Root of the subtree
  * @param out Vector of output nodes
  */
-template <class Node>
+template<class Node>
 void reportSubTreeHelperInner(
         Node* node,
         std::vector<Node*>& out)
@@ -497,7 +497,7 @@ void reportSubTreeHelperInner(
  * @param node Input node
  * @return Successor of the node, nullptr if there is no successor
  */
-template <class Node>
+template<class Node>
 Node* getSuccessorHelperInner(Node* node)
 {
     Node* x = node;
@@ -524,7 +524,7 @@ Node* getSuccessorHelperInner(Node* node)
  * @param node Input node
  * @return Predecessor of the node, nullptr if there is no predecessor
  */
-template <class Node>
+template<class Node>
 Node* getPredecessorHelperInner(Node* node)
 {
     Node* x = node;
@@ -552,7 +552,7 @@ Node* getPredecessorHelperInner(Node* node)
  * @param startingNode Root of the subtree
  * @return Minimum key node pointer
  */
-template <class Node>
+template<class Node>
 Node* getMinimumHelperInner(Node* rootNode)
 {
     Node* x = rootNode;
@@ -570,7 +570,7 @@ Node* getMinimumHelperInner(Node* rootNode)
  * @param startingNode Root of the subtree
  * @return Maximum key node pointer
  */
-template <class Node>
+template<class Node>
 Node* getMaximumHelperInner(Node* rootNode)
 {
     Node* x = rootNode;

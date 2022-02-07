@@ -24,7 +24,7 @@ namespace internal {
  * @param comparator Less comparator for keys
  * @return Pointer to the node if the node has been inserted, nullptr otherwise
  */
-template <class Node, class K, class C>
+template<class Node, class K, class C>
 Node* insertNodeHelperLeaf(Node*& newNode, Node*& rootNode, C& comparator)
 {
     //If the tree is empty
@@ -99,7 +99,7 @@ Node* insertNodeHelperLeaf(Node*& newNode, Node*& rootNode, C& comparator)
  * @param rootNode Root node of the BST
  * @return Node that replaces the erased one (useful for rebalancing)
  */
-template <class Node>
+template<class Node>
 Node* eraseNodeHelperLeaf(Node*& node, Node*& rootNode)
 {
     Node* replacingChild = nullptr;
@@ -152,7 +152,7 @@ Node* eraseNodeHelperLeaf(Node*& node, Node*& rootNode)
  * is returned. Otherwise a null pointer is returned.
  *
  */
-template <class Node, class K, class C>
+template<class Node, class K, class C>
 Node* findNodeHelperLeaf(
         const K& key,
         Node* rootNode,
@@ -195,7 +195,7 @@ Node* findNodeHelperLeaf(
  * the input key, a null pointer is returned.
  *
  */
-template <class Node, class K, class C>
+template<class Node, class K, class C>
 Node* findLowerHelperLeaf(
         const K& key,
         Node* rootNode,
@@ -239,7 +239,7 @@ Node* findLowerHelperLeaf(
  * than the input key, a null pointer is returned.
  *
  */
-template <class Node, class K, class C>
+template<class Node, class K, class C>
 Node* findUpperHelperLeaf(
         const K& key,
         Node* rootNode,
@@ -286,7 +286,7 @@ Node* findUpperHelperLeaf(
  * @param comparator Less comparator for keys
  * @return Number of entries inserted in the BST
  */
-template <class Node, class K, class C>
+template<class Node, class K, class C>
 TreeSize constructionMedianHelperLeaf(
         std::vector<Node*>& sortedNodes,
         const TreeSize start, const TreeSize end,
@@ -335,7 +335,7 @@ TreeSize constructionMedianHelperLeaf(
  * @param rootNode Root node of the BST
  * @returns Number of entries inserted in the BST
  */
-template <class Node, class K, class C>
+template<class Node, class K, class C>
 TreeSize constructionBottomUpHelperLeaf(
         std::vector<Node*>& sortedNodes,
         Node*& rootNode,
@@ -436,7 +436,7 @@ TreeSize constructionBottomUpHelperLeaf(
  * @param rootNode Root node of the BST
  * @param comparator Less comparator for keys
  */
-template <class Node, class K, class C>
+template<class Node, class K, class C>
 void rangeQueryHelperLeaf(
         const K& start, const K& end,
         std::vector<Node*> &out,
@@ -505,7 +505,7 @@ void rangeQueryHelperLeaf(
  * @param comparator Less comparator for keys
  * @return Split node of the BST. Returns nullptr if the tree is empty
  */
-template <class Node, class K, class C>
+template<class Node, class K, class C>
 Node* findSplitNodeHelperLeaf(
         const K& start, const K& end,
         Node* rootNode,
@@ -543,7 +543,7 @@ Node* findSplitNodeHelperLeaf(
  * @param node Root of the subtree
  * @param out Vector of output nodes
  */
-template <class Node>
+template<class Node>
 void reportSubTreeHelperLeaf(
         Node* node,
         std::vector<Node*>& out)
@@ -570,7 +570,7 @@ void reportSubTreeHelperLeaf(
  * @param node Input node
  * @return Successor of the node, nullptr if there is no successor
  */
-template <class Node>
+template<class Node>
 Node* getSuccessorHelperLeaf(Node* node)
 {
     Node* x = node;
@@ -597,7 +597,7 @@ Node* getSuccessorHelperLeaf(Node* node)
  * @param node Input node
  * @return Predecessor of the node, nullptr if there is no predecessor
  */
-template <class Node>
+template<class Node>
 Node* getPredecessorHelperLeaf(Node* node)
 {
     Node* x = node;
@@ -626,7 +626,7 @@ Node* getPredecessorHelperLeaf(Node* node)
  * @param startingNode Root of the subtree
  * @return Minimum key node pointer
  */
-template <class Node>
+template<class Node>
 Node* getMinimumHelperLeaf(Node* rootNode)
 {
     Node* x = rootNode;
@@ -644,7 +644,7 @@ Node* getMinimumHelperLeaf(Node* rootNode)
  * @param startingNode Root of the subtree
  * @return Maximum key node pointer
  */
-template <class Node>
+template<class Node>
 Node* getMaximumHelperLeaf(Node* rootNode)
 {
     Node* x = rootNode;

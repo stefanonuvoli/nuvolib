@@ -20,7 +20,7 @@ namespace internal {
  *
  * @param rootNode Root of the subtree
  */
-template <class Node>
+template<class Node>
 void clearHelper(Node*& rootNode)
 {
     //If it is already empty
@@ -43,7 +43,7 @@ void clearHelper(Node*& rootNode)
  * @param rootNode Root of the subtree
  * @returns Copy of the subtree
  */
-template <class Node, class T>
+template<class Node, class T>
 Node* copySubtreeHelper(
         const Node* rootNode,
         Node* parent)
@@ -71,7 +71,7 @@ Node* copySubtreeHelper(
  * @param node Root node of the subtree
  * @return Max height of the subtree
  */
-template <class Node>
+template<class Node>
 unsigned long long int getHeightRecursiveHelper(const Node* node)
 {
     if (node == nullptr)
@@ -92,7 +92,7 @@ unsigned long long int getHeightRecursiveHelper(const Node* node)
  * @param v Root of the subtree that replaces u
  * @param node Root node of the BST
  */
-template <class Node>
+template<class Node>
 void replaceSubtreeHelper(const Node* u, Node* v, Node*& rootNode)
 {
     //If u is the root (no parent)

@@ -16,7 +16,7 @@ namespace nvl {
 /**
  * @brief The iterator class for BST
  */
-template <class B, class N, class T>
+template<class B, class N, class T>
 class TreeIterator :
         public TreeGenericIterator<B,N>,
         public std::iterator<std::bidirectional_iterator_tag, T>

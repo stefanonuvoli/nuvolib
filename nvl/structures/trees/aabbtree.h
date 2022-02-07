@@ -35,7 +35,7 @@ enum AABBValueType { MIN, MAX };
  * a FAT AABB tree: the AABB of each node is the AABB
  * containing the entire childhood AABBs.
  */
-template <int D, class K, class T = K, class C = DefaultComparatorType<K>>
+template<int D, class K, class T = K, class C = DefaultComparatorType<K>>
 class AABBTree
 {
 
@@ -107,12 +107,12 @@ public:
     TreeSize getHeight();
 
 
-    template <class OutputIterator>
+    template<class OutputIterator>
     void rangeQuery(
             const K& start, const K& end,
             OutputIterator out);
 
-    template <class OutputIterator>
+    template<class OutputIterator>
     void aabbOverlapQuery(
             const K& key,
             OutputIterator out,
@@ -232,7 +232,7 @@ protected:
 
 };
 
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 void swap(AABBTree<D,K,T,C>& b1, AABBTree<D,K,T,C>& b2);
 
 }

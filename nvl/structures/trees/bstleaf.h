@@ -29,7 +29,7 @@ namespace nvl {
  * Keys and values are saved only in the leaves
  * No duplicates are allowed.
  */
-template <class K, class T = K, class C = DefaultComparatorType<K>>
+template<class K, class T = K, class C = DefaultComparatorType<K>>
 class BSTLeaf
 {
 
@@ -96,7 +96,7 @@ public:
 
 
 
-    template <class OutputIterator>
+    template<class OutputIterator>
     void rangeQuery(
             const K& start, const K& end,
             OutputIterator out);
@@ -158,7 +158,7 @@ protected:
 };
 
 
-template <class K, class T, class C>
+template<class K, class T, class C>
 void swap(BSTLeaf<K,T,C>& b1, BSTLeaf<K,T,C>& b2);
 
 

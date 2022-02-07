@@ -15,7 +15,7 @@ namespace nvl {
 /**
  * @brief The range based iterator class for BST
  */
-template <class B>
+template<class B>
 class TreeRangeBasedIterator
 {
 
@@ -35,7 +35,7 @@ private:
 /**
  * @brief The range based const iterator class for BST
  */
-template <class B>
+template<class B>
 class TreeRangeBasedConstIterator
 {
 
@@ -55,7 +55,7 @@ private:
 /**
  * @brief The range based reverse iterator class for BST
  */
-template <class B>
+template<class B>
 class TreeRangeBasedReverseIterator
 {
 
@@ -75,7 +75,7 @@ private:
 /**
  * @brief The range based const reverse iterator class for BST
  */
-template <class B>
+template<class B>
 class TreeRangeBasedConstReverseIterator
 {
 

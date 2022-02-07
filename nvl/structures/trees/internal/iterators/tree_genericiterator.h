@@ -12,25 +12,25 @@ namespace nvl {
 /**
  * @brief The generic iterator for the binary search tree
  */
-template <class B, class N>
+template<class B, class N>
 class TreeGenericIterator {
 
-    template <class T1, class T2, class T3>
+    template<class T1, class T2, class T3>
     friend class TreeIterator;
-    template <class T1, class T2, class T3>
+    template<class T1, class T2, class T3>
     friend class TreeReverseIterator;
 
-    template <class T1, class T2, class T3>
+    template<class T1, class T2, class T3>
     friend class BSTInner;
-    template <class T1, class T2, class T3>
+    template<class T1, class T2, class T3>
     friend class BSTLeaf;
-    template <class T1, class T2, class T3>
+    template<class T1, class T2, class T3>
     friend class AVLInner;
-    template <class T1, class T2, class T3>
+    template<class T1, class T2, class T3>
     friend class AVLLeaf;
-    template <class T1, class T2, class T3>
+    template<class T1, class T2, class T3>
     friend class RangeTree;
-    template <int T1, class T2, class T3, class T4>
+    template<int T1, class T2, class T3, class T4>
     friend class AABBTree;
 
 protected:

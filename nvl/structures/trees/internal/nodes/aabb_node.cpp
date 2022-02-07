@@ -18,7 +18,7 @@ namespace internal {
  * @param key Key of the node
  * @param value Value of the node
  */
-template <int D, class K, class T>
+template<int D, class K, class T>
 AABBNode<D,K,T>::AABBNode(
         const K& key,
         const T& value)
@@ -31,7 +31,7 @@ AABBNode<D,K,T>::AABBNode(
  *
  * @param key Key of the node
  */
-template <int D, class K, class T>
+template<int D, class K, class T>
 AABBNode<D,K,T>::AABBNode(const K& key)
 {
     init(key, nullptr);
@@ -40,7 +40,7 @@ AABBNode<D,K,T>::AABBNode(const K& key)
 /**
  * @brief Destructor
  */
-template <int D, class K, class T>
+template<int D, class K, class T>
 AABBNode<D,K,T>::~AABBNode()
 {
     if (this->value != nullptr) {
@@ -57,7 +57,7 @@ AABBNode<D,K,T>::~AABBNode()
  *
  * @return True if the node is a leaf
  */
-template <int D, class K, class T>
+template<int D, class K, class T>
 bool AABBNode<D,K,T>::isLeaf() const
 {
     return (left == nullptr) && (right == nullptr);
@@ -73,7 +73,7 @@ bool AABBNode<D,K,T>::isLeaf() const
  * @param key Key of the node
  * @param value Value of the node
  */
-template <int D, class K, class T>
+template<int D, class K, class T>
 void AABBNode<D,K,T>::init(const K& key, T* value)
 {
     this->key = key;

@@ -22,32 +22,32 @@ namespace internal {
 
 /* Basic BST operation helpers */
 
-template <class Node, class K, class C>
+template<class Node, class K, class C>
 inline Node* insertNodeHelperLeaf(Node*& newNode, Node*& rootNode, C& comparator);
 
-template <class Node>
+template<class Node>
 inline Node* eraseNodeHelperLeaf(Node*& node, Node*& rootNode);
 
-template <class Node, class K, class C>
+template<class Node, class K, class C>
 inline Node* findHelperLeaf(const K& key, Node* rootNode, C& comparator);
 
-template <class Node, class K, class C>
+template<class Node, class K, class C>
 inline Node* findLowerHelperLeaf(const K& key, Node* rootNode, C& comparator);
 
-template <class Node, class K, class C>
+template<class Node, class K, class C>
 inline Node* findUpperHelperLeaf(const K& key, Node* rootNode, C& comparator);
 
 
 /* Construction helpers */
 
-template <class Node, class K, class C>
+template<class Node, class K, class C>
 inline TreeSize constructionMedianHelperLeaf(
         std::vector<Node*>& sortedNodes,
         const TreeSize start, const TreeSize end,
         Node*& rootNode,
         C& comparator);
 
-template <class Node, class K, class C>
+template<class Node, class K, class C>
 inline TreeSize constructionBottomUpHelperLeaf(
         std::vector<Node*>& sortedVec,
         Node*& rootNode,
@@ -56,19 +56,19 @@ inline TreeSize constructionBottomUpHelperLeaf(
 
 /* Range query helpers */
 
-template <class Node, class K, class C>
+template<class Node, class K, class C>
 inline Node* findSplitNodeHelperLeaf(
         const K& start, const K& end,
         Node* rootNode,
         C& comparator);
 
-template <class Node>
+template<class Node>
 inline void reportSubTreeHelperLeaf(
         Node* node,
         std::vector<Node*>& out);
 
 
-template <class Node, class K, class C>
+template<class Node, class K, class C>
 inline void rangeQueryHelperLeaf(
         const K& start, const K& end,
         std::vector<Node*> &out,
@@ -79,16 +79,16 @@ inline void rangeQueryHelperLeaf(
 
 /* Successors/Predecessors Min/Max */
 
-template <class Node>
+template<class Node>
 inline Node* getSuccessorHelperLeaf(Node* node);
 
-template <class Node>
+template<class Node>
 inline Node* getPredecessorHelperLeaf(Node* node);
 
-template <class Node>
+template<class Node>
 inline Node* getMinimumHelperLeaf(Node* node);
 
-template <class Node>
+template<class Node>
 inline Node* getMaximumHelperLeaf(Node* node);
 
 }

@@ -18,7 +18,7 @@ namespace nvl {
  * AVLLeaf implementation is the default one. The BST is an auto-balancing
  * AVL tree. Values are saved only in the leaves.
  */
-template <class K, class T = K, class C = DefaultComparatorType<K>>
+template<class K, class T = K, class C = DefaultComparatorType<K>>
 using BST = typename nvl::AVLLeaf<K, T, C>;
 
 }

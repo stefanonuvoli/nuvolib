@@ -12,7 +12,7 @@ namespace nvl {
 
 /* --------- ITERATOR OPERATOR OVERLOAD --------- */
 
-template <class B, class K>
+template<class B, class K>
 TreeInsertIterator<B,K>& TreeInsertIterator<B,K>::operator=(const K key)
 {
     this->bst->insert(key);
@@ -20,15 +20,15 @@ TreeInsertIterator<B,K>& TreeInsertIterator<B,K>::operator=(const K key)
     return *this;
 }
 
-template <class B, class K>
+template<class B, class K>
 TreeInsertIterator<B,K>& TreeInsertIterator<B,K>::operator*() {
     return *this;
 }
-template <class B, class K>
+template<class B, class K>
 TreeInsertIterator<B,K>& TreeInsertIterator<B,K>::operator++() {
     return *this;
 }
-template <class B, class K>
+template<class B, class K>
 TreeInsertIterator<B,K>& TreeInsertIterator<B,K>::operator++(int) {
     return *this;
 }

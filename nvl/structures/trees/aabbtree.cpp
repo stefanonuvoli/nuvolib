@@ -28,7 +28,7 @@ namespace nvl {
  * @param customComparator Custom comparator to be used to compare if a key
  * is less than another one. The default comparator is the < operator
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 AABBTree<D,K,T,C>::AABBTree(
         const AABBValueExtractor customAABBValueExtractor,
         const C& customComparator) :
@@ -47,7 +47,7 @@ AABBTree<D,K,T,C>::AABBTree(
  * @param customComparator Custom comparator to be used to compare if a key
  * is less than another one. The default comparator is the < operator
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 AABBTree<D,K,T,C>::AABBTree(
         const std::vector<std::pair<K,T>>& vec,
         const AABBValueExtractor customAABBValueExtractor,
@@ -69,7 +69,7 @@ AABBTree<D,K,T,C>::AABBTree(
  * @param customComparator Custom comparator to be used to compare if a key
  * is less than another one. The default comparator is the < operator
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 AABBTree<D,K,T,C>::AABBTree(
         const std::vector<K>& vec,
         const AABBValueExtractor customAABBValueExtractor,
@@ -85,7 +85,7 @@ AABBTree<D,K,T,C>::AABBTree(
  * @brief Copy constructor
  * @param aabbTree AABB tree
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 AABBTree<D,K,T,C>::AABBTree(const AABBTree<D,K,T,C>& aabbTree) :
     comparator(aabbTree.comparator),
     aabbValueExtractor(aabbTree.aabbValueExtractor)
@@ -98,7 +98,7 @@ AABBTree<D,K,T,C>::AABBTree(const AABBTree<D,K,T,C>& aabbTree) :
  * @brief Move constructor
  * @param aabbTree AABB tree
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 AABBTree<D,K,T,C>::AABBTree(AABBTree<D,K,T,C>&& aabbTree) :
     comparator(aabbTree.comparator),
     aabbValueExtractor(aabbTree.aabbValueExtractor)
@@ -111,7 +111,7 @@ AABBTree<D,K,T,C>::AABBTree(AABBTree<D,K,T,C>&& aabbTree) :
 /**
  * @brief Destructor
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 AABBTree<D,K,T,C>::~AABBTree()
 {
     this->clear();
@@ -132,7 +132,7 @@ AABBTree<D,K,T,C>::~AABBTree()
  *
  * @param vec Vector of values
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 void AABBTree<D,K,T,C>::construction(const std::vector<K>& vec)
 {
     std::vector<std::pair<K,T>> pairVec;
@@ -152,7 +152,7 @@ void AABBTree<D,K,T,C>::construction(const std::vector<K>& vec)
  *
  * @param vec Vector of pairs of keys/values
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 void AABBTree<D,K,T,C>::construction(const std::vector<std::pair<K,T>>& vec)
 {
     this->clear();
@@ -201,7 +201,7 @@ void AABBTree<D,K,T,C>::construction(const std::vector<std::pair<K,T>>& vec)
  * @return The iterator pointing to the node if it has been
  * successfully inserted, end iterator otherwise
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 typename AABBTree<D,K,T,C>::iterator AABBTree<D,K,T,C>::insert(const K& key)
 {
     return insert(key, key);
@@ -218,7 +218,7 @@ typename AABBTree<D,K,T,C>::iterator AABBTree<D,K,T,C>::insert(const K& key)
  * @return The iterator pointing to the node if it has been
  * successfully inserted, end iterator otherwise
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 typename AABBTree<D,K,T,C>::iterator AABBTree<D,K,T,C>::insert(
         const K& key, const T& value)
 {
@@ -258,7 +258,7 @@ typename AABBTree<D,K,T,C>::iterator AABBTree<D,K,T,C>::insert(
  * @param key Key of the node
  * @return True if item has been found and then erased, false otherwise
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 bool AABBTree<D,K,T,C>::erase(const K& key)
 {
     //Query the AABB tree to find the node
@@ -289,7 +289,7 @@ bool AABBTree<D,K,T,C>::erase(const K& key)
  *
  * @param it A generic iterator pointing to the node to be erased
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 void AABBTree<D,K,T,C>::erase(generic_iterator it)
 {
     //Throw exception if the iterator does not belong to this AABB tree
@@ -325,7 +325,7 @@ void AABBTree<D,K,T,C>::erase(generic_iterator it)
  * @return The iterator pointing to the AABB tree node if the element
  * is contained in the AABB tree, end iterator otherwise
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 typename AABBTree<D,K,T,C>::iterator AABBTree<D,K,T,C>::find(const K& key)
 {
     //Query the AABB tree to find the node
@@ -339,7 +339,7 @@ typename AABBTree<D,K,T,C>::iterator AABBTree<D,K,T,C>::find(const K& key)
  * @brief Clear the tree, delete all its elements
  *
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 void AABBTree<D,K,T,C>::clear()
 {
     //Clear entire tree
@@ -355,7 +355,7 @@ void AABBTree<D,K,T,C>::clear()
  *
  * @return Number of entries in the AABB tree
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 TreeSize AABBTree<D,K,T,C>::size() const
 {
     return this->entries;
@@ -366,7 +366,7 @@ TreeSize AABBTree<D,K,T,C>::size() const
  *
  * @return True if the AABB tree is empty, false otherwise
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 bool AABBTree<D,K,T,C>::empty() const
 {
     return (this->size() == 0);
@@ -379,7 +379,7 @@ bool AABBTree<D,K,T,C>::empty() const
  *
  * @return Max height of the tree
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 TreeSize AABBTree<D,K,T,C>::getHeight()
 {
     return internal::getHeightHelper(this->root);
@@ -396,7 +396,7 @@ TreeSize AABBTree<D,K,T,C>::getHeight()
  * @param out Output iterator for the container containing the iterators
  * pointing to the nodes which have keys enclosed in the input range
  */
-template <int D, class K, class T, class C> template <class OutputIterator>
+template<int D, class K, class T, class C> template<class OutputIterator>
 void AABBTree<D,K,T,C>::rangeQuery(
         const K& start, const K& end,
         OutputIterator out)
@@ -420,7 +420,7 @@ void AABBTree<D,K,T,C>::rangeQuery(
  * @param key Input key
  * @param out Vector of iterators pointing to elements that overlap
  */
-template <int D, class K, class T, class C> template <class OutputIterator>
+template<int D, class K, class T, class C> template<class OutputIterator>
 void AABBTree<D,K,T,C>::aabbOverlapQuery(
         const K& key,
         OutputIterator out,
@@ -448,7 +448,7 @@ void AABBTree<D,K,T,C>::aabbOverlapQuery(
  * @param key Input key
  * @return True if there is an overlapping bounding box in the stored values
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 bool AABBTree<D,K,T,C>::aabbOverlapCheck(
         const K& key,
         KeyOverlapChecker keyOverlapChecker)
@@ -472,7 +472,7 @@ bool AABBTree<D,K,T,C>::aabbOverlapCheck(
  *
  * @return The iterator pointing to the minimum node
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 typename AABBTree<D,K,T,C>::iterator AABBTree<D,K,T,C>::getMin()
 {
     return iterator(this, internal::getMinimumHelperLeaf(this->root));
@@ -483,7 +483,7 @@ typename AABBTree<D,K,T,C>::iterator AABBTree<D,K,T,C>::getMin()
  *
  * @return The iterator pointing to the maximum node
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 typename AABBTree<D,K,T,C>::iterator AABBTree<D,K,T,C>::getMax()
 {
     return iterator(this, internal::getMaximumHelperLeaf(this->root));
@@ -498,7 +498,7 @@ typename AABBTree<D,K,T,C>::iterator AABBTree<D,K,T,C>::getMax()
  * @return The iterator pointing to the successor node (end
  * iterator if it has no successor)
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 typename AABBTree<D,K,T,C>::generic_iterator AABBTree<D,K,T,C>::getNext(generic_iterator it)
 {
     //Throw exception if the iterator does not belong to this AABB tree
@@ -515,7 +515,7 @@ typename AABBTree<D,K,T,C>::generic_iterator AABBTree<D,K,T,C>::getNext(generic_
  * @return The iterator pointing to the predecessor node (end
  * iterator if it has no predecessor)
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 typename AABBTree<D,K,T,C>::generic_iterator AABBTree<D,K,T,C>::getPrev(generic_iterator it)
 {
     //Throw exception if the iterator does not belong to this AABB tree
@@ -532,7 +532,7 @@ typename AABBTree<D,K,T,C>::generic_iterator AABBTree<D,K,T,C>::getPrev(generic_
 /**
  * @brief Begin iterator
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 typename AABBTree<D,K,T,C>::iterator AABBTree<D,K,T,C>::begin()
 {
     return iterator(this, internal::getMinimumHelperLeaf(this->root));
@@ -541,7 +541,7 @@ typename AABBTree<D,K,T,C>::iterator AABBTree<D,K,T,C>::begin()
 /**
  * @brief End iterator
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 typename AABBTree<D,K,T,C>::iterator AABBTree<D,K,T,C>::end()
 {
     return iterator(this, nullptr);
@@ -551,7 +551,7 @@ typename AABBTree<D,K,T,C>::iterator AABBTree<D,K,T,C>::end()
 /**
  * @brief Begin const iterator
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 typename AABBTree<D,K,T,C>::const_iterator AABBTree<D,K,T,C>::cbegin()
 {
     return const_iterator(this, internal::getMinimumHelperLeaf(this->root));
@@ -560,7 +560,7 @@ typename AABBTree<D,K,T,C>::const_iterator AABBTree<D,K,T,C>::cbegin()
 /**
  * @brief End const iterator
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 typename AABBTree<D,K,T,C>::const_iterator AABBTree<D,K,T,C>::cend()
 {
     return const_iterator(this, nullptr);
@@ -570,7 +570,7 @@ typename AABBTree<D,K,T,C>::const_iterator AABBTree<D,K,T,C>::cend()
 /**
  * @brief Begin reverse iterator
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 typename AABBTree<D,K,T,C>::reverse_iterator AABBTree<D,K,T,C>::rbegin()
 {
     return reverse_iterator(this, internal::getMaximumHelperLeaf(this->root));
@@ -579,7 +579,7 @@ typename AABBTree<D,K,T,C>::reverse_iterator AABBTree<D,K,T,C>::rbegin()
 /**
  * @brief End reverse iterator
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 typename AABBTree<D,K,T,C>::reverse_iterator AABBTree<D,K,T,C>::rend()
 {
     return reverse_iterator(this, nullptr);
@@ -589,7 +589,7 @@ typename AABBTree<D,K,T,C>::reverse_iterator AABBTree<D,K,T,C>::rend()
 /**
  * @brief Begin const reverse iterator
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 typename AABBTree<D,K,T,C>::const_reverse_iterator AABBTree<D,K,T,C>::crbegin()
 {
     return const_reverse_iterator(this, internal::getMaximumHelperLeaf(this->root));
@@ -598,7 +598,7 @@ typename AABBTree<D,K,T,C>::const_reverse_iterator AABBTree<D,K,T,C>::crbegin()
 /**
  * @brief End const reverse iterator
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 typename AABBTree<D,K,T,C>::const_reverse_iterator AABBTree<D,K,T,C>::crend()
 {
     return const_reverse_iterator(this, nullptr);
@@ -609,7 +609,7 @@ typename AABBTree<D,K,T,C>::const_reverse_iterator AABBTree<D,K,T,C>::crend()
 /**
  * @brief Insert output iterator
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 typename AABBTree<D,K,T,C>::insert_iterator AABBTree<D,K,T,C>::inserter()
 {
     return insert_iterator(this);
@@ -622,7 +622,7 @@ typename AABBTree<D,K,T,C>::insert_iterator AABBTree<D,K,T,C>::inserter()
  *
  * @return Range based iterator
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 typename AABBTree<D,K,T,C>::RangeBasedIterator AABBTree<D,K,T,C>::getIterator()
 {
     return RangeBasedIterator(this);
@@ -633,7 +633,7 @@ typename AABBTree<D,K,T,C>::RangeBasedIterator AABBTree<D,K,T,C>::getIterator()
  *
  * @return Range based const iterator
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 typename AABBTree<D,K,T,C>::RangeBasedConstIterator AABBTree<D,K,T,C>::getConstIterator()
 {
     return RangeBasedConstIterator(this);
@@ -644,7 +644,7 @@ typename AABBTree<D,K,T,C>::RangeBasedConstIterator AABBTree<D,K,T,C>::getConstI
  *
  * @return Range based reverse iterator
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 typename AABBTree<D,K,T,C>::RangeBasedReverseIterator AABBTree<D,K,T,C>::getReverseIterator()
 {
     return RangeBasedReverseIterator(this);
@@ -655,7 +655,7 @@ typename AABBTree<D,K,T,C>::RangeBasedReverseIterator AABBTree<D,K,T,C>::getReve
  *
  * @return Range based const reverse iterator
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 typename AABBTree<D,K,T,C>::RangeBasedConstReverseIterator AABBTree<D,K,T,C>::getConstReverseIterator()
 {
     return RangeBasedConstReverseIterator(this);
@@ -669,7 +669,7 @@ typename AABBTree<D,K,T,C>::RangeBasedConstReverseIterator AABBTree<D,K,T,C>::ge
  * @param aabbTree Parameter AABB tree
  * @return This object
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 AABBTree<D,K,T,C>& AABBTree<D,K,T,C>::operator= (AABBTree<D,K,T,C> aabbTree)
 {
     swap(aabbTree);
@@ -681,7 +681,7 @@ AABBTree<D,K,T,C>& AABBTree<D,K,T,C>::operator= (AABBTree<D,K,T,C> aabbTree)
  * @brief Swap AABB tree with another one
  * @param aabbTree AABB tree to be swapped with this object
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 void AABBTree<D,K,T,C>::swap(AABBTree<D,K,T,C>& aabbTree)
 {
     using std::swap;
@@ -697,7 +697,7 @@ void AABBTree<D,K,T,C>::swap(AABBTree<D,K,T,C>& aabbTree)
  * @param b1 First AABB tree
  * @param b2 Second AABB tree
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 void swap(AABBTree<D,K,T,C>& b1, AABBTree<D,K,T,C>& b2)
 {
     b1.swap(b2);
@@ -709,7 +709,7 @@ void swap(AABBTree<D,K,T,C>& b1, AABBTree<D,K,T,C>& b2)
 /**
  * @brief Initialization of the AABB tree
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 void AABBTree<D,K,T,C>::initialize()
 {
     this->root = nullptr;
@@ -731,7 +731,7 @@ void AABBTree<D,K,T,C>::initialize()
  * @param out Vector of iterators pointing to elements that overlap
  * @param keyOverlapChecker Key overlap filter function
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 void AABBTree<D,K,T,C>::aabbOverlapQueryHelper(
         Node* node,
         const K& key,
@@ -773,7 +773,7 @@ void AABBTree<D,K,T,C>::aabbOverlapQueryHelper(
  * @param keyOverlapChecker Key overlap filter function
  * @return True if there is an overlapping bounding box in the stored values
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 bool AABBTree<D,K,T,C>::aabbOverlapCheckHelper(
         Node* node,
         const K& key,
@@ -814,7 +814,7 @@ bool AABBTree<D,K,T,C>::aabbOverlapCheckHelper(
  * @param node Starting node
  * @param aabbValueExtractor AABB extractor for key
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 void AABBTree<D,K,T,C>::updateAABBHelper(
         Node* node,
         AABBValueExtractor aabbValueExtractor)
@@ -873,7 +873,7 @@ void AABBTree<D,K,T,C>::updateAABBHelper(
  * @param node Starting node
  * @param aabbValueExtractor AABB extractor for key
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 void AABBTree<D,K,T,C>::rebalanceAABBHelper(
         Node* node,
         AABBValueExtractor aabbValueExtractor)
@@ -954,7 +954,7 @@ void AABBTree<D,K,T,C>::rebalanceAABBHelper(
  * @param node Root node of the AABB tree
  * @param aabbValueExtractor AABB extractor for key
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 void AABBTree<D,K,T,C>::updateHeightAndRebalanceAABBHelper(
         Node* node,
         AABBValueExtractor aabbValueExtractor)
@@ -972,7 +972,7 @@ void AABBTree<D,K,T,C>::updateHeightAndRebalanceAABBHelper(
  * @param aabbValueExtractor AABB extractor for key
  * @return New node in the position of the original node after the rotation
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 typename AABBTree<D,K,T,C>::Node* AABBTree<D,K,T,C>::leftRotateAABBHelper(
         Node* a,
         AABBValueExtractor aabbValueExtractor)
@@ -993,7 +993,7 @@ typename AABBTree<D,K,T,C>::Node* AABBTree<D,K,T,C>::leftRotateAABBHelper(
  * @param aabbValueExtractor AABB extractor for key
  * @return New node in the position of the original node after the rotation
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 typename AABBTree<D,K,T,C>::Node* AABBTree<D,K,T,C>::rightRotateAABBHelper(
         Node* a,
         AABBValueExtractor aabbValueExtractor)
@@ -1020,7 +1020,7 @@ typename AABBTree<D,K,T,C>::Node* AABBTree<D,K,T,C>::rightRotateAABBHelper(
  * @param a Second bounding box
  * @returns True if the bounding boxes overlap, false otherwise
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 bool AABBTree<D,K,T,C>::aabbOverlapsHelper(
         const typename Node::AABB& a,
         const typename Node::AABB& b)
@@ -1045,7 +1045,7 @@ bool AABBTree<D,K,T,C>::aabbOverlapsHelper(
  * @param a Bounding box to be updated
  * @param aabbValueExtractor AABB extractor for key
  */
-template <int D, class K, class T, class C>
+template<int D, class K, class T, class C>
 void AABBTree<D,K,T,C>::setAABBFromKeyHelper(
         const K& k,
         typename Node::AABB& aabb,

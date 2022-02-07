@@ -30,7 +30,7 @@ namespace nvl {
  * is performed following "Introduction to Algorithms" (Cormen, 2011).
  * No duplicates are allowed.
  */
-template <class K, class T = K, class C = DefaultComparatorType<K>>
+template<class K, class T = K, class C = DefaultComparatorType<K>>
 class BSTInner
 {
 
@@ -95,7 +95,7 @@ public:
 
 
 
-    template <class OutputIterator>
+    template<class OutputIterator>
     void rangeQuery(
             const K& start, const K& end,
             OutputIterator out);
@@ -156,7 +156,7 @@ protected:
 
 };
 
-template <class K, class T, class C>
+template<class K, class T, class C>
 void swap(BSTInner<K,T,C>& b1, BSTInner<K,T,C>& b2);
 
 }

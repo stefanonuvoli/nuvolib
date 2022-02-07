@@ -24,7 +24,7 @@ namespace nvl {
  * @param customComparator Custom comparator to be used to compare if a key
  * is less than another one. The default comparator is the < operator
  */
-template <class K, class T, class C>
+template<class K, class T, class C>
 AVLLeaf<K,T,C>::AVLLeaf(const C& customComparator) :
     comparator(customComparator)
 {
@@ -38,7 +38,7 @@ AVLLeaf<K,T,C>::AVLLeaf(const C& customComparator) :
  * @param customComparator Custom comparator to be used to compare if a key
  * is less than another one. The default comparator is the < operator
  */
-template <class K, class T, class C>
+template<class K, class T, class C>
 AVLLeaf<K,T,C>::AVLLeaf(
         const std::vector<std::pair<K,T>>& vec,
         const C& customComparator) :
@@ -56,7 +56,7 @@ AVLLeaf<K,T,C>::AVLLeaf(
  * @param customComparator Custom comparator to be used to compare if a key
  * is less than another one. The default comparator is the < operator
  */
-template <class K, class T, class C>
+template<class K, class T, class C>
 AVLLeaf<K,T,C>::AVLLeaf(
         const std::vector<K>& vec,
         const C& customComparator) :
@@ -70,7 +70,7 @@ AVLLeaf<K,T,C>::AVLLeaf(
  * @brief Copy constructor
  * @param bst BST
  */
-template <class K, class T, class C>
+template<class K, class T, class C>
 AVLLeaf<K,T,C>::AVLLeaf(const AVLLeaf<K,T,C>& bst) :
     comparator(bst.comparator)
 {
@@ -82,7 +82,7 @@ AVLLeaf<K,T,C>::AVLLeaf(const AVLLeaf<K,T,C>& bst) :
  * @brief Move constructor
  * @param bst BST
  */
-template <class K, class T, class C>
+template<class K, class T, class C>
 AVLLeaf<K,T,C>::AVLLeaf(AVLLeaf<K,T,C>&& bst) :
     comparator(bst.comparator)
 {
@@ -94,7 +94,7 @@ AVLLeaf<K,T,C>::AVLLeaf(AVLLeaf<K,T,C>&& bst) :
 /**
  * @brief Destructor
  */
-template <class K, class T, class C>
+template<class K, class T, class C>
 AVLLeaf<K,T,C>::~AVLLeaf()
 {
     this->clear();
@@ -115,7 +115,7 @@ AVLLeaf<K,T,C>::~AVLLeaf()
  *
  * @param vec Vector of values
  */
-template <class K, class T, class C>
+template<class K, class T, class C>
 void AVLLeaf<K,T,C>::construction(const std::vector<K>& vec)
 {
     std::vector<std::pair<K,T>> pairVec;
@@ -135,7 +135,7 @@ void AVLLeaf<K,T,C>::construction(const std::vector<K>& vec)
  *
  * @param vec Vector of pairs of keys/values
  */
-template <class K, class T, class C>
+template<class K, class T, class C>
 void AVLLeaf<K,T,C>::construction(const std::vector<std::pair<K,T>>& vec)
 {
     this->clear();
@@ -180,7 +180,7 @@ void AVLLeaf<K,T,C>::construction(const std::vector<std::pair<K,T>>& vec)
  * @return The iterator pointing to the node if it has been
  * successfully inserted, end iterator otherwise
  */
-template <class K, class T, class C>
+template<class K, class T, class C>
 typename AVLLeaf<K,T,C>::iterator AVLLeaf<K,T,C>::insert(const K& key)
 {
     return insert(key, key);
@@ -197,7 +197,7 @@ typename AVLLeaf<K,T,C>::iterator AVLLeaf<K,T,C>::insert(const K& key)
  * @return The iterator pointing to the node if it has been
  * successfully inserted, end iterator otherwise
  */
-template <class K, class T, class C>
+template<class K, class T, class C>
 typename AVLLeaf<K,T,C>::iterator AVLLeaf<K,T,C>::insert(
         const K& key, const T& value)
 {
@@ -234,7 +234,7 @@ typename AVLLeaf<K,T,C>::iterator AVLLeaf<K,T,C>::insert(
  * @param key Key of the node
  * @return True if item has been found and then erased, false otherwise
  */
-template <class K, class T, class C>
+template<class K, class T, class C>
 bool AVLLeaf<K,T,C>::erase(const K& key)
 {
     //Query the BST to find the node
@@ -262,7 +262,7 @@ bool AVLLeaf<K,T,C>::erase(const K& key)
  *
  * @param it A generic iterator pointing to the node to be erased
  */
-template <class K, class T, class C>
+template<class K, class T, class C>
 void AVLLeaf<K,T,C>::erase(generic_iterator it)
 {
     //Throw exception if the iterator does not belong to this BST
@@ -295,7 +295,7 @@ void AVLLeaf<K,T,C>::erase(generic_iterator it)
  * @return The iterator pointing to the BST node if the element
  * is contained in the BST, end iterator otherwise
  */
-template <class K, class T, class C>
+template<class K, class T, class C>
 typename AVLLeaf<K,T,C>::iterator AVLLeaf<K,T,C>::find(const K& key)
 {
     //Query the BST to find the node
@@ -315,7 +315,7 @@ typename AVLLeaf<K,T,C>::iterator AVLLeaf<K,T,C>::find(const K& key)
  * @return The iterator pointing to the BST node if the element (lower/equal)
  * exists in the BST, end iterator otherwise
  */
-template <class K, class T, class C>
+template<class K, class T, class C>
 typename AVLLeaf<K,T,C>::iterator AVLLeaf<K,T,C>::findLower(const K& key)
 {
     //Query the BST to find the node
@@ -331,7 +331,7 @@ typename AVLLeaf<K,T,C>::iterator AVLLeaf<K,T,C>::findLower(const K& key)
  * @return The iterator pointing to the BST node if the element (upper)
  * exists in the BST, end iterator otherwise
  */
-template <class K, class T, class C>
+template<class K, class T, class C>
 typename AVLLeaf<K,T,C>::iterator AVLLeaf<K,T,C>::findUpper(const K& key)
 {
     //Query the BST to find the node
@@ -349,7 +349,7 @@ typename AVLLeaf<K,T,C>::iterator AVLLeaf<K,T,C>::findUpper(const K& key)
  * @brief Clear the tree, delete all its elements
  *
  */
-template <class K, class T, class C>
+template<class K, class T, class C>
 void AVLLeaf<K,T,C>::clear()
 {
     //Clear entire tree
@@ -367,7 +367,7 @@ void AVLLeaf<K,T,C>::clear()
  *
  * @return Number of entries in the BST
  */
-template <class K, class T, class C>
+template<class K, class T, class C>
 TreeSize AVLLeaf<K,T,C>::size() const
 {
     return this->entries;
@@ -378,7 +378,7 @@ TreeSize AVLLeaf<K,T,C>::size() const
  *
  * @return True if the BST is empty, false otherwise
  */
-template <class K, class T, class C>
+template<class K, class T, class C>
 bool AVLLeaf<K,T,C>::empty() const
 {
     return (this->size() == 0);
@@ -391,7 +391,7 @@ bool AVLLeaf<K,T,C>::empty() const
  *
  * @return Max height of the tree
  */
-template <class K, class T, class C>
+template<class K, class T, class C>
 TreeSize AVLLeaf<K,T,C>::getHeight() const
 {
     return internal::getHeightHelper(this->root);
@@ -408,7 +408,7 @@ TreeSize AVLLeaf<K,T,C>::getHeight() const
  * @param out Output iterator for the container containing the iterators
  * pointing to the nodes which have keys enclosed in the input range
  */
-template <class K, class T, class C> template <class OutputIterator>
+template<class K, class T, class C> template<class OutputIterator>
 void AVLLeaf<K,T,C>::rangeQuery(
         const K& start, const K& end,
         OutputIterator out)
@@ -434,7 +434,7 @@ void AVLLeaf<K,T,C>::rangeQuery(
  *
  * @return The iterator pointing to the minimum node
  */
-template <class K, class T, class C>
+template<class K, class T, class C>
 typename AVLLeaf<K,T,C>::iterator AVLLeaf<K,T,C>::getMin()
 {
     return iterator(this, internal::getMinimumHelperLeaf(this->root));
@@ -445,7 +445,7 @@ typename AVLLeaf<K,T,C>::iterator AVLLeaf<K,T,C>::getMin()
  *
  * @return The iterator pointing to the maximum node
  */
-template <class K, class T, class C>
+template<class K, class T, class C>
 typename AVLLeaf<K,T,C>::iterator AVLLeaf<K,T,C>::getMax()
 {
     return iterator(this, internal::getMaximumHelperLeaf(this->root));
@@ -460,7 +460,7 @@ typename AVLLeaf<K,T,C>::iterator AVLLeaf<K,T,C>::getMax()
  * @return The iterator pointing to the successor node (end
  * iterator if it has no successor)
  */
-template <class K, class T, class C>
+template<class K, class T, class C>
 typename AVLLeaf<K,T,C>::generic_iterator AVLLeaf<K,T,C>::getNext(generic_iterator it)
 {
     //Throw exception if the iterator does not belong to this BST
@@ -477,7 +477,7 @@ typename AVLLeaf<K,T,C>::generic_iterator AVLLeaf<K,T,C>::getNext(generic_iterat
  * @return The iterator pointing to the predecessor node (end
  * iterator if it has no predecessor)
  */
-template <class K, class T, class C>
+template<class K, class T, class C>
 typename AVLLeaf<K,T,C>::generic_iterator AVLLeaf<K,T,C>::getPrev(generic_iterator it)
 {
     //Throw exception if the iterator does not belong to this BST
@@ -494,7 +494,7 @@ typename AVLLeaf<K,T,C>::generic_iterator AVLLeaf<K,T,C>::getPrev(generic_iterat
 /**
  * @brief Begin iterator
  */
-template <class K, class T, class C>
+template<class K, class T, class C>
 typename AVLLeaf<K,T,C>::iterator AVLLeaf<K,T,C>::begin()
 {
     return iterator(this, internal::getMinimumHelperLeaf(this->root));
@@ -503,7 +503,7 @@ typename AVLLeaf<K,T,C>::iterator AVLLeaf<K,T,C>::begin()
 /**
  * @brief End iterator
  */
-template <class K, class T, class C>
+template<class K, class T, class C>
 typename AVLLeaf<K,T,C>::iterator AVLLeaf<K,T,C>::end()
 {
     return iterator(this, nullptr);
@@ -513,7 +513,7 @@ typename AVLLeaf<K,T,C>::iterator AVLLeaf<K,T,C>::end()
 /**
  * @brief Begin const iterator
  */
-template <class K, class T, class C>
+template<class K, class T, class C>
 typename AVLLeaf<K,T,C>::const_iterator AVLLeaf<K,T,C>::cbegin()
 {
     return const_iterator(this, internal::getMinimumHelperLeaf(this->root));
@@ -522,7 +522,7 @@ typename AVLLeaf<K,T,C>::const_iterator AVLLeaf<K,T,C>::cbegin()
 /**
  * @brief End const iterator
  */
-template <class K, class T, class C>
+template<class K, class T, class C>
 typename AVLLeaf<K,T,C>::const_iterator AVLLeaf<K,T,C>::cend()
 {
     return const_iterator(this, nullptr);
@@ -532,7 +532,7 @@ typename AVLLeaf<K,T,C>::const_iterator AVLLeaf<K,T,C>::cend()
 /**
  * @brief Begin reverse iterator
  */
-template <class K, class T, class C>
+template<class K, class T, class C>
 typename AVLLeaf<K,T,C>::reverse_iterator AVLLeaf<K,T,C>::rbegin()
 {
     return reverse_iterator(this, internal::getMaximumHelperLeaf(this->root));
@@ -541,7 +541,7 @@ typename AVLLeaf<K,T,C>::reverse_iterator AVLLeaf<K,T,C>::rbegin()
 /**
  * @brief End reverse iterator
  */
-template <class K, class T, class C>
+template<class K, class T, class C>
 typename AVLLeaf<K,T,C>::reverse_iterator AVLLeaf<K,T,C>::rend()
 {
     return reverse_iterator(this, nullptr);
@@ -551,7 +551,7 @@ typename AVLLeaf<K,T,C>::reverse_iterator AVLLeaf<K,T,C>::rend()
 /**
  * @brief Begin const reverse iterator
  */
-template <class K, class T, class C>
+template<class K, class T, class C>
 typename AVLLeaf<K,T,C>::const_reverse_iterator AVLLeaf<K,T,C>::crbegin()
 {
     return const_reverse_iterator(this, internal::getMaximumHelperLeaf(this->root));
@@ -560,7 +560,7 @@ typename AVLLeaf<K,T,C>::const_reverse_iterator AVLLeaf<K,T,C>::crbegin()
 /**
  * @brief End const reverse iterator
  */
-template <class K, class T, class C>
+template<class K, class T, class C>
 typename AVLLeaf<K,T,C>::const_reverse_iterator AVLLeaf<K,T,C>::crend()
 {
     return const_reverse_iterator(this, nullptr);
@@ -571,7 +571,7 @@ typename AVLLeaf<K,T,C>::const_reverse_iterator AVLLeaf<K,T,C>::crend()
 /**
  * @brief Insert output iterator
  */
-template <class K, class T, class C>
+template<class K, class T, class C>
 typename AVLLeaf<K,T,C>::insert_iterator AVLLeaf<K,T,C>::inserter()
 {
     return insert_iterator(this);
@@ -584,7 +584,7 @@ typename AVLLeaf<K,T,C>::insert_iterator AVLLeaf<K,T,C>::inserter()
  *
  * @return Range based iterator
  */
-template <class K, class T, class C>
+template<class K, class T, class C>
 typename AVLLeaf<K,T,C>::RangeBasedIterator AVLLeaf<K,T,C>::getIterator()
 {
     return RangeBasedIterator(this);
@@ -595,7 +595,7 @@ typename AVLLeaf<K,T,C>::RangeBasedIterator AVLLeaf<K,T,C>::getIterator()
  *
  * @return Range based const iterator
  */
-template <class K, class T, class C>
+template<class K, class T, class C>
 typename AVLLeaf<K,T,C>::RangeBasedConstIterator AVLLeaf<K,T,C>::getConstIterator()
 {
     return RangeBasedConstIterator(this);
@@ -606,7 +606,7 @@ typename AVLLeaf<K,T,C>::RangeBasedConstIterator AVLLeaf<K,T,C>::getConstIterato
  *
  * @return Range based reverse iterator
  */
-template <class K, class T, class C>
+template<class K, class T, class C>
 typename AVLLeaf<K,T,C>::RangeBasedReverseIterator AVLLeaf<K,T,C>::getReverseIterator()
 {
     return RangeBasedReverseIterator(this);
@@ -617,7 +617,7 @@ typename AVLLeaf<K,T,C>::RangeBasedReverseIterator AVLLeaf<K,T,C>::getReverseIte
  *
  * @return Range based const reverse iterator
  */
-template <class K, class T, class C>
+template<class K, class T, class C>
 typename AVLLeaf<K,T,C>::RangeBasedConstReverseIterator AVLLeaf<K,T,C>::getConstReverseIterator()
 {
     return RangeBasedConstReverseIterator(this);
@@ -633,7 +633,7 @@ typename AVLLeaf<K,T,C>::RangeBasedConstReverseIterator AVLLeaf<K,T,C>::getConst
  * @param bst Parameter BST
  * @return This object
  */
-template <class K, class T, class C>
+template<class K, class T, class C>
 AVLLeaf<K,T,C>& AVLLeaf<K,T,C>::operator= (AVLLeaf<K,T,C> bst)
 {
     swap(bst);
@@ -645,7 +645,7 @@ AVLLeaf<K,T,C>& AVLLeaf<K,T,C>::operator= (AVLLeaf<K,T,C> bst)
  * @brief Swap BST with another one
  * @param bst BST to be swapped with this object
  */
-template <class K, class T, class C>
+template<class K, class T, class C>
 void AVLLeaf<K,T,C>::swap(AVLLeaf<K,T,C>& bst)
 {
     using std::swap;
@@ -660,7 +660,7 @@ void AVLLeaf<K,T,C>::swap(AVLLeaf<K,T,C>& bst)
  * @param b1 First BST
  * @param b2 Second BST
  */
-template <class K, class T, class C>
+template<class K, class T, class C>
 void swap(AVLLeaf<K,T,C>& b1, AVLLeaf<K,T,C>& b2)
 {
     b1.swap(b2);
@@ -672,7 +672,7 @@ void swap(AVLLeaf<K,T,C>& b1, AVLLeaf<K,T,C>& b2)
 /**
  * @brief Initialization of the BST
  */
-template <class K, class T, class C>
+template<class K, class T, class C>
 void AVLLeaf<K,T,C>::initialize()
 {
     this->root = nullptr;

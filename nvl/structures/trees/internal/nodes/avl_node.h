@@ -18,7 +18,7 @@ namespace internal {
  * @brief The node of the binary search tree
  *
  */
-template <class K, class T>
+template<class K, class T>
 class AVLNode {
 
 public:

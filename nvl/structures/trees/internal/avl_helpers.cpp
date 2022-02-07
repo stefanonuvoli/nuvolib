@@ -20,7 +20,7 @@ namespace internal {
  * @param node Root node
  * @return Max height of the subtree
  */
-template <class Node>
+template<class Node>
 TreeSize getHeightHelper(const Node* node)
 {
     if (node == nullptr)
@@ -34,7 +34,7 @@ TreeSize getHeightHelper(const Node* node)
  *
  * @param node Starting node
  */
-template <class Node>
+template<class Node>
 void updateHeightHelper(Node* node)
 {
     if (node != nullptr) {
@@ -60,7 +60,7 @@ void updateHeightHelper(Node* node)
  * @param node Starting node
  * @param node Root node of the BST
  */
-template <class Node>
+template<class Node>
 void rebalanceHelper(Node* node, Node*& rootNode)
 {
     //Null handler
@@ -134,7 +134,7 @@ void rebalanceHelper(Node* node, Node*& rootNode)
  * @param node Starting node
  * @param node Root node of the BST
  */
-template <class Node>
+template<class Node>
 void updateHeightAndRebalanceHelper(Node* node, Node*& rootNode)
 {
     updateHeightHelper(node);
@@ -152,7 +152,7 @@ void updateHeightAndRebalanceHelper(Node* node, Node*& rootNode)
  * @param a Node to be rotated
  * @return New node in the position of the original node after the rotation
  */
-template <class Node>
+template<class Node>
 Node* leftRotateHelper(Node* a)
 {
     Node *b = a->right;
@@ -186,7 +186,7 @@ Node* leftRotateHelper(Node* a)
  * @param a Node to be rotated
  * @return New node in the position of the original node after the rotation
  */
-template <class Node>
+template<class Node>
 Node* rightRotateHelper(Node* a)
 {
     Node* b = a->left;

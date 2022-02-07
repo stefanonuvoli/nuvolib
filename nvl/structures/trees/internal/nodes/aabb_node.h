@@ -19,7 +19,7 @@ namespace internal {
  * @brief The node of the AABB tree
  *
  */
-template <int D, class K, class T>
+template<int D, class K, class T>
 class AABBNode {
 
 public:

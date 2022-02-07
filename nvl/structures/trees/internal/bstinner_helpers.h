@@ -20,26 +20,26 @@ namespace internal {
 
 /* Basic BST operation helpers */
 
-template <class Node, class K, class C>
+template<class Node, class K, class C>
 inline Node* insertNodeHelperInner(Node*& newNode, Node*& rootNode, C& comparator);
 
-template <class Node>
+template<class Node>
 inline Node* eraseNodeHelperInner(Node*& node, Node*& rootNode);
 
-template <class Node, class K, class C>
+template<class Node, class K, class C>
 inline Node* findNodeHelperInner(const K& key, Node* rootNode, C& comparator);
 
-template <class Node, class K, class C>
+template<class Node, class K, class C>
 inline Node* findLowerHelperInner(const K& key, Node* rootNode, C& comparator);
 
-template <class Node, class K, class C>
+template<class Node, class K, class C>
 inline Node* findUpperHelperInner(const K& key, Node* rootNode, C& comparator);
 
 
 
 /* Construction helpers */
 
-template <class Node, class K, class C>
+template<class Node, class K, class C>
 inline TreeSize constructionMedianHelperInner(
         std::vector<Node*>& sortedNodes,
         const TreeSize start, const TreeSize end,
@@ -50,18 +50,18 @@ inline TreeSize constructionMedianHelperInner(
 
 /* Range query helpers */
 
-template <class Node, class K, class C>
+template<class Node, class K, class C>
 inline Node* findSplitNodeHelperInner(
         const K& start, const K& end,
         Node* rootNode,
         C& comparator);
 
-template <class Node>
+template<class Node>
 inline void reportSubTreeHelperInner(
         Node* node,
         std::vector<Node*>& out);
 
-template <class Node, class K, class C>
+template<class Node, class K, class C>
 inline void rangeQueryHelperInner(
         const K& start, const K& end,
         std::vector<Node*> &out,
@@ -72,16 +72,16 @@ inline void rangeQueryHelperInner(
 
 /* Successors/Predecessors Min/Max */
 
-template <class Node>
+template<class Node>
 inline Node* getSuccessorHelperInner(Node* node);
 
-template <class Node>
+template<class Node>
 inline Node* getPredecessorHelperInner(Node* node);
 
-template <class Node>
+template<class Node>
 inline Node* getMinimumHelperInner(Node* node);
 
-template <class Node>
+template<class Node>
 inline Node* getMaximumHelperInner(Node* node);
 
 }

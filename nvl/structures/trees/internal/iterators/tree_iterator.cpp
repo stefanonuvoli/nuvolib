@@ -14,14 +14,14 @@ namespace nvl {
 /* --------- ITERATOR OPERATOR OVERLOAD --------- */
 
 
-template <class B, class N, class T>
+template<class B, class N, class T>
 bool TreeIterator<B,N,T>::operator ==(
         const TreeIterator& otherIterator) const
 {
     return (this->node == otherIterator.node);
 }
 
-template <class B, class N, class T>
+template<class B, class N, class T>
 bool TreeIterator<B,N,T>::operator !=(const TreeIterator& otherIterator) const
 {
     return !(*this == otherIterator);
@@ -30,14 +30,14 @@ bool TreeIterator<B,N,T>::operator !=(const TreeIterator& otherIterator) const
 
 
 
-template <class B, class N, class T>
+template<class B, class N, class T>
 TreeIterator<B,N,T> TreeIterator<B,N,T>::operator ++()
 {
     this->next();
     return *this;
 }
 
-template <class B, class N, class T>
+template<class B, class N, class T>
 TreeIterator<B,N,T> TreeIterator<B,N,T>::operator ++(int)
 {
     TreeIterator oldIt = *this;
@@ -45,7 +45,7 @@ TreeIterator<B,N,T> TreeIterator<B,N,T>::operator ++(int)
     return oldIt;
 }
 
-template <class B, class N, class T>
+template<class B, class N, class T>
 TreeIterator<B,N,T> TreeIterator<B,N,T>::operator +(int n)
 {
     TreeIterator newIt = *this;
@@ -55,7 +55,7 @@ TreeIterator<B,N,T> TreeIterator<B,N,T>::operator +(int n)
     return newIt;
 }
 
-template <class B, class N, class T>
+template<class B, class N, class T>
 TreeIterator<B,N,T> TreeIterator<B,N,T>::operator +=(int n)
 {
     for (int i = 0; i < n; i++) {
@@ -68,14 +68,14 @@ TreeIterator<B,N,T> TreeIterator<B,N,T>::operator +=(int n)
 
 
 
-template <class B, class N, class T>
+template<class B, class N, class T>
 TreeIterator<B,N,T> TreeIterator<B,N,T>::operator --()
 {
     this->prev();
     return *this;
 }
 
-template <class B, class N, class T>
+template<class B, class N, class T>
 TreeIterator<B,N,T> TreeIterator<B,N,T>::operator --(int)
 {
     TreeIterator oldIt = *this;
@@ -83,7 +83,7 @@ TreeIterator<B,N,T> TreeIterator<B,N,T>::operator --(int)
     return oldIt;
 }
 
-template <class B, class N, class T>
+template<class B, class N, class T>
 TreeIterator<B,N,T> TreeIterator<B,N,T>::operator -(int n)
 {
     TreeIterator newIt = *this;
@@ -93,7 +93,7 @@ TreeIterator<B,N,T> TreeIterator<B,N,T>::operator -(int n)
     return newIt;
 }
 
-template <class B, class N, class T>
+template<class B, class N, class T>
 TreeIterator<B,N,T> TreeIterator<B,N,T>::operator -=(int n)
 {
     for (int i = 0; i < n; i++) {
@@ -103,7 +103,7 @@ TreeIterator<B,N,T> TreeIterator<B,N,T>::operator -=(int n)
 }
 
 
-template <class B, class N, class T>
+template<class B, class N, class T>
 T& TreeIterator<B,N,T>::operator *() const
 {
     return *(this->node->value);
@@ -113,12 +113,12 @@ T& TreeIterator<B,N,T>::operator *() const
 
 /* ----- PROTECTED METHODS ----- */
 
-template <class B, class N, class T>
+template<class B, class N, class T>
 void TreeIterator<B,N,T>::next() {
     this->node = this->bst->getNext(*this).node;
 }
 
-template <class B, class N, class T>
+template<class B, class N, class T>
 void TreeIterator<B,N,T>::prev() {
     if (this->node == nullptr) {
         this->node = this->bst->getMax().node;

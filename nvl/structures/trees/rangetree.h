@@ -36,7 +36,7 @@ namespace nvl {
  * searches in just a subset of the dimensions of the object.
  *
  */
-template <class K, class T = K, class C = DefaultComparatorType<K>>
+template<class K, class T = K, class C = DefaultComparatorType<K>>
 class RangeTree
 {
 
@@ -103,7 +103,7 @@ public:
     size_t getHeight() const;
 
 
-    template <class OutputIterator>
+    template<class OutputIterator>
     void rangeQuery(
             const K& start, const K& end,
             OutputIterator out);
@@ -229,7 +229,7 @@ protected:
 };
 
 
-template <class K, class T, class C>
+template<class K, class T, class C>
 void swap(RangeTree<K,T,C>& b1, RangeTree<K,T,C>& b2);
 
 }

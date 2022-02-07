@@ -15,7 +15,7 @@ namespace nvl {
 /**
  * @brief The insert iterator class for BST
  */
-template <class B, class K>
+template<class B, class K>
 class TreeInsertIterator :
         public std::iterator<std::output_iterator_tag,void,void,void,void>  {
 public:
