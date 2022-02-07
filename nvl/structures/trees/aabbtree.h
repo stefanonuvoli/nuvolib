@@ -80,8 +80,8 @@ public:
              const AABBValueExtractor customAABBExtractor,
              const C& customComparator = &internal::defaultComparator<K>);
 
-    AABBTree(const AABBTree<D,K,T,C>& bst);
-    AABBTree(AABBTree<D,K,T,C>&& bst);
+    AABBTree(const AABBTree<D,K,T,C>& aabbTree);
+    AABBTree(AABBTree<D,K,T,C>&& aabbTree);
 
     ~AABBTree();
 
