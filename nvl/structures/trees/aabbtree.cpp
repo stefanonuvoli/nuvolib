@@ -83,29 +83,29 @@ AABBTree<D,K,T,C>::AABBTree(
 
 /**
  * @brief Copy constructor
- * @param bst BST
+ * @param aabbTree AABB tree
  */
 template <int D, class K, class T, class C>
-AABBTree<D,K,T,C>::AABBTree(const AABBTree<D,K,T,C>& bst) :
-    comparator(bst.comparator),
-    aabbValueExtractor(bst.aabbValueExtractor)
+AABBTree<D,K,T,C>::AABBTree(const AABBTree<D,K,T,C>& aabbTree) :
+    comparator(aabbTree.comparator),
+    aabbValueExtractor(aabbTree.aabbValueExtractor)
 {
-    this->root = internal::copySubtreeHelper<Node,T>(bst.root);
-    this->entries = bst.entries;
+    this->root = internal::copySubtreeHelper<Node,T>(aabbTree.root);
+    this->entries = aabbTree.entries;
 }
 
 /**
  * @brief Move constructor
- * @param bst BST
+ * @param aabbTree AABB tree
  */
 template <int D, class K, class T, class C>
-AABBTree<D,K,T,C>::AABBTree(AABBTree<D,K,T,C>&& bst) :
-    comparator(bst.comparator),
-    aabbValueExtractor(bst.aabbValueExtractor)
+AABBTree<D,K,T,C>::AABBTree(AABBTree<D,K,T,C>&& aabbTree) :
+    comparator(aabbTree.comparator),
+    aabbValueExtractor(aabbTree.aabbValueExtractor)
 {
-    this->root = bst.root;
-    bst.root = nullptr;
-    this->entries = bst.entries;
+    this->root = aabbTree.root;
+    aabbTree.root = nullptr;
+    this->entries = aabbTree.entries;
 }
 
 /**
@@ -126,7 +126,7 @@ AABBTree<D,K,T,C>::~AABBTree()
 
 
 /**
- * @brief Construction of the BST given the initial values
+ * @brief Construction of the AABB tree given the initial values
  *
  * A clear operation is performed before the construction
  *
@@ -145,7 +145,7 @@ void AABBTree<D,K,T,C>::construction(const std::vector<K>& vec)
 }
 
 /**
- * @brief Construction of the BST given the initial values (pairs of
+ * @brief Construction of the AABB tree given the initial values (pairs of
  * keys/values)
  *
  * A clear operation is performed before the construction
@@ -195,7 +195,7 @@ void AABBTree<D,K,T,C>::construction(const std::vector<std::pair<K,T>>& vec)
 
 
 /**
- * @brief Insert in the BST a given value
+ * @brief Insert in the AABB tree a given value
  *
  * @param key Key/value to be inserted
  * @return The iterator pointing to the node if it has been
@@ -208,7 +208,7 @@ typename AABBTree<D,K,T,C>::iterator AABBTree<D,K,T,C>::insert(const K& key)
 }
 
 /**
- * @brief Insert in the BST a given value with the given key
+ * @brief Insert in the AABB tree a given value with the given key
  *
  * If an entry with the same key is already contained, the new
  * entry will be not inserted
@@ -253,7 +253,7 @@ typename AABBTree<D,K,T,C>::iterator AABBTree<D,K,T,C>::insert(
 
 
 /**
- * @brief Erase value from BST given the key
+ * @brief Erase value from AABB tree given the key
  *
  * @param key Key of the node
  * @return True if item has been found and then erased, false otherwise
@@ -261,7 +261,7 @@ typename AABBTree<D,K,T,C>::iterator AABBTree<D,K,T,C>::insert(
 template <int D, class K, class T, class C>
 bool AABBTree<D,K,T,C>::erase(const K& key)
 {
-    //Query the BST to find the node
+    //Query the AABB tree to find the node
     Node* node = internal::findNodeHelperLeaf(key, this->root, comparator);
 
     //If the node has been found
@@ -284,7 +284,7 @@ bool AABBTree<D,K,T,C>::erase(const K& key)
 }
 
 /**
- * @brief Erase an entry from BST given the iterator.
+ * @brief Erase an entry from AABB tree given the iterator.
  * Note that iterator is not changed after element is removed
  *
  * @param it A generic iterator pointing to the node to be erased
@@ -292,7 +292,7 @@ bool AABBTree<D,K,T,C>::erase(const K& key)
 template <int D, class K, class T, class C>
 void AABBTree<D,K,T,C>::erase(generic_iterator it)
 {
-    //Throw exception if the iterator does not belong to this BST
+    //Throw exception if the iterator does not belong to this AABB tree
     if (it.bst != this) {
         throw new std::runtime_error("A tree can only use its own nodes.");
     }
@@ -319,16 +319,16 @@ void AABBTree<D,K,T,C>::erase(generic_iterator it)
 
 
 /**
- * @brief Find entry in the BST given the key
+ * @brief Find entry in the AABB tree given the key
  *
  * @param key Key of the node to be found
- * @return The iterator pointing to the BST node if the element
- * is contained in the BST, end iterator otherwise
+ * @return The iterator pointing to the AABB tree node if the element
+ * is contained in the AABB tree, end iterator otherwise
  */
 template <int D, class K, class T, class C>
 typename AABBTree<D,K,T,C>::iterator AABBTree<D,K,T,C>::find(const K& key)
 {
-    //Query the BST to find the node
+    //Query the AABB tree to find the node
     Node* node = internal::findNodeHelperLeaf(key, this->root, comparator);
 
     return iterator(this, node);
@@ -356,9 +356,9 @@ void AABBTree<D,K,T,C>::clear()
 
 
 /**
- * @brief Get the number of entries in the BST
+ * @brief Get the number of entries in the AABB tree
  *
- * @return Number of entries in the BST
+ * @return Number of entries in the AABB tree
  */
 template <int D, class K, class T, class C>
 TreeSize AABBTree<D,K,T,C>::size()
@@ -369,7 +369,7 @@ TreeSize AABBTree<D,K,T,C>::size()
 /**
  * @brief Check if tree in empty
  *
- * @return True if the BST is empty, false otherwise
+ * @return True if the AABB tree is empty, false otherwise
  */
 template <int D, class K, class T, class C>
 bool AABBTree<D,K,T,C>::empty()
@@ -393,7 +393,7 @@ TreeSize AABBTree<D,K,T,C>::getHeight()
 
 
 /**
- * @brief Find entries in the BST that are enclosed in a given range.
+ * @brief Find entries in the AABB tree that are enclosed in a given range.
  * Start and end are included bounds of the range.
  *
  * @param start Starting value of the range
@@ -473,7 +473,7 @@ bool AABBTree<D,K,T,C>::aabbOverlapCheck(
 /* ----- ITERATOR MIN/MAX NEXT/PREV ----- */
 
 /**
- * @brief Get minimum key entry in the BST
+ * @brief Get minimum key entry in the AABB tree
  *
  * @return The iterator pointing to the minimum node
  */
@@ -484,7 +484,7 @@ typename AABBTree<D,K,T,C>::iterator AABBTree<D,K,T,C>::getMin()
 }
 
 /**
- * @brief Get maximum key entry in the BST
+ * @brief Get maximum key entry in the AABB tree
  *
  * @return The iterator pointing to the maximum node
  */
@@ -506,7 +506,7 @@ typename AABBTree<D,K,T,C>::iterator AABBTree<D,K,T,C>::getMax()
 template <int D, class K, class T, class C>
 typename AABBTree<D,K,T,C>::generic_iterator AABBTree<D,K,T,C>::getNext(generic_iterator it)
 {
-    //Throw exception if the iterator does not belong to this BST
+    //Throw exception if the iterator does not belong to this AABB tree
     if (it.bst != this) {
         throw new std::runtime_error("A tree can only use its own nodes.");
     }
@@ -523,7 +523,7 @@ typename AABBTree<D,K,T,C>::generic_iterator AABBTree<D,K,T,C>::getNext(generic_
 template <int D, class K, class T, class C>
 typename AABBTree<D,K,T,C>::generic_iterator AABBTree<D,K,T,C>::getPrev(generic_iterator it)
 {
-    //Throw exception if the iterator does not belong to this BST
+    //Throw exception if the iterator does not belong to this AABB tree
     if (it.bst != this) {
         throw new std::runtime_error("A tree can only use its own nodes.");
     }
@@ -623,7 +623,7 @@ typename AABBTree<D,K,T,C>::insert_iterator AABBTree<D,K,T,C>::inserter()
 
 
 /**
- * @brief Get range based iterator of the BST
+ * @brief Get range based iterator of the AABB tree
  *
  * @return Range based iterator
  */
@@ -634,7 +634,7 @@ typename AABBTree<D,K,T,C>::RangeBasedIterator AABBTree<D,K,T,C>::getIterator()
 }
 
 /**
- * @brief Get range based const iterator of the BST
+ * @brief Get range based const iterator of the AABB tree
  *
  * @return Range based const iterator
  */
@@ -645,7 +645,7 @@ typename AABBTree<D,K,T,C>::RangeBasedConstIterator AABBTree<D,K,T,C>::getConstI
 }
 
 /**
- * @brief Get range based reverse iterator of the BST
+ * @brief Get range based reverse iterator of the AABB tree
  *
  * @return Range based reverse iterator
  */
@@ -656,7 +656,7 @@ typename AABBTree<D,K,T,C>::RangeBasedReverseIterator AABBTree<D,K,T,C>::getReve
 }
 
 /**
- * @brief Get range based const reverse iterator of the BST
+ * @brief Get range based const reverse iterator of the AABB tree
  *
  * @return Range based const reverse iterator
  */
@@ -671,36 +671,36 @@ typename AABBTree<D,K,T,C>::RangeBasedConstReverseIterator AABBTree<D,K,T,C>::ge
 
 /**
  * @brief Assignment operator
- * @param bst Parameter BST
+ * @param aabbTree Parameter AABB tree
  * @return This object
  */
 template <int D, class K, class T, class C>
-AABBTree<D,K,T,C>& AABBTree<D,K,T,C>::operator= (AABBTree<D,K,T,C> bst)
+AABBTree<D,K,T,C>& AABBTree<D,K,T,C>::operator= (AABBTree<D,K,T,C> aabbTree)
 {
-    swap(bst);
+    swap(aabbTree);
     return *this;
 }
 
 
 /**
- * @brief Swap BST with another one
- * @param bst BST to be swapped with this object
+ * @brief Swap AABB tree with another one
+ * @param aabbTree AABB tree to be swapped with this object
  */
 template <int D, class K, class T, class C>
-void AABBTree<D,K,T,C>::swap(AABBTree<D,K,T,C>& bst)
+void AABBTree<D,K,T,C>::swap(AABBTree<D,K,T,C>& aabbTree)
 {
     using std::swap;
-    swap(this->root, bst.root);
-    swap(this->entries, bst.entries);
-    swap(this->comparator, bst.comparator);
-    swap(this->aabbValueExtractor, bst.aabbValueExtractor);
+    swap(this->root, aabbTree.root);
+    swap(this->entries, aabbTree.entries);
+    swap(this->comparator, aabbTree.comparator);
+    swap(this->aabbValueExtractor, aabbTree.aabbValueExtractor);
 }
 
 
 /**
  * @brief Swap graph with another one
- * @param b1 First BST
- * @param b2 Second BST
+ * @param b1 First AABB tree
+ * @param b2 Second AABB tree
  */
 template <int D, class K, class T, class C>
 void swap(AABBTree<D,K,T,C>& b1, AABBTree<D,K,T,C>& b2)
@@ -712,7 +712,7 @@ void swap(AABBTree<D,K,T,C>& b1, AABBTree<D,K,T,C>& b2)
 /* --------- PRIVATE METHODS --------- */
 
 /**
- * @brief Initialization of the BST
+ * @brief Initialization of the AABB tree
  */
 template <int D, class K, class T, class C>
 void AABBTree<D,K,T,C>::initialize()
@@ -956,7 +956,7 @@ void AABBTree<D,K,T,C>::rebalanceAABBHelper(
  * rebalance them if needed
  *
  * @param node Starting node
- * @param node Root node of the BST
+ * @param node Root node of the AABB tree
  * @param aabbValueExtractor AABB extractor for key
  */
 template <int D, class K, class T, class C>
