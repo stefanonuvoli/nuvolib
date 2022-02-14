@@ -36,10 +36,12 @@ int main(int argc, char *argv[])
 
 	//Creating AABBtree (for Segment2D)
 	std::cout << "Creating AABB trees with comparators..." << std::endl;
-	AABBTree aabbTree(
+    AABBTree abbTree(
 				segmentVec,
 				&aabbValueExtractor, //AABB value extractor
 				&segment2DCustomComparator); //Comparator (if omitted, < is the default)
+
+    const AABBTree& aabbTree = abbTree;
 
 
 	//Insert objects: ([-1,-5], [3,2]) | ([1,2], [4,3]) | ([4,3], [4,8])
@@ -174,8 +176,7 @@ int main(int argc, char *argv[])
 
 	//Clear
 	std::cout << "Clear AABB tree..." << std::endl;
-	aabbTree.clear();
-
+    aabbTree.clear();
 
 	std::cout << std::endl;
 

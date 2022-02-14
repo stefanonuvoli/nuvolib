@@ -10,6 +10,8 @@
 
 #include <vector>
 
+#include <stddef.h>
+
 namespace nvl {
 
 namespace internal {
@@ -156,6 +158,47 @@ template<class Node, class K, class C>
 Node* findNodeHelperLeaf(
         const K& key,
         Node* rootNode,
+        C& comparator)
+{
+    if (rootNode == nullptr)
+        return nullptr;
+
+    Node* node = rootNode;
+
+    //Travel in the BST until a leaf is found
+    while (!node->isLeaf()) {
+        if (isLess(key, node->key, comparator)) {
+            node = node->left;
+        }
+        else {
+            node = node->right;
+        }
+        assert(node != nullptr);
+    }
+
+    //If node has the input key, then the node is found
+    if (isEqual(node->key, key, comparator)) {
+        return node;
+    }
+
+    return nullptr;
+}
+
+/**
+ * @brief Find an entry on the BST given a key
+ *
+ * @param key Key of the node to be found
+ * @param rootNode Root node of the BST
+ * @param comparator Less comparator for keys
+ *
+ * @return If the node with a given value is found, then its pointer
+ * is returned. Otherwise a null pointer is returned.
+ *
+ */
+template<class Node, class K, class C>
+const Node* findNodeHelperLeaf(
+        const K& key,
+        const Node* rootNode,
         C& comparator)
 {
     if (rootNode == nullptr)

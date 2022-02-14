@@ -11,7 +11,6 @@ SOURCES += \
     $$PWD/containers/vector_with_delete.cpp
 
 
-
 #Graphs
 
 HEADERS += \
@@ -47,18 +46,21 @@ HEADERS += \
     $$PWD/trees/internal/bstinner_helpers.h \
     $$PWD/trees/internal/bstleaf_helpers.h \
     $$PWD/trees/internal/avl_helpers.h \
+    $$PWD/trees/internal/nodes/bst_node.h \
+    $$PWD/trees/internal/nodes/avl_node.h \
+    $$PWD/trees/internal/nodes/rangetree_node.h \
+    $$PWD/trees/internal/rangetree_types.h \
+    $$PWD/trees/internal/nodes/aabb_node.h \
+    $$PWD/trees/internal/nodes/octree_node.h \
     $$PWD/trees/bst.h \
     $$PWD/trees/bstinner.h \
     $$PWD/trees/bstleaf.h \
-    $$PWD/trees/internal/nodes/bst_node.h \
     $$PWD/trees/avlinner.h \
     $$PWD/trees/avlleaf.h \
-    $$PWD/trees/internal/nodes/avl_node.h \
     $$PWD/trees/rangetree.h \
-    $$PWD/trees/internal/nodes/rangetree_node.h \
-    $$PWD/trees/internal/rangetree_types.h \
     $$PWD/trees/aabbtree.h \
-    $$PWD/trees/internal/nodes/aabb_node.h
+    $$PWD/trees/octree.h
+
 
 SOURCES += \
     $$PWD/trees/internal/iterators/tree_insertiterator.cpp \
@@ -69,14 +71,16 @@ SOURCES += \
     $$PWD/trees/internal/bstinner_helpers.cpp \
     $$PWD/trees/internal/bstleaf_helpers.cpp \
     $$PWD/trees/internal/avl_helpers.cpp \
-    $$PWD/trees/bstinner.cpp \
-    $$PWD/trees/bstleaf.cpp \
     $$PWD/trees/internal/nodes/bst_node.cpp \
-    $$PWD/trees/avlinner.cpp \
-    $$PWD/trees/avlleaf.cpp \
     $$PWD/trees/internal/nodes/avl_node.cpp \
-    $$PWD/trees/rangetree.cpp \
     $$PWD/trees/internal/nodes/rangetree_node.cpp \
     $$PWD/trees/internal/rangetree_types.cpp \
+    $$PWD/trees/internal/nodes/aabb_node.cpp \
+    $$PWD/trees/internal/nodes/octree_node.cpp \
+    $$PWD/trees/bstinner.cpp \
+    $$PWD/trees/bstleaf.cpp \
+    $$PWD/trees/avlinner.cpp \
+    $$PWD/trees/avlleaf.cpp \
+    $$PWD/trees/rangetree.cpp \
     $$PWD/trees/aabbtree.cpp \
-    $$PWD/trees/internal/nodes/aabb_node.cpp
+    $$PWD/trees/octree.cpp

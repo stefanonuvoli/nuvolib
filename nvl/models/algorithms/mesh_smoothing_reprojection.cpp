@@ -4,10 +4,11 @@
  *
  * @author Stefano Nuvoli (stefano.nuvoli@gmail.com)
  */
-#include "mesh_smoothing.h"
+#include "mesh_smoothing_reprojection.h"
 
 #include <nvl/models/algorithms/mesh_adjacencies.h>
 #include <nvl/models/algorithms/mesh_borders.h>
+#include <nvl/models/algorithms/mesh_octree.h>
 
 #include <nvl/math/cotangent_weights.h>
 #include <nvl/math/comparisons.h>
@@ -15,94 +16,125 @@
 namespace nvl {
 
 /**
- * @brief Laplacian smoothing on mesh, given a constant alpha for each vertex
+ * @brief laplacian smoothing with reprojection on mesh, given a constant alpha for each vertex
  * @param mesh Mesh
  * @param iterations Number of iterations
  * @param alpha Constant alpha for each vertex. A value between 0 and 1, it
  * represents the weight of the original coordinates
+ * @param maxBoxElements Max elements in each box of the octree
+ * @param maxBoxRadius Max radius of each box of the octree
  */
 template<class Mesh>
-void meshLaplacianSmoothing(
-        Mesh& mesh,
-        const unsigned int iterations,
-        const double alpha)
-{
-    typedef typename Mesh::VertexId VertexId;
-    const std::vector<std::vector<VertexId>> vvAdj = meshVertexVertexAdjacencies(mesh);
-    meshLaplacianSmoothing(mesh, iterations, alpha, vvAdj);
-}
-
-/**
- * @brief Laplacian smoothing on mesh, given a alpha for each vertex
- * @param mesh Mesh
- * @param alphas Alpha for each vertex. A value between 0 and 1, it represents
- * the weight of the original coordinates
- * @param iterations Number of iterations
- */
-template<class Mesh>
-void meshLaplacianSmoothing(
-        Mesh& mesh,
-        const unsigned int iterations,
-        const std::vector<double>& alphas)
-{
-    typedef typename Mesh::VertexId VertexId;
-    const std::vector<std::vector<VertexId>> vvAdj = meshVertexVertexAdjacencies(mesh);
-    meshLaplacianSmoothing(mesh, iterations, alphas, vvAdj);
-}
-/**
- * @brief Laplacian smoothing on mesh subset, given a constant alpha for each vertex
- * @param mesh Mesh
- * @param vertices Vertices to be smoothed
- * @param iterations Number of iterations
- * @param alpha Constant alpha for each vertex. A value between 0 and 1, it
- * represents the weight of the original coordinates
- */
-template<class Mesh>
-void meshLaplacianSmoothing(
-        Mesh& mesh,
-        const std::vector<typename Mesh::VertexId>& vertices,
-        const unsigned int iterations,
-        const double alpha)
-{
-    typedef typename Mesh::VertexId VertexId;
-    const std::vector<std::vector<VertexId>> vvAdj = meshVertexVertexAdjacencies(mesh);
-    meshLaplacianSmoothing(mesh, vertices, iterations, alpha, vvAdj);
-}
-/**
- * @brief Laplacian smoothing on mesh subset, given a constant alpha for each vertex
- * @param mesh Mesh
- * @param vertices Vertices to be smoothed
- * @param alphas Alpha for each vertex. A value between 0 and 1, it represents
- * the weight of the original coordinates
- * @param iterations Number of iterations
- */
-template<class Mesh>
-void meshLaplacianSmoothing(
-        Mesh& mesh,
-        const std::vector<typename Mesh::VertexId>& vertices,
-        const unsigned int iterations,
-        const std::vector<double>& alphas)
-{
-    typedef typename Mesh::VertexId VertexId;
-    const std::vector<std::vector<VertexId>> vvAdj = meshVertexVertexAdjacencies(mesh);
-    meshLaplacianSmoothing(mesh, vertices, iterations, alphas, vvAdj);
-}
-
-
-/**
- * @brief Laplacian smoothing on mesh, given a constant alpha for each vertex
- * @param mesh Mesh
- * @param vvAdj Vertex-vertex adjacencies of the mesh
- * @param iterations Number of iterations
- * @param alpha Constant alpha for each vertex. A value between 0 and 1, it
- * represents the weight of the original coordinates
- */
-template<class Mesh>
-void meshLaplacianSmoothing(
+void meshLaplacianSmoothingReprojection(
         Mesh& mesh,
         const unsigned int iterations,
         const double alpha,
-        const std::vector<std::vector<typename Mesh::VertexId>>& vvAdj)
+        const Size maxBoxElements,
+        const typename Mesh::Scalar maxBoxRadius)
+{
+    typedef typename Mesh::VertexId VertexId;
+    typedef typename Mesh::FaceId FaceId;
+    const std::vector<std::vector<VertexId>> vvAdj = meshVertexVertexAdjacencies(mesh);
+    const std::vector<std::vector<FaceId>> vfAdj = meshVertexFaceAdjacencies(mesh);
+    Octree<typename Mesh::Point, typename Mesh::VertexId> octree = meshVertexOctree(mesh, maxBoxElements, maxBoxRadius);
+    meshLaplacianSmoothingReprojection(mesh, iterations, alpha, octree, vvAdj, vfAdj);
+}
+
+/**
+ * @brief laplacian smoothing with reprojection on mesh, given a alpha for each vertex
+ * @param mesh Mesh
+ * @param alphas Alpha for each vertex. A value between 0 and 1, it represents
+ * the weight of the original coordinates
+ * @param iterations Number of iterations
+ * @param maxBoxElements Max elements in each box of the octree
+ * @param maxBoxRadius Max radius of each box of the octree
+ */
+template<class Mesh>
+void meshLaplacianSmoothingReprojection(
+        Mesh& mesh,
+        const unsigned int iterations,
+        const std::vector<double>& alphas,
+        const Size maxBoxElements,
+        const typename Mesh::Scalar maxBoxRadius)
+{    
+    typedef typename Mesh::VertexId VertexId;
+    typedef typename Mesh::FaceId FaceId;
+    const std::vector<std::vector<VertexId>> vvAdj = meshVertexVertexAdjacencies(mesh);
+    const std::vector<std::vector<FaceId>> vfAdj = meshVertexFaceAdjacencies(mesh);
+    Octree<typename Mesh::Point, typename Mesh::VertexId> octree = meshVertexOctree(mesh, maxBoxElements, maxBoxRadius);
+    meshLaplacianSmoothingReprojection(mesh, iterations, alphas, octree, vvAdj, vfAdj);
+}
+/**
+ * @brief laplacian smoothing with reprojection on mesh subset, given a constant alpha for each vertex
+ * @param mesh Mesh
+ * @param vertices Vertices to be smoothed
+ * @param iterations Number of iterations
+ * @param alpha Constant alpha for each vertex. A value between 0 and 1, it
+ * represents the weight of the original coordinates
+ * @param maxBoxElements Max elements in each box of the octree
+ * @param maxBoxRadius Max radius of each box of the octree
+ */
+template<class Mesh>
+void meshLaplacianSmoothingReprojection(
+        Mesh& mesh,
+        const std::vector<typename Mesh::VertexId>& vertices,
+        const unsigned int iterations,
+        const double alpha,
+        const Size maxBoxElements,
+        const typename Mesh::Scalar maxBoxRadius)
+{
+    typedef typename Mesh::VertexId VertexId;
+    typedef typename Mesh::FaceId FaceId;
+    const std::vector<std::vector<VertexId>> vvAdj = meshVertexVertexAdjacencies(mesh);
+    const std::vector<std::vector<FaceId>> vfAdj = meshVertexFaceAdjacencies(mesh);
+    Octree<typename Mesh::Point, typename Mesh::VertexId> octree = meshVertexOctree(mesh, maxBoxElements, maxBoxRadius);
+    meshLaplacianSmoothingReprojection(mesh, vertices, iterations, alpha, octree, vvAdj, vfAdj);
+}
+/**
+ * @brief laplacian smoothing with reprojection on mesh subset, given a constant alpha for each vertex
+ * @param mesh Mesh
+ * @param vertices Vertices to be smoothed
+ * @param alphas Alpha for each vertex. A value between 0 and 1, it represents
+ * the weight of the original coordinates
+ * @param iterations Number of iterations
+ * @param maxBoxElements Max elements in each box of the octree
+ * @param maxBoxRadius Max radius of each box of the octree
+ */
+template<class Mesh>
+void meshLaplacianSmoothingReprojection(
+        Mesh& mesh,
+        const std::vector<typename Mesh::VertexId>& vertices,
+        const unsigned int iterations,
+        const std::vector<double>& alphas,
+        const Size maxBoxElements,
+        const typename Mesh::Scalar maxBoxRadius)
+{
+    typedef typename Mesh::VertexId VertexId;
+    typedef typename Mesh::FaceId FaceId;
+    const std::vector<std::vector<VertexId>> vvAdj = meshVertexVertexAdjacencies(mesh);
+    const std::vector<std::vector<FaceId>> vfAdj = meshVertexFaceAdjacencies(mesh);
+    Octree<typename Mesh::Point, typename Mesh::VertexId> octree = meshVertexOctree(mesh, maxBoxElements, maxBoxRadius);
+    meshLaplacianSmoothingReprojection(mesh, vertices, iterations, alphas, octree, vvAdj, vfAdj);
+}
+
+
+/**
+ * @brief laplacian smoothing with reprojection on mesh, given a constant alpha for each vertex
+ * @param mesh Mesh
+ * @param octree Octree for reprojection
+ * @param vvAdj Pre-computed vertex-vertex adjacencies
+ * @param iterations Number of iterations
+ * @param alpha Constant alpha for each vertex. A value between 0 and 1, it
+ * represents the weight of the original coordinates
+ */
+template<class Mesh>
+void meshLaplacianSmoothingReprojection(
+        Mesh& mesh,
+        const unsigned int iterations,
+        const double alpha,
+        Octree<typename Mesh::Point, typename Mesh::VertexId>& octree,
+        const std::vector<std::vector<typename Mesh::VertexId>>& vvAdj,
+        const std::vector<std::vector<typename Mesh::FaceId>>& vfAdj)
 {
     typedef typename Mesh::VertexId VertexId;
     typedef typename Mesh::Point Point;
@@ -111,6 +143,8 @@ void meshLaplacianSmoothing(
 
     if (epsEqual(alpha, 1.0))
         return;
+
+    Mesh meshCopy = mesh;
 
     std::vector<Point> pointVector(mesh.nextVertexId());
 
@@ -136,7 +170,9 @@ void meshLaplacianSmoothing(
                 assert(adj != NULL_ID);
                 value += adjWeight * tmpVector[adj];
             }
+
             pointVector[vId] = value;
+            pointVector[vId] = meshVertexOctreeClosestPoint(meshCopy, octree, pointVector[vId], vfAdj);
         }
     }
 
@@ -145,27 +181,32 @@ void meshLaplacianSmoothing(
         if (mesh.isVertexDeleted(vId))
             continue;
 
-        mesh.setVertexPoint(vId, pointVector[vId]);
+         mesh.setVertexPoint(vId, pointVector[vId]);
     }
 }
 
 /**
- * @brief Laplacian smoothing on mesh, given a alpha for each vertex
+ * @brief laplacian smoothing with reprojection on mesh, given a alpha for each vertex
  * @param mesh Mesh 
  * @param alphas Alpha for each vertex. A value between 0 and 1, it represents
  * the weight of the original coordinates
- * @param vvAdj Vertex-vertex adjacencies of the mesh
+ * @param octree Octree for reprojection
+ * @param vvAdj Pre-computed vertex-vertex adjacencies
  * @param iterations Number of iterations
  */
 template<class Mesh>
-void meshLaplacianSmoothing(
+void meshLaplacianSmoothingReprojection(
         Mesh& mesh,
         const unsigned int iterations,
         const std::vector<double>& alphas,
-        const std::vector<std::vector<typename Mesh::VertexId>>& vvAdj)
+        Octree<typename Mesh::Point, typename Mesh::VertexId>& octree,
+        const std::vector<std::vector<typename Mesh::VertexId>>& vvAdj,
+        const std::vector<std::vector<typename Mesh::FaceId>>& vfAdj)
 {
     typedef typename Mesh::VertexId VertexId;
     typedef typename Mesh::Point Point;
+
+    Mesh meshCopy = mesh;
 
     std::vector<Point> pointVector(mesh.nextVertexId());
 
@@ -198,7 +239,9 @@ void meshLaplacianSmoothing(
                     assert(adj != NULL_ID);
                     value += adjWeight * tmpVector[adj];
                 }
+
                 pointVector[vId] = value;
+                pointVector[vId] = meshVertexOctreeClosestPoint(meshCopy, octree, pointVector[vId], vfAdj);
             }
         }
     }
@@ -215,21 +258,24 @@ void meshLaplacianSmoothing(
 }
 
 /**
- * @brief Laplacian smoothing on mesh subset, given a constant alpha for each vertex
+ * @brief laplacian smoothing with reprojection on mesh subset, given a constant alpha for each vertex
  * @param mesh Mesh
  * @param vertices Vertices to be smoothed
  * @param iterations Number of iterations
- * @param vvAdj Vertex-vertex adjacencies of the mesh
+ * @param octree Octree for reprojection
+ * @param vvAdj Pre-computed vertex-vertex adjacencies
  * @param alpha Constant alpha for each vertex. A value between 0 and 1, it
  * represents the weight of the original coordinates
  */
 template<class Mesh>
-void meshLaplacianSmoothing(
+void meshLaplacianSmoothingReprojection(
         Mesh& mesh,
         const std::vector<typename Mesh::VertexId>& vertices,
         const unsigned int iterations,
         const double alpha,
-        const std::vector<std::vector<typename Mesh::VertexId>>& vvAdj)
+        Octree<typename Mesh::Point, typename Mesh::VertexId>& octree,
+        const std::vector<std::vector<typename Mesh::VertexId>>& vvAdj,
+        const std::vector<std::vector<typename Mesh::FaceId>>& vfAdj)
 {
     typedef typename Mesh::VertexId VertexId;
     typedef typename Mesh::Point Point;
@@ -238,6 +284,8 @@ void meshLaplacianSmoothing(
 
     if (epsEqual(alpha, 1.0))
         return;
+
+    Mesh meshCopy = mesh;
 
     std::vector<Point> pointVector(mesh.nextVertexId());
 
@@ -262,7 +310,9 @@ void meshLaplacianSmoothing(
                 assert(adj != NULL_ID);
                 value += adjWeight * tmpVector[adj];
             }
+
             pointVector[vId] = value;
+            pointVector[vId] = meshVertexOctreeClosestPoint(meshCopy, octree, pointVector[vId], vfAdj);
         }
     }
 
@@ -274,24 +324,29 @@ void meshLaplacianSmoothing(
 }
 
 /**
- * @brief Laplacian smoothing on mesh subset, given a constant alpha for each vertex
+ * @brief laplacian smoothing with reprojection on mesh subset, given a constant alpha for each vertex
  * @param mesh Mesh
  * @param vertices Vertices to be smoothed
  * @param alphas Alpha for each vertex. A value between 0 and 1, it represents
  * the weight of the original coordinates
  * @param iterations Number of iterations
- * @param vvAdj Vertex-vertex adjacencies of the mesh
+ * @param octree Octree for reprojection
+ * @param vvAdj Pre-computed vertex-vertex adjacencies
  */
 template<class Mesh>
-void meshLaplacianSmoothing(
+void meshLaplacianSmoothingReprojection(
         Mesh& mesh,
         const std::vector<typename Mesh::VertexId>& vertices,        
         const unsigned int iterations,
         const std::vector<double>& alphas,
-        const std::vector<std::vector<typename Mesh::VertexId>>& vvAdj)
+        Octree<typename Mesh::Point, typename Mesh::VertexId>& octree,
+        const std::vector<std::vector<typename Mesh::VertexId>>& vvAdj,
+        const std::vector<std::vector<typename Mesh::FaceId>>& vfAdj)
 {
     typedef typename Mesh::VertexId VertexId;
     typedef typename Mesh::Point Point;
+
+    Mesh meshCopy = mesh;
 
     std::vector<Point> pointVector(mesh.nextVertexId());
 
@@ -321,7 +376,9 @@ void meshLaplacianSmoothing(
                     assert(adj != NULL_ID);
                     value += adjWeight * tmpVector[adj];
                 }
+
                 pointVector[vId] = value;
+                pointVector[vId] = meshVertexOctreeClosestPoint(meshCopy, octree, pointVector[vId], vfAdj);
             }
         }
     }
@@ -337,115 +394,137 @@ void meshLaplacianSmoothing(
     }
 }
 
-/* Cotangent laplacian smoothing */
+/* Cotangent laplacian smoothing with reprojection */
 
 /**
- * @brief Cotangent weight laplacian smoothing
+ * @brief Cotangent weight laplacian smoothing with reprojection
  * @param mesh Mesh
  * @param iterations Number of iterations
  * @param alpha Constant alpha for each vertex. A value between 0 and 1, it
  * represents the weight of the original coordinates
+ * @param maxBoxElements Max elements in each box of the octree
+ * @param maxBoxRadius Max radius of each box of the octree
  */
 template<class Mesh>
-void meshCotangentSmoothing(
-        Mesh& mesh,
-        const unsigned int iterations,
-        const double alpha)
-{
-    typedef typename Mesh::FaceId FaceId;
-    typedef typename Mesh::VertexId VertexId;
-
-    const std::vector<std::vector<VertexId>> vvAdj = meshVertexVertexAdjacencies(mesh);
-    const std::vector<std::vector<FaceId>> vfAdj = meshVertexFaceAdjacencies(mesh);
-    meshCotangentSmoothing(mesh, iterations, alpha, vvAdj, vfAdj);
-}
-
-/**
- * @brief Cotangent weight laplacian smoothing
- * @param mesh Mesh
- * @param iterations Number of iterations
- * @param alphas Alpha for each vertex. A value between 0 and 1, it represents
- * the weight of the original coordinates
- */
-template<class Mesh>
-void meshCotangentSmoothing(
-        Mesh& mesh,
-        const unsigned int iterations,
-        const std::vector<double>& alphas)
-{
-    typedef typename Mesh::FaceId FaceId;
-    typedef typename Mesh::VertexId VertexId;
-
-    const std::vector<std::vector<VertexId>> vvAdj = meshVertexVertexAdjacencies(mesh);
-    const std::vector<std::vector<FaceId>> vfAdj = meshVertexFaceAdjacencies(mesh);
-    meshCotangentSmoothing(mesh, iterations, alphas, vvAdj, vfAdj);
-}
-
-/**
- * @brief Cotangent weight laplacian smoothing
- * @param mesh Mesh
- * @param vertices Vertices to smooth
- * @param iterations Number of iterations
- * @param alpha Constant alpha for each vertex. A value between 0 and 1, it
- * represents the weight of the original coordinates
- * @param vvAdj Pre-computed vertex-vertex adjacencies
- * @param vfAdj Pre-computed vertex-face adjacencies
- */
-template<class Mesh>
-void meshCotangentSmoothing(
-        Mesh& mesh,
-        const std::vector<typename Mesh::VertexId>& vertices,
-        const unsigned int iterations,
-        const double alpha)
-{
-    typedef typename Mesh::FaceId FaceId;
-    typedef typename Mesh::VertexId VertexId;
-
-    const std::vector<std::vector<VertexId>> vvAdj = meshVertexVertexAdjacencies(mesh);
-    const std::vector<std::vector<FaceId>> vfAdj = meshVertexFaceAdjacencies(mesh);
-    meshCotangentSmoothing(mesh, vertices, iterations, alpha, vvAdj, vfAdj);
-}
-
-/**
- * @brief Cotangent weight laplacian smoothing
- * @param mesh Mesh
- * @param vertices Vertices to smooth
- * @param iterations Number of iterations
- * @param alphas Alpha for each vertex. A value between 0 and 1, it represents
- * the weight of the original coordinates
- * @param vvAdj Pre-computed vertex-vertex adjacencies
- * @param vfAdj Pre-computed vertex-face adjacencies
- */
-template<class Mesh>
-void meshCotangentSmoothing(
-        Mesh& mesh,
-        const std::vector<typename Mesh::VertexId>& vertices,
-        const unsigned int iterations,
-        const std::vector<double>& alphas)
-{
-    typedef typename Mesh::FaceId FaceId;
-    typedef typename Mesh::VertexId VertexId;
-
-    const std::vector<std::vector<VertexId>> vvAdj = meshVertexVertexAdjacencies(mesh);
-    const std::vector<std::vector<FaceId>> vfAdj = meshVertexFaceAdjacencies(mesh);
-    meshCotangentSmoothing(mesh, vertices, iterations, alphas, vvAdj, vfAdj);
-}
-
-
-/**
- * @brief Cotangent weight laplacian smoothing
- * @param mesh Mesh
- * @param iterations Number of iterations
- * @param alpha Constant alpha for each vertex. A value between 0 and 1, it
- * represents the weight of the original coordinates
- * @param vvAdj Pre-computed vertex-vertex adjacencies
- * @param vfAdj Pre-computed vertex-face adjacencies
- */
-template<class Mesh>
-void meshCotangentSmoothing(
+void meshCotangentSmoothingReprojection(
         Mesh& mesh,
         const unsigned int iterations,
         const double alpha,
+        const Size maxBoxElements,
+        const typename Mesh::Scalar maxBoxRadius)
+{
+    typedef typename Mesh::FaceId FaceId;
+    typedef typename Mesh::VertexId VertexId;
+
+    const std::vector<std::vector<VertexId>> vvAdj = meshVertexVertexAdjacencies(mesh);
+    const std::vector<std::vector<FaceId>> vfAdj = meshVertexFaceAdjacencies(mesh);
+    Octree<typename Mesh::Point, typename Mesh::VertexId> octree = meshVertexOctree(mesh, maxBoxElements, maxBoxRadius);
+    meshCotangentSmoothingReprojection(mesh, iterations, alpha, octree, vvAdj, vfAdj);
+}
+
+/**
+ * @brief Cotangent weight laplacian smoothing with reprojection
+ * @param mesh Mesh
+ * @param iterations Number of iterations
+ * @param alphas Alpha for each vertex. A value between 0 and 1, it represents
+ * the weight of the original coordinates
+ * @param maxBoxElements Max elements in each box of the octree
+ * @param maxBoxRadius Max radius of each box of the octree
+ */
+template<class Mesh>
+void meshCotangentSmoothingReprojection(
+        Mesh& mesh,
+        const unsigned int iterations,
+        const std::vector<double>& alphas,
+        const Size maxBoxElements,
+        const typename Mesh::Scalar maxBoxRadius)
+{
+    typedef typename Mesh::FaceId FaceId;
+    typedef typename Mesh::VertexId VertexId;
+
+    const std::vector<std::vector<VertexId>> vvAdj = meshVertexVertexAdjacencies(mesh);
+    const std::vector<std::vector<FaceId>> vfAdj = meshVertexFaceAdjacencies(mesh);
+    Octree<typename Mesh::Point, typename Mesh::VertexId> octree = meshVertexOctree(mesh, maxBoxElements, maxBoxRadius);
+    meshCotangentSmoothingReprojection(mesh, iterations, alphas, octree, vvAdj, vfAdj);
+}
+
+/**
+ * @brief Cotangent weight laplacian smoothing with reprojection
+ * @param mesh Mesh
+ * @param vertices Vertices to smooth
+ * @param iterations Number of iterations
+ * @param alpha Constant alpha for each vertex. A value between 0 and 1, it
+ * represents the weight of the original coordinates
+ * @param octree Octree for reprojection
+ * @param vvAdj Pre-computed vertex-vertex adjacencies
+ * @param vfAdj Pre-computed vertex-face adjacencies
+ * @param maxBoxElements Max elements in each box of the octree
+ * @param maxBoxRadius Max radius of each box of the octree
+ */
+template<class Mesh>
+void meshCotangentSmoothingReprojection(
+        Mesh& mesh,
+        const std::vector<typename Mesh::VertexId>& vertices,
+        const unsigned int iterations,
+        const double alpha,
+        const Size maxBoxElements,
+        const typename Mesh::Scalar maxBoxRadius)
+{
+    typedef typename Mesh::FaceId FaceId;
+    typedef typename Mesh::VertexId VertexId;
+
+    const std::vector<std::vector<VertexId>> vvAdj = meshVertexVertexAdjacencies(mesh);
+    const std::vector<std::vector<FaceId>> vfAdj = meshVertexFaceAdjacencies(mesh);
+    Octree<typename Mesh::Point, typename Mesh::VertexId> octree = meshVertexOctree(mesh, maxBoxElements, maxBoxRadius);
+    meshCotangentSmoothingReprojection(mesh, vertices, iterations, alpha, octree, vvAdj, vfAdj);
+}
+
+/**
+ * @brief Cotangent weight laplacian smoothing with reprojection
+ * @param mesh Mesh
+ * @param vertices Vertices to smooth
+ * @param iterations Number of iterations
+ * @param alphas Alpha for each vertex. A value between 0 and 1, it represents
+ * the weight of the original coordinates
+ * @param vvAdj Pre-computed vertex-vertex adjacencies
+ * @param vfAdj Pre-computed vertex-face adjacencies
+ * @param maxBoxElements Max elements in each box of the octree
+ * @param maxBoxRadius Max radius of each box of the octree
+ */
+template<class Mesh>
+void meshCotangentSmoothingReprojection(
+        Mesh& mesh,
+        const std::vector<typename Mesh::VertexId>& vertices,
+        const unsigned int iterations,
+        const std::vector<double>& alphas,
+        const Size maxBoxElements,
+        const typename Mesh::Scalar maxBoxRadius)
+{
+    typedef typename Mesh::FaceId FaceId;
+    typedef typename Mesh::VertexId VertexId;
+
+    const std::vector<std::vector<VertexId>> vvAdj = meshVertexVertexAdjacencies(mesh);
+    const std::vector<std::vector<FaceId>> vfAdj = meshVertexFaceAdjacencies(mesh);
+    Octree<typename Mesh::Point, typename Mesh::VertexId> octree = meshVertexOctree(mesh, maxBoxElements, maxBoxRadius);
+    meshCotangentSmoothingReprojection(mesh, vertices, iterations, alphas, octree, vvAdj, vfAdj);
+}
+
+/**
+ * @brief Cotangent weight laplacian smoothing with reprojection
+ * @param mesh Mesh
+ * @param iterations Number of iterations
+ * @param alpha Constant alpha for each vertex. A value between 0 and 1, it
+ * represents the weight of the original coordinates
+ * @param octree Octree for reprojection
+ * @param vvAdj Pre-computed vertex-vertex adjacencies
+ * @param vfAdj Pre-computed vertex-face adjacencies
+ */
+template<class Mesh>
+void meshCotangentSmoothingReprojection(
+        Mesh& mesh,
+        const unsigned int iterations,
+        const double alpha,
+        Octree<typename Mesh::Point, typename Mesh::VertexId>& octree,
         const std::vector<std::vector<typename Mesh::VertexId>>& vvAdj,
         const std::vector<std::vector<typename Mesh::FaceId>>& vfAdj)
 {
@@ -454,6 +533,8 @@ void meshCotangentSmoothing(
     typedef typename Mesh::VertexId VertexId;
     typedef typename Mesh::Point Point;
     typedef typename Point::Scalar Scalar;
+
+    Mesh meshCopy = mesh;
 
     std::vector<Point> pointVector(mesh.nextVertexId());
 
@@ -534,6 +615,7 @@ void meshCotangentSmoothing(
                 value /= weightSum;
 
                 pointVector[vId] = (alpha * tmpVector[vId]) + ((1 - alpha) * value);
+                pointVector[vId] = meshVertexOctreeClosestPoint(meshCopy, octree, pointVector[vId], vfAdj);
             }
         }
     }
@@ -548,19 +630,21 @@ void meshCotangentSmoothing(
 }
 
 /**
- * @brief Cotangent weight laplacian smoothing
+ * @brief Cotangent weight laplacian smoothing with reprojection
  * @param mesh Mesh
  * @param iterations Number of iterations
  * @param alphas Alpha for each vertex. A value between 0 and 1, it represents
  * the weight of the original coordinates
+ * @param octree Octree for reprojection
  * @param vvAdj Pre-computed vertex-vertex adjacencies
  * @param vfAdj Pre-computed vertex-face adjacencies
  */
 template<class Mesh>
-void meshCotangentSmoothing(
+void meshCotangentSmoothingReprojection(
         Mesh& mesh,
         const unsigned int iterations,
         const std::vector<double>& alphas,
+        Octree<typename Mesh::Point, typename Mesh::VertexId>& octree,
         const std::vector<std::vector<typename Mesh::VertexId>>& vvAdj,
         const std::vector<std::vector<typename Mesh::FaceId>>& vfAdj)
 {
@@ -569,6 +653,8 @@ void meshCotangentSmoothing(
     typedef typename Mesh::VertexId VertexId;
     typedef typename Mesh::Point Point;
     typedef typename Point::Scalar Scalar;
+
+    Mesh meshCopy = mesh;
 
     std::vector<Point> pointVector(mesh.nextVertexId());
 
@@ -646,6 +732,7 @@ void meshCotangentSmoothing(
                 value /= weightSum;
 
                 pointVector[vId] = (alphas[vId] * tmpVector[vId]) + ((1 - alphas[vId]) * value);
+                pointVector[vId] = meshVertexOctreeClosestPoint(meshCopy, octree, pointVector[vId], vfAdj);
             }
         }
     }
@@ -660,21 +747,23 @@ void meshCotangentSmoothing(
 }
 
 /**
- * @brief Cotangent weight laplacian smoothing
+ * @brief Cotangent weight laplacian smoothing with reprojection
  * @param mesh Mesh
  * @param vertices Vertices to smooth
  * @param iterations Number of iterations
  * @param alpha Constant alpha for each vertex. A value between 0 and 1, it
  * represents the weight of the original coordinates
+ * @param octree Octree for reprojection
  * @param vvAdj Pre-computed vertex-vertex adjacencies
  * @param vfAdj Pre-computed vertex-face adjacencies
  */
 template<class Mesh>
-void meshCotangentSmoothing(
+void meshCotangentSmoothingReprojection(
         Mesh& mesh,
         const std::vector<typename Mesh::VertexId>& vertices,
         const unsigned int iterations,
         const double alpha,
+        Octree<typename Mesh::Point, typename Mesh::VertexId>& octree,
         const std::vector<std::vector<typename Mesh::VertexId>>& vvAdj,
         const std::vector<std::vector<typename Mesh::FaceId>>& vfAdj)
 {
@@ -683,6 +772,8 @@ void meshCotangentSmoothing(
     typedef typename Mesh::VertexId VertexId;
     typedef typename Mesh::Point Point;
     typedef typename Point::Scalar Scalar;
+
+    Mesh meshCopy = mesh;
 
     std::vector<Point> pointVector(mesh.nextVertexId());
 
@@ -757,6 +848,7 @@ void meshCotangentSmoothing(
                 value /= weightSum;
 
                 pointVector[vId] = (alpha * tmpVector[vId]) + ((1 - alpha) * value);
+                pointVector[vId] = meshVertexOctreeClosestPoint(meshCopy, octree, pointVector[vId], vfAdj);
             }
         }
     }
@@ -770,7 +862,7 @@ void meshCotangentSmoothing(
 }
 
 /**
- * @brief Cotangent weight laplacian smoothing
+ * @brief Cotangent weight laplacian smoothing with reprojection
  * @param mesh Mesh
  * @param vertices Vertices to smooth
  * @param iterations Number of iterations
@@ -780,11 +872,12 @@ void meshCotangentSmoothing(
  * @param vfAdj Pre-computed vertex-face adjacencies
  */
 template<class Mesh>
-void meshCotangentSmoothing(
+void meshCotangentSmoothingReprojection(
         Mesh& mesh,
         const std::vector<typename Mesh::VertexId>& vertices,
         const unsigned int iterations,
         const std::vector<double>& alphas,
+        Octree<typename Mesh::Point, typename Mesh::VertexId>& octree,
         const std::vector<std::vector<typename Mesh::VertexId>>& vvAdj,
         const std::vector<std::vector<typename Mesh::FaceId>>& vfAdj)
 {
@@ -793,6 +886,8 @@ void meshCotangentSmoothing(
     typedef typename Mesh::VertexId VertexId;
     typedef typename Mesh::Point Point;
     typedef typename Point::Scalar Scalar;
+
+    Mesh meshCopy = mesh;
 
     std::vector<Point> pointVector(mesh.nextVertexId());
 
@@ -867,6 +962,7 @@ void meshCotangentSmoothing(
                 value /= weightSum;
 
                 pointVector[vId] = (alphas[vId] * tmpVector[vId]) + ((1 - alphas[vId]) * value);
+                pointVector[vId] = meshVertexOctreeClosestPoint(meshCopy, octree, pointVector[vId], vfAdj);
             }
         }
     }

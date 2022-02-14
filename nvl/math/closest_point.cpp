@@ -168,4 +168,52 @@ Point<T,D> closestPointOnPlane(
     return plane.projection(point);
 }
 
+
+/**
+ * @brief Closest point on a polygon, using barycenter subdivision
+ * @param polygon Polygon vertices
+ * @param point Target point
+ * @return Closest Point
+ */
+template<class T, EigenId D>
+Point<T,D> closestPointOnPolygonBarycenterSubdivision(
+        const std::vector<Point<T,D>>& polygon,
+        const Point<T,D>& point)
+{
+    Point<T,D> closestPoint;
+
+    if (polygon.size() == 3) { //Triangle
+        closestPoint = closestPointOnTriangle(
+            polygon[0],
+            polygon[1],
+            polygon[2],
+            point);
+    }
+    else { //Polygon
+        assert(polygon.size() > 3);
+
+        Point<T,D> queryPoint = point;
+
+        //Get barycenter
+        Point<T,D> pB = barycenter(polygon);
+
+        //Calculate the closest point on the best triangle
+        T minDistance = maxLimitValue<T>();
+        for (Index j = 0; j < polygon.size(); ++j) {
+            const Index& v1 = j;
+            const Index& v2 = (j + 1) % polygon.size();
+
+            Point<T,D> currentPoint = closestPointOnTriangle(polygon[v1], polygon[v2], pB, point);
+            T distance = (point - closestPoint).norm();
+            if (distance < minDistance) {
+                closestPoint = closestPointOnTriangle(polygon[v1], polygon[v2], pB, point);
+                minDistance = distance;
+            }
+        }
+    }
+
+    return closestPoint;
+}
+
+
 }

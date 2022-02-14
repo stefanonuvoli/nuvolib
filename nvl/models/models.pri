@@ -22,10 +22,12 @@ HEADERS += \
     $$PWD/algorithms/mesh_implicit_function.h \
     $$PWD/algorithms/mesh_morphological_operations.h \
     $$PWD/algorithms/mesh_normals.h \
+    $$PWD/algorithms/mesh_octree.h \
     $$PWD/algorithms/mesh_operators.h \
     $$PWD/algorithms/mesh_refine.h \
     $$PWD/algorithms/mesh_remeshing.h \
     $$PWD/algorithms/mesh_smoothing.h \
+    $$PWD/algorithms/mesh_smoothing_reprojection.h \
     $$PWD/algorithms/mesh_split.h \
     $$PWD/algorithms/mesh_subdivision.h \
     $$PWD/algorithms/mesh_transfer.h \
@@ -123,10 +125,12 @@ SOURCES += \
     $$PWD/algorithms/mesh_implicit_function.cpp \
     $$PWD/algorithms/mesh_morphological_operations.cpp \
     $$PWD/algorithms/mesh_normals.cpp \
+    $$PWD/algorithms/mesh_octree.cpp \
     $$PWD/algorithms/mesh_operators.cpp \
     $$PWD/algorithms/mesh_refine.cpp \
     $$PWD/algorithms/mesh_remeshing.cpp \
     $$PWD/algorithms/mesh_smoothing.cpp \
+    $$PWD/algorithms/mesh_smoothing_reprojection.cpp \
     $$PWD/algorithms/mesh_split.cpp \
     $$PWD/algorithms/mesh_subdivision.cpp \
     $$PWD/algorithms/mesh_transfer.cpp \

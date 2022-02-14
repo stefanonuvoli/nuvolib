@@ -15,7 +15,11 @@
 #include <nvl/models/algorithms/mesh_transformations.h>
 #include <nvl/models/algorithms/mesh_geometric_information.h>
 #include <nvl/models/algorithms/mesh_smoothing.h>
+#include <nvl/models/algorithms/mesh_smoothing_reprojection.h>
 #include <nvl/models/io/mesh_io.h>
+
+//DELETE
+#include <chrono>
 
 int main(int argc, char *argv[]) {
     typedef nvl::PolygonMesh3d Mesh;
@@ -47,7 +51,7 @@ int main(int argc, char *argv[]) {
     Mesh mesh1, mesh2, mesh3, mesh4, mesh5;
 
     //Load mesh
-    bool success = nvl::meshLoadFromFile("../../data/bunny_2000.obj", mesh1);
+    bool success = nvl::meshLoadFromFile("../../data/bunny_5000.obj", mesh1);
     if (!success) {
         std::cout << "Impossible to load mesh." << std::endl;
         exit(1);
@@ -66,12 +70,12 @@ int main(int argc, char *argv[]) {
     mesh1.computeVertexNormals();
 
     //Copy the same mesh
-    mesh3 = mesh2 = mesh1;
+    mesh5 = mesh4 = mesh3 = mesh2 = mesh1;
 
     //We apply a transformation to the first three meshes
     double offsetX = (bbox.max()(0) - bbox.min()(0)) * 1.1;
     double offsetY = (bbox.max()(1) - bbox.min()(1)) * 1.1;
-    nvl::meshApplyTransformation(mesh1, nvl::Translation3d(-offsetX, 0, 0));
+    nvl::meshApplyTransformation(mesh1, nvl::Translation3d(-offsetX, -offsetY/2, 0));
     nvl::meshApplyTransformation(mesh3, nvl::Translation3d(+offsetX, 0, 0));
     nvl::meshApplyTransformation(mesh4, nvl::Translation3d(0, -offsetY, 0));
     nvl::meshApplyTransformation(mesh5, nvl::Translation3d(+offsetX, -offsetY, 0));
@@ -79,6 +83,23 @@ int main(int argc, char *argv[]) {
     //Smoothing
     nvl::meshLaplacianSmoothing(mesh2, 20, 0.7);
     nvl::meshCotangentSmoothing(mesh3, 20, 0.7);
+
+    //DELETE
+    using namespace std;
+    using namespace std::chrono;
+        auto start = high_resolution_clock::now();
+
+    nvl::meshLaplacianSmoothingReprojection(mesh4, 20, 0.4);
+    nvl::meshCotangentSmoothingReprojection(mesh5, 20, 0.4);
+
+    // Get ending timepoint
+    //DELETE
+    auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<microseconds>(stop - start);
+
+    //DELETE
+    cout << "Time taken by function: "
+         << duration.count() << " microseconds" << endl;
 
     //Initialize the drawers
     FaceMeshDrawer drawer1(&mesh1);
