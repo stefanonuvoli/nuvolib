@@ -29,3 +29,7 @@ FBXSDK_PATH         = /opt/fbxsdk/
 
 ### Note
 This library has been developed for research purposes, hence it is a prototype and some functionalities could have not been properly tested. Also the documentation is not complete and compilation could not be supported for all platforms. In case you have technical issues or building problems, please write to [stefano.nuvoli@gmail.com](mailto:stefano.nuvoli@gmail.com).
+
+## License
+[GPL3](LICENSE) licensed
+([FAQ](https://www.gnu.org/licenses/gpl-faq.html))
