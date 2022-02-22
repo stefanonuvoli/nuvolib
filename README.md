@@ -27,5 +27,5 @@ LIBGQLVIEWER_PATH   = /usr/lib/x86_64-linux-gnu/
 FBXSDK_PATH         = /opt/fbxsdk/
 ```
 
-###Note
+### Note
 This library has been developed for research purposes. Hence it is a prototype and some functionalities could have not been tested properly. Also the documentation is not complete and compilation could not be supported for all platforms. In case you have technical issues or building problems, please write to [stefano.nuvoli@gmail.com](mailto:stefano.nuvoli@gmail.com).
