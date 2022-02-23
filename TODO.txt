@@ -2,3 +2,4 @@
 - CMake
 - Documentation
 - Viewer: method for selecting drawables at a runtime
+- Structures: trees const correctness
