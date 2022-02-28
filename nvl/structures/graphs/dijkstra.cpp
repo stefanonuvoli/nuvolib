@@ -74,10 +74,11 @@ void dijkstra(
             assert(dist[uId] < G::MAX_WEIGHT);
 
             //If there is short path to v through u.
-            if (dist[vId] > dist[uId] + weight)
+            double newDistance = dist[uId] + weight;
+            if (dist[vId] > newDistance)
             {
                 //Update distance of v
-                dist[vId] = dist[uId] + weight;
+                dist[vId] = newDistance;
 
                 //Set predecessor
                 pred[vId] = (long long int) uId;
