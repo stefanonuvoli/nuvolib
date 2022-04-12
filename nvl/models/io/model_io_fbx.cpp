@@ -118,16 +118,22 @@ void createScene(
         const FBXData& data,
         const IOModelMode& mode);
 template<class FBXData>
+FbxNode* createMesh(
+        FbxScene* lScene,
+        const FBXData& data,
+        const IOModelMode& mode);
+template<class FBXData>
 FbxNode* createSkeleton(
         FbxScene* lScene,
         const FBXData& data,
         const IOModelMode& mode,
         std::vector<FbxNode*>& jMap);
 template<class FBXData>
-FbxNode* createMesh(
+FbxSkin* createSkin(
         FbxScene* lScene,
         const FBXData& data,
-        const IOModelMode& mode);
+        const IOModelMode& mode,
+        const std::vector<FbxNode*>& jMap);
 
 
 FbxAMatrix nodeGlobalPosition(
@@ -147,6 +153,10 @@ FbxAMatrix FBXTransformationFromMatrix(const T& t);
 FbxVector4 FBXTranslationFromTranslation(const Translation3d& tra);
 FbxVector4 FBXScalingFromScaling(const Scaling3d& sca);
 FbxVector4 FBXRotationFromRotation(const Rotation3d& rot);
+template<class V>
+FbxVector4 FBXVector4FromVector(const V& v);
+template<class V>
+FbxVector2 FBXVector2FromVector(const V& v);
 
 }
 
@@ -312,6 +322,7 @@ bool modelSaveDataToFBX(
     FBXData fbxData;
     meshSaveData(modelData.mesh, fbxData.meshData, mode.meshMode);
     skeletonSaveData(modelData.skeleton, fbxData.skeletonData, mode.skeletonMode);
+    skinningWeightsSaveData(modelData.skinningWeights, fbxData.skinningWeightsData, mode.skinningWeightsMode);
 
     createScene(lScene, fbxData, mode);
 
@@ -646,7 +657,7 @@ void handleMesh(
         }
 
         //Textures
-        for(int lTextureIndex = 0; lTextureIndex < FbxLayerElement::sTypeTextureCount; lTextureIndex++) {
+        for (int lTextureIndex = 0; lTextureIndex < FbxLayerElement::sTypeTextureCount; lTextureIndex++) {
             FbxProperty lProperty = lMaterial->FindProperty(FbxLayerElement::sTextureChannelNames[lTextureIndex]);
 
             if (!lProperty.IsValid())
@@ -711,7 +722,7 @@ void handleMesh(
     if (lMaterialElement) {
         data.meshData.faceMaterials.resize(lastFaceId + lFaceCount);
 
-        for(int i = 0; i < lFaceCount; i++) {
+        for (int i = 0; i < lFaceCount; i++) {
             Index fId = lastFaceId + i;
 
             int lMaterialIndex = 0;
@@ -754,14 +765,14 @@ void handleMesh(
         int lIndexByPolygonVertex = 0;
 
         data.meshData.faceVertexNormals.resize(lastFaceId + lFaceCount);
-        for(int i = 0; i < lFaceCount; i++) {
+        for (int i = 0; i < lFaceCount; i++) {
             Index fId = lastFaceId + i;
 
             int lPolygonSize = lMesh->GetPolygonSize(i);
 
             data.meshData.faceVertexNormals[fId].resize(lPolygonSize);
 
-            for(int j = 0; j < lPolygonSize; j++) {
+            for (int j = 0; j < lPolygonSize; j++) {
                 int lNormalIndex = 0;
 
                 if (lNormalElement->GetMappingMode() == FbxGeometryElement::eByControlPoint) {
@@ -810,14 +821,14 @@ void handleMesh(
         int lIndexByPolygonVertex = 0;
 
         data.meshData.faceVertexUVs.resize(lastFaceId + lFaceCount);
-        for(int i = 0; i < lFaceCount; i++) {
+        for (int i = 0; i < lFaceCount; i++) {
             Index fId = lastFaceId + i;
 
             int lPolygonSize = lMesh->GetPolygonSize(i);
 
             data.meshData.faceVertexUVs[fId].resize(lPolygonSize);
 
-            for(int j = 0; j < lPolygonSize; j++) {
+            for (int j = 0; j < lPolygonSize; j++) {
                 int lUVIndex = 0;
 
                 if (lUVElement->GetMappingMode() == FbxGeometryElement::eByControlPoint) {
@@ -1042,24 +1053,284 @@ void createScene(
 {
     //Build the node tree.
     FbxNode* lRootNode = lScene->GetRootNode();
+    std::vector<FbxNode*> jMap;
+    FbxNode* lMesh = nullptr;
+    FbxNode* lSkeleton = nullptr;
 
     if (mode.mesh) {
-        FbxNode* mesh = createMesh(lScene, data, mode);
-        if (mesh != nullptr) {
-            lRootNode->AddChild(mesh);
+        lMesh = createMesh(lScene, data, mode);
+        if (lMesh != nullptr) {
+            lRootNode->AddChild(lMesh);
         }
     }
 
     if (mode.skeleton) {
-        std::vector<FbxNode*> jMap;
+        lSkeleton = createSkeleton(lScene, data, mode, jMap);
+        if (lSkeleton != nullptr) {
+            lRootNode->AddChild(lSkeleton);
+        }
+    }
 
-        FbxNode* skeleton = createSkeleton(lScene, data, mode, jMap);
-        if (skeleton != nullptr) {
-            lRootNode->AddChild(skeleton);
+    if (mode.skinningWeights && lMesh != nullptr && lSkeleton != nullptr) {
+        FbxSkin* lSkin = createSkin(lScene, data, mode, jMap);
+        if (lSkin != nullptr) {
+            FbxGeometry* meshAttribute = (FbxGeometry*) lMesh->GetNodeAttribute();
+            meshAttribute->AddDeformer(lSkin);
         }
     }
 
     //TODO
+}
+
+template<class FBXData>
+FbxNode* createMesh(
+        FbxScene* lScene,
+        const FBXData& data,
+        const IOModelMode& mode)
+{
+    typedef typename FBXData::MeshData MeshData;
+    typedef typename FBXData::Point Point;
+    typedef typename FBXData::VertexNormal VertexNormal;
+    typedef typename FBXData::VertexUV VertexUV;
+    typedef typename FBXData::VertexUV VertexUV;
+    typedef typename FBXData::Material Material;
+
+    static const char* uvSetName = "UVSet";
+    const MeshData& meshData = data.meshData;
+
+    FbxNode* lNode = FbxNode::Create(lScene, "Mesh");
+    FbxMesh* lMesh = FbxMesh::Create(lScene,"Mesh");
+
+    lNode->SetNodeAttribute(lMesh);
+    lScene->AddNode(lNode);
+
+    lMesh->InitControlPoints(meshData.vertices.size());
+
+    bool normalsByVertex = meshData.vertexNormals.size() == meshData.vertices.size() && meshData.faceVertexNormals.empty();
+    bool normalsByPolygon = !normalsByVertex && !meshData.vertexNormals.empty();
+    bool uvsByVertex = meshData.vertexUVs.size() == meshData.vertices.size() && meshData.faceVertexUVs.empty();
+    bool uvsByPolygon = !uvsByVertex && !meshData.vertexUVs.empty();
+    bool materialByPolygon = !meshData.materials.empty() && !meshData.faceMaterials.empty();
+
+    FbxGeometryElementNormal* lGeometryElementNormal = nullptr;
+    FbxGeometryElementUV* lGeometryElementUV = nullptr;
+    FbxGeometryElementMaterial* lMaterialElement = nullptr;
+
+    if (mode.meshMode.materials && materialByPolygon) {
+        for (Index mId = 0; mId < meshData.materials.size(); ++mId) {
+            const Material& m = meshData.materials[mId];
+            FbxString lMaterialName(m.name().c_str());
+
+            const Color& diffuseColor = m.diffuseColor();
+            FbxDouble3 lDiffuseColor(diffuseColor.redF(), diffuseColor.greenF(), diffuseColor.blueF());
+
+            const Color& ambientColor = m.ambientColor();
+            FbxDouble3 lAmbientColor(ambientColor.redF(), ambientColor.greenF(), ambientColor.blueF());
+
+            const Color& specularColor = m.specularColor();
+            FbxDouble3 lSpecularColor(specularColor.redF(), specularColor.greenF(), specularColor.blueF());
+
+            FbxSurfaceMaterial* lMaterial = FbxSurfacePhong::Create(lScene, lMaterialName.Buffer());
+
+            FbxFileTexture* lDiffuseTexture = nullptr;
+            if (!m.diffuseMap().empty()) {
+                lDiffuseTexture = FbxFileTexture::Create(lScene,"Diffuse Texture");
+                lDiffuseTexture->SetFileName(m.diffuseMap().c_str());
+                lDiffuseTexture->SetTextureUse(FbxTexture::eStandard);
+                lDiffuseTexture->SetMappingType(FbxTexture::eUV);
+                lDiffuseTexture->SetMaterialUse(FbxFileTexture::eModelMaterial);
+                lDiffuseTexture->SetSwapUV(false);
+                lDiffuseTexture->SetTranslation(0.0, 0.0);
+                lDiffuseTexture->SetScale(1.0, 1.0);
+                lDiffuseTexture->SetRotation(0.0, 0.0);
+                if (lGeometryElementUV) {
+                    lDiffuseTexture->UVSet.Set(FbxString(uvSetName));
+                }
+            }
+
+            FbxFileTexture* lAmbientTexture = nullptr;
+            if (!m.ambientMap().empty()) {
+                lAmbientTexture = FbxFileTexture::Create(lScene,"Ambient Texture");
+                lAmbientTexture->SetFileName(m.ambientMap().c_str());
+                lAmbientTexture->SetTextureUse(FbxTexture::eStandard);
+                lAmbientTexture->SetMappingType(FbxTexture::eUV);
+                lAmbientTexture->SetMaterialUse(FbxFileTexture::eModelMaterial);
+                lAmbientTexture->SetSwapUV(false);
+                lAmbientTexture->SetTranslation(0.0, 0.0);
+                lAmbientTexture->SetScale(1.0, 1.0);
+                lAmbientTexture->SetRotation(0.0, 0.0);
+                if (lGeometryElementUV) {
+                    lAmbientTexture->UVSet.Set(FbxString(uvSetName));
+                }
+            }
+
+            FbxFileTexture* lSpecularTexture = nullptr;
+            if (!m.specularMap().empty()) {
+                lSpecularTexture = FbxFileTexture::Create(lScene,"Specular Texture");
+                lSpecularTexture->SetFileName(m.specularMap().c_str());
+                lSpecularTexture->SetTextureUse(FbxTexture::eStandard);
+                lSpecularTexture->SetMappingType(FbxTexture::eUV);
+                lSpecularTexture->SetMaterialUse(FbxFileTexture::eModelMaterial);
+                lSpecularTexture->SetSwapUV(false);
+                lSpecularTexture->SetTranslation(0.0, 0.0);
+                lSpecularTexture->SetScale(1.0, 1.0);
+                lSpecularTexture->SetRotation(0.0, 0.0);
+                if (lGeometryElementUV) {
+                    lSpecularTexture->UVSet.Set(FbxString(uvSetName));
+                }
+            }
+
+            if (m.shadingModel() == Material::ShadingModel::SHADING_STANDARD || m.shadingModel() == Material::ShadingModel::SHADING_LAMBERT) {
+                FbxSurfaceLambert* lLambertMaterial = FbxSurfaceLambert::Create(lScene, lMaterialName.Buffer());
+
+                lLambertMaterial->Ambient.Set(lAmbientColor);
+                lLambertMaterial->Diffuse.Set(lDiffuseColor);
+                lLambertMaterial->TransparencyFactor.Set(0.0);
+                lLambertMaterial->ShadingModel.Set("Lambert");
+
+                if (lDiffuseTexture) {
+                    lLambertMaterial->Diffuse.ConnectSrcObject(lDiffuseTexture);
+                    lNode->SetShadingMode(FbxNode::eTextureShading);
+                }
+                if (lAmbientTexture) {
+                    lLambertMaterial->Ambient.ConnectSrcObject(lAmbientTexture);
+                    lNode->SetShadingMode(FbxNode::eTextureShading);
+                }
+
+                lMaterial = lLambertMaterial;
+            }
+            else if (m.shadingModel() == Material::ShadingModel::SHADING_PHONG) {
+                FbxSurfacePhong* lPhongMaterial = FbxSurfacePhong::Create(lScene, lMaterialName.Buffer());
+
+                lPhongMaterial->Specular.Set(lSpecularColor);
+                lPhongMaterial->Ambient.Set(lAmbientColor);
+                lPhongMaterial->Diffuse.Set(lDiffuseColor);
+                lPhongMaterial->TransparencyFactor.Set(1.0 - m.transparency());
+                lPhongMaterial->ShadingModel.Set("Phong");
+
+                if (lDiffuseTexture) {
+                    lPhongMaterial->Diffuse.ConnectSrcObject(lDiffuseTexture);
+                    lNode->SetShadingMode(FbxNode::eTextureShading);
+                }
+                if (lAmbientTexture) {
+                    lPhongMaterial->Ambient.ConnectSrcObject(lAmbientTexture);
+                    lNode->SetShadingMode(FbxNode::eTextureShading);
+                }
+                if (lSpecularTexture) {
+                    lPhongMaterial->Specular.ConnectSrcObject(lSpecularTexture);
+                    lNode->SetShadingMode(FbxNode::eTextureShading);
+                }
+
+                lMaterial = lPhongMaterial;
+            }
+
+            //get the node of mesh, add material for it.
+            lNode->AddMaterial(lMaterial);
+        }
+    }
+
+    if (mode.meshMode.materials && materialByPolygon) {
+        lMaterialElement = lMesh->CreateElementMaterial();
+        lMaterialElement->SetMappingMode(FbxGeometryElement::eByPolygon);
+        lMaterialElement->SetReferenceMode(FbxGeometryElement::eIndexToDirect);
+    }
+    if (mode.meshMode.vertexNormals && normalsByPolygon) {
+        lGeometryElementNormal = lMesh->CreateElementNormal();
+        lGeometryElementNormal->SetMappingMode(FbxGeometryElement::eByPolygonVertex);
+        lGeometryElementNormal->SetReferenceMode(FbxGeometryElement::eDirect);
+    }
+    if (mode.meshMode.vertexUVs && uvsByPolygon) {
+        lGeometryElementUV = lMesh->CreateElementUV(FbxString(uvSetName));
+        lGeometryElementUV->SetMappingMode(FbxGeometryElement::eByPolygonVertex);
+        lGeometryElementUV->SetReferenceMode(FbxGeometryElement::eDirect);
+    }
+
+    if (mode.meshMode.vertices) {        
+        if (mode.meshMode.vertexNormals && normalsByVertex) {
+            lGeometryElementNormal = lMesh->CreateElementNormal();
+            lGeometryElementNormal->SetMappingMode(FbxGeometryElement::eByControlPoint);
+            lGeometryElementNormal->SetReferenceMode(FbxGeometryElement::eDirect);
+        }
+        if (mode.meshMode.vertexUVs && uvsByVertex) {
+            lGeometryElementUV = lMesh->CreateElementUV(FbxString(uvSetName));
+            lGeometryElementUV->SetMappingMode(FbxGeometryElement::eByControlPoint);
+            lGeometryElementUV->SetReferenceMode(FbxGeometryElement::eDirect);
+        }
+
+        for (Index vId = 0; vId < meshData.vertices.size(); ++vId) {
+            const Point& p = meshData.vertices[vId];
+            lMesh->SetControlPointAt(FBXVector4FromVector(p), vId);
+        }
+
+        if (normalsByVertex && lGeometryElementNormal) {
+            for (Index vId = 0; vId < meshData.vertices.size(); ++vId) {
+                const VertexNormal& n = meshData.vertexNormals[vId];
+                lGeometryElementNormal->GetDirectArray().Add(FBXVector4FromVector(n));
+            }
+        }
+
+        if (uvsByVertex && lGeometryElementUV) {
+            for (Index vId = 0; vId < meshData.vertices.size(); ++vId) {
+                const VertexUV& uv = meshData.vertexUVs[vId];
+                lGeometryElementUV->GetDirectArray().Add(FBXVector2FromVector(uv));
+            }
+        }
+    }
+
+    if (mode.meshMode.faces) {
+        int lIndexByPolygonVertex = 0;
+        for (Index fId = 0; fId < meshData.faces.size(); ++fId) {
+
+            if (lMaterialElement && materialByPolygon) {
+                const Index& mId = meshData.faceMaterials[fId];
+                if (mId != NULL_ID) {
+                    lMesh->BeginPolygon(mId);
+                }
+                else {
+                    lMesh->BeginPolygon(0);
+                }
+            }
+            else {
+                lMesh->BeginPolygon();
+            }
+
+            for (Index j = 0; j < meshData.faces[fId].size(); ++j) {
+                lMesh->AddPolygon(meshData.faces[fId][j]);
+
+                if (lGeometryElementNormal && normalsByPolygon) {
+                    VertexNormal n(0,0,0);
+
+                    if (!meshData.faceVertexNormals.empty() && j < meshData.faceVertexNormals[fId].size() && meshData.faceVertexNormals[fId][j] != NULL_ID) {
+                        n = meshData.vertexNormals[meshData.faceVertexNormals[fId][j]];
+                    }
+                    else if (meshData.faces[fId][j] < meshData.vertexNormals.size()) {
+                        n = meshData.vertexNormals[meshData.faces[fId][j]];
+                    }
+
+                    lGeometryElementNormal->GetDirectArray().Add(FBXVector4FromVector(n));
+                }
+
+                if (lGeometryElementUV && uvsByPolygon) {
+                    VertexUV uv(0,0);
+
+                    if (!meshData.faceVertexUVs.empty() && j < meshData.faceVertexUVs[fId].size() && meshData.faceVertexUVs[fId][j] != NULL_ID) {
+                        uv = meshData.vertexUVs[meshData.faceVertexUVs[fId][j]];
+                    }
+                    else if (meshData.faces[fId][j] < meshData.vertexUVs.size()) {
+                        uv = meshData.vertexUVs[meshData.faces[fId][j]];
+                    }
+
+                    lGeometryElementUV->GetDirectArray().Add(FBXVector2FromVector(uv));
+                }
+
+                lIndexByPolygonVertex++;
+            }
+
+            lMesh->EndPolygon();
+        }
+    }
+
+    return lNode;
 }
 
 template<class FBXData>
@@ -1075,26 +1346,28 @@ FbxNode* createSkeleton(
 
     NVL_SUPPRESS_UNUSEDVARIABLE(mode);
 
+    std::vector<FbxNode*> rootNodes;
+
     const SkeletonData& skeletonData = data.skeletonData;
 
     std::string name = "Skeleton";
 
     jMap.resize(skeletonData.joints.size());
 
-    for(Index i = 0; i < skeletonData.joints.size(); ++i) {
+    for (Index i = 0; i < skeletonData.joints.size(); ++i) {
        FbxString nodeName(skeletonData.names[i].c_str());
 
-       FbxSkeleton* lSkeleton = FbxSkeleton::Create(lScene, nodeName);
+       FbxSkeleton* lSkeletonAttribute = FbxSkeleton::Create(lScene, nodeName);
        if(skeletonData.parents[i] == -1) {
-           lSkeleton->SetSkeletonType(FbxSkeleton::eRoot);
+           lSkeletonAttribute->SetSkeletonType(FbxSkeleton::eRoot);
        }
        else {
-           lSkeleton->SetSkeletonType(FbxSkeleton::eLimbNode);
+           lSkeletonAttribute->SetSkeletonType(FbxSkeleton::eLimbNode);
        }
 
-       lSkeleton->Size.Set(1.0);
+       lSkeletonAttribute->Size.Set(1.0);
        jMap[i] = FbxNode::Create(lScene, nodeName.Buffer());
-       jMap[i]->SetNodeAttribute(lSkeleton);
+       jMap[i]->SetNodeAttribute(lSkeletonAttribute);
 
        const SkeletonTransformation& t = skeletonData.joints[i];
 
@@ -1129,109 +1402,82 @@ FbxNode* createSkeleton(
        }
     }
 
-    FbxNode* lNode = nullptr;
-    for(Index i = 0; i < skeletonData.joints.size(); ++i) {
+    for (Index i = 0; i < skeletonData.joints.size(); ++i) {
        if (skeletonData.parents[i] == -1) {
-           lNode = jMap[i];
+           rootNodes.push_back(jMap[i]);
        }
        else {
            jMap[skeletonData.parents[i]]->AddChild(jMap[i]);
        }
     }
 
-    if (lNode != nullptr) {
-        lScene->AddNode(lNode);
+    FbxNode* lRootNode = nullptr;
+    if (rootNodes.size() == 1) {
+        lRootNode = rootNodes[0];
+    }
+    else if (!rootNodes.empty()) {
+        FbxNode* rNode = FbxNode::Create(lScene, "SkeletonRootNode");
+        FbxSkeleton* rSkeleton = FbxSkeleton::Create(lScene, "SkeletonRootSkeleton");
+        rNode->SetNodeAttribute(rSkeleton);
+        for (FbxNode* child : rootNodes) {
+            rNode->AddChild(child);
+        }
+        lRootNode = rNode;
     }
 
-    return lNode;
+    if (lRootNode != nullptr) {
+        lScene->AddNode(lRootNode);
+    }
+
+    return lRootNode;
 }
 
 template<class FBXData>
-FbxNode* createMesh(
+FbxSkin* createSkin(
         FbxScene* lScene,
         const FBXData& data,
-        const IOModelMode& mode)
+        const IOModelMode& mode,
+        const std::vector<FbxNode*>& jMap)
 {
-    typedef typename FBXData::MeshData MeshData;
-    typedef typename FBXData::Point Point;
-    typedef typename FBXData::VertexNormal VertexNormal;
-    typedef typename FBXData::VertexUV VertexUV;
-    typedef typename FBXData::Material Material;
+    typedef typename FBXData::SkinningWeightsScalar SkinningWeightsScalar;
 
-    const MeshData& meshData = data.meshData;
+    NVL_SUPPRESS_UNUSEDVARIABLE(mode);
 
-    FbxMesh* lMesh = FbxMesh::Create(lScene,"Mesh");
-    lMesh->InitControlPoints(meshData.vertices.size());
+    FbxSkin* lSkin = FbxSkin::Create(lScene, "");
 
-    if (mode.meshMode.vertices) {
-        for(Index vId = 0; vId < meshData.vertices.size(); ++vId) {
-            const Point& p = meshData.vertices[vId];
-            FbxVector4 controlPoint(p.x(), p.y(), p.z(), 0.0);
-            lMesh->SetControlPointAt(controlPoint, vId);
+    std::vector<FbxCluster*> clusters(data.skeletonData.joints.size(), nullptr);
+
+    for (const std::tuple<Index, Index, typename FBXData::SkinningWeightsScalar>& tuple : data.skinningWeightsData.weights) {
+        const Index& vId = std::get<0>(tuple);
+        const Index& jId = std::get<1>(tuple);
+        const SkinningWeightsScalar& weight = std::get<2>(tuple);
+
+        FbxCluster *lCluster = clusters[jId];
+
+        if (lCluster == nullptr) {
+            lCluster = FbxCluster::Create(lScene,"");
+
+            lCluster->SetLink(jMap[jId]);
+            lCluster->SetLinkMode(FbxCluster::eTotalOne);
+            lCluster->SetTransformLinkMatrix(FBXTransformationFromMatrix(data.skeletonData.joints[jId]));
+
+            clusters[jId]  = lCluster;
+        }
+
+        if (!epsEqual(weight, 0.0)) {
+            lCluster->AddControlPointIndex(vId, weight);
         }
     }
 
-    if (mode.meshMode.faces) {
-        for(Index fId = 0; fId < meshData.faces.size(); ++fId) {
-            lMesh->BeginPolygon();
-            for(Index j = 0; j < meshData.faces[fId].size(); ++j) {
-                lMesh->AddPolygon(meshData.faces[fId][j]);
-            }
-            lMesh->EndPolygon();
-        }
+    for (FbxCluster* c : clusters) {
+        if (c != nullptr)
+            lSkin->AddCluster(c);
     }
 
-    //TODO
-//    if (mode.meshMode.materials) {
-//        for(Index mId = 0; mId < meshData.materials.size(); ++mId) {
-//            const Material& m = meshData.materials[mId];
-//            FbxString lMaterialName = m.name();
-
-//            const Color& diffuseColor = m.diffuseColor();
-//            FbxDouble3 lDiffuseColor(diffuseColor.redF(), diffuseColor.greenF(), diffuseColor.blueF());
-
-//            const Color& ambientColor = m.ambientColor();
-//            FbxDouble3 lAmbientColor(ambientColor.redF(), ambientColor.greenF(), ambientColor.blueF());
-
-//            const Color& specularColor = m.specularColor();
-//            FbxDouble3 lSpecularColor(specularColor.redF(), specularColor.greenF(), specularColor.blueF());
-
-//            FbxSurfaceMaterial* lMaterial = FbxSurfacePhong::Create(lScene, lMaterialName.Buffer());
-
-//            if (m.shadingModel() == Material::ShadingModel::SHADING_STANDARD || m.shadingModel() == Material::ShadingModel::SHADING_LAMBERT) {
-//                FbxSurfaceLambert* lLambertMaterial = FbxSurfaceLambert::Create(lScene, lMaterialName.Buffer());
-
-//                lLambertMaterial->Ambient.Set(lAmbientColor);
-//                lLambertMaterial->Diffuse.Set(lDiffuseColor);
-//                lLambertMaterial->TransparencyFactor.Set(0.0);
-//                lLambertMaterial->ShadingModel.Set("Lambert");
-
-//                lMaterial = lLambertMaterial;
-//            }
-//            if (m.shadingModel() == Material::ShadingModel::SHADING_PHONG) {
-//                FbxSurfacePhong* lPhongMaterial = FbxSurfacePhong::Create(lScene, lMaterialName.Buffer());
-
-//                lPhongMaterial->Specular.Set(lSpecularColor);
-//                lPhongMaterial->Ambient.Set(lAmbientColor);
-//                lPhongMaterial->Diffuse.Set(lDiffuseColor);
-//                lPhongMaterial->TransparencyFactor.Set(1.0 - m.transparency);
-//                lPhongMaterial->ShadingModel.Set("Phong");
-
-//                lMaterial = lPhongMaterial;
-//            }
-
-//            //get the node of mesh, add material for it.
-//            lNode->AddMaterial(lMaterial);
-//        }
-//    }
-
-    FbxNode* lNode = FbxNode::Create(lScene, "Mesh");
-
-    lNode->SetNodeAttribute(lMesh);
-    lScene->AddNode(lNode);
-
-    return lNode;
+    return lSkin;
 }
+
+
 
 
 inline FbxAMatrix nodeGlobalPosition(
@@ -1379,7 +1625,6 @@ inline FbxVector4 FBXScalingFromScaling(const Scaling3d& sca)
     return fbxS;
 }
 
-
 inline FbxVector4 FBXRotationFromRotation(const Rotation3d& rot)
 {
     constexpr double radToDegrees = 180.0 / M_PI;
@@ -1390,6 +1635,21 @@ inline FbxVector4 FBXRotationFromRotation(const Rotation3d& rot)
     return fbxR;
 }
 
+template<class V>
+FbxVector4 FBXVector4FromVector(const V& v)
+{
+    FbxVector4 fbxV(v.x(), v.y(), v.z(), 0.0);
+
+    return fbxV;
+}
+
+template<class V>
+FbxVector2 FBXVector2FromVector(const V& v)
+{
+    FbxVector2 fbxV(v.x(), v.y());
+
+    return fbxV;
+}
 
 }
 
