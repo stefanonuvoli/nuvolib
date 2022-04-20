@@ -17,6 +17,7 @@
 #include <nvl/models/algorithms/model_deformation.h>
 #include <nvl/models/algorithms/model_transformations.h>
 #include <nvl/models/algorithms/animation_poses.h>
+#include <nvl/models/structures/skeleton.h>
 
 #include <nvl/utilities/file_utils.h>
 
@@ -134,6 +135,12 @@ FbxSkin* createSkin(
         const FBXData& data,
         const IOModelMode& mode,
         const std::vector<FbxNode*>& jMap);
+template<class FBXData>
+std::vector<FbxAnimStack*> createAnimations(
+        FbxScene* lScene,
+        const FBXData& data,
+        const IOModelMode& mode,
+        std::vector<FbxNode*>& jMap);
 
 
 FbxAMatrix nodeGlobalPosition(
@@ -323,6 +330,10 @@ bool modelSaveDataToFBX(
     meshSaveData(modelData.mesh, fbxData.meshData, mode.meshMode);
     skeletonSaveData(modelData.skeleton, fbxData.skeletonData, mode.skeletonMode);
     skinningWeightsSaveData(modelData.skinningWeights, fbxData.skinningWeightsData, mode.skinningWeightsMode);
+    fbxData.animationDataVector.resize(modelData.animations.size());
+    for (Index aId = 0; aId < modelData.animations.size(); ++aId) {
+        animationSaveData(modelData.animations[aId], fbxData.animationDataVector[aId], mode.animationMode);
+    }
 
     createScene(lScene, fbxData, mode);
 
@@ -539,6 +550,7 @@ void handleMesh(
 {
     typedef typename FBXData::Point Point;
     typedef typename FBXData::VertexNormal VertexNormal;
+    typedef typename FBXData::VertexColor VertexColor;
     typedef typename FBXData::VertexUV VertexUV;
     typedef typename FBXData::Material Material;
 
@@ -559,6 +571,7 @@ void handleMesh(
     Size lastFaceId = data.meshData.faces.size();
     Size lastNormalId = data.meshData.vertexNormals.size();
     Size lastUVId = data.meshData.vertexUVs.size();
+    Size lastVertexColorId = data.meshData.vertexColors.size();
 
 
     //Vertices
@@ -598,10 +611,6 @@ void handleMesh(
             newFace[j] = vertexMap[lControlPointIndex];
         }
     }
-
-    //Vertex colors
-
-    //TODO
 
 
     //Materials
@@ -748,114 +757,162 @@ void handleMesh(
 
     FbxGeometryElementNormal* lNormalElement = lMesh->GetElementNormal();
     if (lNormalElement) {
-        int lNormalCount = lNormalElement->GetDirectArray().GetCount();
-        data.meshData.vertexNormals.resize(lastNormalId + lNormalCount);
 
-        std::vector<Index> normalMap(lNormalCount);
+        if (lNormalElement->GetMappingMode() == FbxGeometryElement::eByControlPoint) {
+            data.meshData.vertexNormals.resize(lastVertexId + lVertexCount);
 
-        for (int i = 0; i < lNormalCount; i++) {
-            Index nId = lastNormalId + i;
+            for (int i = 0; i < lVertexCount; i++) {
+                Index vId = lastVertexId + i;
 
-            FbxVector4 lNormal = lNormalElement->GetDirectArray().GetAt(i);
-            data.meshData.vertexNormals[nId] = VertexNormal(lNormal[0], lNormal[1], lNormal[2]);
-
-            normalMap[i] = nId;
-        }
-
-        int lIndexByPolygonVertex = 0;
-
-        data.meshData.faceVertexNormals.resize(lastFaceId + lFaceCount);
-        for (int i = 0; i < lFaceCount; i++) {
-            Index fId = lastFaceId + i;
-
-            int lPolygonSize = lMesh->GetPolygonSize(i);
-
-            data.meshData.faceVertexNormals[fId].resize(lPolygonSize);
-
-            for (int j = 0; j < lPolygonSize; j++) {
                 int lNormalIndex = 0;
-
-                if (lNormalElement->GetMappingMode() == FbxGeometryElement::eByControlPoint) {
-                    int lControlPointIndex = lMesh->GetPolygonVertex(i, j);
-                    if (lNormalElement->GetReferenceMode() == FbxGeometryElement::eDirect) {
-                        lNormalIndex = lControlPointIndex;
-                    }
-                    else if (lNormalElement->GetReferenceMode() == FbxGeometryElement::eIndexToDirect) {
-                        lNormalIndex = lNormalElement->GetIndexArray().GetAt(lControlPointIndex);
-                    }
+                if (lNormalElement->GetReferenceMode() == FbxGeometryElement::eDirect) {
+                    lNormalIndex = i;
                 }
-                else if (lNormalElement->GetMappingMode() == FbxGeometryElement::eByPolygonVertex) {
+                else if (lNormalElement->GetReferenceMode() == FbxGeometryElement::eIndexToDirect) {
+                    lNormalIndex = lNormalElement->GetIndexArray().GetAt(i);
+                }
+
+                FbxVector4 lNormal = lNormalElement->GetDirectArray().GetAt(lNormalIndex);
+                data.meshData.vertexNormals[vId] = VertexNormal(lNormal[0], lNormal[1], lNormal[2]);
+            }
+
+        }
+        else if (lNormalElement->GetMappingMode() == FbxGeometryElement::eByPolygonVertex) {
+            int lNormalCount = lNormalElement->GetDirectArray().GetCount();
+            data.meshData.vertexNormals.resize(lastNormalId + lNormalCount);
+
+            std::vector<Index> normalMap(lNormalCount);
+
+            for (int i = 0; i < lNormalCount; i++) {
+                Index nId = lastNormalId + i;
+
+                FbxVector4 lNormal = lNormalElement->GetDirectArray().GetAt(i);
+                data.meshData.vertexNormals[nId] = VertexNormal(lNormal[0], lNormal[1], lNormal[2]);
+
+                normalMap[i] = nId;
+            }
+
+            int lIndexByPolygonVertex = 0;
+
+            data.meshData.faceVertexNormals.resize(lastFaceId + lFaceCount);
+            for (int i = 0; i < lFaceCount; i++) {
+                Index fId = lastFaceId + i;
+
+                int lPolygonSize = lMesh->GetPolygonSize(i);
+
+                data.meshData.faceVertexNormals[fId].resize(lPolygonSize);
+
+                for (int j = 0; j < lPolygonSize; j++) {
+                    int lNormalIndex = 0;
+
                     if (lNormalElement->GetReferenceMode() == FbxGeometryElement::eDirect) {
                         lNormalIndex = lIndexByPolygonVertex;
                     }
                     else if (lNormalElement->GetReferenceMode() == FbxGeometryElement::eIndexToDirect) {
                         lNormalIndex = lNormalElement->GetIndexArray().GetAt(lIndexByPolygonVertex);
                     }
+
+                    data.meshData.faceVertexNormals[fId][j] = normalMap[lNormalIndex];
+
+                    lIndexByPolygonVertex++;
                 }
-
-                data.meshData.faceVertexNormals[fId][j] = normalMap[lNormalIndex];
-
-                lIndexByPolygonVertex++;
             }
         }
     }
+
 
     //Vertex UVs
 
     FbxGeometryElementUV* lUVElement = lMesh->GetElementUV();
     if (lUVElement) {
-        int lUVCount = lUVElement->GetDirectArray().GetCount();
-        data.meshData.vertexUVs.resize(lastUVId + lUVCount);
 
-        std::vector<Index> UVMap(lUVCount);
+        if (lUVElement->GetMappingMode() == FbxGeometryElement::eByControlPoint) {
+            data.meshData.vertexUVs.resize(lastVertexId + lVertexCount);
 
-        for (int i = 0; i < lUVCount; i++) {
-            Index nId = lastUVId + i;
+            for (int i = 0; i < lVertexCount; i++) {
+                Index vId = lastVertexId + i;
 
-            FbxVector2 lUV = lUVElement->GetDirectArray().GetAt(i);
-            data.meshData.vertexUVs[nId] = VertexUV(lUV[0], lUV[1]);
-
-            UVMap[i] = nId;
-        }
-
-        int lIndexByPolygonVertex = 0;
-
-        data.meshData.faceVertexUVs.resize(lastFaceId + lFaceCount);
-        for (int i = 0; i < lFaceCount; i++) {
-            Index fId = lastFaceId + i;
-
-            int lPolygonSize = lMesh->GetPolygonSize(i);
-
-            data.meshData.faceVertexUVs[fId].resize(lPolygonSize);
-
-            for (int j = 0; j < lPolygonSize; j++) {
                 int lUVIndex = 0;
-
-                if (lUVElement->GetMappingMode() == FbxGeometryElement::eByControlPoint) {
-                    int lControlPointIndex = lMesh->GetPolygonVertex(i, j);
-                    if (lUVElement->GetReferenceMode() == FbxGeometryElement::eDirect) {
-                        lUVIndex = lControlPointIndex;
-                    }
-                    else if (lUVElement->GetReferenceMode() == FbxGeometryElement::eIndexToDirect) {
-                        lUVIndex = lUVElement->GetIndexArray().GetAt(lControlPointIndex);
-                    }
+                if (lUVElement->GetReferenceMode() == FbxGeometryElement::eDirect) {
+                    lUVIndex = i;
                 }
-                else if (lUVElement->GetMappingMode() == FbxGeometryElement::eByPolygonVertex) {
+                else if (lUVElement->GetReferenceMode() == FbxGeometryElement::eIndexToDirect) {
+                    lUVIndex = lUVElement->GetIndexArray().GetAt(i);
+                }
+
+                FbxVector2 lUV = lUVElement->GetDirectArray().GetAt(lUVIndex);
+                data.meshData.vertexUVs[vId] = VertexUV(lUV[0], lUV[1]);
+            }
+
+        }
+        else if (lUVElement->GetMappingMode() == FbxGeometryElement::eByPolygonVertex) {
+            int lUVCount = lUVElement->GetDirectArray().GetCount();
+            data.meshData.vertexUVs.resize(lastUVId + lUVCount);
+
+            std::vector<Index> UVMap(lUVCount);
+
+            for (int i = 0; i < lUVCount; i++) {
+                Index nId = lastUVId + i;
+
+                FbxVector2 lUV = lUVElement->GetDirectArray().GetAt(i);
+                data.meshData.vertexUVs[nId] = VertexUV(lUV[0], lUV[1]);
+
+                UVMap[i] = nId;
+            }
+
+            int lIndexByPolygonVertex = 0;
+
+            data.meshData.faceVertexUVs.resize(lastFaceId + lFaceCount);
+            for (int i = 0; i < lFaceCount; i++) {
+                Index fId = lastFaceId + i;
+
+                int lPolygonSize = lMesh->GetPolygonSize(i);
+
+                data.meshData.faceVertexUVs[fId].resize(lPolygonSize);
+
+                for (int j = 0; j < lPolygonSize; j++) {
+                    int lUVIndex = 0;
+
                     if (lUVElement->GetReferenceMode() == FbxGeometryElement::eDirect) {
                         lUVIndex = lIndexByPolygonVertex;
                     }
                     else if (lUVElement->GetReferenceMode() == FbxGeometryElement::eIndexToDirect) {
                         lUVIndex = lUVElement->GetIndexArray().GetAt(lIndexByPolygonVertex);
                     }
+
+                    data.meshData.faceVertexUVs[fId][j] = UVMap[lUVIndex];
+
+                    lIndexByPolygonVertex++;
                 }
-
-                data.meshData.faceVertexUVs[fId][j] = UVMap[lUVIndex];
-
-                lIndexByPolygonVertex++;
             }
         }
     }
 
+
+    //Vertex colors
+
+    FbxGeometryElementVertexColor* lVertexColorElement = lMesh->GetElementVertexColor();
+    if (lVertexColorElement) {
+        if (lVertexColorElement->GetMappingMode() == FbxGeometryElement::eByControlPoint) {
+            data.meshData.vertexColors.resize(lastVertexId + lVertexCount);
+
+            for (int i = 0; i < lVertexCount; i++) {
+                Index vId = lastVertexId + i;
+
+                int lColorIndex = 0;
+                if (lVertexColorElement->GetReferenceMode() == FbxGeometryElement::eDirect) {
+                    lColorIndex = i;
+                }
+                else if (lVertexColorElement->GetReferenceMode() == FbxGeometryElement::eIndexToDirect) {
+                    lColorIndex = lVertexColorElement->GetIndexArray().GetAt(i);
+                }
+
+                FbxColor lColor = lVertexColorElement->GetDirectArray().GetAt(lColorIndex);
+                data.meshData.vertexColors[vId] = VertexColor(lColor[0], lColor[1], lColor[2]);
+            }
+        }
+    }
+    
     data.meshVertexMap.insert(std::make_pair(lMesh, vertexMap));
 }
 
@@ -1079,7 +1136,9 @@ void createScene(
         }
     }
 
-    //TODO
+    if (mode.animations && lSkeleton != nullptr) {
+        createAnimations(lScene, data, mode, jMap);
+    }
 }
 
 template<class FBXData>
@@ -1091,6 +1150,7 @@ FbxNode* createMesh(
     typedef typename FBXData::MeshData MeshData;
     typedef typename FBXData::Point Point;
     typedef typename FBXData::VertexNormal VertexNormal;
+    typedef typename FBXData::VertexColor VertexColor;
     typedef typename FBXData::VertexUV VertexUV;
     typedef typename FBXData::VertexUV VertexUV;
     typedef typename FBXData::Material Material;
@@ -1111,8 +1171,10 @@ FbxNode* createMesh(
     bool uvsByVertex = meshData.vertexUVs.size() == meshData.vertices.size() && meshData.faceVertexUVs.empty();
     bool uvsByPolygon = !uvsByVertex && !meshData.vertexUVs.empty();
     bool materialByPolygon = !meshData.materials.empty() && !meshData.faceMaterials.empty();
+    bool vertexColorsByVertex = meshData.vertexColors.size() == meshData.vertices.size();
 
     FbxGeometryElementNormal* lGeometryElementNormal = nullptr;
+    FbxGeometryElementVertexColor* lGeometryElementVertexColor = nullptr;
     FbxGeometryElementUV* lGeometryElementUV = nullptr;
     FbxGeometryElementMaterial* lMaterialElement = nullptr;
 
@@ -1245,7 +1307,7 @@ FbxNode* createMesh(
         lGeometryElementUV->SetReferenceMode(FbxGeometryElement::eDirect);
     }
 
-    if (mode.meshMode.vertices) {        
+    if (mode.meshMode.vertices) {
         if (mode.meshMode.vertexNormals && normalsByVertex) {
             lGeometryElementNormal = lMesh->CreateElementNormal();
             lGeometryElementNormal->SetMappingMode(FbxGeometryElement::eByControlPoint);
@@ -1255,6 +1317,11 @@ FbxNode* createMesh(
             lGeometryElementUV = lMesh->CreateElementUV(FbxString(uvSetName));
             lGeometryElementUV->SetMappingMode(FbxGeometryElement::eByControlPoint);
             lGeometryElementUV->SetReferenceMode(FbxGeometryElement::eDirect);
+        }
+        if (mode.meshMode.vertexColors && vertexColorsByVertex) {
+            lGeometryElementVertexColor = lMesh->CreateElementVertexColor();
+            lGeometryElementVertexColor->SetMappingMode(FbxGeometryElement::eByControlPoint);
+            lGeometryElementVertexColor->SetReferenceMode(FbxGeometryElement::eDirect);
         }
 
         for (Index vId = 0; vId < meshData.vertices.size(); ++vId) {
@@ -1273,6 +1340,13 @@ FbxNode* createMesh(
             for (Index vId = 0; vId < meshData.vertices.size(); ++vId) {
                 const VertexUV& uv = meshData.vertexUVs[vId];
                 lGeometryElementUV->GetDirectArray().Add(FBXVector2FromVector(uv));
+            }
+        }
+
+        if (vertexColorsByVertex && lGeometryElementVertexColor) {
+            for (Index vId = 0; vId < meshData.vertices.size(); ++vId) {
+                const VertexColor& c = meshData.vertexColors[vId];
+                lGeometryElementVertexColor->GetDirectArray().Add(FbxColor(c.redF(), c.greenF(), c.blueF(), c.alphaF()));
             }
         }
     }
@@ -1477,6 +1551,309 @@ FbxSkin* createSkin(
     return lSkin;
 }
 
+template<class FBXData>
+std::vector<FbxAnimStack*> createAnimations(
+        FbxScene* lScene,
+        const FBXData& data,
+        const IOModelMode& mode,
+        std::vector<FbxNode*>& jMap)
+{
+    typedef typename FBXData::AnimationData AnimationData;
+    typedef typename FBXData::AnimationTransformation AnimationTransformation;
+    typedef typename AnimationTransformation::LinearMatrixType LinearMatrixType;
+    typedef typename AnimationTransformation::Scalar AnimationTransformationScalar;
+    typedef typename FBXData::SkeletonData SkeletonData;
+    typedef typename FBXData::SkeletonTransformation SkeletonTransformation;
+    typedef typename FBXData::JointId JointId;    
+
+    const SkeletonData& skeletonData = data.skeletonData;
+
+    std::vector<FbxAnimStack*> stacks;
+
+
+    //Pose stack
+
+    FbxAnimStack* lPoseStack = FbxAnimStack::Create(lScene, "Pose");
+
+    FbxAnimLayer* lPoseLayer = FbxAnimLayer::Create(lScene, "Pose_layer");    
+    lPoseStack->AddMember(lPoseLayer);
+
+    FbxTakeInfo* poseTakeInfo = new FbxTakeInfo();
+    poseTakeInfo->mName = "Pose_takeinfo";
+    FbxTime start, stop;
+    start.SetSecondDouble(0);
+    stop.SetSecondDouble(0);
+    poseTakeInfo->mSelect = true;
+    poseTakeInfo->mLocalTimeSpan = FbxTimeSpan(start, stop);
+    poseTakeInfo->mReferenceTimeSpan = FbxTimeSpan(start, stop);
+    poseTakeInfo->mCurrentLayer = 0;
+    lPoseStack->Reset(poseTakeInfo);
+
+    stacks.push_back(lPoseStack);
+
+    for (JointId jId = 0; jId < skeletonData.joints.size(); ++jId) {
+        JointId parentId = NULL_ID;
+        if (skeletonData.parents[jId] != -1) {
+            parentId = skeletonData.parents[jId];
+        }
+
+        FbxNode* jNode = jMap[jId];
+
+        FbxAnimCurve* lCurveRX = jNode->LclRotation.GetCurve(lPoseLayer, FBXSDK_CURVENODE_COMPONENT_X, true);
+        FbxAnimCurve* lCurveRY = jNode->LclRotation.GetCurve(lPoseLayer, FBXSDK_CURVENODE_COMPONENT_Y, true);
+        FbxAnimCurve* lCurveRZ = jNode->LclRotation.GetCurve(lPoseLayer, FBXSDK_CURVENODE_COMPONENT_Z, true);
+        FbxAnimCurve* lCurveTX = jNode->LclTranslation.GetCurve(lPoseLayer, FBXSDK_CURVENODE_COMPONENT_X, true);
+        FbxAnimCurve* lCurveTY = jNode->LclTranslation.GetCurve(lPoseLayer, FBXSDK_CURVENODE_COMPONENT_Y, true);
+        FbxAnimCurve* lCurveTZ = jNode->LclTranslation.GetCurve(lPoseLayer, FBXSDK_CURVENODE_COMPONENT_Z, true);
+        FbxAnimCurve* lCurveSX = jNode->LclScaling.GetCurve(lPoseLayer, FBXSDK_CURVENODE_COMPONENT_X, true);
+        FbxAnimCurve* lCurveSY = jNode->LclScaling.GetCurve(lPoseLayer, FBXSDK_CURVENODE_COMPONENT_Y, true);
+        FbxAnimCurve* lCurveSZ = jNode->LclScaling.GetCurve(lPoseLayer, FBXSDK_CURVENODE_COMPONENT_Z, true);
+
+        lCurveRX->KeyModifyBegin();
+        lCurveRY->KeyModifyBegin();
+        lCurveRZ->KeyModifyBegin();
+        lCurveTX->KeyModifyBegin();
+        lCurveTY->KeyModifyBegin();
+        lCurveTZ->KeyModifyBegin();
+        lCurveSX->KeyModifyBegin();
+        lCurveSY->KeyModifyBegin();
+        lCurveSZ->KeyModifyBegin();
+
+        AnimationTransformation transformation = skeletonData.joints[jId];
+        if (parentId != NULL_ID)
+            transformation = skeletonData.joints[parentId].inverse() * transformation;
+
+        const double& time = 0;
+
+        LinearMatrixType rotMatrix, scalMatrix;
+        transformation.computeRotationScaling(&rotMatrix, &scalMatrix);
+        Vector3<AnimationTransformationScalar> traVec(transformation.translation());
+        Rotation3<AnimationTransformationScalar> rot(rotMatrix);
+        Vector3<AnimationTransformationScalar> scaVec(scalMatrix.diagonal());
+        Vector3<AnimationTransformationScalar> ang = eulerAnglesXYZFromRotation(rot);
+
+        constexpr double eps = 1e-5;
+
+        for (EigenId i = 0; i < ang.size(); ++i) {
+            ang[i] = ang[i] / M_PI * 180.0;
+
+            if (epsEqual(ang[i], 0.0, eps)) {
+                ang[i] = 0.0;
+            }
+        }
+
+        for (EigenId i = 0; i < traVec.size(); ++i) {
+            if (epsEqual(traVec[i], 0.0, eps)) {
+                traVec[i] = 0.0;
+            }
+        }
+
+        for (EigenId i = 0; i < scaVec.size(); ++i) {
+            if (epsEqual(scaVec[i], 1.0, eps)) {
+                scaVec[i] = 1.0;
+            }
+        }
+
+
+        FbxTime lTime;
+        lTime.SetSecondDouble(time);
+
+        int lKeyIndex;
+
+        lKeyIndex = lCurveRX->KeyAdd(lTime);
+        lCurveRX->KeySetValue(lKeyIndex, ang.x());
+        lCurveRX->KeySetInterpolation(lKeyIndex, FbxAnimCurveDef::eInterpolationLinear);
+
+        lKeyIndex = lCurveRY->KeyAdd(lTime);
+        lCurveRY->KeySetValue(lKeyIndex, ang.y());
+        lCurveRY->KeySetInterpolation(lKeyIndex, FbxAnimCurveDef::eInterpolationLinear);
+
+        lKeyIndex = lCurveRZ->KeyAdd(lTime);
+        lCurveRZ->KeySetValue(lKeyIndex, ang.z());
+        lCurveRZ->KeySetInterpolation(lKeyIndex, FbxAnimCurveDef::eInterpolationLinear);
+
+        lKeyIndex = lCurveTX->KeyAdd(lTime);
+        lCurveTX->KeySetValue(lKeyIndex, traVec.x());
+        lCurveTX->KeySetInterpolation(lKeyIndex, FbxAnimCurveDef::eInterpolationLinear);
+
+        lKeyIndex = lCurveTY->KeyAdd(lTime);
+        lCurveTY->KeySetValue(lKeyIndex, traVec.y());
+        lCurveTY->KeySetInterpolation(lKeyIndex, FbxAnimCurveDef::eInterpolationLinear);
+
+        lKeyIndex = lCurveTZ->KeyAdd(lTime);
+        lCurveTZ->KeySetValue(lKeyIndex, traVec.z());
+        lCurveTZ->KeySetInterpolation(lKeyIndex, FbxAnimCurveDef::eInterpolationLinear);
+
+        lKeyIndex = lCurveSX->KeyAdd(lTime);
+        lCurveSX->KeySetValue(lKeyIndex, scaVec.x());
+        lCurveSX->KeySetInterpolation(lKeyIndex, FbxAnimCurveDef::eInterpolationLinear);
+
+        lKeyIndex = lCurveSY->KeyAdd(lTime);
+        lCurveSY->KeySetValue(lKeyIndex, scaVec.y());
+        lCurveSY->KeySetInterpolation(lKeyIndex, FbxAnimCurveDef::eInterpolationLinear);
+
+        lKeyIndex = lCurveSZ->KeyAdd(lTime);
+        lCurveSZ->KeySetValue(lKeyIndex, scaVec.z());
+        lCurveSZ->KeySetInterpolation(lKeyIndex, FbxAnimCurveDef::eInterpolationLinear);
+
+
+        lCurveRX->KeyModifyEnd();
+        lCurveRY->KeyModifyEnd();
+        lCurveRZ->KeyModifyEnd();
+        lCurveTX->KeyModifyEnd();
+        lCurveTY->KeyModifyEnd();
+        lCurveTZ->KeyModifyEnd();
+        lCurveSX->KeyModifyEnd();
+        lCurveSY->KeyModifyEnd();
+        lCurveSZ->KeyModifyEnd();
+    }
+
+    lScene->SetCurrentAnimationStack(lPoseStack);
+
+
+
+    //Animation stacks
+    for (AnimationData animationData : data.animationDataVector) {
+        FbxAnimStack* lAnimStack = FbxAnimStack::Create(lScene, animationData.name.c_str());
+
+        FbxAnimLayer* lAnimLayer = FbxAnimLayer::Create(lScene, (animationData.name + "_layer").c_str());
+        lAnimStack->AddMember(lAnimLayer);
+
+        FbxTakeInfo* takeInfo = new FbxTakeInfo();
+        takeInfo->mName = (animationData.name + "_takeinfo").c_str();
+        FbxTime start, stop;
+        start.SetSecondDouble(animationData.times[0]);
+        stop.SetSecondDouble(animationData.times[animationData.times.size() - 1]);
+        takeInfo->mSelect = true;
+        takeInfo->mLocalTimeSpan = FbxTimeSpan(start, stop);
+        takeInfo->mReferenceTimeSpan = FbxTimeSpan(start, stop);
+        takeInfo->mCurrentLayer = 0;
+
+        lAnimStack->Reset(takeInfo);
+
+        for (JointId jId = 0; jId < skeletonData.joints.size(); ++jId) {
+            JointId parentId = NULL_ID;
+            if (skeletonData.parents[jId] != -1) {
+                parentId = skeletonData.parents[jId];
+            }
+
+            FbxNode* jNode = jMap[jId];
+
+            FbxAnimCurve* lCurveRX = jNode->LclRotation.GetCurve(lAnimLayer, FBXSDK_CURVENODE_COMPONENT_X, true);
+            FbxAnimCurve* lCurveRY = jNode->LclRotation.GetCurve(lAnimLayer, FBXSDK_CURVENODE_COMPONENT_Y, true);
+            FbxAnimCurve* lCurveRZ = jNode->LclRotation.GetCurve(lAnimLayer, FBXSDK_CURVENODE_COMPONENT_Z, true);
+            FbxAnimCurve* lCurveTX = jNode->LclTranslation.GetCurve(lAnimLayer, FBXSDK_CURVENODE_COMPONENT_X, true);
+            FbxAnimCurve* lCurveTY = jNode->LclTranslation.GetCurve(lAnimLayer, FBXSDK_CURVENODE_COMPONENT_Y, true);
+            FbxAnimCurve* lCurveTZ = jNode->LclTranslation.GetCurve(lAnimLayer, FBXSDK_CURVENODE_COMPONENT_Z, true);
+            FbxAnimCurve* lCurveSX = jNode->LclScaling.GetCurve(lAnimLayer, FBXSDK_CURVENODE_COMPONENT_X, true);
+            FbxAnimCurve* lCurveSY = jNode->LclScaling.GetCurve(lAnimLayer, FBXSDK_CURVENODE_COMPONENT_Y, true);
+            FbxAnimCurve* lCurveSZ = jNode->LclScaling.GetCurve(lAnimLayer, FBXSDK_CURVENODE_COMPONENT_Z, true);
+
+            lCurveRX->KeyModifyBegin();
+            lCurveRY->KeyModifyBegin();
+            lCurveRZ->KeyModifyBegin();
+            lCurveTX->KeyModifyBegin();
+            lCurveTY->KeyModifyBegin();
+            lCurveTZ->KeyModifyBegin();
+            lCurveSX->KeyModifyBegin();
+            lCurveSY->KeyModifyBegin();
+            lCurveSZ->KeyModifyBegin();
+
+            for (Index kId = 0; kId < animationData.transformations.size(); ++kId) {
+                AnimationTransformation transformation = animationData.transformations[kId][jId];
+                if (parentId != NULL_ID)
+                    transformation = animationData.transformations[kId][parentId].inverse() * transformation;
+
+                const double& time = animationData.times[kId];
+
+                LinearMatrixType rotMatrix, scalMatrix;
+                transformation.computeRotationScaling(&rotMatrix, &scalMatrix);
+                Vector3<AnimationTransformationScalar> traVec(transformation.translation());
+                Rotation3<AnimationTransformationScalar> rot(rotMatrix);
+                Vector3<AnimationTransformationScalar> scaVec(scalMatrix.diagonal());
+                Vector3<AnimationTransformationScalar> ang = eulerAnglesXYZFromRotation(rot);
+
+                constexpr double eps = 1e-5;
+
+                for (EigenId i = 0; i < ang.size(); ++i) {
+                    ang[i] = ang[i] / M_PI * 180.0;
+
+                    if (epsEqual(ang[i], 0.0, eps)) {
+                        ang[i] = 0.0;
+                    }
+                }
+
+                for (EigenId i = 0; i < traVec.size(); ++i) {
+                    if (epsEqual(traVec[i], 0.0, eps)) {
+                        traVec[i] = 0.0;
+                    }
+                }
+
+                for (EigenId i = 0; i < scaVec.size(); ++i) {
+                    if (epsEqual(scaVec[i], 1.0, eps)) {
+                        scaVec[i] = 1.0;
+                    }
+                }
+
+
+                FbxTime lTime;
+                lTime.SetSecondDouble(time);
+
+                int lKeyIndex;
+
+                lKeyIndex = lCurveRX->KeyAdd(lTime);
+                lCurveRX->KeySetValue(lKeyIndex, ang.x());
+                lCurveRX->KeySetInterpolation(lKeyIndex, FbxAnimCurveDef::eInterpolationLinear);
+
+                lKeyIndex = lCurveRY->KeyAdd(lTime);
+                lCurveRY->KeySetValue(lKeyIndex, ang.y());
+                lCurveRY->KeySetInterpolation(lKeyIndex, FbxAnimCurveDef::eInterpolationLinear);
+
+                lKeyIndex = lCurveRZ->KeyAdd(lTime);
+                lCurveRZ->KeySetValue(lKeyIndex, ang.z());
+                lCurveRZ->KeySetInterpolation(lKeyIndex, FbxAnimCurveDef::eInterpolationLinear);
+
+                lKeyIndex = lCurveTX->KeyAdd(lTime);
+                lCurveTX->KeySetValue(lKeyIndex, traVec.x());
+                lCurveTX->KeySetInterpolation(lKeyIndex, FbxAnimCurveDef::eInterpolationLinear);
+
+                lKeyIndex = lCurveTY->KeyAdd(lTime);
+                lCurveTY->KeySetValue(lKeyIndex, traVec.y());
+                lCurveTY->KeySetInterpolation(lKeyIndex, FbxAnimCurveDef::eInterpolationLinear);
+
+                lKeyIndex = lCurveTZ->KeyAdd(lTime);
+                lCurveTZ->KeySetValue(lKeyIndex, traVec.z());
+                lCurveTZ->KeySetInterpolation(lKeyIndex, FbxAnimCurveDef::eInterpolationLinear);
+
+                lKeyIndex = lCurveSX->KeyAdd(lTime);
+                lCurveSX->KeySetValue(lKeyIndex, scaVec.x());
+                lCurveSX->KeySetInterpolation(lKeyIndex, FbxAnimCurveDef::eInterpolationLinear);
+
+                lKeyIndex = lCurveSY->KeyAdd(lTime);
+                lCurveSY->KeySetValue(lKeyIndex, scaVec.y());
+                lCurveSY->KeySetInterpolation(lKeyIndex, FbxAnimCurveDef::eInterpolationLinear);
+
+                lKeyIndex = lCurveSZ->KeyAdd(lTime);
+                lCurveSZ->KeySetValue(lKeyIndex, scaVec.z());
+                lCurveSZ->KeySetInterpolation(lKeyIndex, FbxAnimCurveDef::eInterpolationLinear);
+            }
+
+            lCurveRX->KeyModifyEnd();
+            lCurveRY->KeyModifyEnd();
+            lCurveRZ->KeyModifyEnd();
+            lCurveTX->KeyModifyEnd();
+            lCurveTY->KeyModifyEnd();
+            lCurveTZ->KeyModifyEnd();
+            lCurveSX->KeyModifyEnd();
+            lCurveSY->KeyModifyEnd();
+            lCurveSZ->KeyModifyEnd();
+        }
+
+        stacks.push_back(lAnimStack);
+    }
+
+    return stacks;
+}
 
 
 

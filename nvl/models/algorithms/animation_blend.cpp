@@ -69,7 +69,7 @@ void animationFrameBlend(
         const Frame& frame2 = animationFrames[currentFrameId+1];
         const double& time2 = frame2.time();
 
-        assert(time1 < time2);
+        assert(time1 <= time2);
         while (time1 > currentTime) {
             currentTime += timeStep;
         }
