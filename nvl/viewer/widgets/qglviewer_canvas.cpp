@@ -12,7 +12,7 @@
 #include <nvl/math/quaternion.h>
 #include <nvl/math/constants.h>
 
-#define NVL_QGLCANVAS_DEFAULT_SCALING_SENSITIVITY 1.00
+#define NVL_QGLCANVAS_DEFAULT_SCALING_SENSITIVITY 1.05
 
 namespace nvl {
 
